@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "assessment_version": "jingjinji-jinmeng-one-pot-research-v1-20260726",
+  "region_ids": ["jingjinji", "jinmeng"],
+  "province_codes": ["CN-BJ", "CN-TJ", "CN-HE", "CN-SX", "CN-NM"],
+  "source_refs": [
+    {
+      "source_id": "beijing-pinggu-sticky-roll-2019",
+      "title": "平谷特色美食豆角粘卷子",
+      "url": "https://www.visitbeijing.com.cn/article/47QmeqUNmDQ",
+      "publisher": "北京旅游网",
+      "published_at": "2019-06-29",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "北京旅游资料记录平谷豆角粘卷子以豆角、肉类底菜与面卷同锅完成，是当地家常饭；不证明项目液体比例或其他地域归属。",
+      "proves": ["lead:beijing-pinggu-sticky-roll:regional_structure"],
+      "does_not_prove": ["lead:beijing-pinggu-sticky-roll:project_ratio_safety", "lead:beijing-pinggu-sticky-roll:national_exclusivity"]
+    },
+    {
+      "source_id": "tianjin-jizhou-roll-fish-2024",
+      "title": "金融助“文旅” 老村披“金衣”",
+      "url": "https://whly.tj.gov.cn/tjswlzxw/sy1/rmzx/202405/t20240509_6620054.html",
+      "publisher": "天津市文化和旅游局（文章来源：天津日报）",
+      "published_at": "2024-05-09",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "天津文旅资料在蓟州农家饭语境中列出贴饽饽、蒸卷子熬鱼，证明地方菜单组合存在；页面未给出是否同一锅、面团形态和家庭比例。",
+      "proves": ["lead:tianjin-fish-staple-pot:local_menu_presence"],
+      "does_not_prove": ["lead:tianjin-fish-staple-pot:single_pot_process", "lead:tianjin-fish-staple-pot:staple_shape_equivalence", "lead:tianjin-fish-staple-pot:project_ratio_safety"]
+    },
+    {
+      "source_id": "hebei-julu-braised-pancake-2025",
+      "title": "新华社关注巨鹿美食",
+      "url": "https://www.julu.gov.cn/content/54702.html",
+      "publisher": "巨鹿县人民政府",
+      "published_at": "2025-03-04",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "巨鹿县政府明确焖饼使用烙饼丝，在肉片和蔬菜炒制后铺入并加少量水焖，是主食与菜合一的当地家常结构；熟饼丝不是生面条。",
+      "proves": ["lead:hebei-julu-braised-pancake:regional_structure", "lead:hebei-julu-braised-pancake:cooked_pancake_shape", "lead:hebei-julu-braised-pancake:raw_noodle_difference"],
+      "does_not_prove": ["lead:hebei-julu-braised-pancake:project_ratio_safety", "lead:hebei-julu-braised-pancake:raw_noodle_equivalence"]
+    },
+    {
+      "source_id": "mct-shanxi-food-route-2025",
+      "title": "山西：非遗美食从灶台跃入文旅场景",
+      "url": "https://www.mct.gov.cn/gtb/index.jsp?url=https%3A%2F%2Fwww.mct.gov.cn%2Fwhzx%2Fqgwhxxlb%2Fsx%2F202503%2Ft20250313_958804.htm",
+      "publisher": "中华人民共和国文化和旅游部（来源：山西日报）",
+      "published_at": "2025-03-13",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "文旅部资料列出泥屯小米饭、娄烦土豆宴等山西美食线索；可证明名称和地域语境，不提供项目版小米土豆饭或岚县土豆饭的精确配方。",
+      "proves": ["recipe:shanxi-nitun-millet-rice:regional_name_presence", "recipe:shanxi-potato-rice:shanxi_potato_context"],
+      "does_not_prove": ["recipe:shanxi-nitun-millet-rice:exact_project_equivalence", "recipe:shanxi-potato-rice:exact_project_equivalence", "recipe:shanxi-potato-rice:lanxian_specific_formula"]
+    },
+    {
+      "source_id": "gov-shanxi-millet-2017",
+      "title": "山西将打造“山西小米”区域公共品牌",
+      "url": "https://www.gov.cn/xinwen/2017-09/09/content_5223894.htm",
+      "publisher": "中国政府网（来源：新华社）",
+      "published_at": "2017-09-09",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "中国政府网资料证明山西谷子与小米的区域资源基础，但不证明泥屯小米饭的土豆组合、液体比例或项目做法。",
+      "proves": ["recipe:shanxi-nitun-millet-rice:millet_region_context"],
+      "does_not_prove": ["recipe:shanxi-nitun-millet-rice:exact_project_equivalence", "recipe:shanxi-nitun-millet-rice:project_ratio_equivalence"]
+    },
+    {
+      "source_id": "wulate-braised-noodle-2018",
+      "title": "乌拉特中旗美食资料：焖面",
+      "url": "https://www.wltzq.gov.cn/zjwzq/yxwltzq/ms/201812/t20181204_674031.html?slh=true",
+      "publisher": "乌拉特中旗人民政府",
+      "published_at": "2018-12-04",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "地方政府资料将焖面列为山西、陕西、河南、河北、京津、内蒙古等多地做法，记录面条、豆角和猪肉的基础结构，并列出卷心菜、菌菇、土豆等可加入食材。",
+      "proves": [
+        "recipe:north-china-green-bean-braised-noodles:cross_northern_identity",
+        "candidate:north-pork-bean-braised-noodles:cross_regional_family",
+        "candidate:north-potato-bean-braised-noodles:cross_regional_family",
+        "candidate:north-cabbage-pork-braised-noodles:cross_regional_family",
+        "candidate:north-mushroom-vegetable-braised-noodles:cross_regional_family",
+        "lead:inner-mongolia-western-braised-noodle:regional_structure"
+      ],
+      "does_not_prove": ["recipe:north-china-green-bean-braised-noodles:province_exclusive_identity", "candidate:north-pork-bean-braised-noodles:fixed_traditional_core", "candidate:north-potato-bean-braised-noodles:fixed_traditional_core", "candidate:north-cabbage-pork-braised-noodles:fixed_traditional_core", "candidate:north-mushroom-vegetable-braised-noodles:fixed_traditional_core"]
+    },
+    {
+      "source_id": "ordos-dalate-braised-noodle-2024",
+      "title": "歌游内蒙古：达拉特美食攻略",
+      "url": "https://ordos.nmgqq.com.cn/qingzhuzhonghuarenmingongheguochengli75zhounian/2024-10-14/8886.html",
+      "publisher": "鄂尔多斯市档案史志馆（来源：达拉特文化旅游微信公众号）",
+      "published_at": "2024-10-01",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "地方史志网站介绍达拉特焖面将面条与肉类、土豆、豆角同焖，可复核内蒙古西部的家常组合；未给机器液体比例。",
+      "proves": ["lead:inner-mongolia-western-braised-noodle:dalate_combination"],
+      "does_not_prove": ["lead:inner-mongolia-western-braised-noodle:project_ratio_safety", "lead:inner-mongolia-western-braised-noodle:inner_mongolia_exclusivity"]
+    },
+    {
+      "source_id": "samr-bean-safety-2021",
+      "title": "关于食用扁豆的风险提示",
+      "url": "https://www.samr.gov.cn/zt/ndzt/2021n/splyyxkpzpzbpt/azspplhfcjpljqt/sg/art/2023/art_a0990c36d3bf4859a1158c3d68f9d482.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2021-10-19",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家风险提示要求扁豆、四季豆等充分熟透，不能为鲜绿或脆嫩缩短烹煮。",
+      "proves": ["safety:bean-cook-through:principle"],
+      "does_not_prove": ["safety:bean-cook-through:project_minutes"]
+    },
+    {
+      "source_id": "nhc-cook-through-2010",
+      "title": "卫生部关于预防群体性食物中毒事故的公告",
+      "url": "https://www.nhc.gov.cn/bgt/s10789/201007/0c2a5587e4724d11be89895b55e77768.shtml",
+      "publisher": "中华人民共和国国家卫生健康委员会（原卫生部）",
+      "published_at": null,
+      "date_note": "页面 URL 仅标示 2010 年 7 月，未核得具体发布日期",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家公告要求肉、蛋和水产品彻底加热，菜豆烧熟煮透并避免交叉污染；本研究只采用终点原则。",
+      "proves": ["safety:animal-fish-cook-through:principle"],
+      "does_not_prove": ["safety:animal-fish-cook-through:project_minutes"]
+    }
+  ],
+  "province_gap_audits": [
+    {"province_code":"CN-BJ","province_name":"北京","production_recipe_ids":[],"candidate_ids":[],"research_gap":"平谷粘卷子结构已核实，但尚无生产映射，面卷比例与家庭锅具边界未机器化。"},
+    {"province_code":"CN-TJ","province_name":"天津","production_recipe_ids":[],"candidate_ids":[],"research_gap":"蒸卷子熬鱼和贴饽饽熬鱼只核实菜单存在，是否同锅、主食形态与鱼类安全流程仍待研究。"},
+    {"province_code":"CN-HE","province_name":"河北","production_recipe_ids":[],"candidate_ids":[],"research_gap":"巨鹿焖饼结构已核实，但熟饼丝路线尚未进入候选，不能借用生面焖面比例。"},
+    {"province_code":"CN-SX","province_name":"山西","production_recipe_ids":["shanxi-potato-rice","shanxi-nitun-millet-rice"],"candidate_ids":[],"research_gap":"两道生产条目存在，但外部资料只支持地域名称或资源语境，不支持项目精确比例。"},
+    {"province_code":"CN-NM","province_name":"内蒙古","production_recipe_ids":[],"candidate_ids":[],"research_gap":"西部焖面结构有两条地方资料，仍缺主食含水状态、肉类终点和家庭锅具比例。"}
+  ],
+  "production_recipe_audits": [
+    {
+      "recipe_id":"north-china-green-bean-braised-noodles","province_code":null,"mapping_scope":"cross_regional_chinese","source_ids":["wulate-braised-noodle-2018","samr-bean-safety-2021","nhc-cook-through-2010"],"ingredient_shapes":["fresh_wheat_noodle","green_bean_piece","pork_slice"],
+      "claims":{"cross_northern_identity":{"verdict":"supported","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"政府地方资料明确列出跨多个北方地域的焖面家族。"},"province_exclusive_identity":{"verdict":"not_proven","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"来源恰好说明跨地域，不能锁定京津冀、山西或内蒙古任何单省独占。"}},
+      "forbidden_claims":["cross_regional_as_province_exclusive","source_minutes_as_ratio_dsl"],"product_destinations":["recipe_evidence","template_evidence","research_only"]
+    },
+    {
+      "recipe_id":"shanxi-potato-rice","province_code":"CN-SX","mapping_scope":"province_specific","source_ids":["mct-shanxi-food-route-2025","nhc-cook-through-2010"],"ingredient_shapes":["raw_rice","potato_even_chunk"],
+      "claims":{"shanxi_potato_context":{"verdict":"supported","evidence_source_ids":["mct-shanxi-food-route-2025"],"reason":"官方资料支持山西土豆宴语境。"},"exact_project_equivalence":{"verdict":"not_proven","evidence_source_ids":["mct-shanxi-food-route-2025"],"reason":"土豆宴线索不等于岚县大米土豆饭的项目配方。"}},
+      "forbidden_claims":["potato_context_as_exact_lanxian_formula","external_source_as_project_ratio"],"product_destinations":["recipe_evidence","research_only"]
+    },
+    {
+      "recipe_id":"shanxi-nitun-millet-rice","province_code":"CN-SX","mapping_scope":"province_specific","source_ids":["mct-shanxi-food-route-2025","gov-shanxi-millet-2017"],"ingredient_shapes":["raw_millet","potato_even_chunk"],
+      "claims":{"regional_name_presence":{"verdict":"supported","evidence_source_ids":["mct-shanxi-food-route-2025"],"reason":"文旅部资料直接列出泥屯小米饭。"},"millet_region_context":{"verdict":"supported","evidence_source_ids":["gov-shanxi-millet-2017"],"reason":"中国政府网支持山西小米资源语境。"},"exact_project_equivalence":{"verdict":"not_proven","evidence_source_ids":["mct-shanxi-food-route-2025","gov-shanxi-millet-2017"],"reason":"名称与资源不能证明项目的小米、土豆及液体比例。"}},
+      "forbidden_claims":["regional_name_as_exact_project_formula","millet_context_as_ratio_dsl"],"product_destinations":["recipe_evidence","research_only"]
+    }
+  ],
+  "candidate_audits": [
+    {"candidate_id":"north-pork-bean-braised-noodles","source_ids":["wulate-braised-noodle-2018"],"claims":{"cross_regional_family":{"verdict":"supported","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"来源支持猪肉、豆角和面条的跨北方焖面家族。"},"fixed_traditional_core":{"verdict":"not_proven","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"跨地域存在不等于每地固定同一核心。"}},"forbidden_claims":["optional_ingredient_as_fixed_regional_core","cross_region_as_single_origin"],"product_destinations":["candidate_evidence","research_only"]},
+    {"candidate_id":"north-potato-bean-braised-noodles","source_ids":["wulate-braised-noodle-2018","ordos-dalate-braised-noodle-2024"],"claims":{"cross_regional_family":{"verdict":"supported","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"来源列出土豆、豆角可进入焖面家族。"},"fixed_traditional_core":{"verdict":"not_proven","evidence_source_ids":["wulate-braised-noodle-2018","ordos-dalate-braised-noodle-2024"],"reason":"可加入与地方菜单并不证明跨华北固定核心。"}},"forbidden_claims":["optional_ingredient_as_fixed_regional_core","local_listing_as_universal_core"],"product_destinations":["candidate_evidence","research_only"]},
+    {"candidate_id":"north-cabbage-pork-braised-noodles","source_ids":["wulate-braised-noodle-2018"],"claims":{"cross_regional_family":{"verdict":"supported","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"来源支持卷心菜可进入焖面家族。"},"fixed_traditional_core":{"verdict":"not_proven","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"可选卷心菜不能升级为固定传统核心。"}},"forbidden_claims":["optional_ingredient_as_fixed_regional_core","cross_region_as_single_origin"],"product_destinations":["candidate_evidence","research_only"]},
+    {"candidate_id":"north-mushroom-vegetable-braised-noodles","source_ids":["wulate-braised-noodle-2018"],"claims":{"cross_regional_family":{"verdict":"supported","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"来源支持菌菇、蔬菜可进入焖面家族。"},"fixed_traditional_core":{"verdict":"not_proven","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"可选食材不能被写成固定地域核心。"}},"forbidden_claims":["optional_ingredient_as_fixed_regional_core","vegetarian_variant_as_traditional_default"],"product_destinations":["candidate_evidence","research_only"]}
+  ],
+  "concrete_research_leads": [
+    {"lead_id":"beijing-pinggu-sticky-roll","name":"北京平谷豆角粘卷子","province_code":"CN-BJ","family_id":"stew-with-dough-roll","meal_structure":"stew_base_with_raw_dough_roll","production_recipe_id":null,"candidate_id":null,"source_ids":["beijing-pinggu-sticky-roll-2019","samr-bean-safety-2021","nhc-cook-through-2010"],"claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["beijing-pinggu-sticky-roll-2019"],"reason":"北京旅游资料直接记录平谷菜与面卷同锅家常结构。"},"project_ratio_safety":{"verdict":"not_proven","evidence_source_ids":["beijing-pinggu-sticky-roll-2019"],"reason":"来源未给机器面团比例、液体约束或家庭安全终点。"}},"ingredient_shapes":["raw_wheat_dough_roll","green_bean_piece","meat_stew_piece"],"forbidden_shortcuts":["sticky_roll_as_ready_noodle","source_minutes_as_ratio_dsl"],"known_structure":["底菜先炖","生面片抹油盐后卷切","面卷铺在菜上同锅成熟"],"open_questions":["面团含水率","锅内蒸汽余量","肉类和豆角熟透终点"],"product_destinations":["template_evidence","ratio_rule","research_only"]},
+    {"lead_id":"tianjin-fish-staple-pot","name":"天津蒸卷子/贴饽饽熬鱼路线","province_code":"CN-TJ","family_id":"fish-with-staple-pot","meal_structure":"fish_stew_with_staple_shape_unresolved","production_recipe_id":null,"candidate_id":null,"source_ids":["tianjin-jizhou-roll-fish-2024","nhc-cook-through-2010"],"claims":{"local_menu_presence":{"verdict":"supported","evidence_source_ids":["tianjin-jizhou-roll-fish-2024"],"reason":"天津文旅资料在当地农家饭中直接列出两种名称。"},"single_pot_process":{"verdict":"not_proven","evidence_source_ids":["tianjin-jizhou-roll-fish-2024"],"reason":"并列菜单没有说明主食是否与鱼同锅。"},"staple_shape_equivalence":{"verdict":"not_proven","evidence_source_ids":["tianjin-jizhou-roll-fish-2024"],"reason":"贴饽饽和蒸卷子形态不能自动等价。"}},"ingredient_shapes":["fish_piece","cornmeal_cake_or_steamed_roll_unresolved"],"forbidden_shortcuts":["menu_presence_as_single_pot_proof","corn_cake_equals_wheat_roll","source_as_project_ratio"],"known_structure":["鱼类熬制","地方菜单同时出现贴饽饽或蒸卷子"],"open_questions":["是否同锅","主食原料与形态","鱼类安全终点","家庭比例"],"product_destinations":["new_family_research","research_only"]},
+    {"lead_id":"hebei-julu-braised-pancake","name":"河北巨鹿焖饼","province_code":"CN-HE","family_id":"cooked-pancake-braise","meal_structure":"cooked_pancake_shreds_over_sauteed_vegetables","production_recipe_id":null,"candidate_id":null,"source_ids":["hebei-julu-braised-pancake-2025","nhc-cook-through-2010"],"claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["hebei-julu-braised-pancake-2025"],"reason":"县政府资料明确当地家常焖饼的熟饼丝、肉片与蔬菜结构。"},"cooked_pancake_shape":{"verdict":"supported","evidence_source_ids":["hebei-julu-braised-pancake-2025"],"reason":"来源明确使用烙饼丝。"},"raw_noodle_equivalence":{"verdict":"contradicted","evidence_source_ids":["hebei-julu-braised-pancake-2025"],"reason":"熟烙饼丝与生面条的含水和熟制状态不同。"},"project_ratio_safety":{"verdict":"not_proven","evidence_source_ids":["hebei-julu-braised-pancake-2025"],"reason":"地方描述中的一饭勺和分钟数不能直接成为跨锅具机器比例。"}},"ingredient_shapes":["cooked_wheat_pancake_shreds","vegetable_shreds","meat_slice"],"forbidden_shortcuts":["cooked_pancake_as_raw_noodle","source_spoon_as_ratio_dsl"],"known_structure":["配菜炒制","熟饼丝虚铺","绕锅少量加水后短焖"],"open_questions":["熟饼含水状态","饼菜重量比","不同锅径液体边界"],"product_destinations":["template_evidence","ratio_rule","research_only"]},
+    {"lead_id":"inner-mongolia-western-braised-noodle","name":"内蒙古西部肉豆角土豆焖面","province_code":"CN-NM","family_id":"fresh-noodle-braise","meal_structure":"fresh_noodle_over_meat_vegetable_braise","production_recipe_id":null,"candidate_id":null,"source_ids":["wulate-braised-noodle-2018","ordos-dalate-braised-noodle-2024","samr-bean-safety-2021","nhc-cook-through-2010"],"claims":{"regional_structure":{"verdict":"supported","evidence_source_ids":["wulate-braised-noodle-2018"],"reason":"乌拉特中旗政府资料支持内蒙古西部焖面家常结构。"},"dalate_combination":{"verdict":"supported","evidence_source_ids":["ordos-dalate-braised-noodle-2024"],"reason":"达拉特资料复核肉、土豆、豆角与面条同焖。"},"project_ratio_safety":{"verdict":"not_proven","evidence_source_ids":["wulate-braised-noodle-2018","ordos-dalate-braised-noodle-2024"],"reason":"地方资料不提供可跨锅具执行的机器比例。"}},"ingredient_shapes":["fresh_wheat_noodle","green_bean_piece","potato_chunk","meat_slice"],"forbidden_shortcuts":["fresh_noodle_equals_dry_noodle","regional_structure_as_exclusive_origin","source_minutes_as_ratio_dsl"],"known_structure":["肉类与蔬菜形成底菜","鲜面铺在底菜上焖蒸","收汁后拌匀"],"open_questions":["鲜面初始含水","液面高度","土豆块规格","肉类豆角终点"],"product_destinations":["template_evidence","ratio_rule","research_only"]}
+  ],
+  "family_model": [
+    {"family_id":"fresh-noodle-braise","name":"鲜面焖面","meal_structure":"fresh_noodle_over_savory_braise","evidence_status":"regional_family_supported"},
+    {"family_id":"stew-with-dough-roll","name":"粘卷子菜锅","meal_structure":"raw_dough_roll_over_stew","evidence_status":"beijing_structure_supported"},
+    {"family_id":"fish-with-staple-pot","name":"鱼与主食组合锅","meal_structure":"fish_stew_with_staple_shape_unresolved","evidence_status":"menu_presence_only"},
+    {"family_id":"cooked-pancake-braise","name":"熟饼丝焖饼","meal_structure":"cooked_pancake_shreds_over_vegetables","evidence_status":"hebei_structure_supported"},
+    {"family_id":"raw-rice-potato","name":"生米土豆饭","meal_structure":"raw_rice_with_potato","evidence_status":"project_recipe_external_equivalence_unresolved"},
+    {"family_id":"raw-millet-potato","name":"小米土豆饭","meal_structure":"raw_millet_with_potato","evidence_status":"regional_name_supported_project_equivalence_unresolved"}
+  ],
+  "adaptation_boundaries": [
+    {"boundary_id":"staple-state-separation","evidence_status":"required","notes":"熟饼丝、生面条、生面卷、玉米面饽饽、生米和小米必须保持独立含水与熟制状态。"},
+    {"boundary_id":"cross-region-not-exclusive","evidence_status":"required","notes":"焖面跨华北存在，不得把共同结构写成北京、河北、山西或内蒙古任何单地独占。"},
+    {"boundary_id":"menu-presence-not-process","evidence_status":"required","notes":"天津并列菜单只证明名称存在，不证明同锅步骤。"},
+    {"boundary_id":"source-quantity-not-ratio-dsl","evidence_status":"required","notes":"地方描述的一饭勺或分钟数不直接进入机器 Ratio DSL。"},
+    {"boundary_id":"project-recipe-not-external-original","evidence_status":"required","notes":"山西两道 auto_approved 为项目标准版，外部地域资料不等于精确项目配方。"}
+  ],
+  "safety_boundaries": [
+    {"safety_id":"bean-cook-through","source_ids":["samr-bean-safety-2021","nhc-cook-through-2010"],"evidence_status":"principle_only","required_controls":["豆角充分熟透","不得追求鲜绿脆嫩缩短熟制"],"endpoint_note":"只锁定烧熟煮透原则，项目时间需按食材规格和锅具另行验证。"},
+    {"safety_id":"animal-fish-cook-through","source_ids":["nhc-cook-through-2010"],"evidence_status":"principle_only","required_controls":["肉类和鱼类彻底加热","避免生熟交叉污染"],"endpoint_note":"只锁定彻底加热原则，不从地域资料发明统一分钟。"}
+  ],
+  "journey_cases": [
+    {"journey_id":"nc-j01","province_code":"CN-BJ","mode":"pantry","intent":"normal","input_items":["豆角","猪肉","面粉"],"expected_family_ids":["stew-with-dough-roll"],"expected_structure":"底菜与生面卷同锅","expected_outcome":"regional_family_route","forbidden_claims":["等同焖面"],"reason":"验证粘卷子不被降级为普通面条。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j02","province_code":"CN-BJ","mode":"recommend","intent":"quick","input_items":["豆角","面粉"],"expected_family_ids":["stew-with-dough-roll"],"expected_structure":"面卷路线待比例","expected_outcome":"ratio_research_only","forbidden_claims":["30分钟内已验证"],"reason":"面团与蒸汽比例未完成前不承诺 quick。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j03","province_code":"CN-BJ","mode":"pantry","intent":"batch","input_items":["土豆","豆角","面条"],"expected_family_ids":["fresh-noodle-braise"],"expected_structure":"跨华北焖面","expected_outcome":"cross_regional_route","forbidden_claims":["北京独有"],"reason":"验证跨地域标注。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j04","province_code":"CN-TJ","mode":"recommend","intent":"normal","input_items":["鱼","玉米面"],"expected_family_ids":["fish-with-staple-pot"],"expected_structure":"鱼与饽饽路线待同锅核实","expected_outcome":"needs_process_evidence","forbidden_claims":["已证明同锅"],"reason":"菜单存在不能冒充流程证据。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j05","province_code":"CN-TJ","mode":"pantry","intent":"normal","input_items":["鱼","面粉"],"expected_family_ids":["fish-with-staple-pot"],"expected_structure":"鱼与蒸卷子路线待形态核实","expected_outcome":"needs_staple_identity","forbidden_claims":["面粉自动等于蒸卷子"],"reason":"要求主食形态显式。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j06","province_code":"CN-TJ","mode":"recommend","intent":"fresh","input_items":["鱼","玉米面","豆角"],"expected_family_ids":["fish-with-staple-pot"],"expected_structure":"不强塞豆角","expected_outcome":"honest_unused","forbidden_claims":["全部传统同锅"],"reason":"recommend 可诚实不用不相干食材。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j07","province_code":"CN-HE","mode":"pantry","intent":"quick","input_items":["熟烙饼","白菜","猪肉"],"expected_family_ids":["cooked-pancake-braise"],"expected_structure":"熟饼丝后段焖","expected_outcome":"regional_family_route","forbidden_claims":["按生面吸水"],"reason":"验证熟主食状态。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j08","province_code":"CN-HE","mode":"pantry","intent":"normal","input_items":["生面条","白菜","猪肉"],"expected_family_ids":["fresh-noodle-braise"],"expected_structure":"生面焖面而非焖饼","expected_outcome":"shape_specific_route","forbidden_claims":["巨鹿焖饼"],"reason":"相似食材不同主食形态必须分流。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j09","province_code":"CN-HE","mode":"recommend","intent":"normal","input_items":["熟烙饼","豆芽"],"expected_family_ids":["cooked-pancake-braise"],"expected_structure":"熟饼丝与蔬菜","expected_outcome":"ratio_research_only","forbidden_claims":["一饭勺适配所有锅"],"reason":"地方量词不能直接机器化。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j10","province_code":"CN-SX","mode":"pantry","intent":"batch","input_items":["大米","土豆"],"expected_family_ids":["raw-rice-potato"],"expected_structure":"生米土豆饭","expected_outcome":"project_recipe_route","forbidden_claims":["外部官方精确配方"],"reason":"项目标准版与外部地域证据分开。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j11","province_code":"CN-SX","mode":"pantry","intent":"batch","input_items":["小米","土豆"],"expected_family_ids":["raw-millet-potato"],"expected_structure":"小米土豆干饭","expected_outcome":"project_recipe_route","forbidden_claims":["山西小米品牌证明项目比例"],"reason":"资源语境不能冒充 Ratio DSL。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j12","province_code":"CN-SX","mode":"recommend","intent":"quick","input_items":["小米","土豆","豆角"],"expected_family_ids":["raw-millet-potato","fresh-noodle-braise"],"expected_structure":"不强行把豆角塞入小米饭","expected_outcome":"honest_unused","forbidden_claims":["三项固定传统组合"],"reason":"验证合理组合优先。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j13","province_code":"CN-NM","mode":"pantry","intent":"normal","input_items":["鲜面条","豆角","土豆","猪肉"],"expected_family_ids":["fresh-noodle-braise"],"expected_structure":"内蒙古西部焖面","expected_outcome":"regional_family_route","forbidden_claims":["内蒙古独有"],"reason":"保留内蒙古地域证据和跨北方边界。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j14","province_code":"CN-NM","mode":"pantry","intent":"normal","input_items":["干面条","豆角","猪肉"],"expected_family_ids":["fresh-noodle-braise"],"expected_structure":"干面含水待另建规则","expected_outcome":"needs_staple_identity","forbidden_claims":["干面等同鲜面"],"reason":"验证面条初始含水。","human_review":{"status":"pending"}},
+    {"journey_id":"nc-j15","province_code":"CN-NM","mode":"recommend","intent":"quick","input_items":["面条","菌菇","青菜"],"expected_family_ids":["fresh-noodle-braise"],"expected_structure":"素焖面仅家族适配","expected_outcome":"family_adaptation_only","forbidden_claims":["固定传统核心"],"reason":"可选食材不冒充固定传统。","human_review":{"status":"pending"}}
+  ]
+}

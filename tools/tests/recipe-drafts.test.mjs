@@ -97,8 +97,8 @@ test('thirty traditional drafts are isolated from candidates and production', ()
   assert.deepEqual(validateRecipeDraftLibrary(drafts, candidates), []);
   assert.equal(drafts.drafts.length, 30);
   assert.ok(drafts.drafts.every(draft => draft.status === 'draft'));
-  assert.equal(production.families.length, 15);
-  assert.equal(production.recipes.length, 42);
+  assert.equal(production.families.length, 21);
+  assert.equal(production.recipes.length, 72);
   assert.ok(drafts.drafts.every(draft => !production.recipes.some(recipe => recipe.id === draft.id)));
 });
 

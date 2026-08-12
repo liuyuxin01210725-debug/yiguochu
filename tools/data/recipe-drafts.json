@@ -158,13 +158,13 @@
     },
     {
       "id": "taiwan-cabbage-mushroom-rice-draft", "candidate_id": "taiwan-cabbage-mushroom-rice", "status": "draft", "name": "卷心菜鲜菇炊饭试做框架", "region": "台湾家常风味方向", "form": "炊饭",
-      "adaptation_summary": "面向家庭锅具的原创卷心菜与鲜菇炊饭试做框架；可选豆腐补充蛋白质，液体以实际蔬菜含水状态校准。", "serving_range": [2, 4],
-      "core_ingredients": ["大米", "卷心菜", "新鲜食用菌"], "optional_ingredients": ["老豆腐"],
-      "substitution_slots": [{"slot": "新鲜食用菌", "replaces": ["新鲜食用菌"], "allowed": ["白玉菇", "平菇"]}],
-      "draft_ratio_rules": ["每100克大米的总液体以120至145克为记录起点，必须在评估卷心菜含水后才最终确定。"],
-      "technique_outline": ["先观察卷心菜与鲜菇的含水状态，再量定锅内液体。", "米饭主体炊煮后，按记录的节点加入蔬菜并焖熟。"],
-      "safety_and_quality_gates": [{"type": "liquid_control", "requirement": "未评估卷心菜出水前不得固定加液量。"}, {"type": "food_safety", "requirement": "若使用豆腐，必须加热至全程热透后再食用。"}],
-      "trial_requirements": ["记录卷心菜和鲜菇的实际重量、表面干湿状态。", "记录最终液体重量及是否加入豆腐。", "记录锅底湿度、米粒状态和修订原因。"]
+      "adaptation_summary": "面向家庭锅具的原创菜蔬炊饭试做框架；鲜菇可在明确边界内替换为虾仁，番茄和玉米仅按专用控水比例加入。", "serving_range": [2, 4],
+      "core_ingredients": ["大米", "卷心菜", "新鲜食用菌"], "optional_ingredients": ["老豆腐", "番茄", "玉米", "植物油"],
+      "substitution_slots": [{"slot": "叶菜", "replaces": ["卷心菜"], "allowed": ["白菜", "大白菜"]}, {"slot": "鲜菇或虾仁", "replaces": ["新鲜食用菌"], "allowed": ["白玉菇", "平菇", "金针菇", "虾仁"]}],
+      "draft_ratio_rules": ["不使用番茄时，每100克大米的总液体以120至145克为记录起点，必须在评估叶菜和鲜菇含水后才最终确定。", "使用番茄虾仁杂蔬版本时，每100克大米配番茄100克、白菜60克、玉米50克、虾仁80克和水80克，按份数同比缩放，不得再加其他汤水。"],
+      "technique_outline": ["先观察叶菜、番茄与鲜菇或虾仁的含水状态，再量定锅内液体。", "大米、番茄和计量水先同锅炊煮；使用鲜菇时与大米同煮，使用虾仁替代时在米饭接近熟透后加入白菜、玉米和虾仁，加盖焖至虾仁完全熟透、中心不透明且米粒无硬芯。"],
+      "safety_and_quality_gates": [{"type": "liquid_control", "requirement": "未评估叶菜、番茄和鲜菇出水前不得固定加液量。"}, {"type": "food_safety", "requirement": "若使用豆腐，必须加热至全程热透后再食用。"}, {"type": "shrimp_food_safety", "requirement": "若以虾仁替换鲜香菇，必须在米饭接近熟透时加入，并在同一口锅中加热至虾仁完全熟透、中心不透明后才可食用。"}],
+      "trial_requirements": ["记录叶菜、番茄、玉米和鲜菇或虾仁的实际重量、表面干湿状态。", "记录最终液体重量，以及是否加入豆腐、番茄、玉米或植物油。", "使用虾仁时记录其完全熟透、中心不透明的熟制终点；同时记录锅底湿度、米粒状态和修订原因。"]
     },
     {
       "id": "fujian-gai-cai-minced-pork-rice-draft", "candidate_id": "fujian-gai-cai-minced-pork-rice", "status": "draft", "name": "芥菜肉末咸饭试做框架", "region": "福建风味方向", "form": "咸饭",

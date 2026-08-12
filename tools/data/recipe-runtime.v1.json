@@ -1,0 +1,158 @@
+{
+  "recipe_runtime_catalog_version": "recipe-runtime-v1-20260730-r1",
+  "entries": [
+    {
+      "recipe_id": "shanghai-salted-pork-vegetable-rice",
+      "activation_status": "planned",
+      "identity_level": "canonical",
+      "identity_evidence": [
+        {"title":"大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香","url":"https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html"}
+      ],
+      "identity_signature": {
+        "required_canonical_ids": ["raw-rice", "salted-pork-belly", "small-bok-choy"],
+        "required_states_or_cuts": [{"canonical_id":"salted-pork-belly","value":"cured_slice"}],
+        "forbidden_canonical_ids": []
+      },
+      "approved_variants": [],
+      "template_id": "savory-mixed-rice-pot",
+      "slot_assignment": {},
+      "ratio_rule_ids": [
+        "shanghai-salted-pork-liquid-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
+      "technique_graph": [],
+      "seasoning_actions": [],
+      "safety_endpoints": [],
+      "naming": {"canonical_name":"上海奉贤咸肉菜饭"},
+      "source_claims": [],
+      "household_trial": null
+    },
+    {
+      "recipe_id": "xinjiang-lamb-pilaf",
+      "activation_status": "planned",
+      "identity_level": "canonical",
+      "identity_evidence": [
+        {"title":"新疆抓饭","url":"https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml"}
+      ],
+      "identity_signature": {
+        "required_canonical_ids": ["raw-rice", "lamb-leg", "onion", "carrot"],
+        "required_states_or_cuts": [{"canonical_id":"lamb-leg","value":"leg"}],
+        "forbidden_canonical_ids": []
+      },
+      "approved_variants": [],
+      "template_id": "savory-mixed-rice-pot",
+      "slot_assignment": {},
+      "ratio_rule_ids": [
+        "xinjiang-lamb-pilaf-liquid-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
+      "technique_graph": [],
+      "seasoning_actions": [],
+      "safety_endpoints": [],
+      "naming": {"canonical_name":"新疆羊肉抓饭"},
+      "source_claims": [],
+      "household_trial": null
+    },
+    {
+      "recipe_id": "taiwan-cabbage-mushroom-rice",
+      "activation_status": "planned",
+      "identity_level": "canonical",
+      "identity_evidence": [
+        {"title":"食谱/高丽菜炊饭","url":"https://zh.wikibooks.org/wiki/%E9%A3%9F%E8%AD%9C/%E9%AB%98%E9%BA%97%E8%8F%9C%E7%82%8A%E9%A3%AF"}
+      ],
+      "identity_signature": {
+        "required_canonical_ids": ["raw-rice", "green-cabbage", "shiitake"],
+        "required_states_or_cuts": [],
+        "forbidden_canonical_ids": []
+      },
+      "approved_variants": [],
+      "template_id": "mushroom-aroma-rice-pot",
+      "slot_assignment": {},
+      "ratio_rule_ids": [
+        "taiwan-cabbage-mushroom-liquid-evidence-v1",
+        "taiwan-tomato-shrimp-rice-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
+      "technique_graph": [],
+      "seasoning_actions": [],
+      "safety_endpoints": [],
+      "naming": {"canonical_name":"高丽菜香菇炊饭"},
+      "source_claims": [],
+      "household_trial": null
+    },
+    {
+      "recipe_id": "quanzhou-oil-rice",
+      "activation_status": "planned",
+      "identity_level": "canonical",
+      "identity_evidence": [
+        {"title":"泉州浥饭","url":"https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202411/t20241122_3107926.htm"}
+      ],
+      "identity_signature": {
+        "required_canonical_ids": ["ground-pork", "shiitake"],
+        "required_states_or_cuts": [],
+        "forbidden_canonical_ids": []
+      },
+      "approved_variants": [],
+      "template_id": "savory-mixed-rice-pot",
+      "slot_assignment": {},
+      "ratio_rule_ids": [
+        "quanzhou-soaked-rice-liquid-evidence-v1"
+      ],
+      "ratio_default_rule_id": null,
+      "technique_graph": [],
+      "seasoning_actions": [],
+      "safety_endpoints": [],
+      "naming": {"canonical_name":"泉州浥饭（油饭）"},
+      "source_claims": [],
+      "household_trial": null
+    },
+    {
+      "recipe_id": "cantonese-cured-meat-claypot-rice",
+      "activation_status": "planned",
+      "identity_level": "canonical",
+      "identity_evidence": [
+        {"title":"粤菜餐厅西关风情特色服务规范（征求意见稿）","url":"https://com.gd.gov.cn/attachment/0/496/496120/3989095.pdf"}
+      ],
+      "identity_signature": {
+        "required_canonical_ids": ["raw-rice", "chinese-sausage", "choy-sum"],
+        "required_states_or_cuts": [{"canonical_id":"chinese-sausage","value":"sausage"}],
+        "forbidden_canonical_ids": []
+      },
+      "approved_variants": [],
+      "template_id": "savory-mixed-rice-pot",
+      "slot_assignment": {},
+      "ratio_rule_ids": [],
+      "ratio_default_rule_id": null,
+      "technique_graph": [],
+      "seasoning_actions": [],
+      "safety_endpoints": [],
+      "naming": {"canonical_name":"广式腊味煲仔饭"},
+      "source_claims": [],
+      "household_trial": null
+    },
+    {
+      "recipe_id": "north-china-green-bean-braised-noodles",
+      "activation_status": "planned",
+      "identity_level": "canonical",
+      "identity_evidence": [
+        {"title":"乌拉特中旗美食：豆角焖面","url":"https://www.wltzq.gov.cn/zjwzq/yxwltzq/ms/201812/t20181204_674031.html"}
+      ],
+      "identity_signature": {
+        "required_canonical_ids": ["fresh-wheat-noodle", "green-beans", "ground-pork"],
+        "required_states_or_cuts": [{"canonical_id":"ground-pork","value":"ground"}],
+        "forbidden_canonical_ids": []
+      },
+      "approved_variants": [],
+      "template_id": "braised-noodle-pot",
+      "slot_assignment": {},
+      "ratio_rule_ids": [],
+      "ratio_default_rule_id": null,
+      "technique_graph": [],
+      "seasoning_actions": [],
+      "safety_endpoints": [],
+      "naming": {"canonical_name":"北方豆角焖面"},
+      "source_claims": [],
+      "household_trial": null
+    }
+  ]
+}

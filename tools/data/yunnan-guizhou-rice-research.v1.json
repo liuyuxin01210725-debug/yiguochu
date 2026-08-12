@@ -1,0 +1,374 @@
+{
+  "schema_version": 1,
+  "assessment_version": "yunnan-guizhou-rice-research-v1-20260726",
+  "region_id": "yunnan_guizhou",
+  "province_codes": ["CN-YN", "CN-GZ"],
+  "source_refs": [
+    {
+      "source_id": "yn-jiangchuan-copper-pot-process-2023",
+      "title": "来这座云南小城，吃一顿最佳清凉组合",
+      "url": "https://www.lifeweek.com.cn/h5/article/detail.do?artId=210143",
+      "publisher": "三联生活周刊",
+      "published_at": "2023-08-03",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "记者在玉溪江川记录铜锅洋芋饭：大米先煮至半熟并炒至金黄，铜锅以去皮洋芋块垫底、铺米、加水继续焖熟。",
+      "proves": [
+        "candidate:yunnan-copper-pot-potato-rice-home:jiangchuan_copper_pot_potato_rice_identity",
+        "candidate:yunnan-copper-pot-potato-rice-home:parboiled_rice_process",
+        "lead:yunnan-jiangchuan-copper-pot-potato-rice:regional_structure",
+        "lead:yunnan-jiangchuan-copper-pot-potato-rice:parboiled_rice_state"
+      ],
+      "does_not_prove": [
+        "candidate:yunnan-copper-pot-potato-rice-home:household_vessel_equivalence",
+        "candidate:yunnan-copper-pot-potato-rice-home:project_ratio_safety",
+        "candidate:yunnan-corn-chicken-rice:copper_pot_family_equivalence",
+        "lead:yunnan-jiangchuan-copper-pot-potato-rice:project_ratio_safety",
+        "candidate:yunnan-ham-flavor-rice-pot:generic_ham_flavor_slot_identity"
+      ]
+    },
+    {
+      "source_id": "yn-dai-food-culture-2021",
+      "title": "传承云南民族饮食生态文化 做生物多样性保护的践行者",
+      "url": "https://www.sky.yn.gov.cn/xsyj/zgsd/5730563027381222154",
+      "publisher": "云南省社会科学院",
+      "published_at": "2021-10-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "云南省社科院专家文章把傣族菠萝饭列为云南民族饮食代表，但不提供具体米种、比例或步骤。",
+      "proves": [
+        "production:dai-pineapple-purple-rice:dai_pineapple_rice_identity",
+        "lead:yunnan-dai-pineapple-glutinous-rice:regional_structure"
+      ],
+      "does_not_prove": [
+        "production:dai-pineapple-purple-rice:purple_glutinous_rice_variant",
+        "production:dai-pineapple-purple-rice:mango_substitution_equivalence",
+        "production:dai-pineapple-purple-rice:project_ratio_safety",
+        "candidate:yunnan-corn-chicken-rice:yunnan_fixed_corn_chicken_rice_identity"
+      ]
+    },
+    {
+      "source_id": "yn-dai-pineapple-structure-2023",
+      "title": "美丽德宏专栏：吃在德宏｜当水果遇上米饭是一种怎样的体验？",
+      "url": "https://www.mmgpmedia.com/static/content/HQ/2023-06-09/1116754450494013440.html",
+      "publisher": "云南广播电视台国际频道（来源标注云南省文化和旅游厅、芒市文旅）",
+      "published_at": "2023-06-09",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "报道记录傣家菠萝饭以糯米与菠萝丁为核心，可加花生碎和白糖；白糯米与紫米均为可见变体，并可装入掏空菠萝蒸制。",
+      "proves": [
+        "production:dai-pineapple-purple-rice:purple_glutinous_rice_variant",
+        "production:dai-pineapple-purple-rice:pineapple_glutinous_structure",
+        "lead:yunnan-dai-pineapple-glutinous-rice:pineapple_vessel_structure",
+        "lead:yunnan-dai-pineapple-glutinous-rice:glutinous_rice_state"
+      ],
+      "does_not_prove": [
+        "production:dai-pineapple-purple-rice:mango_substitution_equivalence",
+        "production:dai-pineapple-purple-rice:project_ratio_safety",
+        "lead:yunnan-dai-pineapple-glutinous-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "gz-dong-shefestival-2019",
+      "title": "侗族社节",
+      "url": "https://www.gzrd.gov.cn/gzwh/201912/t20191220_77669989.html?isMobile=true",
+      "publisher": "贵州省人大常委会网站（来源：黔东南新闻网）",
+      "published_at": "2019-12-20",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "页面记录黔东南侗家社饭把糯米煮至半熟、滤去米汤，再与焙制蒿菜、腌肉、花生、干豆腐等拌匀上甑蒸熟；另一在地变体使用大米与糯米各半。",
+      "proves": [
+        "production:guizhou-dong-community-rice:dong_shefan_identity",
+        "production:guizhou-dong-community-rice:parboiled_glutinous_structure",
+        "lead:guizhou-dong-shefan-parboiled-rice:regional_structure",
+        "lead:guizhou-dong-shefan-parboiled-rice:parboiled_rice_state"
+      ],
+      "does_not_prove": [
+        "production:guizhou-dong-community-rice:raw_rice_braise_as_traditional_process",
+        "production:guizhou-dong-community-rice:project_ratio_safety",
+        "lead:guizhou-dong-shefan-parboiled-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "gz-tongren-shefan-2025",
+      "title": "网络中国节·清明丨清明时节 社饭飘香",
+      "url": "https://www.tongren.gov.cn/2025/0405/333568.shtml",
+      "publisher": "铜仁市人民政府网站（来源：铜仁市融媒体中心）",
+      "published_at": "2025-04-05",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "铜仁万山当代做法记录鲜米先煮半熟、糯米热水浸泡，再与焙干蒿菜、野葱、腊肉、豆子和花生混合后小火焖熟。",
+      "proves": [
+        "production:guizhou-dong-community-rice:dong_shefan_identity",
+        "production:guizhou-dong-community-rice:parboiled_glutinous_structure",
+        "lead:guizhou-dong-shefan-parboiled-rice:regional_structure"
+      ],
+      "does_not_prove": [
+        "production:guizhou-dong-community-rice:raw_rice_braise_as_traditional_process",
+        "production:guizhou-dong-community-rice:project_ratio_safety",
+        "lead:guizhou-dong-shefan-parboiled-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "yn-wild-mushroom-safety-2024",
+      "title": "如何预防野生菌中毒？",
+      "url": "https://ynsjkj.yn.gov.cn/html/2024/jikongkepu_0715/176.html",
+      "publisher": "云南省疾病预防控制局（文章来源：元江县疾控中心）",
+      "published_at": "2024-07-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "云南疾控要求不采、不买、不吃不熟悉野生菌，不混杂加工，条件可食菌切薄片并彻底高温熟透。",
+      "proves": ["safety:identified-mushroom-only-and-cook-through:principle"],
+      "does_not_prove": [
+        "candidate:yunnan-mushroom-potato-rice:fixed_mushroom_potato_core",
+        "candidate:yunnan-mushroom-potato-rice:project_ratio_safety"
+      ],
+      "contradicts": [
+        "candidate:yunnan-mushroom-potato-rice:free_wild_mushroom_substitution"
+      ]
+    },
+    {
+      "source_id": "samr-potato-safety-2022",
+      "title": "发芽的马铃薯还能吃吗？",
+      "url": "https://www.samr.gov.cn/spcjs/yjjl/art/2022/art_d958ba4998c94acda15b72b195c62e4d.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2022-05-05",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "市场监管总局要求大面积发芽或变绿马铃薯丢弃，并要求加工时彻底烧熟炖透。",
+      "proves": ["safety:potato-sprout-green-control:principle"],
+      "does_not_prove": [
+        "candidate:yunnan-copper-pot-potato-rice-home:project_ratio_safety",
+        "candidate:yunnan-mushroom-potato-rice:project_ratio_safety",
+        "lead:yunnan-jiangchuan-copper-pot-potato-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "cq-cured-meat-safety-2026",
+      "title": "腊肉、香肠的消费提示",
+      "url": "https://scjgj.cq.gov.cn/bkzs/xfts/202602/t20260213_15442166.html",
+      "publisher": "重庆市市场监督管理局",
+      "published_at": "2026-02-13",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "市场监管部门要求腊味来源与标签清晰、彻底炒熟煮透，并提示其属于高盐食品应控制摄入。",
+      "proves": ["safety:cured-meat-cook-through-and-salt:principle"],
+      "does_not_prove": [
+        "candidate:yunnan-ham-flavor-rice-pot:generic_ham_flavor_slot_identity",
+        "candidate:yunnan-ham-flavor-rice-pot:project_ratio_safety",
+        "production:guizhou-dong-community-rice:project_ratio_safety",
+        "lead:guizhou-dong-shefan-parboiled-rice:project_ratio_safety"
+      ],
+      "contradicts": [
+        "candidate:yunnan-ham-flavor-rice-pot:free_ham_substitution_allowed"
+      ]
+    },
+    {
+      "source_id": "nhc-poultry-safety-2013",
+      "title": "国家食品安全风险评估中心提示H7N9禽流感病毒的食品安全预防措施",
+      "url": "https://www.nhc.gov.cn/wjw/zsdw/201304/fa27a4afecb740a3b51df0e9f33c839b.shtml",
+      "publisher": "中华人民共和国国家卫生健康委员会",
+      "published_at": "2013-04-07",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家食品安全风险评估中心要求禽肉烧熟煮透并在加工中生熟分开，避免交叉污染。",
+      "proves": ["safety:poultry-cook-through:principle"],
+      "does_not_prove": [
+        "candidate:yunnan-corn-chicken-rice:yunnan_fixed_corn_chicken_rice_identity",
+        "candidate:yunnan-corn-chicken-rice:project_ratio_safety"
+      ]
+    }
+  ],
+  "production_recipe_audits": [
+    {
+      "recipe_id": "dai-pineapple-purple-rice",
+      "audit_state": "needs_manual_review",
+      "claims": {
+        "dai_pineapple_rice_identity": {"verdict":"supported","evidence_source_ids":["yn-dai-food-culture-2021"],"reason":"云南省社科院文章支持傣族菠萝饭的云南民族饮食身份。"},
+        "pineapple_glutinous_structure": {"verdict":"supported","evidence_source_ids":["yn-dai-pineapple-structure-2023"],"reason":"报道支持糯米与菠萝丁共同蒸制及菠萝容器结构。"},
+        "purple_glutinous_rice_variant": {"verdict":"supported","evidence_source_ids":["yn-dai-pineapple-structure-2023"],"reason":"来源明确把紫米列为白糯米之外的可见变体。"},
+        "mango_substitution_equivalence": {"verdict":"not_proven","evidence_source_ids":["yn-dai-food-culture-2021","yn-dai-pineapple-structure-2023"],"reason":"两份来源均未把芒果证明为菠萝容器和酸甜结构的等价替换。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["yn-dai-pineapple-structure-2023"],"reason":"来源不提供项目现有紫米预处理、菠萝出水和液体 DSL。"}
+      },
+      "ingredient_shapes": ["glutinous_rice","purple_glutinous_rice","pineapple_dice","hollowed_pineapple_vessel"],
+      "forbidden_claims": ["pineapple_vessel_as_generic_fruit_slot","mango_as_proven_equivalent","published_ratio_claim","internal_canonical_as_external_evidence"],
+      "product_destinations": ["recipe_evidence","template_evidence","ratio_rule"],
+      "priority": {"product_score":8,"regional_score":9,"risk_penalty":5,"total_score":12},
+      "decision_reason": "地域与紫米变体有依据；芒果替换和液体比例仍需人工复核。"
+    },
+    {
+      "recipe_id": "guizhou-dong-community-rice",
+      "audit_state": "needs_manual_review",
+      "claims": {
+        "dong_shefan_identity": {"verdict":"supported","evidence_source_ids":["gz-dong-shefestival-2019","gz-tongren-shefan-2025"],"reason":"贵州人大与铜仁政府页面共同支持贵州侗家及黔东地区社饭身份。"},
+        "parboiled_glutinous_structure": {"verdict":"supported","evidence_source_ids":["gz-dong-shefestival-2019","gz-tongren-shefan-2025"],"reason":"两份来源都记录半熟米与糯米、熟配料继续蒸或焖的结构。"},
+        "raw_rice_braise_as_traditional_process": {"verdict":"not_proven","evidence_source_ids":["gz-dong-shefestival-2019","gz-tongren-shefan-2025"],"reason":"公开资料记录半熟沥米或预浸糯米等不同在地做法，不能据此把项目当前生米直接同焖定义为统一传统过程。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["gz-dong-shefestival-2019","gz-tongren-shefan-2025","cq-cured-meat-safety-2026"],"reason":"传统描述和通用腊味安全原则不能证明项目当前生米液体比例。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice","glutinous_rice","cured_meat_dice","processed_wormwood","peanut","dried_tofu_dice"],
+      "forbidden_claims": ["family_adaptation_as_traditional_replica","raw_rice_braise_as_traditional_process","ordinary_leafy_green_as_wormwood_equivalent","internal_canonical_as_external_evidence"],
+      "product_destinations": ["recipe_evidence","new_family_research","ratio_rule"],
+      "priority": {"product_score":9,"regional_score":10,"risk_penalty":7,"total_score":12},
+      "decision_reason": "可保留明确标注的家庭适配版，但传统身份、米状态与现有 Ratio DSL 必须分开。"
+    }
+  ],
+  "candidate_audits": [
+    {
+      "candidate_id": "yunnan-copper-pot-potato-rice-home",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "jiangchuan_copper_pot_potato_rice_identity": {"verdict":"supported","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023"],"reason":"三联在玉溪江川实地报道支持铜锅洋芋饭地域身份。"},
+        "parboiled_rice_process": {"verdict":"supported","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023"],"reason":"来源明确记录米先煮半熟再铺于洋芋上继续焖熟。"},
+        "household_vessel_equivalence": {"verdict":"not_proven","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023"],"reason":"铜锅实地过程不能证明普通锅或电饭煲自动保留锅巴、受热和水分边界。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023","samr-potato-safety-2022"],"reason":"来源没有半熟度、锅径、加水量、火力和时间的机器规则。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice","fried_potato_chunks","copper_pot"],
+      "forbidden_claims": ["copper_pot_equals_electric_cooker","parboiled_rice_as_raw_rice","published_ratio_claim"],
+      "product_destinations": ["candidate_evidence","template_evidence","ratio_rule"],
+      "priority": {"product_score":10,"regional_score":10,"risk_penalty":5,"total_score":15},
+      "decision_reason": "优先研究铜锅洋芋饭家族；普通锅具适配和 Ratio DSL 完成前不晋升。"
+    },
+    {
+      "candidate_id": "yunnan-mushroom-potato-rice",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "fixed_mushroom_potato_core": {"verdict":"not_proven","evidence_source_ids":["yn-wild-mushroom-safety-2024"],"reason":"云南菌类饮食背景和安全资料都不能证明菌菇、洋芋、大米为固定地域核心。"},
+        "free_wild_mushroom_substitution": {"verdict":"contradicted","evidence_source_ids":["yn-wild-mushroom-safety-2024"],"reason":"疾控明确要求不使用不熟悉野生菌、不得混杂加工，不能保留泛化菌菇槽。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["yn-wild-mushroom-safety-2024","samr-potato-safety-2022"],"reason":"安全原则不提供菌种、出水、米状态和液体比例。"}
+      },
+      "ingredient_shapes": ["identified_mushroom","potato_chunks","rice_state_unresolved"],
+      "forbidden_claims": ["generic_wild_mushroom_slot","mixed_wild_mushrooms","regional_abundance_as_recipe_evidence","published_ratio_claim"],
+      "product_destinations": ["research_only","candidate_evidence","ratio_rule"],
+      "priority": {"product_score":7,"regional_score":6,"risk_penalty":10,"total_score":3},
+      "decision_reason": "只保留为明确品种、正规来源菌菇的研究题目；不得使用野生菌泛化。"
+    },
+    {
+      "candidate_id": "yunnan-corn-chicken-rice",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "yunnan_fixed_corn_chicken_rice_identity": {"verdict":"not_proven","evidence_source_ids":["yn-dai-food-culture-2021","nhc-poultry-safety-2013"],"reason":"云南民族饮食概览与禽肉安全资料均不能证明玉米、鸡肉和大米构成固定云南饭锅。"},
+        "copper_pot_family_equivalence": {"verdict":"not_proven","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023"],"reason":"江川洋芋饭技法不证明玉米鸡肉可无条件进入同一铜锅家族。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["nhc-poultry-safety-2013"],"reason":"禽肉熟透原则不能替代玉米形态、鸡肉部位和米液体比例。"}
+      },
+      "ingredient_shapes": ["raw_chicken_pieces","corn_form_unresolved","rice_state_unresolved"],
+      "forbidden_claims": ["yunnan_identity_from_ingredient_list","cornmeal_as_corn_kernel_equivalence","copper_pot_family_by_default","published_ratio_claim"],
+      "product_destinations": ["research_only","ratio_rule"],
+      "priority": {"product_score":7,"regional_score":3,"risk_penalty":8,"total_score":2},
+      "decision_reason": "现阶段缺少地域结构证据，不能仅凭云南常见食材晋升。"
+    },
+    {
+      "candidate_id": "yunnan-ham-flavor-rice-pot",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "generic_ham_flavor_slot_identity": {"verdict":"not_proven","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023","cq-cured-meat-safety-2026"],"reason":"铜锅洋芋饭报道和腊味安全提示都不能证明抽象“火腿风味位”是地方菜身份。"},
+        "free_ham_substitution_allowed": {"verdict":"contradicted","evidence_source_ids":["cq-cured-meat-safety-2026"],"reason":"腌腊制品必须有明确名称、标签、来源和熟制要求，不能以风味位自由替换。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["cq-cured-meat-safety-2026"],"reason":"高盐和熟透原则不提供具体火腿品种、克数与米液体比例。"}
+      },
+      "ingredient_shapes": ["named_cured_ham_required","vegetable_unspecified","rice_state_unresolved"],
+      "forbidden_claims": ["abstract_flavor_as_ingredient","free_cured_meat_substitution","published_ratio_claim"],
+      "product_destinations": ["research_only","substitution_rule","ratio_rule"],
+      "priority": {"product_score":6,"regional_score":3,"risk_penalty":9,"total_score":0},
+      "decision_reason": "必须先落到具体火腿食品身份和显式替换规则，抽象风味位不能进入生产。"
+    }
+  ],
+  "concrete_research_leads": [
+    {
+      "lead_id": "yunnan-jiangchuan-copper-pot-potato-rice",
+      "name": "云南江川铜锅洋芋饭技法家族",
+      "province_code": "CN-YN",
+      "family_id": "parboiled-copper-pot-potato-rice",
+      "meal_structure": "parboiled_rice_over_fried_potato_then_copper_pot_finished",
+      "source_ids": ["yn-jiangchuan-copper-pot-process-2023","samr-potato-safety-2022"],
+      "claims": {
+        "regional_structure": {"verdict":"supported","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023"],"reason":"实地报道支持江川铜锅、洋芋块、半熟米继续焖熟的结构。"},
+        "parboiled_rice_state": {"verdict":"supported","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023"],"reason":"米先煮至半熟是公开记录的关键状态。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["yn-jiangchuan-copper-pot-process-2023","samr-potato-safety-2022"],"reason":"没有机器可执行的半熟度、保留水、锅径和火力规则。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice","fried_potato_chunks","copper_pot"],
+      "known_structure": ["大米先煮半熟","洋芋去皮切块垫底","铺米后加水继续焖熟","铜锅受热与锅巴属于身份变量"],
+      "forbidden_shortcuts": ["raw_rice_braise_equivalence","cooked_leftover_rice_equivalence","copper_pot_equals_electric_cooker"],
+      "open_questions": ["半熟米含水状态","铜锅与普通锅热传递差异","保留液体 DSL","锅巴终点"],
+      "product_destinations": ["candidate_evidence","new_family_research","template_evidence","ratio_rule"],
+      "priority": {"product_score":10,"regional_score":10,"risk_penalty":5,"total_score":15},
+      "decision_reason": "先建立技法家族，再判断家庭锅具适配；不以固定菜名数量替代组合能力。",
+      "creates_production_recipe": false,
+      "creates_research_candidate": false
+    },
+    {
+      "lead_id": "yunnan-dai-pineapple-glutinous-rice",
+      "name": "云南傣族菠萝糯米饭家族",
+      "province_code": "CN-YN",
+      "family_id": "pineapple-vessel-glutinous-rice",
+      "meal_structure": "cooked_glutinous_rice_mixed_with_pineapple_then_steamed_in_pineapple_vessel",
+      "source_ids": ["yn-dai-food-culture-2021","yn-dai-pineapple-structure-2023"],
+      "claims": {
+        "regional_structure": {"verdict":"supported","evidence_source_ids":["yn-dai-food-culture-2021"],"reason":"云南省社科院支持傣族菠萝饭的地域民族饮食身份。"},
+        "pineapple_vessel_structure": {"verdict":"supported","evidence_source_ids":["yn-dai-pineapple-structure-2023"],"reason":"来源支持糯米与菠萝丁混合并装入菠萝容器蒸制。"},
+        "glutinous_rice_state": {"verdict":"supported","evidence_source_ids":["yn-dai-pineapple-structure-2023"],"reason":"糯米是来源明确的主食状态，白糯米与紫米均可见。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["yn-dai-pineapple-structure-2023"],"reason":"没有紫米浸泡、菠萝出水、甜度和二次蒸制的机器规则。"}
+      },
+      "ingredient_shapes": ["glutinous_rice","purple_glutinous_rice","pineapple_dice","hollowed_pineapple_vessel"],
+      "known_structure": ["糯米为核心主食","菠萝果肉与米混合","菠萝壳可作为蒸制容器","紫米是变体而非唯一形态"],
+      "forbidden_shortcuts": ["pineapple_vessel_as_generic_fruit_slot","mango_as_proven_equivalent","raw_rice_braise_equivalence"],
+      "open_questions": ["糯米预处理","紫米混合比例","菠萝出水量","容器完整性与蒸制终点"],
+      "product_destinations": ["recipe_evidence","template_evidence","ratio_rule"],
+      "priority": {"product_score":8,"regional_score":9,"risk_penalty":5,"total_score":12},
+      "decision_reason": "用于校准现有菠萝紫米饭，而不是建立任意水果替换模板。",
+      "creates_production_recipe": false,
+      "creates_research_candidate": false
+    },
+    {
+      "lead_id": "guizhou-dong-shefan-parboiled-rice",
+      "name": "贵州侗家社饭半熟米家族",
+      "province_code": "CN-GZ",
+      "family_id": "parboiled-glutinous-shefan",
+      "meal_structure": "parboiled_glutinous_or_mixed_rice_with_cooked_fillings_then_steamed_or_braised",
+      "source_ids": ["gz-dong-shefestival-2019","gz-tongren-shefan-2025","cq-cured-meat-safety-2026"],
+      "claims": {
+        "regional_structure": {"verdict":"supported","evidence_source_ids":["gz-dong-shefestival-2019","gz-tongren-shefan-2025"],"reason":"贵州官方页面共同支持社饭的节俗与半熟米、蒿菜、腊肉等结构。"},
+        "parboiled_rice_state": {"verdict":"supported","evidence_source_ids":["gz-dong-shefestival-2019"],"reason":"来源明确糯米煮至半熟并滤去米汤后继续蒸熟。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["gz-dong-shefestival-2019","gz-tongren-shefan-2025","cq-cured-meat-safety-2026"],"reason":"不同在地米配比并存，且没有项目锅径、液体与熟制 DSL。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice","glutinous_rice","cured_meat_dice","processed_wormwood","peanut","dried_tofu_dice"],
+      "known_structure": ["糯米或粳糯混合米先预处理至半熟","蒿菜先去苦并焙干","腊肉等配料先炒香","混合后再蒸或小火焖熟"],
+      "forbidden_shortcuts": ["raw_rice_braise_equivalence","ordinary_leafy_green_as_wormwood_equivalent","family_adaptation_as_traditional_replica"],
+      "open_questions": ["米种与配比变体","蒿菜食品身份与家庭可得性","蒸与焖的分支 DSL","腊味盐量"],
+      "product_destinations": ["recipe_evidence","new_family_research","template_evidence","ratio_rule"],
+      "priority": {"product_score":9,"regional_score":10,"risk_penalty":7,"total_score":12},
+      "decision_reason": "先把传统半熟米家族与当前家庭适配版分开，避免用家庭版反向定义传统。",
+      "creates_production_recipe": false,
+      "creates_research_candidate": false
+    }
+  ],
+  "family_model": [
+    {"family_id":"parboiled-copper-pot-potato-rice","name":"半熟米铜锅洋芋饭","meal_structure":"半熟沥米铺于煎炒洋芋上，以铜锅继续焖熟","evidence_status":"regional_structure_supported_ratio_unresolved","source_ids":["yn-jiangchuan-copper-pot-process-2023"]},
+    {"family_id":"pineapple-vessel-glutinous-rice","name":"菠萝容器糯米饭","meal_structure":"熟或预熟糯米与菠萝丁混合后装入菠萝容器蒸制","evidence_status":"regional_structure_supported_ratio_unresolved","source_ids":["yn-dai-food-culture-2021","yn-dai-pineapple-structure-2023"]},
+    {"family_id":"parboiled-glutinous-shefan","name":"半熟糯米社饭","meal_structure":"半熟糯米或粳糯混合米与已处理菜肉混合后蒸或焖熟","evidence_status":"regional_structure_supported_ratio_unresolved","source_ids":["gz-dong-shefestival-2019","gz-tongren-shefan-2025"]}
+  ],
+  "adaptation_boundaries": [
+    {"boundary_id":"parboiled-rice-not-raw-or-leftover","evidence_status":"supported_boundary","source_ids":["yn-jiangchuan-copper-pot-process-2023","gz-dong-shefestival-2019"],"notes":"半熟沥米保留内部水分并需继续熟化，不得套用生米液体或熟剩饭翻炒规则。"},
+    {"boundary_id":"copper-pot-not-electric-cooker","evidence_status":"unresolved","source_ids":["yn-jiangchuan-copper-pot-process-2023"],"notes":"铜锅受热、锅巴和水分蒸发是身份变量；普通锅或电饭煲等价尚未验证。"},
+    {"boundary_id":"pineapple-vessel-not-generic-fruit-slot","evidence_status":"supported_boundary","source_ids":["yn-dai-pineapple-structure-2023"],"notes":"菠萝同时提供果肉、酸甜、出水与容器；芒果不能静默替代。"},
+    {"boundary_id":"identified-mushroom-not-generic-wild-slot","evidence_status":"supported_boundary","source_ids":["yn-wild-mushroom-safety-2024"],"notes":"菌菇候选必须明确食品名称和正规来源；不得将未知野生菌纳入泛化槽位。"}
+  ],
+  "safety_boundaries": [
+    {"safety_id":"potato-sprout-green-control","evidence_status":"principle_only","source_ids":["samr-potato-safety-2022"],"endpoint_note":"大面积发芽或变绿土豆丢弃，使用者必须彻底熟透。","required_controls":["检查芽与绿色面积","去皮切块","彻底熟透"]},
+    {"safety_id":"identified-mushroom-only-and-cook-through","evidence_status":"principle_only","source_ids":["yn-wild-mushroom-safety-2024"],"endpoint_note":"只使用明确可食用且来源可靠的单一菌种，并彻底高温熟透。","required_controls":["不使用不熟悉野生菌","不混杂未知菌种","明确食品身份与来源","彻底熟透"]},
+    {"safety_id":"cured-meat-cook-through-and-salt","evidence_status":"principle_only","source_ids":["cq-cured-meat-safety-2026"],"endpoint_note":"腊味须标签和来源清晰、彻底熟透，并控制额外盐与摄入量。","required_controls":["核验标签与来源","生熟分开","彻底熟透","尝味后再补盐"]},
+    {"safety_id":"poultry-cook-through","evidence_status":"principle_only","source_ids":["nhc-poultry-safety-2013"],"endpoint_note":"禽肉必须烧熟煮透并避免生熟交叉污染。","required_controls":["生熟分开","禽肉中心熟透","不得端出淡红或流血水禽肉"]}
+  ],
+  "journey_cases": [
+    {"journey_id":"YG-01","province_code":"CN-YN","mode":"recommend","intent":"normal","input_items":["大米","土豆"],"expected_family_ids":["parboiled-copper-pot-potato-rice"],"expected_structure":"识别为江川铜锅洋芋饭研究结构，但不承诺普通锅等价。","expected_outcome":"research_only_until_vessel_and_ratio_validation","forbidden_claims":["copper_pot_equals_electric_cooker","raw_rice_braise_equivalence"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-02","province_code":"CN-YN","mode":"pantry","intent":"normal","input_items":["大米","土豆","普通电饭煲"],"expected_family_ids":["parboiled-copper-pot-potato-rice"],"expected_structure":"器具适配未验证，暂停宣称完整家庭版。","expected_outcome":"needs_more_evidence","forbidden_claims":["copper_pot_equals_electric_cooker","published_ratio_claim"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-03","province_code":"CN-YN","mode":"recommend","intent":"quick","input_items":["剩米饭","土豆"],"expected_family_ids":[],"expected_structure":"剩米饭不进入半熟米铜锅洋芋饭家族。","expected_outcome":"reject_family_equivalence","forbidden_claims":["cooked_leftover_rice_equivalence"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-04","province_code":"CN-YN","mode":"recommend","intent":"normal","input_items":["糯米","菠萝"],"expected_family_ids":["pineapple-vessel-glutinous-rice"],"expected_structure":"优先糯米与菠萝，不强制紫米。","expected_outcome":"regional_structure_supported_ratio_pending","forbidden_claims":["published_ratio_claim"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-05","province_code":"CN-YN","mode":"recommend","intent":"fresh","input_items":["紫糯米","菠萝"],"expected_family_ids":["pineapple-vessel-glutinous-rice"],"expected_structure":"紫米作为已见变体进入菠萝糯米饭。","expected_outcome":"production_audit_candidate_for_human_review","forbidden_claims":["published_ratio_claim"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-06","province_code":"CN-YN","mode":"pantry","intent":"normal","input_items":["紫糯米","芒果"],"expected_family_ids":[],"expected_structure":"芒果不能替代菠萝容器和出水结构。","expected_outcome":"no_proven_regional_equivalence","forbidden_claims":["mango_as_proven_equivalent","pineapple_vessel_as_generic_fruit_slot"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-07","province_code":"CN-GZ","mode":"recommend","intent":"batch","input_items":["糯米","大米","腊肉","蒿菜"],"expected_family_ids":["parboiled-glutinous-shefan"],"expected_structure":"米先预处理至半熟，配料先处理，再蒸或焖熟。","expected_outcome":"regional_structure_supported_ratio_pending","forbidden_claims":["raw_rice_braise_equivalence"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-08","province_code":"CN-GZ","mode":"recommend","intent":"normal","input_items":["大米","腊五花肉","小白菜"],"expected_family_ids":["parboiled-glutinous-shefan"],"expected_structure":"只可解释为家庭适配版，不得称传统社饭复刻。","expected_outcome":"production_audit_needs_manual_review","forbidden_claims":["family_adaptation_as_traditional_replica","ordinary_leafy_green_as_wormwood_equivalent"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-09","province_code":"CN-YN","mode":"recommend","intent":"normal","input_items":["大米","土豆","香菇"],"expected_family_ids":[],"expected_structure":"可作为家庭组合研究，但未证明为固定云南菌菇洋芋饭。","expected_outcome":"candidate_specificity_gap","forbidden_claims":["regional_abundance_as_recipe_evidence"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-10","province_code":"CN-YN","mode":"pantry","intent":"normal","input_items":["大米","土豆","未知野生菌"],"expected_family_ids":[],"expected_structure":"未知野生菌不得规划。","expected_outcome":"safety_rejection","forbidden_claims":["generic_wild_mushroom_slot","mixed_wild_mushrooms"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-11","province_code":"CN-YN","mode":"recommend","intent":"normal","input_items":["大米","玉米粒","鸡腿肉"],"expected_family_ids":[],"expected_structure":"不能仅凭三种食材命名为云南玉米鸡肉饭或套铜锅家族。","expected_outcome":"regional_identity_not_proven","forbidden_claims":["yunnan_identity_from_ingredient_list","copper_pot_family_by_default"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"YG-12","province_code":"CN-YN","mode":"recommend","intent":"normal","input_items":["大米","任意火腿风味食材","青菜"],"expected_family_ids":[],"expected_structure":"抽象火腿风味位必须退回具体食品身份和显式替换。","expected_outcome":"ingredient_identity_required","forbidden_claims":["abstract_flavor_as_ingredient","free_cured_meat_substitution"],"human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}}
+  ]
+}

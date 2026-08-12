@@ -5,7 +5,7 @@
 启动:  双击 start.command (或 python3 ai_proxy.py)
 停止:  Ctrl+C (或 lsof -ti :8765 | xargs kill -9)
 
-依赖: 只用 Python 标准库 (Mac 自带 Python 3 直接跑)
+依赖: Python 3 标准库 + Node.js（V2 本地规划复用生产 Worker）
 配置: 同目录 .env 文件:
   DEEPSEEK_API_KEY=sk-xxxx    # 默认 provider
   KIMI_API_KEY=sk-xxxx        # fallback
@@ -19,6 +19,8 @@ import math
 import os
 import re
 import socketserver
+import shutil
+import subprocess
 import sys
 import urllib.request
 import urllib.error
@@ -31,8 +33,15 @@ HOST = os.environ.get('HOST', '127.0.0.1')  # 托管时设环境变量 HOST=0.0.
 SCRIPT_DIR = Path(__file__).resolve().parent
 ENV_FILE = SCRIPT_DIR / '.env'
 RECIPE_LIBRARY_FILE = SCRIPT_DIR / 'tools' / 'data' / 'recipe-library.json'
+PLANNER_BRIDGE_FILE = SCRIPT_DIR / 'tools' / 'planner-v2-local-bridge.mjs'
+PLANNER_NODE = os.environ.get('PLANNER_NODE_EXECUTABLE') or shutil.which('node')
+try:
+    PLANNER_BRIDGE_TIMEOUT_S = min(55.0, max(0.1, float(os.environ.get('PLANNER_BRIDGE_TIMEOUT_S', '55'))))
+except ValueError:
+    PLANNER_BRIDGE_TIMEOUT_S = 55.0
 
-TIMEOUT_S = 30
+TIMEOUT_S = 45
+DEFAULT_DEEPSEEK_MODEL = 'deepseek-v4-flash'
 
 
 def load_env():
@@ -54,7 +63,7 @@ PROVIDER = (_env.get('LLM_PROVIDER') or os.environ.get('LLM_PROVIDER') or 'deeps
 if PROVIDER == 'deepseek':
     API_KEY = _env.get('DEEPSEEK_API_KEY') or os.environ.get('DEEPSEEK_API_KEY')
     API_URL = 'https://api.deepseek.com/v1/chat/completions'
-    MODEL_NAME = 'deepseek-chat'
+    MODEL_NAME = os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or DEFAULT_DEEPSEEK_MODEL
 else:
     API_KEY = _env.get('KIMI_API_KEY') or os.environ.get('KIMI_API_KEY')
     API_URL = 'https://api.moonshot.cn/v1/chat/completions'
@@ -64,33 +73,32 @@ SYSTEM = '你是中国食物营养专家。返回严格 JSON 营养数据，不�
 
 # 本地开发生成契约；worker/src/worker.js 是权威源。
 RECIPE_SYSTEM = '''你是家常菜专家+营养师, 熟悉《中国居民膳食指南(2022)》。
-你的任务: 生成一道【一日量】的简单家常单品(一锅/一碗即可吃完, 可分 1-2 顿), 一份基本覆盖全天营养主结构(主食+蛋白+多种蔬菜)。
+你的任务: 按用户这一次的做饭场景和份数, 生成一道简单家常主餐(一锅/一碗即可吃完), 主食+蛋白+多种蔬菜基本齐全。
 核心要求:
 - 菜品形式和菜系都要轮换, 别每次都是中式菜饭。形式换着来: 菜饭/煲仔饭/焖饭、盖浇饭、日式丼饭、石锅拌饭、汤面/汤粉/汤米线、一锅炖菜/烩菜/杂烩汤、家庭一锅煮/麻辣烫式、杂粮谷物碗、咖喱烩饭、印尼炒饭式炒饭、泰式椰浆咖喱烩饭、越式/中式凉拌碗(grain bowl)等。
 - 菜系也轮换: 中式家常/泰式/日式/韩式/越南/印尼/粤式 之间换着来——任何国家"一锅或一碗装、多食材、家庭可做"的主餐都符合一锅出。异国成品复合酱(绿咖喱酱/叻沙酱/甜酱油等)钠和热量不可忽略, 一律限1.5勺、其营养标 est 不当权威值现编; 能用"酱油+糖"等基础调味料替代的就替代。
 - 排除真火锅, 以及需要特殊高汤/长时间备料/复杂火候的版本。
 - 一锅煮 OR 电饭锅 OR 简单炒制 OR 蒸 OR 出锅后凉拌(冷制碗); 烹饪要简单可行。
 - 硬约束: 总时长 <= 40 分钟, 做法 <= 4 步, 难度 <= 2; 优先电饭锅/一锅出, 不要另起锅做第二道菜。
-- 营养尽量贴近全天目标; 蛋白/纤维/钙优先; 不要奇葩组合。
-- **热量硬要求(落实到克数)**: 整锅总热量须达到目标的85%以上。具体: 主食给足(熟饭/熟面/熟杂粮合计≥400g, 或生米生面≥180g, 或薯类≥500g), 蛋白食材(肉/鱼/蛋/豆制品)合计≥250g, 烹调油8-15g。常见错误是只给一锅蔬菜的热量(约800kcal)——那只有目标一半, 不合格。
+- 营养按一顿主餐考虑; 蛋白/纤维优先, 不追求用一锅覆盖全天营养, 不要奇葩组合。
+- **份量硬要求(落实到克数)**: 按用户要求的份数给整锅用量。每份主餐约500-750kcal、蛋白质约20-35g; 根据份数同比安排主食、蛋白和蔬菜, 不要生成明显吃不完的全天量。
 - **不得依赖提前准备**: 步骤里禁止出现「提前煮好/提前过夜」; 主食要么把烹煮时间计入总时长, 要么明确写用剩饭或免煮快熟主食(如燕麦/快煮杂粮包)。
 - **主蛋白必须轮换**: 在 鱼/虾/鸡/鸭/猪/牛/蛋/豆制品 之间换着来, 不要连续几次或总是同一种, **尤其不要默认三文鱼**; 一道菜主蛋白选 1-2 种即可。
-- 食材至少 8-10 种, 含主食 + 蛋白 + 3-5 种不同颜色/类型的蔬菜。
-- 蔬菜总量尽量 >= 300g, 含绿叶菜、浅色蔬菜、根茎、菌菇、豆荚等不同类型。
-- 一道菜总重 800-1500g, 用户可分 1-2 顿吃。
+- 食材数量要和份数、场景匹配: 1份约5-7种, 2份约6-9种, 3-4份约7-10种; 都要含主食 + 蛋白 + 至少2-4种蔬菜。
+- 蔬菜按每份约150-250g安排, 在可操作的前提下尽量有不同颜色/类型。
+- 菜名和 form 必须与真实主食、做法一致: 没有面条/米粉就不能叫汤面/汤粉, 用米饭做汤泡饭就明确叫汤饭或泡饭。
 【冷拌/发酵碗(低频形式, 夏季或换口味时偶尔出, 约每5-6次一次)】
-- 冷碗热量天生比热菜低, 但绝不能是"一碗菜叶"(≈800kcal=不合格)。靠三件套把它做成一份扎实正餐: ①熟主食≥400g(现成糙米饭/快煮杂粮包/燕麦/熟荞麦面, 偏轻就加到500g, 干米粉/干面≥120g); ②蛋白≥250g; ③必加一个高热量载体——牛油果半个 或 花生酱/芝麻酱约30g 或 坚果30g, 至少选一样; 主蛋白偏瘦(虾仁/鸡胸)时这条尤其不能省。沙拉汁里的油计入总油8-15g。
-- 热量尽量堆高(靠加主食/牛油果/坚果, 绝不靠加蔬菜); 但即便达不到全天目标也别虚标营养值充数——按真实份量如实给, app 会如实提示"比一天目标略少"。
+- 冷碗也必须是扎实主餐, 不能只有菜叶; 按份数给足主食和蛋白, 可用牛油果/芝麻酱/坚果补充口感与能量, 但不要为堆热量给出夸张用量。
 - 发酵碗(区别于普通沙拉)须含一样发酵食材(辣白菜/纳豆/酸奶/豆豉)作特色; 发酵益生菌食材必须"出锅后/装碗最后一步"拌入, 不得下锅加热(否则活菌失活)。
 - 钠平衡: 用了发酵高钠食材(辣白菜≤120g/豆豉≤15g)时, 额外盐归零、不再加酱油, 用柠檬汁/醋/香料提味; note 里提示"含发酵食材钠偏高, 额外盐请减半或不加"。
 - 凉拌也禁止"提前煮好/过夜", 主食烹煮时间计入总时长或用剩饭/免煮快熟主食。
 严格 JSON 输出, 不要 JSON 外文字。'''
 
-RECIPE_TEMPLATE = '''生成一道【{meal_name}】一日量的简单家常单品(一锅/一碗式, 形式见系统提示、别总是菜饭), 用户全天营养目标约: 热量{kcal}kcal/蛋白{p}g/纤维{fb}g/钙{ca}mg。(整锅总热量须≥目标的85%)
+RECIPE_TEMPLATE = '''生成一道【{meal_name}】简单家常主餐(一锅/一碗式, 形式见系统提示、别总是菜饭), 一共约{servings}份。整锅参考目标: 热量约{kcal}kcal、蛋白约{p}g、纤维约{fb}g。
 {constraint_note}{exclude_note}
 {season_note}
 
-【强制】食材至少 8 种, 蔬菜至少 3-4 种不同颜色/类型(绿叶/根茎/菌菇/豆荚轮换)。
+【强制】食材数量与{servings}份和本次场景相匹配; 每份都应吃到主食、蛋白和蔬菜, 不要为了多样性堆出难操作的配料表。
 
 {recipe_grounding}
 
@@ -107,7 +115,7 @@ RECIPE_TEMPLATE = '''生成一道【{meal_name}】一日量的简单家常单品
   "difficulty": 1,
   "taste_preview": "<40-70字 美食家口吻, 描述入口和余韵的具体口感, 帮用户决定要不要做>",
   "form": "形式(焖饭/盖浇饭/丼饭/汤面/拌饭/一锅炖/grain bowl/凉拌碗等)",
-  "why": "<一句温和的「今天为什么适合你」, 可提到用上的食材/本周鱼/想吃的口味; 别说教别堆数据>",
+  "why": "<一句温和的「为什么适合这次做」, 可提到用上的食材/省事程度/口味; 别说教别堆数据>",
   "has_fish": true,
   "veg_count": 4
 }
@@ -152,6 +160,26 @@ class NoSafeRecipe(RecipeLibraryUnavailable):
     """The trusted library has no reviewed rice-free complete main for these constraints."""
 
 
+class NoCompatiblePantryRecipe(RecipeLibraryUnavailable):
+    """The trusted library cannot use any of the supplied pantry ingredients."""
+
+
+class PantryNeedsGrouping(RecipeLibraryUnavailable):
+    """The supplied pantry needs an explicit trusted one-pot grouping before generation."""
+
+    def __init__(self, message, pantry_plan):
+        super().__init__(message)
+        self.pantry_plan = pantry_plan
+
+
+class UnsafeRecipe(RuntimeError):
+    """repair 后仍带 validation_flags: 服务端明示失败(422 unsafe_recipe), 不端出。"""
+
+    def __init__(self, message, validation_flag_types=None):
+        super().__init__(message)
+        self.validation_flag_types = list(validation_flag_types or [])
+
+
 try:
     RECIPE_LIBRARY = json.loads(RECIPE_LIBRARY_FILE.read_text(encoding='utf-8'))
     if not isinstance(RECIPE_LIBRARY.get('recipes'), list) or not RECIPE_LIBRARY['recipes']:
@@ -194,6 +222,68 @@ def base_recipe_ingredient(name):
     return re.sub(r'[丁片块丝末粒]$', '', text)
 
 
+# 菜谱匹配专用受控语义：只用于用户库存能否满足菜谱要求，不覆盖展示名、营养名或部位信息。
+RECIPE_MATCH_NORMALIZATION = {
+    '牛肉':'牛肉', '牛里脊':'牛肉', '牛里脊肉':'牛肉', '牛柳':'牛肉', '牛肉片':'牛肉',
+    '鸡肉':'鸡肉', '鸡胸':'鸡肉', '鸡胸肉':'鸡肉', '鸡腿':'鸡肉', '鸡腿肉':'鸡肉',
+    '猪肉':'猪肉', '猪里脊':'猪肉', '猪里脊肉':'猪肉', '猪肉片':'猪肉',
+    '嫩豆腐':'嫩豆腐', '南豆腐':'嫩豆腐',
+    '老豆腐':'老豆腐', '北豆腐':'老豆腐', '豆腐':'老豆腐',
+}
+GENERIC_MEAT_REQUIREMENTS = frozenset(('牛肉', '鸡肉', '猪肉'))
+GENERIC_MEAT_COMPATIBLE_SHAPES = {
+    '牛肉': frozenset(('tenderloin', 'slice')),
+    '鸡肉': frozenset(('leg', 'breast')),
+    '猪肉': frozenset(('tenderloin', 'slice')),
+}
+
+
+def recipe_match_form(name):
+    text = _js_string(name).lower()
+    text = re.sub(r'过敏|不吃|忌口|不要', '', text)
+    text = text.replace('（', '(').replace('）', ')')
+    return re.sub(r'[\s_-]+', '', text)
+
+
+def controlled_meat_family(form):
+    if re.search(r'(?:牛肉|牛腩|牛腱|牛柳|牛里脊|肥牛|牛排|牛仔骨)', form):
+        return '牛肉'
+    if (re.search(r'(?:鸡肉|鸡胸|鸡腿|鸡翅|鸡柳|去皮鸡)', form)
+            and not re.search(r'(?:鸡蛋|蛋鸡)', form)):
+        return '鸡肉'
+    if re.search(r'(?:猪肉|猪里脊|猪排|猪肋排|排骨|五花肉)', form):
+        return '猪肉'
+    return ''
+
+
+def controlled_meat_shape(form):
+    if re.search(r'(?:粗绞|绞肉|肉末|肉馅)', form):
+        return 'ground'
+    if '牛腩' in form:
+        return 'brisket'
+    if re.search(r'(?:猪肋排|排骨)', form):
+        return 'rib'
+    if '鸡腿' in form:
+        return 'leg'
+    if '鸡胸' in form:
+        return 'breast'
+    if re.search(r'(?:牛里脊|牛柳|猪里脊)', form):
+        return 'tenderloin'
+    if re.search(r'(?:牛肉片|猪肉片)', form):
+        return 'slice'
+    return ''
+
+
+# FNV-1a 32 位哈希(与 worker/src/worker.js 逐位一致, parity 测试锁定): 取 UTF-8 字节流,
+# offset basis 2166136261, FNV prime 16777619, 全程 32 位无符号; init 允许传入起始 hash 做种子串接。
+def fnv1a32(text, init=2166136261):
+    value = init & 0xFFFFFFFF
+    for byte in _js_string(text).encode('utf-8'):
+        value ^= byte
+        value = (value * 16777619) & 0xFFFFFFFF
+    return value
+
+
 def normalize_recipe_aliases(aliases):
     normalized = {}
     if not isinstance(aliases, dict):
@@ -224,6 +314,116 @@ def canonical_recipe_ingredient(name, aliases=None):
     return resolve_recipe_alias(base_recipe_ingredient(name), normalize_recipe_aliases(aliases or {}))
 
 
+def recipe_match_identity(name, aliases=None):
+    form = recipe_match_form(name)
+    if not form:
+        return ''
+    if form in RECIPE_MATCH_NORMALIZATION:
+        return RECIPE_MATCH_NORMALIZATION[form]
+    if controlled_meat_family(form):
+        return form
+    return canonical_recipe_ingredient(name, aliases or {}) or base_recipe_ingredient(name)
+
+
+def ingredient_matches_recipe_requirement(pantry_name, requirement_name, aliases=None):
+    aliases = aliases or {}
+    pantry_form = recipe_match_form(pantry_name)
+    requirement_form = recipe_match_form(requirement_name)
+    if not pantry_form or not requirement_form:
+        return False
+    if pantry_form == requirement_form:
+        return True
+
+    pantry_controlled = RECIPE_MATCH_NORMALIZATION.get(pantry_form, '')
+    requirement_controlled = RECIPE_MATCH_NORMALIZATION.get(requirement_form, '')
+    if requirement_form in GENERIC_MEAT_REQUIREMENTS:
+        if pantry_controlled == requirement_form:
+            return True
+        if controlled_meat_family(pantry_form) != requirement_form:
+            return False
+        return controlled_meat_shape(pantry_form) in GENERIC_MEAT_COMPATIBLE_SHAPES[requirement_form]
+    if requirement_controlled in ('嫩豆腐', '老豆腐'):
+        return pantry_controlled == requirement_controlled
+
+    pantry_family = controlled_meat_family(pantry_form)
+    requirement_family = controlled_meat_family(requirement_form)
+    if pantry_family or requirement_family:
+        if not pantry_family or pantry_family != requirement_family:
+            return False
+        pantry_shape = controlled_meat_shape(pantry_form)
+        requirement_shape = controlled_meat_shape(requirement_form)
+        return bool(pantry_shape) and pantry_shape == requirement_shape
+    return canonical_recipe_ingredient(pantry_name, aliases) == canonical_recipe_ingredient(requirement_name, aliases)
+
+
+def unique_recipe_pantry(value, aliases=None):
+    seen = set()
+    result = []
+    for item in recipe_constraint_list(value):
+        key = recipe_match_identity(item, aliases or {})
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        result.append(item)
+    return result
+
+
+# ===== 过敏类别表（与 index.html、worker/src/worker.js 保持一致，parity 测试锁定）
+ALLERGEN_GROUPS = {
+    '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','虾米','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
+    '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
+    '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
+    '花生': ['花生','花生米','花生酱'],
+    '坚果': ['核桃','杏仁','腰果','开心果','榛子','松子','碧根果','夏威夷果','巴旦木','板栗','芝麻','芝麻酱'],
+    '大豆': ['大豆','黄豆','豆腐','嫩豆腐','老豆腐','油炸豆腐','炸豆腐','豆浆','豆皮','腐竹','酱油','豆豉','味噌'],
+    '鸡肉': ['鸡肉','鸡腿','鸡腿肉','鸡胸','鸡胸肉','鸡翅','鸡爪','鸡柳','土鸡','乌鸡','三黄鸡','鸡胗','鸡肝','鸡汤'],
+    '牛肉': ['牛肉','牛里脊','牛腩','牛腱','肥牛','牛肉片','牛肉末','牛排','牛仔骨'],
+    '猪肉': ['猪肉','猪里脊','五花肉','猪排','排骨','猪蹄','猪肝','猪腰','腊肉','腊肠','培根','火腿'],
+    '羊肉': ['羊腿肉','去骨羊腿肉'],
+}
+
+
+# 忌口/过敏统一匹配: 归一化(去空格、半角括号、去括号基名、alias 归一)后双向子串;
+# 仅当忌口词等于类别名本身时按组扩展(组成员如「虾仁」不反向牵连同组)。
+# 匹配时同时用「原词基名」和「alias 归一名」两路形态: alias(如 豆腐→老豆腐/香菇→鲜香菇)只用于对齐菜谱,
+# 不许收窄忌口保护面(单用归一名会让 豆腐≠豆腐干、香菇≠干香菇)。
+def allergy_match_forms(name, aliases):
+    raw = base_recipe_ingredient(name)
+    resolved = canonical_recipe_ingredient(name, aliases)
+    return list(dict.fromkeys(x for x in (raw, resolved) if x))
+
+def match_allergy(dislike_term, ingredient_name, aliases=None):
+    aliases = aliases or {}
+    d_forms = allergy_match_forms(dislike_term, aliases)
+    i_forms = allergy_match_forms(ingredient_name, aliases)
+    if not d_forms or not i_forms:
+        return False
+    group_names = [d for d in d_forms if d in ALLERGEN_GROUPS]
+    if group_names:
+        for d in d_forms:
+            for i in i_forms:
+                if i == d or (len(d) >= 2 and d in i):
+                    return True
+        for g in group_names:
+            for member in ALLERGEN_GROUPS[g]:
+                m_forms = allergy_match_forms(member, aliases)
+                for m in m_forms:
+                    for i in i_forms:
+                        if m in i or i in m:
+                            return True
+        return False
+    for d in d_forms:
+        for i in i_forms:
+            if d in i or i in d:
+                return True
+    return False
+
+
+# 可信菜谱状态: approved=人工批准, auto_approved=自动闸门晋升; 选菜、grounding 与校验对两档一视同仁。
+def trusted_recipe_status(status):
+    return status in ('approved', 'auto_approved')
+
+
 def recipe_constraint_list(value):
     if isinstance(value, list):
         items = value
@@ -232,6 +432,19 @@ def recipe_constraint_list(value):
     else:
         return []
     return [clean for item in items if (clean := sanitize_prompt_text(item, 80))]
+
+
+# 输入硬上限: pantry/dislikes 各最多 20 项, 超出截断并记录(不整单拒绝, 保持生成可用); 单项 80 字限制不变。
+def _cap_recipe_constraint_list(items, field):
+    if not isinstance(items, list) or len(items) <= 20:
+        return items
+    print(json.dumps({'evt': 'constraint_cap', 'field': field, 'dropped': len(items) - 20},
+                     ensure_ascii=False), file=sys.stderr, flush=True)
+    return items[:20]
+
+
+# 换一换意图白名单: 前端发送的 swap_intent 只认这几种, 其余丢弃(与 worker/src/worker.js 一致)。
+SWAP_INTENT_KINDS = frozenset(('flavor', 'cuisine', 'lighter', 'easier', 'protein', 'any'))
 
 
 def sanitize_recipe_constraints(value):
@@ -244,16 +457,19 @@ def sanitize_recipe_constraints(value):
         recent_clean['recent_veggies'] = recipe_constraint_list(recent.get('recent_veggies'))
         recent_clean['recent_carbs'] = recipe_constraint_list(recent.get('recent_carbs'))
         result['recent_ingredients'] = recent_clean
+    swap_intent = sanitize_prompt_text(source.get('swap_intent'), 20)
     result.update({
         'diet': sanitize_prompt_text(source.get('diet'), 20),
         'purpose': sanitize_prompt_text(source.get('purpose'), 20),
-        'pantry': recipe_constraint_list(source.get('pantry')),
-        'dislikes': recipe_constraint_list(source.get('dislikes')),
+        'pantry': _cap_recipe_constraint_list(recipe_constraint_list(source.get('pantry')), 'pantry'),
+        'dislikes': _cap_recipe_constraint_list(recipe_constraint_list(source.get('dislikes')), 'dislikes'),
         'recent_dishes': recipe_constraint_list(source.get('recent_dishes')),
         'recent_families': recipe_constraint_list(source.get('recent_families')),
         'recent_base_recipes': recipe_constraint_list(source.get('recent_base_recipes')),
+        'selected_base_recipe_id': sanitize_prompt_text(source.get('selected_base_recipe_id'), 100),
         'balance_low': recipe_constraint_list(source.get('balance_low')),
         'swap_hint': sanitize_prompt_text(source.get('swap_hint'), 160),
+        'swap_intent': swap_intent if swap_intent in SWAP_INTENT_KINDS else '',
         'feedback_hint': sanitize_prompt_text(source.get('feedback_hint'), 160),
     })
     return result
@@ -282,6 +498,41 @@ def rice_allergy_complete_main_active(selection):
     )
 
 
+# 选菜短名单上限: 家族去重优先, 不足时再按分补齐(与 worker/src/worker.js 一致)。
+RECIPE_SHORTLIST_SIZE = 5
+# 换一换意图分(具名权重): 意图只调序、不越过 pantry/安全——库存覆盖层级、忌口拦截与
+# 最近已吃硬排除/近期家族 -20×n 仍是主导, 意图分只在同档候选间换序。判定全部走菜谱结构化字段
+# (cuisine/protein_class/light_level/total_time_minutes), 不再按名称正则猜测。
+SWAP_INTENT_WEIGHTS = {
+    'cuisine_new_family': 10,  # cuisine: recipe.cuisine 不在近期基础菜谱(recent_base_recipes 经 lib 映射)的 cuisine 集合内
+    'cuisine_same_as_last': -10,  # cuisine: 与最近一道基础菜谱同 cuisine
+    'flavor_new_family': 8,  # flavor: 与最近一道不同家族
+    'protein_new_class': 8,  # protein: protein_class 与最近一道不相交
+    'lighter_form': 8,  # lighter: light_level 为「清淡」
+    'easier_core': 8,  # easier: total_time_minutes ≤25 或核心 ≤5 项
+}
+
+DEFAULT_MAIN_STAPLE_RE = re.compile(
+    r'(?:大米|米饭|糙米|糯米|小米|面条|面团|粉丝|粉条|米粉|土豆|红薯|芋头|玉米|燕麦|藜麦|扁豆|豇豆|鹰嘴豆|黑眼豆)'
+)
+
+
+def default_main_meal_eligible(recipe):
+    if not trusted_recipe_status(recipe.get('status')):
+        return True
+    if not isinstance(recipe.get('protein_class'), list) or not isinstance(recipe.get('light_level'), str):
+        return True
+    proteins = [item for item in recipe.get('protein_class') if item != '无']
+    core_text = '、'.join(recipe.get('core_ingredients') or [])
+    undersized_light_tofu_vermicelli = (
+        recipe.get('light_level') == '清淡'
+        and bool(re.search(r'(?:粉丝|粉条)', core_text))
+        and bool(proteins)
+        and all(item == '豆制品' for item in proteins)
+    )
+    return bool(proteins) and bool(DEFAULT_MAIN_STAPLE_RE.search(core_text)) and not undersized_light_tofu_vermicelli
+
+
 def select_recipe_candidates(library, constraints=None):
     library = library if isinstance(library, dict) else {}
     constraints = constraints if isinstance(constraints, dict) else {}
@@ -294,17 +545,59 @@ def select_recipe_candidates(library, constraints=None):
     def canonical(name):
         return resolve_recipe_alias(base_recipe_ingredient(name), aliases)
 
-    pantry = recipe_constraint_list(constraints.get('pantry'))
-    dislikes = {item for name in recipe_constraint_list(constraints.get('dislikes')) if (item := canonical(name))}
-    recent_families = set(recipe_constraint_list(constraints.get('recent_families')))
+    pantry = unique_recipe_pantry(constraints.get('pantry'), library.get('ingredient_aliases') or {})
+    pantry_canonical = {item for name in pantry if (item := canonical(name))}
+    # 忌口统一走 match_allergy(双向子串 + 类别扩展), 不再只做 canonical 精确匹配。
+    dislike_terms = recipe_constraint_list(constraints.get('dislikes'))
+    lib_aliases = library.get('ingredient_aliases') or {}
+
+    def disliked(item):
+        return any(match_allergy(term, item, lib_aliases) for term in dislike_terms)
     recent_recipes = set(recipe_constraint_list(constraints.get('recent_base_recipes')))
     families = library.get('families') if isinstance(library.get('families'), list) else []
     family_by_id = {family.get('id'): family for family in families if isinstance(family, dict)}
+    recipes = library.get('recipes') if isinstance(library.get('recipes'), list) else []
+    recipe_by_id = {recipe.get('id'): recipe for recipe in recipes if isinstance(recipe, dict)}
+    # 家族惩罚按 recent_base_recipes 推导: 该家族在最近基础菜谱中每出现一次扣 20(-20×n, n=0 不扣),
+    # 历史越长同家族扣分越重, 不再全家均匀平顶; recent_families 入参保留兼容, 不再参与打分
+    # (cuisine 意图改由 recent_base_recipes 经 lib 映射 cuisine 集合)。
+    recent_ids = recipe_constraint_list(constraints.get('recent_base_recipes'))
+    recent_family_counts = {}
+    # 换一换意图: 最近基础菜谱经 lib 查回, cuisine 取全部历史映射出的集合, protein/flavor 对比末位一道。
+    recent_cuisines = set()
+    for recent_id in recent_ids:
+        recent = recipe_by_id.get(recent_id)
+        if recent is not None:
+            family_id = recent.get('family_id')
+            recent_family_counts[family_id] = recent_family_counts.get(family_id, 0) + 1
+            if isinstance(recent.get('cuisine'), str) and recent.get('cuisine'):
+                recent_cuisines.add(recent['cuisine'])
+    swap_intent = constraints.get('swap_intent') if constraints.get('swap_intent') in SWAP_INTENT_KINDS else ''
+    last_recent_recipe = recipe_by_id.get(recent_ids[-1]) if recent_ids else None
+    last_cuisine = (
+        last_recent_recipe.get('cuisine')
+        if isinstance((last_recent_recipe or {}).get('cuisine'), str)
+        else ''
+    )
+    last_protein_classes = set((last_recent_recipe or {}).get('protein_class') or [])
     candidates = []
 
-    recipes = library.get('recipes') if isinstance(library.get('recipes'), list) else []
     for recipe in recipes:
         if not isinstance(recipe, dict):
+            continue
+        total_time = recipe.get('total_time_minutes')
+        if (constraints.get('purpose') == 'quick'
+                and isinstance(total_time, (int, float))
+                and not isinstance(total_time, bool)
+                and total_time > 30):
+            continue
+        # 已经换掉或点过「开始做」的基础菜谱在 7 天冷却窗口内不再候选。
+        # 这必须是资格过滤，不能只靠 -100 软罚：全局库存覆盖优先后，软罚仍可能
+        # 被覆盖层级压过，导致「换一换」原样返回。用户可在候选枯竭页主动清空记录。
+        if recipe.get('id') in recent_recipes:
+            continue
+        # 空库存默认菜只选结构完整、非清淡小份的主餐，避免汤/粥被当成完整两人餐。
+        if not pantry and not default_main_meal_eligible(recipe):
             continue
         qualified_constraint_profile = recipe_constraint_profile(
             recipe,
@@ -313,19 +606,38 @@ def select_recipe_candidates(library, constraints=None):
         if rice_allergy_active and qualified_constraint_profile is None:
             continue
         constraint_profile = qualified_constraint_profile if rice_allergy_active else None
-        core = {item for name in (recipe.get('core_ingredients') or []) if (item := canonical(name))}
-        optional = {item for name in (recipe.get('optional_ingredients') or []) if (item := canonical(name))}
+        core_ingredients = recipe_constraint_list(recipe.get('core_ingredients'))
+        core = {item for name in core_ingredients if (item := canonical(name))}
+        # 明确要求“冷藏不超过一天”的专用剩饭菜，只在用户确实提交熟米饭时参与；
+        # 普通熟米饭菜仍可作为需补充即食/现成熟饭的方案，避免误伤目标组合覆盖。
+        requires_stored_leftover_rice = any(
+            isinstance(rule, str) and re.search(r'冷藏不超过一天', rule)
+            for rule in (recipe.get('safety_rules') or [])
+        )
+        if requires_stored_leftover_rice and '熟米饭' not in pantry_canonical:
+            continue
+        optional_ingredients = recipe_constraint_list(recipe.get('optional_ingredients'))
+        optional = {item for name in optional_ingredients if (item := canonical(name))}
         slots = recipe.get('substitution_slots') if isinstance(recipe.get('substitution_slots'), list) else []
+        allowed_ingredients = [
+            name
+            for slot in slots if isinstance(slot, dict)
+            for name in recipe_constraint_list(slot.get('allowed'))
+        ]
         allowed = {
             item
-            for slot in slots if isinstance(slot, dict)
-            for name in (slot.get('allowed') or [])
+            for name in allowed_ingredients
+            if (item := canonical(name))
+        }
+        trusted_liquid_ingredients = _trusted_recipe_liquid_options(recipe)
+        trusted_liquids = {
+            item for name in trusted_liquid_ingredients
             if (item := canonical(name))
         }
 
         blocked_core = False
         for core_item in core:
-            if core_item not in dislikes:
+            if not disliked(core_item):
                 continue
             replaceable = False
             for slot in slots:
@@ -337,7 +649,7 @@ def select_recipe_candidates(library, constraints=None):
                 for name in (slot.get('allowed') or []):
                     raw = _js_string(name).strip()
                     substitute = canonical(raw)
-                    if (substitute and substitute != core_item and substitute not in dislikes
+                    if (substitute and substitute != core_item and not disliked(substitute)
                             and not re.match(r'^不(?:放|加|用)', raw)):
                         replaceable = True
                         break
@@ -361,20 +673,31 @@ def select_recipe_candidates(library, constraints=None):
         satisfied_core = set()
         for item in pantry:
             canonical_item = canonical(item)
-            if not canonical_item or canonical_item in dislikes:
+            if not canonical_item or disliked(canonical_item):
                 unused_pantry.append(item)
                 continue
-            if canonical_item in core:
+            core_requirement = next((requirement for requirement in core_ingredients
+                                     if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            allowed_requirement = next((requirement for requirement in allowed_ingredients
+                                        if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            optional_requirement = next((requirement for requirement in optional_ingredients
+                                         if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            liquid_requirement = next((requirement for requirement in trusted_liquid_ingredients
+                                       if ingredient_matches_recipe_requirement(item, requirement, lib_aliases)), None)
+            if core_requirement is not None:
                 score += 12
                 used_pantry.append(item)
-                satisfied_core.add(canonical_item)
-            elif canonical_item in allowed or canonical_item in optional:
+                satisfied_core.add(canonical(core_requirement))
+            elif (allowed_requirement is not None
+                    or optional_requirement is not None
+                    or liquid_requirement is not None):
                 score += 5
                 used_pantry.append(item)
                 for slot in slots:
                     if not isinstance(slot, dict):
                         continue
-                    if canonical_item not in [canonical(name) for name in (slot.get('allowed') or [])]:
+                    if not any(ingredient_matches_recipe_requirement(item, requirement, lib_aliases)
+                               for requirement in (slot.get('allowed') or [])):
                         continue
                     for replaced in [canonical(name) for name in (slot.get('replaces') or [])]:
                         if replaced in core:
@@ -384,14 +707,86 @@ def select_recipe_candidates(library, constraints=None):
             if canonical_item in discouraged:
                 score -= 8
 
-        if recipe.get('status') == 'approved' and not dislikes:
+        # replaces 可以是需同时使用的一组原料：全部保留。只排除与原料侧同时出现的 allowed；
+        # 原料侧未命中时，allowed 最多取一个。
+        for slot in slots:
+            if not isinstance(slot, dict):
+                continue
+            replaces = {item for name in (slot.get('replaces') or []) if (item := canonical(name))}
+            alternatives = {item for name in (slot.get('allowed') or []) if (item := canonical(name))}
+            replace_forms = {base_recipe_ingredient(name) for name in (slot.get('replaces') or [])
+                             if base_recipe_ingredient(name)}
+            alternative_forms = {base_recipe_ingredient(name) for name in (slot.get('allowed') or [])
+                                 if base_recipe_ingredient(name)}
+
+            def slot_side(item):
+                form = base_recipe_ingredient(item)
+                if form in replace_forms:
+                    return 'original'
+                if form in alternative_forms:
+                    return 'alternative'
+                if any(ingredient_matches_recipe_requirement(item, requirement, lib_aliases)
+                       for requirement in (slot.get('replaces') or [])):
+                    return 'original'
+                if any(ingredient_matches_recipe_requirement(item, requirement, lib_aliases)
+                       for requirement in (slot.get('allowed') or [])):
+                    return 'alternative'
+                value = canonical(item)
+                if value in replaces and value not in alternatives:
+                    return 'original'
+                if value in alternatives and value not in replaces:
+                    return 'alternative'
+                return ''
+
+            originals_used = [item for item in used_pantry if slot_side(item) == 'original']
+            alternatives_used = [item for item in used_pantry if slot_side(item) == 'alternative']
+            remove = alternatives_used if originals_used else alternatives_used[1:]
+            for item in remove:
+                used_pantry.remove(item)
+                score -= 12 if canonical(item) in core else 5
+        final_used = set(used_pantry)
+        unused_pantry = [item for item in pantry if item not in final_used]
+
+        # 没有任何命中库存时，"快点吃上"不能优先落到只有主食的基础粥；
+        # 仍保留用户明确提供粥核心食材时的原始偏好。
+        has_core_protein = any(re.search(
+            r'(?:鸡|牛|猪|羊|鱼|虾|蟹|贝|蛋|豆腐|豆干|腐竹|扁豆|黄豆|白豆)',
+            item,
+        ) for item in core)
+        if (trusted_recipe_status(recipe.get('status')) and not pantry
+                and constraints.get('purpose') == 'quick'
+                and not satisfied_core and not has_core_protein):
+            score -= 6
+
+        if trusted_recipe_status(recipe.get('status')) and not dislike_terms:
             score -= max(0, len(core) - len(satisfied_core))
         if _js_string(constraints.get('purpose')) in (recipe.get('purposes') or []):
             score += 3
-        if recipe.get('family_id') in recent_families:
-            score -= 20
-        if recipe.get('id') in recent_recipes:
-            score -= 100
+        score -= 20 * recent_family_counts.get(recipe.get('family_id'), 0)
+        # 换一换意图分: 只调同档候选的序, 不越过 pantry 命中与安全拦截; 全部读结构化字段。
+        if swap_intent == 'cuisine':
+            recipe_cuisine = recipe.get('cuisine') if isinstance(recipe.get('cuisine'), str) else ''
+            if recipe_cuisine not in recent_cuisines:
+                score += SWAP_INTENT_WEIGHTS['cuisine_new_family']
+            if last_cuisine and recipe_cuisine == last_cuisine:
+                score += SWAP_INTENT_WEIGHTS['cuisine_same_as_last']
+        elif swap_intent == 'flavor':
+            if last_recent_recipe is not None and last_recent_recipe.get('family_id') != recipe.get('family_id'):
+                score += SWAP_INTENT_WEIGHTS['flavor_new_family']
+        elif swap_intent == 'protein':
+            if last_recent_recipe is not None:
+                classes = [item for item in (recipe.get('protein_class') or []) if item != '无']
+                # 「换种蛋白」只奖励真实的新蛋白类；「无」不是一种蛋白。
+                if classes and not any(item in last_protein_classes for item in classes):
+                    score += SWAP_INTENT_WEIGHTS['protein_new_class']
+        elif swap_intent == 'lighter':
+            if recipe.get('light_level') == '清淡':
+                score += SWAP_INTENT_WEIGHTS['lighter_form']
+        elif swap_intent == 'easier':
+            total_time = recipe.get('total_time_minutes')
+            if ((isinstance(total_time, (int, float)) and not isinstance(total_time, bool) and total_time <= 25)
+                    or len(core) <= 5):
+                score += SWAP_INTENT_WEIGHTS['easier_core']
         candidates.append({
             'recipe': recipe,
             'family': family_by_id.get(recipe.get('family_id')),
@@ -400,12 +795,27 @@ def select_recipe_candidates(library, constraints=None):
             'used_pantry': used_pantry,
             'unused_pantry': unused_pantry,
             'constraint_profile': constraint_profile,
+            'dislikes': dislike_terms,
         })
 
-    candidates.sort(key=lambda item: (-item['score'], _js_string(item['recipe'].get('id'))))
+    # 先在全候选池上守住库存覆盖，再截取 5 个家族短名单。如果先按 score 截断，
+    # 一道能同时使用两项库存的菜可能因两项都是 optional(+5+5)，被 5 道只命中
+    # 一项 core(+12) 的菜挤出短名单；后续 pick 再分层也无法救回。
+    candidates.sort(key=lambda item: (
+        -len(item['used_pantry']) if pantry else 0,
+        -item['score'],
+        _js_string(item['recipe'].get('id')),
+    ))
     selected = []
     selected_ids = set()
     selected_families = set()
+    requested_recipe_id = sanitize_prompt_text(constraints.get('selected_base_recipe_id'), 100)
+    requested_candidate = next((candidate for candidate in candidates
+                                if _js_string(candidate['recipe'].get('id')) == requested_recipe_id), None)
+    if requested_candidate is not None:
+        selected.append(requested_candidate)
+        selected_ids.add(requested_candidate['recipe'].get('id'))
+        selected_families.add(requested_candidate['recipe'].get('family_id'))
     for candidate in candidates:
         recipe_id = candidate['recipe'].get('id')
         family_id = candidate['recipe'].get('family_id')
@@ -414,7 +824,7 @@ def select_recipe_candidates(library, constraints=None):
         selected.append(candidate)
         selected_ids.add(recipe_id)
         selected_families.add(family_id)
-        if len(selected) == 3:
+        if len(selected) == RECIPE_SHORTLIST_SIZE:
             return selected
     for candidate in candidates:
         recipe_id = candidate['recipe'].get('id')
@@ -422,9 +832,190 @@ def select_recipe_candidates(library, constraints=None):
             continue
         selected.append(candidate)
         selected_ids.add(recipe_id)
-        if len(selected) == 3:
+        if len(selected) == RECIPE_SHORTLIST_SIZE:
             break
     return selected
+
+
+# 种子化抖动选取: 种子由库存/忌口/目的/份数/最近基础菜谱/换一换意图决定, 每个候选加
+# fnv1a32(recipe.id, init=seed) % 7 的 0-6 分整数抖动。pantry 非空时先按 used_pantry 覆盖数
+# 降序分层、同层内再按 score+jitter 降序、平手按 recipe.id 升序——抖动只能翻动食材覆盖数相同
+# 的候选, 永远不许为多样性少用一个食材; pantry 为空时维持 score+jitter 降序。同输入+同历史
+# 必出同一道(可复现); 历史或意图一变种子就变、可能换菜。抖动只加在返回后的选取环节, 不改
+# select_recipe_candidates 内部排序。
+def recipe_selection_seed(constraints):
+    constraints = constraints if isinstance(constraints, dict) else {}
+    seed_input = json.dumps([
+        recipe_constraint_list(constraints.get('pantry')),
+        recipe_constraint_list(constraints.get('dislikes')),
+        sanitize_prompt_text(constraints.get('purpose'), 20),
+        constraints.get('servings'),
+        recipe_constraint_list(constraints.get('recent_base_recipes')),
+        sanitize_prompt_text(constraints.get('swap_intent'), 20),
+    ], ensure_ascii=False, separators=(',', ':'))
+    return fnv1a32(seed_input)
+
+
+def pick_recipe_selection(selections, constraints, rice_allergy_active=False):
+    constraints = constraints if isinstance(constraints, dict) else {}
+    ranked_source = selections if isinstance(selections, list) else []
+    if not ranked_source:
+        return None
+    requested_recipe_id = sanitize_prompt_text(constraints.get('selected_base_recipe_id'), 100)
+    if requested_recipe_id:
+        requested = next((candidate for candidate in ranked_source
+                          if _js_string(candidate['recipe'].get('id')) == requested_recipe_id), None)
+        if requested is None:
+            return None
+        requested_pantry = recipe_constraint_list(constraints.get('pantry'))
+        if requested_pantry and len(requested.get('used_pantry') or []) != len(requested_pantry):
+            return None
+        return requested
+    seed = recipe_selection_seed(constraints)
+    jittered = [
+        (candidate, candidate['score'] + fnv1a32(candidate['recipe'].get('id'), seed) % 7)
+        for candidate in ranked_source
+    ]
+    pantry = recipe_constraint_list(constraints.get('pantry'))
+    if pantry and not rice_allergy_active:
+        # 分层选取: 库存覆盖数高于多样性, feasible(used_pantry 非空)内先按覆盖数分层。
+        feasible = [item for item in jittered if item[0]['used_pantry']]
+        if not feasible:
+            return None
+        feasible.sort(key=lambda item: (
+            -len(item[0]['used_pantry']),
+            -item[1],
+            _js_string(item[0]['recipe'].get('id')),
+        ))
+        return feasible[0][0]
+    jittered.sort(key=lambda item: -item[1])
+    return jittered[0][0]
+
+
+def pantry_item_satisfies_core_requirement(item, requirement, recipe, aliases):
+    if ingredient_matches_recipe_requirement(item, requirement, aliases):
+        return True
+    slots = recipe.get('substitution_slots') if isinstance(recipe.get('substitution_slots'), list) else []
+    for slot in slots:
+        if not isinstance(slot, dict):
+            continue
+        replaces_requirement = any(
+            recipe_match_form(replaced) == recipe_match_form(requirement)
+            or canonical_recipe_ingredient(replaced, aliases) == canonical_recipe_ingredient(requirement, aliases)
+            for replaced in (slot.get('replaces') or [])
+        )
+        if replaces_requirement and any(
+            ingredient_matches_recipe_requirement(item, allowed, aliases)
+            for allowed in (slot.get('allowed') or [])
+        ):
+            return True
+    return False
+
+
+def required_extra_items(selection, used_items):
+    recipe = selection.get('recipe') if isinstance(selection, dict) else {}
+    recipe = recipe if isinstance(recipe, dict) else {}
+    aliases = selection.get('ingredient_aliases') if isinstance(selection, dict) else {}
+    aliases = aliases if isinstance(aliases, dict) else {}
+    used = recipe_constraint_list(used_items)
+    extras = []
+    for requirement in recipe_constraint_list(recipe.get('core_ingredients')):
+        if any(pantry_item_satisfies_core_requirement(item, requirement, recipe, aliases) for item in used):
+            continue
+        extras.append(requirement)
+    return extras
+
+
+def pantry_plan_group(selection, original, used_items, unused_items, order=None):
+    recipe = selection.get('recipe') if isinstance(selection, dict) else {}
+    recipe = recipe if isinstance(recipe, dict) else {}
+    group = {
+        'recipe_id': _js_string(recipe.get('id')),
+        'recipe_name': _js_string(recipe.get('name') or recipe.get('id') or '一锅方案'),
+        'cuisine': _js_string(recipe.get('cuisine')),
+        'used_items': used_items,
+        'unused_items': unused_items,
+        'required_extra_items': required_extra_items(selection, used_items),
+        'coverage': len(used_items),
+        'total': len(original),
+    }
+    if order:
+        group = {'order': order, **group}
+    return group
+
+
+def build_pantry_plan(library, constraints=None):
+    constraints = constraints if isinstance(constraints, dict) else {}
+    original = unique_recipe_pantry(constraints.get('pantry'), library.get('ingredient_aliases') or {})
+    if len(original) <= 6:
+        independent_constraints = {**constraints, 'pantry': original, 'swap_intent': ''}
+        groups = []
+        seen_coverage = set()
+        for selection in select_recipe_candidates(library, independent_constraints):
+            used_pantry = list(selection.get('used_pantry') or [])
+            if not used_pantry:
+                continue
+            coverage_key = tuple(sorted(
+                recipe_match_identity(item, library.get('ingredient_aliases') or {})
+                for item in used_pantry
+            ))
+            if coverage_key in seen_coverage:
+                continue
+            seen_coverage.add(coverage_key)
+            groups.append(pantry_plan_group(
+                selection,
+                original,
+                used_pantry,
+                list(selection.get('unused_pantry') or []),
+            ))
+            if len(groups) >= 3:
+                break
+        covered = {item for group in groups for item in group['used_items']}
+        return {
+            'kind': 'alternatives',
+            'original': original,
+            'groups': groups,
+            'unplanned': [item for item in original if item not in covered],
+        }
+
+    groups = []
+    covered = set()
+    remaining = list(original)
+    recent_base_recipes = recipe_constraint_list(constraints.get('recent_base_recipes'))
+
+    while remaining and len(groups) < 3:
+        group_constraints = {
+            **constraints,
+            'pantry': remaining,
+            'recent_base_recipes': recent_base_recipes + [group['recipe_id'] for group in groups],
+            'swap_intent': '',
+        }
+        selections = select_recipe_candidates(library, group_constraints)
+        selection = pick_recipe_selection(
+            selections,
+            group_constraints,
+            rice_allergy_active=_validation_rice_allergen_active(
+                group_constraints.get('dislikes'),
+                library.get('ingredient_aliases') or {},
+            ),
+        )
+        if selection is None or not selection.get('used_pantry'):
+            break
+        used_items = list(selection['used_pantry'][:6])
+        used_set = set(used_items)
+        unused_items = [item for item in remaining if item not in used_set]
+        covered.update(used_items)
+        groups.append(pantry_plan_group(
+            selection, original, used_items, unused_items, len(groups) + 1,
+        ))
+        remaining = unused_items
+
+    return {
+        'kind': 'sequence',
+        'original': original,
+        'groups': groups,
+        'unplanned': [item for item in original if item not in covered],
+    }
 
 
 def _compact_recipe_list(value, fallback='无'):
@@ -433,12 +1024,82 @@ def _compact_recipe_list(value, fallback='无'):
     return '、'.join(items) if items else fallback
 
 
+# 呈现给模型的可选/替换项按忌口过滤(安全): 命中忌口的可选项不得进入白名单;
+# 固定核心不在此过滤——核心含忌口且不可替换的菜谱已在选菜层被 blocked_core 整菜出局。
+def _filter_trusted_options_by_dislikes(items, dislikes, aliases=None):
+    candidates = items if isinstance(items, list) else []
+    terms = [term for term in dislikes if term] if isinstance(dislikes, list) else []
+    if not terms:
+        return candidates
+    alias_map = aliases or {}
+    return [
+        item for item in candidates
+        if not any(match_allergy(term, item, alias_map) for term in terms)
+    ]
+
+
 def _trusted_recipe_generation_options(recipe):
     configured = recipe.get('generation_optional_ingredients')
     if isinstance(configured, list) and configured:
         return configured
     optional = recipe.get('optional_ingredients')
     return optional if isinstance(optional, list) else []
+
+
+def _trusted_recipe_generation_options_for_selection(selection):
+    selection = selection if isinstance(selection, dict) else {}
+    recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    aliases = selection.get('ingredient_aliases') or {}
+    used = {
+        canonical
+        for name in (selection.get('used_pantry') or [])
+        if (canonical := canonical_recipe_ingredient(name, aliases))
+    }
+    options = _trusted_recipe_generation_options(recipe)
+    if selection.get('strict_plan_selection'):
+        return [
+            name for name in options
+            if canonical_recipe_ingredient(name, aliases) in used
+        ]
+    option_canonicals = {
+        canonical
+        for name in options
+        if (canonical := canonical_recipe_ingredient(name, aliases))
+    }
+    keep_by_slot = {}
+    for slot in recipe.get('substitution_slots') or []:
+        if not isinstance(slot, dict):
+            continue
+        originals = recipe_constraint_list(slot.get('replaces'))
+        alternatives = [
+            name for name in recipe_constraint_list(slot.get('allowed'))
+            if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())
+        ]
+        selected_alternative = next((
+            name for name in alternatives
+            if canonical_recipe_ingredient(name, aliases) in used
+        ), None)
+        default_options = [
+            name for name in originals
+            if canonical_recipe_ingredient(name, aliases) in option_canonicals
+        ]
+        fallback_options = default_options or [
+            name for name in alternatives
+            if canonical_recipe_ingredient(name, aliases) in option_canonicals
+        ][:1]
+        keep = {
+            canonical
+            for name in ([selected_alternative] if selected_alternative else fallback_options)
+            if (canonical := canonical_recipe_ingredient(name, aliases))
+        }
+        for name in [*originals, *alternatives]:
+            canonical = canonical_recipe_ingredient(name, aliases)
+            if canonical:
+                keep_by_slot[canonical] = canonical in keep
+    return [
+        name for name in options
+        if keep_by_slot.get(canonical_recipe_ingredient(name, aliases), True)
+    ]
 
 
 def _trusted_recipe_liquid_options(recipe):
@@ -459,16 +1120,62 @@ def _trusted_recipe_fat_options(selection):
     ]
 
 
+def _pantry_item_should_replace_core_label(item, requirement, recipe, aliases):
+    item_form = recipe_match_form(item)
+    requirement_form = recipe_match_form(requirement)
+    if not item_form or not requirement_form:
+        return False
+    if item_form == requirement_form:
+        return True
+    if requirement_form in GENERIC_MEAT_REQUIREMENTS:
+        return ingredient_matches_recipe_requirement(item, requirement, aliases)
+    requirement_controlled = RECIPE_MATCH_NORMALIZATION.get(requirement_form, '')
+    if requirement_controlled in ('嫩豆腐', '老豆腐'):
+        return ingredient_matches_recipe_requirement(item, requirement, aliases)
+    for slot in recipe.get('substitution_slots') or []:
+        if not isinstance(slot, dict):
+            continue
+        replaces_requirement = any(
+            recipe_match_form(replaced) == requirement_form
+            or canonical_recipe_ingredient(replaced, aliases) == canonical_recipe_ingredient(requirement, aliases)
+            for replaced in (slot.get('replaces') or [])
+        )
+        if replaces_requirement and any(
+            ingredient_matches_recipe_requirement(item, allowed, aliases)
+            for allowed in (slot.get('allowed') or [])
+        ):
+            return True
+    return False
+
+
 def _trusted_recipe_ingredient_whitelist(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
-    candidates = [
-        *(recipe.get('core_ingredients') or []),
-        *_trusted_recipe_generation_options(recipe),
-        *_trusted_recipe_liquid_options(recipe),
-        *(selection.get('used_pantry') or []),
-    ]
     aliases = selection.get('ingredient_aliases') or {}
+    core = recipe.get('core_ingredients') or []
+    selected_pantry = selection.get('used_pantry') or []
+    consumed_selected = set()
+    adapted_core = []
+    for requirement in core:
+        selected_index = next((
+            index for index, item in enumerate(selected_pantry)
+            if index not in consumed_selected
+            and _pantry_item_should_replace_core_label(item, requirement, recipe, aliases)
+        ), None)
+        if selected_index is None:
+            adapted_core.append(requirement)
+        else:
+            consumed_selected.add(selected_index)
+            adapted_core.append(selected_pantry[selected_index])
+    remaining_selected = [
+        item for index, item in enumerate(selected_pantry)
+        if index not in consumed_selected
+    ]
+    optional_pool = _filter_trusted_options_by_dislikes([
+        *_trusted_recipe_generation_options_for_selection(selection),
+        *_trusted_recipe_liquid_options(recipe),
+    ], selection.get('dislikes'), aliases)
+    candidates = [*adapted_core, *remaining_selected, *optional_pool]
     result = []
     seen = set()
     for name in candidates:
@@ -485,13 +1192,16 @@ def _trusted_recipe_ingredient_whitelist(selection):
 def build_trusted_recipe_system_override(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
+    aliases = selection.get('ingredient_aliases') or {}
+    # W4: 呈现给模型的可选/替换/液体项先按忌口过滤, 命中项不得出现在白名单文本里。
+    dislikes = selection.get('dislikes')
     adaptation = sanitize_prompt_text(recipe.get('adaptation_note'), 400)
-    generation_options = [
-        item for item in _trusted_recipe_generation_options(recipe)
+    generation_options = _filter_trusted_options_by_dislikes([
+        item for item in _trusted_recipe_generation_options_for_selection(selection)
         if not re.match(r'^不(?:放|加|用)', _js_string(item).strip())
-    ]
+    ], dislikes, aliases)
     generation_option_count = '四' if len(generation_options) == 4 else str(len(generation_options))
-    liquid_options = _trusted_recipe_liquid_options(recipe)
+    liquid_options = _filter_trusted_options_by_dislikes(_trusted_recipe_liquid_options(recipe), dislikes, aliases)
     fat_options = _trusted_recipe_fat_options(selection)
     if liquid_options:
         liquid_tail = '不得加入任何高汤或第二种主液体。' if '水' in liquid_options else '不得另加水或第二种高汤。'
@@ -503,7 +1213,6 @@ def build_trusted_recipe_system_override(selection):
         if fat_options else
         '本次未批准额外烹调油脂；ingredients[] 和 steps[] 中都不得添加食用油或其他油脂。'
     )
-    aliases = selection.get('ingredient_aliases') or {}
     required_ingredients = {
         canonical
         for name in [*(recipe.get('core_ingredients') or []), *(selection.get('used_pantry') or [])]
@@ -522,14 +1231,25 @@ def build_trusted_recipe_system_override(selection):
             name for name in (slot.get('replaces') or [])
             if canonical_recipe_ingredient(name, aliases) in used_pantry
         ]
-        allowed = [
+        # allowed 先按忌口过滤; 过滤后全空时按现有空位逻辑处理(不产生锁定消息)。
+        allowed = _filter_trusted_options_by_dislikes([
             name for name in (slot.get('allowed') or [])
             if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())
+        ], dislikes, aliases)
+        selected_allowed = [
+            name for name in allowed
+            if canonical_recipe_ingredient(name, aliases) in used_pantry
         ]
         if locked and allowed:
             substitution_locks.append(
                 f"替换位“{sanitize_prompt_text(slot.get('slot') or '未命名', 80)}”本次已由库存原料"
                 f"“{_compact_recipe_list(locked)}”锁定；禁止再用 allowed 替代项“{_compact_recipe_list(allowed)}”。"
+            )
+        elif selected_allowed:
+            substitution_locks.append(
+                f"替换位“{sanitize_prompt_text(slot.get('slot') or '未命名', 80)}”本次已由库存替代项"
+                f"“{_compact_recipe_list(selected_allowed)}”锁定；必须删除原料“{_compact_recipe_list(slot.get('replaces'))}”，"
+                "ingredients[]、steps[] 和菜名中都不得再出现。"
             )
     max_ingredient_rows = min(12, len(required_ingredients) + 6)
     return '\n'.join([
@@ -561,13 +1281,17 @@ def build_recipe_grounding(selection):
     selection = selection if isinstance(selection, dict) else {}
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     family = selection.get('family') if isinstance(selection.get('family'), dict) else {}
+    aliases = selection.get('ingredient_aliases') or {}
+    # W4: 替换位 allowed 与液体项按忌口过滤, 命中项不进 grounding 文本。
+    dislikes = selection.get('dislikes')
     slots = []
     for slot in recipe.get('substitution_slots') or []:
         if not isinstance(slot, dict):
             continue
         slots.append(
             f"{sanitize_prompt_text(slot.get('slot') or '替换位', 80)}"
-            f"[{_compact_recipe_list(slot.get('replaces'))}→{_compact_recipe_list(slot.get('allowed'))}]"
+            f"[{_compact_recipe_list(slot.get('replaces'))}→"
+            f"{_compact_recipe_list(_filter_trusted_options_by_dislikes(slot.get('allowed'), dislikes, aliases))}]"
         )
     discouraged = []
     for rule in recipe.get('discouraged') or []:
@@ -598,7 +1322,7 @@ def build_recipe_grounding(selection):
             '用户可见 JSON 字段只使用正向描述，不得复述用户的过敏原名称或列举被排除的食物；完整性统一写成“红扁豆、土豆和番茄组成完整主餐”。',
         ]
     ingredient_whitelist = _trusted_recipe_ingredient_whitelist(selection)
-    liquid_options = _trusted_recipe_liquid_options(recipe)
+    liquid_options = _filter_trusted_options_by_dislikes(_trusted_recipe_liquid_options(recipe), dislikes, aliases)
     fat_options = _trusted_recipe_fat_options(selection)
     if liquid_options:
         liquid_tail = '不得加入任何高汤或第二种主液体。' if '水' in liquid_options else '不得另加水或第二种高汤。'
@@ -818,6 +1542,13 @@ _VALIDATION_COOKING_OIL_NAMES = {
 _VALIDATION_SALT_NAMES = {'盐', '食盐', '海盐', '低钠盐'}
 _VALIDATION_PEPPER_NAMES = {'胡椒', '胡椒粉', '黑胡椒', '黑胡椒粉', '白胡椒', '白胡椒粉'}
 _VALIDATION_WATER_NAMES = {'水', '清水', '饮用水', '凉开水', '温水', '热水'}
+_VALIDATION_DIET_VIOLATION_PATTERNS = {
+    'vegan': re.compile(r'(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|蛋|鸡蛋|奶|牛奶|乳|奶油|黄油|芝士|奶酪|酸奶|蜂蜜|明胶)'),
+    'ovoLacto': re.compile(r'(?:鸡|鸭|鹅|猪|牛|羊|鱼|虾|蟹|贝|海鲜|蚝|牡蛎|蛤|扇贝|明胶)'),
+    'glutenFree': re.compile(r'(?:小麦|面粉|面条|挂面|拉面|乌冬|意面|通心粉|面包|馒头|包子|饺子|面筋|麸质|麸皮)'),
+}
+_VALIDATION_RAW_RICE_NAME_RE = re.compile(r'^(?:大米|白米|糙米|糯米|粳米|籼米|黑米|紫米|红米)$')
+_VALIDATION_LIQUID_NAME_RE = re.compile(r'(?:高汤|汤汁|椰奶|牛奶)$')
 _VALIDATION_SALT_TOKEN_SOURCE = r'(?:食盐|海盐|低钠盐|盐)(?!水)'
 _VALIDATION_PEPPER_TOKEN_SOURCE = r'(?:黑胡椒粉|白胡椒粉|胡椒粉|黑胡椒|白胡椒|胡椒)'
 _VALIDATION_SEASONING_TOKEN_SOURCE = (
@@ -895,7 +1626,7 @@ def _validation_controlled_tokens(name):
     bare = re.sub(r'\(.*?\)', '', normalized)
     if bare == '鸡胸肉':
         return ['鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片']
-    if bare in ('去骨鸡腿肉', '鸡腿肉', '鸡腿肉去骨'):
+    if bare in ('去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉', '鸡腿肉去骨', '鸡腿肉去皮'):
         return ['鸡腿肉', '鸡肉', '鸡丝', '鸡丁', '鸡块', '鸡片']
     if bare in ('猪瘦肉', '瘦猪肉'):
         return ['猪肉', '瘦肉', '里脊', '肉丝', '肉丁', '肉片', '肉块']
@@ -919,7 +1650,10 @@ def _validation_controlled_tokens(name):
 
 
 def _validation_prepared_high_risk_exemption(name):
-    return bool(re.fullmatch(r'(?:鸡高汤|高汤\(鸡高汤\)|浓缩鸡汤|皮蛋)', _validation_form_name(name)))
+    return bool(re.fullmatch(
+        r'(?:鸡高汤|高汤\(鸡高汤\)|浓缩鸡汤|皮蛋|包装熟制板鸭\(去骨\))',
+        _validation_form_name(name),
+    ))
 
 
 def _validation_cooking_oil_ingredient(name):
@@ -932,9 +1666,75 @@ def _validation_ingredient_matches_names(name, names):
     return bare in names
 
 
+def _validation_diet_violation(name, diet):
+    pattern = _VALIDATION_DIET_VIOLATION_PATTERNS.get(diet)
+    return bool(pattern and pattern.search(_validation_form_name(name)))
+
+
+def _validation_ingredient_gram_map(meal):
+    amounts = {}
+    if not isinstance(meal, dict) or not isinstance(meal.get('ingredients'), list):
+        return amounts
+    for item in meal['ingredients']:
+        if isinstance(item, str):
+            name = item.strip()
+            grams = math.nan
+        elif isinstance(item, dict):
+            name = item.get('name') if isinstance(item.get('name'), str) else ''
+            grams = _js_number(item.get('grams'))
+        else:
+            name = ''
+            grams = math.nan
+        if name and math.isfinite(grams) and grams > 0:
+            amounts[_validation_form_name(name)] = grams
+    return amounts
+
+
+def _validation_rice_water_ratio_bounds(recipe):
+    rules = recipe.get('ratio_rules') if isinstance(recipe, dict) else []
+    for raw_rule in rules if isinstance(rules, list) else []:
+        rule = _js_string(raw_rule)
+        direct = re.search(r'大米与液体约为\s*1\s*:\s*(\d+(?:\.\d+)?)', rule)
+        if direct:
+            expected = float(direct.group(1))
+            if math.isfinite(expected) and expected > 0:
+                return expected, 0.1
+        per_serving = re.search(
+            r'每\s*1\s*份使用\s*大米\s*(\d+(?:\.\d+)?)\s*克、(?:鸡高汤|高汤|水)\s*(\d+(?:\.\d+)?)\s*克',
+            rule,
+        )
+        if per_serving:
+            rice = float(per_serving.group(1))
+            liquid = float(per_serving.group(2))
+            if math.isfinite(rice) and rice > 0 and math.isfinite(liquid) and liquid > 0:
+                return liquid / rice, 0.2
+    return None
+
+
+def _validation_rice_water_ratio_flag(meal, recipe):
+    bounds = _validation_rice_water_ratio_bounds(recipe)
+    if bounds is None:
+        return None
+    amounts = _validation_ingredient_gram_map(meal)
+    rice = next((grams for name, grams in amounts.items() if _VALIDATION_RAW_RICE_NAME_RE.fullmatch(name)), None)
+    if rice is None:
+        return None
+    liquid = sum(
+        grams for name, grams in amounts.items()
+        if name in _VALIDATION_WATER_NAMES or _VALIDATION_LIQUID_NAME_RE.search(name)
+    )
+    if not math.isfinite(liquid) or liquid <= 0:
+        return None
+    expected, tolerance = bounds
+    ratio = liquid / rice
+    if expected * (1 - tolerance) <= ratio <= expected * (1 + tolerance):
+        return None
+    return 'ratio_out_of_bounds:rice_water'
+
+
 def _validation_approved_ingredient_set(selection, aliases):
     recipe = selection.get('recipe') if isinstance(selection, dict) else None
-    if not isinstance(recipe, dict) or recipe.get('status') != 'approved':
+    if not isinstance(recipe, dict) or not trusted_recipe_status(recipe.get('status')):
         return None
     names = [
         *(recipe.get('core_ingredients') or []),
@@ -1284,10 +2084,8 @@ def validate_grounded_meal(meal, selection, constraints=None):
     canonical_ingredients = {
         item for name in ingredient_names if (item := _validation_canonical_ingredient(name, aliases))
     }
-    dislikes = [
-        item for name in recipe_constraint_list(constraints.get('dislikes'))
-        if (item := _validation_canonical_ingredient(name, aliases))
-    ]
+    # 忌口泄漏检查与选菜共用 match_allergy(双向子串 + 类别扩展)。
+    dislike_terms = recipe_constraint_list(constraints.get('dislikes'))
     approved_ingredients = _validation_approved_ingredient_set(selection, aliases)
     required_ingredients = {
         canonical
@@ -1314,20 +2112,42 @@ def validate_grounded_meal(meal, selection, constraints=None):
         if (canonical and canonical not in required_ingredients
                 and canonical not in structural_consumables):
             optional_ingredients.add(canonical)
-    if selection.get('recipe', {}).get('status') == 'approved' and len(optional_ingredients) > 4:
+    if trusted_recipe_status(selection.get('recipe', {}).get('status')) and len(optional_ingredients) > 4:
         add_flag('optional_ingredient_limit_exceeded')
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
     for slot in recipe.get('substitution_slots') or []:
         if not isinstance(slot, dict):
             continue
-        alternatives = {
-            canonical
-            for name in [*(slot.get('replaces') or []), *(slot.get('allowed') or [])]
-            if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())
-            if (canonical := _validation_canonical_ingredient(name, aliases))
+        replaces = slot.get('replaces') or []
+        allowed = [name for name in (slot.get('allowed') or [])
+                   if not re.match(r'^不(?:放|加|用)', _js_string(name).strip())]
+        replace_forms = {base_recipe_ingredient(name) for name in replaces if base_recipe_ingredient(name)}
+        allowed_forms = {base_recipe_ingredient(name) for name in allowed if base_recipe_ingredient(name)}
+        replace_canonical = {
+            value for name in replaces if (value := _validation_canonical_ingredient(name, aliases))
         }
-        present_alternatives = alternatives.intersection(canonical_ingredients)
-        if len(present_alternatives) > 1:
+        allowed_canonical = {
+            value for name in allowed if (value := _validation_canonical_ingredient(name, aliases))
+        }
+
+        def slot_side(name):
+            form = base_recipe_ingredient(name)
+            if form in replace_forms:
+                return 'original'
+            if form in allowed_forms:
+                return 'alternative'
+            value = _validation_canonical_ingredient(name, aliases)
+            if value in replace_canonical and value not in allowed_canonical:
+                return 'original'
+            if value in allowed_canonical and value not in replace_canonical:
+                return 'alternative'
+            return ''
+
+        originals_present = {base_recipe_ingredient(name) for name in ingredient_names
+                             if slot_side(name) == 'original'}
+        alternatives_present = {base_recipe_ingredient(name) for name in ingredient_names
+                                if slot_side(name) == 'alternative'}
+        if ((originals_present and alternatives_present) or len(alternatives_present) > 1):
             add_flag(f"substitution_slot_conflict:{sanitize_prompt_text(slot.get('slot') or '未命名', 80)}")
     for name in ingredient_names:
         canonical = _validation_canonical_ingredient(name, aliases)
@@ -1338,7 +2158,9 @@ def validate_grounded_meal(meal, selection, constraints=None):
                 strict_rice_visible,
             ))
         )
-        if canonical in dislikes and not direct_rice_ingredient:
+        if _validation_diet_violation(name, constraints.get('diet')):
+            add_flag(f"diet_violation:{constraints.get('diet')}:{name}")
+        if not direct_rice_ingredient and any(match_allergy(term, name, aliases) for term in dislike_terms):
             add_flag(f'allergen_present:{name}')
         if not _validation_seasoning(name) and not any(_validation_step_mentions(step, name, aliases) for step in steps):
             add_flag(f'ingredient_missing_in_steps:{name}')
@@ -1374,22 +2196,30 @@ def validate_grounded_meal(meal, selection, constraints=None):
             add_flag(flag)
 
     for item in selection.get('used_pantry') if isinstance(selection.get('used_pantry'), list) else []:
-        canonical = _validation_canonical_ingredient(item, aliases)
-        if canonical and canonical not in canonical_ingredients:
+        if not any(ingredient_matches_recipe_requirement(name, item, aliases) for name in ingredient_names):
             add_flag(f'used_pantry_missing:{item}')
     for item in selection.get('unused_pantry') if isinstance(selection.get('unused_pantry'), list) else []:
-        canonical = _validation_canonical_ingredient(item, aliases)
-        if canonical and canonical in canonical_ingredients:
+        if any(ingredient_matches_recipe_requirement(name, item, aliases) for name in ingredient_names):
             add_flag(f'unused_pantry_used:{item}')
 
     recipe = selection.get('recipe') if isinstance(selection.get('recipe'), dict) else {}
-    anchors = {
-        item
-        for name in [*(recipe.get('core_ingredients') or []), *(selection.get('used_pantry') or [])]
-        if (item := _validation_canonical_ingredient(name, aliases))
-    }
+    ratio_flag = _validation_rice_water_ratio_flag(meal, recipe)
+    if ratio_flag:
+        add_flag(ratio_flag)
+    used_pantry = selection.get('used_pantry') if isinstance(selection.get('used_pantry'), list) else []
+    anchors = []
+    for requirement in recipe_constraint_list(recipe.get('core_ingredients')):
+        selected = next((item for item in used_pantry
+                         if pantry_item_satisfies_core_requirement(item, requirement, recipe, aliases)), None)
+        anchors.append(selected or requirement)
+    for item in used_pantry:
+        if not any(ingredient_matches_recipe_requirement(item, anchor, aliases) for anchor in anchors):
+            anchors.append(item)
     required_anchor_hits = min(2, len(anchors))
-    anchor_hits = sum(anchor in canonical_ingredients for anchor in anchors)
+    anchor_hits = sum(
+        any(ingredient_matches_recipe_requirement(name, anchor, aliases) for name in ingredient_names)
+        for anchor in anchors
+    )
     if anchor_hits < required_anchor_hits:
         add_flag('base_recipe_anchor_missing')
     named_vessels = set()
@@ -1433,6 +2263,11 @@ def safe_int(value, fallback):
     return math.floor(number + 0.5) if math.isfinite(number) else fallback
 
 
+# 输入硬上限: 份数与营养目标在 safe_int 之后钳到合理区间, 防异常输入撑爆 prompt。
+def _clamp_int(value, low, high):
+    return min(high, max(low, value))
+
+
 def _prompt_list(value):
     if isinstance(value, list):
         items = value
@@ -1474,18 +2309,17 @@ def build_prompt(meal_name, targets, constraints, recipe_grounding):
         constraint_note += f'家里现有库存: {",".join(pantry)}。是否使用以可信基础菜谱的已选/舍弃清单为准；不合适的库存必须舍弃。'
     dislikes = _prompt_list(constraints.get('dislikes'))
     if dislikes:
-        constraint_note += f'不吃/过敏(务必严格避开, 含同类与微量也不要用): {"、".join(dislikes)}。'
-    if constraints.get('week_fish_short'):
-        constraint_note += '本周可安排一次鱼或海鲜即可(膳食指南建议每周≥2次, 但不必每餐都安排鱼); 若这餐安排鱼, 挑一种最近没吃过的鱼虾贝, 不要默认三文鱼。'
-    balance_low = _prompt_list(constraints.get('balance_low'))
-    if balance_low:
-        constraint_note += f'【最近几餐这些偏少, 这一锅请有意识地多补】{"; ".join(balance_low)}。要自然融进菜里, 别为补而牺牲好吃。'
-    if constraints.get('balance_high_na'):
-        constraint_note += '最近几餐钠偏高, 这一锅请少油少盐、少用腌制/酱料/加工肉。'
+        constraint_note += f'不吃/过敏(本菜谱不得出现这些食材或明显同类): {"、".join(dislikes)}。'
+    purpose_note = {
+        'quick': '本次重点是快点吃上: 步骤≤3、食材≤8、总时长尽量≤25分钟, 少切配、少洗锅。',
+        'pantry': '本次重点是清库存: 优先真正用上用户填写的食材, 只补少量常见必需食材。',
+        'fresh': '本次重点是换个口味: 在家常可做的前提下, 给一种和平时明显不同的菜系或形式。',
+        'batch': '本次重点是多做一些: 选择适合分装、冷藏或冷冻后复热的做法, 避免凉拌、生食和复热后明显变差的食材; note里用一句话给保存和复热方向, 不写绝对保质期。',
+    }.get(_js_string(constraints.get('purpose') or 'quick'))
+    if purpose_note:
+        constraint_note += purpose_note
     if constraints.get('swap_hint'):
         constraint_note += sanitize_prompt_text(constraints.get('swap_hint'), 160)
-    if constraints.get('feedback_hint'):
-        constraint_note += _js_string(constraints.get('feedback_hint'))
 
     exclude_note = ''
     recent = _prompt_list(constraints.get('recent_dishes'))[-20:]
@@ -1509,10 +2343,11 @@ def build_prompt(meal_name, targets, constraints, recipe_grounding):
 
     replacements = [
         ('{meal_name}', sanitize_prompt_text(meal_name, 80)),
-        ('{kcal}', str(safe_int(targets.get('kcal', _UNDEFINED), 1800))),
-        ('{p}', str(safe_int(targets.get('p', _UNDEFINED), 60))),
-        ('{fb}', str(safe_int(targets.get('fb', _UNDEFINED), 25))),
-        ('{ca}', str(safe_int(targets.get('ca', _UNDEFINED), 800))),
+        ('{servings}', str(_clamp_int(safe_int(constraints.get('servings', _UNDEFINED), 2), 1, 8))),
+        ('{servings}', str(_clamp_int(safe_int(constraints.get('servings', _UNDEFINED), 2), 1, 8))),
+        ('{kcal}', str(_clamp_int(safe_int(targets.get('kcal', _UNDEFINED), 1300), 300, 5000))),
+        ('{p}', str(_clamp_int(safe_int(targets.get('p', _UNDEFINED), 50), 10, 300))),
+        ('{fb}', str(_clamp_int(safe_int(targets.get('fb', _UNDEFINED), 16), 0, 100))),
         ('{constraint_note}', constraint_note),
         ('{exclude_note}', exclude_note),
         ('{season_note}', season_note()),
@@ -1529,21 +2364,48 @@ def build_prompt(meal_name, targets, constraints, recipe_grounding):
 
 def build_recipe_request(meal_name, targets, constraints, library=None):
     library = library if library is not None else get_recipe_library()
+    constraints = dict(constraints) if isinstance(constraints, dict) else {}
+    constraints['pantry'] = unique_recipe_pantry(
+        constraints.get('pantry'), library.get('ingredient_aliases') or {},
+    )
     selections = select_recipe_candidates(library, constraints)
-    if not selections:
-        if _validation_rice_allergen_active(
-            constraints.get('dislikes'),
-            library.get('ingredient_aliases') or {},
-        ):
+    rice_allergy_active = _validation_rice_allergen_active(
+        constraints.get('dislikes'),
+        library.get('ingredient_aliases') or {},
+    )
+    pantry = recipe_constraint_list(constraints.get('pantry'))
+    # 种子化抖动选取(W1): 短名单内按 score+jitter 重排后, 仍按原规则取第一个 feasible。
+    selection = pick_recipe_selection(selections, constraints, rice_allergy_active=rice_allergy_active)
+    if selection is None:
+        if rice_allergy_active:
             raise NoSafeRecipe('暂时没有符合这些过敏或忌口条件的可信无米主餐')
+        if pantry:
+            raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
         raise RecipeLibraryUnavailable('没有符合本次限制的可信基础菜谱')
-    selection = selections[0]
+    if pantry and not selection.get('used_pantry') and not rice_allergy_complete_main_active(selection):
+        if rice_allergy_active:
+            raise NoSafeRecipe('暂时没有符合这些过敏或忌口条件的可信无米主餐')
+        raise NoCompatiblePantryRecipe('当前可信菜谱还搭不上这些食材')
+    can_generate_with_unused_small_pantry = (
+        not constraints.get('selected_base_recipe_id')
+        and len(pantry) <= 6
+        and (len(selection.get('used_pantry') or []) > 0 or rice_allergy_complete_main_active(selection))
+        and len(selection.get('used_pantry') or []) < len(pantry)
+    )
+    if pantry and not can_generate_with_unused_small_pantry \
+            and (len(pantry) > 6 or len(selection.get('used_pantry') or []) != len(pantry)):
+        raise PantryNeedsGrouping(
+            '这些食材不能稳妥放进同一锅，请先查看本锅方案',
+            build_pantry_plan(library, constraints),
+        )
+    selection['strict_plan_selection'] = bool(constraints.get('selected_base_recipe_id'))
     payload = {
         'model': MODEL_NAME,
         'messages': [
             {'role': 'system', 'content': f'{TRUSTED_RECIPE_SYSTEM_ROLE}\n\n{build_trusted_recipe_system_override(selection)}'},
             {'role': 'user', 'content': build_prompt(meal_name, targets, constraints, build_recipe_grounding(selection))},
         ],
+        'thinking': {'type': 'disabled'},
         'temperature': 0,
         'response_format': {'type': 'json_object'},
     }
@@ -1640,6 +2502,31 @@ def normalize_meal(meal, usage=None):
     return meal
 
 
+def scale_meal_to_portion_floor(meal, targets=None, constraints=None):
+    targets = targets if isinstance(targets, dict) else {}
+    ingredients = meal.get('ingredients') if isinstance(meal, dict) and isinstance(meal.get('ingredients'), list) else []
+    target_kcal = _js_number(targets.get('kcal', _UNDEFINED))
+    if not ingredients or not math.isfinite(target_kcal) or target_kcal <= 0:
+        return {'adjusted': False, 'factor': 1}
+    current_kcal = sum(
+        _js_number(item.get('grams', _UNDEFINED)) * _js_number(item.get('kcal', _UNDEFINED)) / 100
+        for item in ingredients if isinstance(item, dict)
+    )
+    floor_kcal = target_kcal * 0.5
+    if not math.isfinite(current_kcal) or current_kcal <= 0 or current_kcal >= floor_kcal:
+        return {'adjusted': False, 'factor': 1}
+    factor = floor_kcal / current_kcal
+    if not math.isfinite(factor) or factor > 3:
+        return {'adjusted': False, 'factor': factor}
+    for item in ingredients:
+        grams = _js_number(item.get('grams', _UNDEFINED)) if isinstance(item, dict) else 0
+        if math.isfinite(grams) and grams > 0:
+            item['grams'] = max(1, round(grams * factor))
+    meal['portion_adjusted'] = True
+    meal['portion_adjustment_factor'] = round(factor, 2)
+    return {'adjusted': True, 'factor': factor}
+
+
 def _grounded_safety_endpoint(name, raw_risk_category):
     if raw_risk_category == 'egg':
         return f'继续在原锅加热{name}至熟透并确保蛋白和蛋黄完全凝固且不得流心'
@@ -1663,7 +2550,7 @@ _VALIDATION_RAW_EGG_FORMS = {
     '鸡蛋', '蛋液', '鲜鸡蛋', '土鸡蛋', '全蛋液', '鸡蛋液',
 }
 _VALIDATION_RAW_POULTRY_PORK_FORMS = {
-    '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
+    '禽肉', '鸡肉', '鸡胸', '鸡胸肉', '鸡腿', '鸡腿肉', '去骨鸡腿肉', '去皮鸡腿肉', '鸡腿肉去皮', '鸡翅', '鸡爪', '鸡胗', '鸡肝',
     '火鸡', '火鸡肉', '鸭肉', '鸭胸', '鸭胸肉', '鸭腿', '鸭腿肉', '鹅肉',
     '猪肉', '猪里脊', '猪里脊肉', '猪瘦肉', '瘦猪肉', '猪五花肉', '五花肉', '猪排骨', '排骨',
 }
@@ -1986,10 +2873,156 @@ def repair_grounded_meal_safety(meal, selection, constraints=None):
     return len(candidates)
 
 
+_MISSING_SALT_ACTION_RE = re.compile(
+    r'(?:加入|加|放入|放)?(?:少许|适量|一(?:小)?勺|[\d.]+\s*(?:克|g))?(?:食盐|海盐|盐巴|盐)(?:和|、|及|与)?'
+)
+
+
+def repair_grounded_meal_consumables(meal, selection, constraints=None):
+    selection = selection if isinstance(selection, dict) else {}
+    constraints = constraints if isinstance(constraints, dict) else {}
+    if not isinstance(meal, dict) or not isinstance(meal.get('steps'), list):
+        return 0
+    if 'step_ingredient_missing:盐' not in validate_grounded_meal(meal, selection, constraints):
+        return 0
+    original_steps = meal['steps']
+    repaired_steps = []
+    for step in original_steps:
+        repaired = _MISSING_SALT_ACTION_RE.sub('', _js_string(step))
+        repaired = re.sub(r'(?:，|,)\s*(?:，|,)', '，', repaired)
+        repaired = re.sub(r'(?:，|,)\s*(?:。|$)', '。', repaired)
+        repaired = repaired.replace('调味调味', '调味').strip()
+        repaired_steps.append(repaired)
+    if not any(step != _js_string(original_steps[index]).strip() for index, step in enumerate(repaired_steps)):
+        return 0
+    meal['steps'] = repaired_steps
+    if 'step_ingredient_missing:盐' in validate_grounded_meal(meal, selection, constraints):
+        meal['steps'] = original_steps
+        return 0
+    return 1
+
+
+def repair_selected_substitution_conflicts(meal, selection):
+    if not isinstance(meal, dict) or not isinstance(meal.get('ingredients'), list):
+        return 0
+    recipe = selection.get('recipe') if isinstance(selection, dict) and isinstance(selection.get('recipe'), dict) else {}
+    aliases = selection.get('ingredient_aliases') if isinstance(selection, dict) else {}
+    aliases = aliases if isinstance(aliases, dict) else {}
+    used_pantry = selection.get('used_pantry') if isinstance(selection, dict) else []
+    used_pantry = used_pantry if isinstance(used_pantry, list) else []
+    used_canonical = {
+        canonical_recipe_ingredient(name, aliases)
+        for name in used_pantry
+        if canonical_recipe_ingredient(name, aliases)
+    }
+    repaired = 0
+
+    for slot in recipe.get('substitution_slots') or []:
+        if not isinstance(slot, dict):
+            continue
+        replaces = slot.get('replaces') if isinstance(slot.get('replaces'), list) else []
+        allowed = slot.get('allowed') if isinstance(slot.get('allowed'), list) else []
+        selected_original = any(
+            canonical_recipe_ingredient(name, aliases) in used_canonical
+            for name in replaces
+        )
+        selected_replacement = next((
+            item for item in used_pantry
+            if any(
+                canonical_recipe_ingredient(name, aliases)
+                == canonical_recipe_ingredient(item, aliases)
+                for name in allowed
+            )
+        ), None)
+        if selected_original or not selected_replacement:
+            continue
+
+        replaced_canonical = {
+            canonical_recipe_ingredient(name, aliases)
+            for name in replaces
+            if canonical_recipe_ingredient(name, aliases)
+        }
+        before_length = len(meal['ingredients'])
+        meal['ingredients'] = [
+            item for item in meal['ingredients']
+            if not isinstance(item, dict)
+            or canonical_recipe_ingredient(item.get('name'), aliases) not in replaced_canonical
+        ]
+        repaired += before_length - len(meal['ingredients'])
+
+        replace_forms = {_js_string(name).strip() for name in replaces if _js_string(name).strip()}
+        for raw_alias in aliases:
+            if canonical_recipe_ingredient(raw_alias, aliases) in replaced_canonical:
+                replace_forms.add(raw_alias)
+        ordered_forms = sorted(replace_forms, key=len, reverse=True)
+
+        def rewrite(value):
+            text = _js_string(value)
+            for form in ordered_forms:
+                text = text.replace(form, selected_replacement)
+            duplicate = f'{selected_replacement}、{selected_replacement}'
+            while duplicate in text:
+                text = text.replace(duplicate, selected_replacement)
+            return text
+
+        for field in ('dish_name', 'note', 'taste_preview', 'why'):
+            if isinstance(meal.get(field), str):
+                meal[field] = rewrite(meal[field])
+        if isinstance(meal.get('steps'), list):
+            meal['steps'] = [rewrite(step) for step in meal['steps']]
+    return repaired
+
+
+def repair_selected_generic_meat_names(meal, selection):
+    """通用肉类核心命中具体部位时，把模型的通用名改回用户原始名称。"""
+    if not isinstance(meal, dict) or not isinstance(meal.get('ingredients'), list):
+        return 0
+    recipe = selection.get('recipe') if isinstance(selection, dict) and isinstance(selection.get('recipe'), dict) else {}
+    aliases = selection.get('ingredient_aliases') if isinstance(selection, dict) else {}
+    aliases = aliases if isinstance(aliases, dict) else {}
+    used_pantry = selection.get('used_pantry') if isinstance(selection, dict) else []
+    used_pantry = used_pantry if isinstance(used_pantry, list) else []
+    repaired = 0
+
+    for requirement in recipe_constraint_list(recipe.get('core_ingredients')):
+        requirement_form = recipe_match_form(requirement)
+        if requirement_form not in GENERIC_MEAT_REQUIREMENTS:
+            continue
+        selected = next((
+            item for item in used_pantry
+            if recipe_match_form(item) != requirement_form
+            and ingredient_matches_recipe_requirement(item, requirement, aliases)
+        ), None)
+        if not selected:
+            continue
+        replaced_ingredient = False
+        for ingredient in meal['ingredients']:
+            if not isinstance(ingredient, dict) or recipe_match_form(ingredient.get('name')) != requirement_form:
+                continue
+            ingredient['name'] = selected
+            replaced_ingredient = True
+            repaired += 1
+        if not replaced_ingredient:
+            continue
+
+        def rewrite(value):
+            return _js_string(value).replace(requirement, selected)
+
+        for field in ('dish_name', 'note', 'taste_preview', 'why'):
+            if isinstance(meal.get(field), str):
+                meal[field] = rewrite(meal[field])
+        if isinstance(meal.get('steps'), list):
+            meal['steps'] = [rewrite(step) for step in meal['steps']]
+    return repaired
+
+
 def attach_grounded_metadata(meal, selection, constraints):
     meal.pop('constraint_profile', None)
     meal.pop('constraint_profiles', None)
     meal.pop('active_constraint_profile', None)
+    repair_selected_substitution_conflicts(meal, selection)
+    repair_selected_generic_meat_names(meal, selection)
+    repair_grounded_meal_consumables(meal, selection, constraints)
     repair_rice_allergy_complete_main(meal, selection, constraints)
     repair_grounded_meal_safety(meal, selection, constraints)
     recipe = selection['recipe']
@@ -2023,6 +3056,20 @@ def attach_grounded_metadata(meal, selection, constraints):
     return meal
 
 
+# 硬校验失败不上桌(与 worker handleGenerate 一致): attach_grounded_metadata 内确定性 repair
+# 后仍有 validation_flags 的, 直接 UnsafeRecipe → 422 unsafe_recipe; 以 repair 后终态 flags
+# 为准, repair 已修掉的不触发; 不静默重试上游。
+def finalize_generated_meal(meal, selection, constraints):
+    attach_grounded_metadata(meal, selection, constraints)
+    if meal.get('validation_flags'):
+        flag_types = list(dict.fromkeys(
+            _js_string(flag).split(':', 1)[0]
+            for flag in meal.get('validation_flags') or []
+        ))
+        raise UnsafeRecipe('生成的做法没有通过食材或熟制检查', flag_types)
+    return meal
+
+
 def call_recipe(meal_name, targets, constraints):
     if not API_KEY:
         raise RuntimeError(f'{PROVIDER.upper()}_API_KEY 没找到。检查 {ENV_FILE}')
@@ -2043,7 +3090,8 @@ def call_recipe(meal_name, targets, constraints):
     content = data['choices'][0]['message']['content']
     usage = data.get('usage', {})
     parsed = normalize_meal(parse_model_json(content), usage)
-    attach_grounded_metadata(parsed, selection, constraints)
+    finalize_generated_meal(parsed, selection, constraints)
+    scale_meal_to_portion_floor(parsed, targets, constraints)
     now = datetime.now(ZoneInfo('Asia/Shanghai'))
     current_season = season_note(now)
     season_text = current_season.split('。', 2)[1] if current_season else ''
@@ -2202,7 +3250,6 @@ def call_kimi(food_name: str) -> dict:
 
 
 ALLOWED_ORIGINS = {
-    'null',  # file:// 协议 origin 是 "null"
     'http://localhost:8081',
     'http://localhost:8000',
     'http://127.0.0.1:8081',
@@ -2230,6 +3277,155 @@ def _rate_ok(ip):
     arr.append(now); _rate[ip] = arr
     return True
 
+
+class PlannerBridgeError(RuntimeError):
+    def __init__(self, code='planner_unavailable'):
+        super().__init__(code)
+        self.code = code
+
+
+def _planner_deepseek_api_key():
+    if 'DEEPSEEK_API_KEY' in os.environ:
+        return os.environ.get('DEEPSEEK_API_KEY', '').strip()
+    return (_env.get('DEEPSEEK_API_KEY') or '').strip()
+
+
+def _planner_generation_mode():
+    raw = os.environ.get('YIGUOCHU_GENERATION_MODE')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_GENERATION_MODE')
+    value = str(raw or '').strip()
+    if not value:
+        return 'deterministic'
+    return value if value in ('deterministic', 'llm') else 'llm'
+
+
+def _planner_product_focus():
+    raw = os.environ.get('YIGUOCHU_PRODUCT_FOCUS')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_PRODUCT_FOCUS')
+    value = str(raw or '').strip()
+    # Missing local configuration is intentionally the existing V2 path. An
+    # explicit invalid value is forwarded to the Worker, which fails metadata
+    # closed instead of guessing a product route here.
+    return value or 'legacy'
+
+
+def _planner_rice_catalog_scope():
+    raw = os.environ.get('YIGUOCHU_RICE_CATALOG_SCOPE')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_RICE_CATALOG_SCOPE')
+    value = str(raw or '').strip()
+    return value if value in ('ready', 'calibration') else 'ready'
+
+
+def _is_loopback_host(value):
+    host = str(value or '').strip().lower()
+    return host in ('localhost', '127.0.0.1', '::1', '[::1]')
+
+
+def _planner_hosted_mode():
+    raw = os.environ.get('YIGUOCHU_HOSTED_MODE')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_HOSTED_MODE')
+    return str(raw or '').strip().lower() in ('1', 'true', 'yes', 'on')
+
+
+def _planner_explicit_loopback_dev():
+    return (
+        _planner_product_focus() == 'rice-meal-v1'
+        and _is_loopback_host(HOST)
+        and not _planner_hosted_mode()
+    )
+
+
+def _planner_rice_meal_plan_secret():
+    raw = os.environ.get('RICE_MEAL_PLAN_SECRET')
+    if raw is None:
+        raw = _env.get('RICE_MEAL_PLAN_SECRET')
+    configured = str(raw or '').strip()
+    if configured:
+        return configured
+    if _planner_explicit_loopback_dev():
+        return 'local-rice-meal-development-secret'
+    return ''
+
+
+def _planner_bridge_env():
+    """Only pass settings the reviewed Worker V2 entrypoint is allowed to consume."""
+    env = {
+        'LANG': 'C.UTF-8',
+        'LC_ALL': 'C.UTF-8',
+    }
+    product_focus = _planner_product_focus()
+    values = {'YIGUOCHU_PRODUCT_FOCUS': product_focus}
+    if product_focus == 'rice-meal-v1':
+        # Rice Meal is a deterministic signed-token path.  It must never
+        # inherit model credentials or budgets, and its development fallback
+        # secret is available only to an explicitly loopback local bridge.
+        secret = _planner_rice_meal_plan_secret()
+        if secret:
+            values['RICE_MEAL_PLAN_SECRET'] = secret
+        values['HOST'] = HOST
+        values['YIGUOCHU_RICE_CATALOG_SCOPE'] = _planner_rice_catalog_scope()
+        if _planner_explicit_loopback_dev():
+            values['YIGUOCHU_LOCAL_DEV'] = '1'
+        if _planner_hosted_mode():
+            values['YIGUOCHU_HOSTED_MODE'] = '1'
+    else:
+        values.update({
+            'DEEPSEEK_API_KEY': _planner_deepseek_api_key(),
+            'API_URL': os.environ.get('API_URL') or _env.get('API_URL'),
+            'MODEL_NAME': os.environ.get('MODEL_NAME') or _env.get('MODEL_NAME') or DEFAULT_DEEPSEEK_MODEL,
+            'DAILY_BUDGET': os.environ.get('DAILY_BUDGET') or _env.get('DAILY_BUDGET'),
+            'YIGUOCHU_GENERATION_MODE': _planner_generation_mode(),
+        })
+    env.update({name: str(value) for name, value in values.items() if value})
+    return env
+
+
+def invoke_planner_bridge(endpoint, body):
+    if endpoint not in ('/health', '/plan-meal', '/generate-plan') or not isinstance(body, dict):
+        raise PlannerBridgeError()
+    if not PLANNER_NODE or not PLANNER_BRIDGE_FILE.is_file():
+        raise PlannerBridgeError()
+    try:
+        completed = subprocess.run(
+            [str(Path(PLANNER_NODE).resolve()), str(PLANNER_BRIDGE_FILE.resolve()), endpoint],
+            input=json.dumps(body, ensure_ascii=False, separators=(',', ':')),
+            text=True,
+            capture_output=True,
+            timeout=PLANNER_BRIDGE_TIMEOUT_S,
+            env=_planner_bridge_env(),
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise PlannerBridgeError('upstream_timeout' if endpoint == '/generate-plan' else 'planner_unavailable') from exc
+    except (OSError, ValueError) as exc:
+        raise PlannerBridgeError() from exc
+    if completed.returncode != 0 or len(completed.stdout) > 2 * 1024 * 1024:
+        raise PlannerBridgeError()
+    try:
+        envelope = json.loads(completed.stdout)
+    except (TypeError, json.JSONDecodeError) as exc:
+        raise PlannerBridgeError() from exc
+    if (not isinstance(envelope, dict)
+            or set(envelope) != {'bridge_version', 'status', 'headers', 'body'}
+            or envelope.get('bridge_version') != 1
+            or not isinstance(envelope.get('status'), int)
+            or not 100 <= envelope['status'] <= 599
+            or not isinstance(envelope.get('headers'), dict)
+            or set(envelope['headers']) != {'content-type', 'cache-control'}
+            or not isinstance(envelope.get('body'), (dict, list))):
+        raise PlannerBridgeError()
+    return envelope
+
+
+def _bridge_error_payload(error):
+    if getattr(error, 'code', '') == 'upstream_timeout':
+        return 504, {'error': '生成服务响应超时，请稍后再试', 'code': 'upstream_timeout'}
+    return 503, {'error': '规划服务暂时不可用', 'code': 'planner_unavailable'}
+
 class Handler(http.server.BaseHTTPRequestHandler):
     def _send_cors_headers(self):
         # V6.1: 只允许本地 origin, 不再用 *
@@ -2252,7 +3448,16 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        # 简单健康检查
+        if self.path == '/health' and _planner_product_focus() == 'rice-meal-v1':
+            # Rice Meal health is part of the deterministic asset contract.
+            # Reflect the reviewed Worker bridge so local and Preview expose
+            # the same catalog, ledger version/hash, and fail-closed status.
+            try:
+                self._reflect_bridge(invoke_planner_bridge('/health', {}))
+            except PlannerBridgeError as error:
+                self._send_json(*_bridge_error_payload(error))
+            return
+        # Legacy liveness remains independent from the optional planner bridge.
         if self.path in ('/', '/health'):
             self.send_response(200)
             self._send_cors_headers()
@@ -2265,8 +3470,19 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
+        origin = self.headers.get('Origin')
+        if origin is not None and not ALLOW_ALL_ORIGINS and origin not in ALLOWED_ORIGINS:
+            self._send_json(403, {
+                'error': '请求来源不允许',
+                'code': 'origin_forbidden',
+            })
+            return
         if self.path == '/generate-meal':
             return self._handle_generate_meal()
+        if self.path == '/plan-meal':
+            return self._handle_plan_meal()
+        if self.path == '/generate-plan':
+            return self._handle_generate_plan()
         if self.path != '/lookup':
             self.send_response(404)
             self._send_cors_headers()
@@ -2324,6 +3540,132 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({'error': str(e)}).encode())
 
+    def _send_json(self, status, payload, content_type='application/json; charset=utf-8'):
+        self.send_response(status)
+        self._send_cors_headers()
+        self.send_header('Content-Type', content_type)
+        self.send_header('Cache-Control', 'no-store')
+        self.end_headers()
+        self.wfile.write(json.dumps(payload, ensure_ascii=False, separators=(',', ':')).encode('utf-8'))
+
+    def _read_v2_object(self, invalid_code):
+        invalid_message = ('生成计划请求格式无效'
+                           if invalid_code == 'invalid_generate_plan_request'
+                           else '规划请求格式无效')
+        try:
+            length = int(self.headers.get('Content-Length', 0))
+        except (TypeError, ValueError):
+            return None, (400, {'error': '请求体不是有效的 JSON', 'code': 'invalid_json'})
+        if length > 32 * 1024:
+            return None, (400, {'error': '请求体超过 32KB 上限', 'code': 'request_too_large'})
+        raw = self.rfile.read(max(length, 0)) if length else b''
+        try:
+            text = raw.decode('utf-8')
+            value = json.loads(text)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            code = 'invalid_json' if raw.strip() else invalid_code
+            message = '请求体不是有效的 JSON' if raw.strip() else invalid_message
+            return None, (400, {'error': message, 'code': code})
+        if not isinstance(value, dict):
+            return None, (400, {'error': invalid_message, 'code': invalid_code})
+        return value, None
+
+    def _reflect_bridge(self, envelope):
+        content_type = envelope['headers'].get('content-type') or 'application/json; charset=utf-8'
+        self._send_json(envelope['status'], envelope['body'], content_type)
+
+    def _handle_plan_meal(self):
+        body, failure = self._read_v2_object('invalid_planner_request')
+        if failure:
+            self._send_json(*failure)
+            return
+        try:
+            self._reflect_bridge(invoke_planner_bridge('/plan-meal', body))
+        except PlannerBridgeError as error:
+            self._send_json(*_bridge_error_payload(error))
+
+    def _handle_generate_plan(self):
+        submitted, failure = self._read_v2_object('invalid_generate_plan_request')
+        if failure:
+            self._send_json(*failure)
+            return
+        if _planner_product_focus() == 'rice-meal-v1':
+            # Rice Meal owns a signed-token, deterministic compiler contract.
+            # Keep this proxy as a transport mirror: the reviewed Worker checks
+            # the envelope and recomputes it, while this branch never touches
+            # the local DeepSeek key or persistent rate accounting.
+            try:
+                self._reflect_bridge(invoke_planner_bridge('/generate-plan', submitted))
+            except PlannerBridgeError as error:
+                self._send_json(*_bridge_error_payload(error))
+            return
+        expected_keys = {
+            'schema_version', 'planner_version', 'template_catalog_version', 'plan_id', 'plan_request',
+        }
+        if (set(submitted) != expected_keys
+                or submitted.get('schema_version') != 2
+                or not isinstance(submitted.get('planner_version'), str)
+                or not isinstance(submitted.get('template_catalog_version'), str)
+                or not isinstance(submitted.get('plan_id'), str)
+                or not isinstance(submitted.get('plan_request'), dict)):
+            self._send_json(400, {
+                'error': '生成计划请求格式无效',
+                'code': 'invalid_generate_plan_request',
+            })
+            return
+        try:
+            preflight = invoke_planner_bridge('/plan-meal', submitted['plan_request'])
+        except PlannerBridgeError as error:
+            self._send_json(*_bridge_error_payload(error))
+            return
+
+        planned = preflight['body'] if isinstance(preflight.get('body'), dict) else {}
+        authoritative_plans = [
+            candidate for candidate in (
+                [planned] + (planned.get('candidate_plans') or [])
+            )
+            if isinstance(candidate, dict)
+        ]
+        selected_plan = next((
+            candidate for candidate in authoritative_plans
+            if submitted['plan_id'] == (candidate.get('plan') or {}).get('plan_id')
+        ), None)
+        exact_snapshot = (
+            preflight['status'] == 200
+            and selected_plan is not None
+            and submitted['planner_version'] == selected_plan.get('planner_version')
+            and submitted['template_catalog_version'] == selected_plan.get('template_catalog_version')
+        )
+        if preflight['status'] != 200 or not exact_snapshot:
+            # This second deterministic call is still unpaid: Worker rejects the
+            # invalid/stale envelope before key, rate, budget or upstream work.
+            try:
+                self._reflect_bridge(invoke_planner_bridge('/generate-plan', submitted))
+            except PlannerBridgeError as error:
+                self._send_json(*_bridge_error_payload(error))
+            return
+        if (selected_plan.get('status') not in ('ready', 'complete', 'partial_accepted')
+                or selected_plan.get('generation_allowed') is not True):
+            self._send_json(409, selected_plan)
+            return
+
+        if _planner_generation_mode() == 'llm':
+            if not _planner_deepseek_api_key():
+                self._send_json(500, {
+                    'error': 'DEEPSEEK_API_KEY 未配置',
+                    'code': 'missing_api_key',
+                })
+                return
+
+            ip = (self.headers.get('X-Forwarded-For', '').split(',')[0].strip() or self.client_address[0])
+            if not _rate_ok(ip):
+                self._send_json(429, {'error': '今天生成次数到上限了，明天再来～', 'code': 'rate_limited'})
+                return
+        try:
+            self._reflect_bridge(invoke_planner_bridge('/generate-plan', submitted))
+        except PlannerBridgeError as error:
+            self._send_json(*_bridge_error_payload(error))
+
     def _handle_generate_meal(self):
         try:
             ip = (self.headers.get('X-Forwarded-For', '').split(',')[0].strip() or self.client_address[0])
@@ -2333,6 +3675,15 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps({'error': '今天生成次数到上限了，明天再来～'}, ensure_ascii=False).encode('utf-8'))
                 return
             length = int(self.headers.get('Content-Length', 0))
+            # 输入硬上限: 请求体超 32KB 直接 400, 与 worker 一致。
+            if length > 32 * 1024:
+                self.send_response(400); self._send_cors_headers()
+                self.send_header('Content-Type', 'application/json; charset=utf-8'); self.end_headers()
+                self.wfile.write(json.dumps({
+                    'error': '请求体超过 32KB 上限',
+                    'code': 'request_too_large',
+                }, ensure_ascii=False).encode('utf-8'))
+                return
             body = self.rfile.read(length).decode('utf-8') if length else '{}'
             req = json.loads(body)
             meal_name = req.get('meal_name', '主餐')
@@ -2363,6 +3714,35 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 'error': str(e),
                 'code': 'no_safe_recipe',
             }, ensure_ascii=False).encode('utf-8'))
+        except UnsafeRecipe as e:
+            self.send_response(422)
+            self._send_cors_headers()
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                'error': str(e),
+                'code': 'unsafe_recipe',
+                'validation_flag_types': e.validation_flag_types,
+            }, ensure_ascii=False).encode('utf-8'))
+        except NoCompatiblePantryRecipe as e:
+            self.send_response(422)
+            self._send_cors_headers()
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                'error': str(e),
+                'code': 'no_compatible_pantry_recipe',
+            }, ensure_ascii=False).encode('utf-8'))
+        except PantryNeedsGrouping as e:
+            self.send_response(409)
+            self._send_cors_headers()
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                'error': str(e),
+                'code': 'pantry_needs_grouping',
+                'pantry_plan': e.pantry_plan,
+            }, ensure_ascii=False).encode('utf-8'))
         except RecipeLibraryUnavailable as e:
             self.send_response(503)
             self._send_cors_headers()
@@ -2386,13 +3766,10 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 
 def main():
-    if not API_KEY:
-        print(f'ERROR: {PROVIDER.upper()}_API_KEY 没找到。检查 {ENV_FILE}', file=sys.stderr)
-        return 1
     print('=' * 50)
     print(f'LLM proxy 启动 ({PROVIDER})')
     print(f'  监听: http://{HOST}:{PORT}  (托管: HOST=0.0.0.0 / ALLOW_ORIGIN=站点 / RATE_LIMIT=次数; 当前限流={RATE_LIMIT or "off"})')
-    print(f'  API key: sk-...{API_KEY[-6:]} ({len(API_KEY)} 字符)')
+    print(f'  API key: {"configured" if API_KEY else "missing (planning only)"}')
     print(f'  Model: {MODEL_NAME}')
     print(f'  停止: Ctrl+C')
     print('=' * 50)
@@ -2421,14 +3798,26 @@ def recipe_match_cli(raw):
         return 2
     try:
         library = get_recipe_library()
-        selections = select_recipe_candidates(library, sanitize_recipe_constraints(constraints))
+        constraints = sanitize_recipe_constraints(constraints)
+        selections = select_recipe_candidates(library, constraints)
     except RecipeLibraryUnavailable as exc:
         print(f'ERROR: {exc}', file=sys.stderr)
         return 3
     if not selections:
         print('ERROR: 没有符合本次限制的可信菜谱候选', file=sys.stderr)
         return 3
-    selection = selections[0]
+    # 与线上一致的种子化抖动选取(W1), 保证本地/线上同约束出同一道。
+    selection = pick_recipe_selection(
+        selections,
+        constraints,
+        rice_allergy_active=_validation_rice_allergen_active(
+            constraints.get('dislikes'),
+            library.get('ingredient_aliases') or {},
+        ),
+    )
+    if selection is None:
+        print('ERROR: 当前可信菜谱还搭不上这些食材', file=sys.stderr)
+        return 3
     print(json.dumps({
         'base_recipe_id': selection['recipe'].get('id'),
         'family_id': (selection.get('family') or {}).get('id') or selection['recipe'].get('family_id'),
@@ -2438,10 +3827,34 @@ def recipe_match_cli(raw):
     return 0
 
 
+def plan_meal_cli(raw):
+    try:
+        body = json.loads(raw)
+    except json.JSONDecodeError:
+        print(json.dumps({'error': '请求体不是有效的 JSON', 'code': 'invalid_json'}, ensure_ascii=False, separators=(',', ':')))
+        return 2
+    if not isinstance(body, dict):
+        print(json.dumps({'error': '规划请求格式无效', 'code': 'invalid_planner_request'}, ensure_ascii=False, separators=(',', ':')))
+        return 2
+    try:
+        envelope = invoke_planner_bridge('/plan-meal', body)
+    except PlannerBridgeError as error:
+        _status, payload = _bridge_error_payload(error)
+        print(json.dumps(payload, ensure_ascii=False, separators=(',', ':')))
+        return 3
+    print(json.dumps(envelope['body'], ensure_ascii=False, separators=(',', ':')))
+    return 0
+
+
 if __name__ == '__main__':
     if len(sys.argv) >= 2 and sys.argv[1] == '--recipe-match':
         if len(sys.argv) != 3:
             print('ERROR: 用法: ai_proxy.py --recipe-match <JSON>', file=sys.stderr)
             sys.exit(2)
         sys.exit(recipe_match_cli(sys.argv[2]))
+    if len(sys.argv) >= 2 and sys.argv[1] == '--plan-meal':
+        if len(sys.argv) != 3:
+            print('ERROR: 用法: ai_proxy.py --plan-meal <JSON>', file=sys.stderr)
+            sys.exit(2)
+        sys.exit(plan_meal_cli(sys.argv[2]))
     sys.exit(main())

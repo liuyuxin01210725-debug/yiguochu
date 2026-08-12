@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "assessment_version": "fujian-taiwan-rice-noodle-research-v1-20260726",
+  "region_id": "fujian_taiwan",
+  "province_codes": ["CN-FJ", "CN-TW"],
+  "source_refs": [
+    {
+      "source_id": "tw-afa-cabbage-rice",
+      "title": "农粮署北区分署电子书：高丽菜饭",
+      "url": "https://ebook.afa.gov.tw/tefd/ebook5/ebook5-1.html",
+      "publisher": "台湾农业部农粮署北区分署",
+      "published_at": null,
+      "date_note": "页面未标示发布日期",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方食谱以蓬莱米、高丽菜、虾米和香菇构成炊饭，米先浸泡、叶菜先焯、配料先炒，再用米量0.8倍水入电锅。",
+      "proves": ["recipe:taiwan-cabbage-mushroom-rice:regional_family"],
+      "does_not_prove": ["recipe:taiwan-cabbage-mushroom-rice:project_core_equivalence", "recipe:taiwan-cabbage-mushroom-rice:project_ratio_equivalence"]
+    },
+    {
+      "source_id": "quanzhou-yifan-2024",
+      "title": "泉州人的一生，离不开“吃桌”！",
+      "url": "https://www.quanzhou.gov.cn/gastronomy/ch/msdh/xwqz/202411/t20241122_3107926.htm",
+      "publisher": "泉州市人民政府世界美食之都专题",
+      "published_at": "2024-08-30",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "泉州官方资料称浥饭亦称油饭，以红葱头油、大米、三层肉、香菇、豆干、蚵干和干贝同锅煮熟。",
+      "proves": ["recipe:quanzhou-oil-rice:regional_family", "lead:quanzhou-seafood-pork-savory-rice:regional_structure"],
+      "does_not_prove": ["recipe:quanzhou-oil-rice:exact_project_equivalence", "recipe:quanzhou-oil-rice:glutinous_staple_equivalence", "lead:quanzhou-seafood-pork-savory-rice:production_ratio_safety"]
+    },
+    {
+      "source_id": "fj-school-menu-2025",
+      "title": "福建省学生餐带量食谱参考附件",
+      "url": "https://wjw.fujian.gov.cn/xxgk/zfxxgkzl/zfxxgkml/qtzdxx/202509/P020250918623795675713.pdf",
+      "publisher": "福建省卫生健康委员会",
+      "published_at": "2025-09-18",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方带量食谱出现扁豆饭和盖菜肉末咸饭，可证明菜单与组合名称存在；文件用途是学生餐参考，不是地域非遗、传统技法或豆种鉴定。",
+      "proves": ["recipe:fujian-gai-cai-minced-pork-rice:official_menu_presence", "recipe:fujian-hyacinth-bean-rice:official_menu_presence"],
+      "does_not_prove": ["recipe:fujian-gai-cai-minced-pork-rice:regional_traditional_identity", "recipe:fujian-gai-cai-minced-pork-rice:exact_project_method", "recipe:fujian-hyacinth-bean-rice:regional_traditional_identity", "recipe:fujian-hyacinth-bean-rice:bean_species_identity"]
+    },
+    {
+      "source_id": "daxi-oil-rice-2008",
+      "title": "游记百年油饭",
+      "url": "https://travel.tycg.gov.tw/zh-cn/consume/detail/446",
+      "publisher": "桃园观光导览网（资料来源：桃园市政府经济发展局）",
+      "published_at": "2008-10-23",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方旅游资料记录大溪店家自1862年经营米食，早期沿街售卖荷叶包油饭，后来改以肉粽贩售；这是店家历史与地方存在证据。",
+      "proves": ["recipe:daxi-lotus-leaf-oil-rice:lotus_leaf_history", "recipe:daxi-lotus-leaf-oil-rice:daxi_oil_rice_presence"],
+      "does_not_prove": ["recipe:daxi-lotus-leaf-oil-rice:exact_project_formula", "recipe:daxi-lotus-leaf-oil-rice:taiwan_hakka_identity", "recipe:daxi-lotus-leaf-oil-rice:production_ratio_safety"]
+    },
+    {
+      "source_id": "fj-putian-lor-noodle-2025",
+      "title": "百舟竞渡木兰溪",
+      "url": "https://www.fujian.gov.cn/zwgk/ztzl/sxzygwzxsgzx/flsxkmh/202510/t20251003_7018241.htm",
+      "publisher": "福建省人民政府门户网站（来源：福建日报）",
+      "published_at": "2025-10-03",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方报道记录莆田卤面由干贝、海蛎等海产与面条在锅内一同熬煮，支持浓卤汤面主餐结构。",
+      "proves": ["lead:fujian-putian-lor-noodle:regional_structure", "lead:fujian-putian-lor-noodle:broth_noodle_route"],
+      "does_not_prove": ["lead:fujian-putian-lor-noodle:dry_noodle_hydration_rule", "lead:fujian-putian-lor-noodle:production_ratio_safety"]
+    },
+    {
+      "source_id": "tw-hakka-vegetable-rice-2020",
+      "title": "客家菜饭（社区组料理食谱）",
+      "url": "https://meethakka.tycg.gov.tw/upload/cont_att/70fdadfd-8578-4660-9500-2df3e77d5df0.pdf",
+      "publisher": "桃园市政府客家事务局",
+      "published_at": null,
+      "date_note": "文件页面未提供可核验的精确发布日期",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "官方活动食谱展示米、四季豆、豆干、毛豆、竹笋等分别预处理后与电锅饭混合的客家菜饭参赛结构。",
+      "proves": ["lead:taiwan-hakka-vegetable-rice:contest_recipe_structure", "lead:taiwan-hakka-vegetable-rice:rice_cooker_route"],
+      "does_not_prove": ["lead:taiwan-hakka-vegetable-rice:canonical_hakka_tradition", "lead:taiwan-hakka-vegetable-rice:production_ratio_safety"]
+    },
+    {
+      "source_id": "gz-she-black-rice-2026",
+      "title": "正果镇畲族乌饭制作技艺成功入选市级非遗名录",
+      "url": "https://mzzjj.gz.gov.cn/xwdt/gqdt/content/post_10848697.html",
+      "publisher": "广州市民族宗教事务局",
+      "published_at": "2026-06-09",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方资料记录畲族乌饭以乌稔树嫩叶汁浸泡糯米后蒸煮，支持文化身份与传统色源事实。",
+      "proves": ["recipe:she-people-black-rice:cultural_identity"],
+      "does_not_prove": ["recipe:she-people-black-rice:project_color_powder_equivalence", "recipe:she-people-black-rice:province_specific_identity", "recipe:she-people-black-rice:production_ratio_safety"]
+    },
+    {
+      "source_id": "samr-bean-2021",
+      "title": "关于食用扁豆的风险提示",
+      "url": "https://www.samr.gov.cn/zt/ndzt/2021n/splyyxkpzpzbpt/azspplhfcjpljqt/sg/art/2023/art_a0990c36d3bf4859a1158c3d68f9d482.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2021-10-19",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家风险提示列出扁豆别名并要求充分熟透；不同豆类毒素种类和含量不同，不能用泛称替代豆种识别。",
+      "proves": ["safety:bean-identity-and-cook-through:principle"],
+      "does_not_prove": ["recipe:fujian-hyacinth-bean-rice:bean_species_identity", "safety:bean-identity-and-cook-through:project_minutes"]
+    },
+    {
+      "source_id": "samr-leftover-2021",
+      "title": "食用剩饭剩菜消费提示",
+      "url": "https://www.samr.gov.cn/zt/ndzt/2021n/splyyxkpzpzbpt/azspsxhf/tssp/tsrqrsgd/art/2023/art_1ddba433c5f640c8bd4bc259e46706b5.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2021-10-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家消费提示要求剩饭剩菜合理冷藏、食用前检查异常并彻底加热；本研究只采用原则，不发明储存时长。",
+      "proves": ["safety:leftover-rice-storage-and-reheat:principle"],
+      "does_not_prove": ["safety:leftover-rice-storage-and-reheat:project_storage_hours"]
+    },
+    {
+      "source_id": "nhc-allergen-label-2025",
+      "title": "《食品安全国家标准 预包装食品标签通则》（GB 7718-2025）问答",
+      "url": "https://www.nhc.gov.cn/sps/c100087/202509/bc824a504ec34c27883da73f14c20d44.shtml",
+      "publisher": "国家卫生健康委员会",
+      "published_at": null,
+      "date_note": "页面 URL 仅标示 2025 年 9 月，未核得具体发布日期",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家标准问答将甲壳纲类、鱼、蛋、大豆等列为需清楚提示的致敏物质；研究层据此要求海味逐项显式列出。",
+      "proves": ["safety:seafood-allergen-disclosure:principle"],
+      "does_not_prove": ["safety:seafood-allergen-disclosure:user_is_not_allergic"]
+    },
+    {
+      "source_id": "nhc-cook-through-2010",
+      "title": "卫生部关于预防群体性食物中毒事故的公告",
+      "url": "https://www.nhc.gov.cn/bgt/s10789/201007/0c2a5587e4724d11be89895b55e77768.shtml",
+      "publisher": "中华人民共和国国家卫生健康委员会（原卫生部）",
+      "published_at": null,
+      "date_note": "页面 URL 仅标示 2010 年 7 月，未核得具体发布日期",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家公告要求肉、蛋和水产品彻底加热，菜豆烧熟煮透，并避免生熟交叉污染；本研究仅采用终点原则。",
+      "proves": ["safety:animal-and-seafood-cook-through:principle"],
+      "does_not_prove": ["safety:animal-and-seafood-cook-through:project_minutes"]
+    }
+  ],
+  "province_gap_audits": [
+    {
+      "province_code": "CN-FJ",
+      "province_name": "福建",
+      "production_recipe_ids": ["quanzhou-oil-rice", "fujian-gai-cai-minced-pork-rice", "fujian-hyacinth-bean-rice"],
+      "candidate_ids": [],
+      "research_gap": "三道生产映射已经覆盖咸饭与油饭名称，但外部证据对具体米种、海味、省级传统身份和机器比例的支持程度不同；莆田卤面仍仅为研究线索。"
+    },
+    {
+      "province_code": "CN-TW",
+      "province_name": "台湾",
+      "production_recipe_ids": ["taiwan-cabbage-mushroom-rice", "daxi-lotus-leaf-oil-rice"],
+      "candidate_ids": [],
+      "research_gap": "高丽菜饭和大溪油饭有官方家族或历史证据，但项目核心与比例并非来源逐字等价；客家菜饭当前只有活动食谱线索。"
+    }
+  ],
+  "production_recipe_audits": [
+    {
+      "recipe_id": "taiwan-cabbage-mushroom-rice",
+      "province_code": "CN-TW",
+      "mapping_scope": "province_specific",
+      "source_ids": ["tw-afa-cabbage-rice"],
+      "claims": {
+        "regional_family": {"verdict": "supported", "evidence_source_ids": ["tw-afa-cabbage-rice"], "reason": "官方食谱支持米、叶菜、虾米、香菇经预处理后电锅炊饭的家族。"},
+        "project_core_equivalence": {"verdict": "not_proven", "evidence_source_ids": ["tw-afa-cabbage-rice"], "reason": "项目版以鲜香菇为核心并把虾仁放入替换位，和官方虾米结构不同。"},
+        "project_ratio_equivalence": {"verdict": "not_proven", "evidence_source_ids": ["tw-afa-cabbage-rice"], "reason": "官方0.8倍水以浸泡沥干和焯菜为前提，不能直接等同项目的总保留液体比例。"}
+      },
+      "forbidden_claims": ["official_recipe_equals_project_recipe", "official_0_8_ratio_equals_project_retained_liquid_ratio"],
+      "product_destinations": ["recipe_evidence", "ratio_rule", "research_only"]
+    },
+    {
+      "recipe_id": "quanzhou-oil-rice",
+      "province_code": "CN-FJ",
+      "mapping_scope": "province_specific",
+      "source_ids": ["quanzhou-yifan-2024", "nhc-allergen-label-2025", "nhc-cook-through-2010"],
+      "claims": {
+        "regional_family": {"verdict": "supported", "evidence_source_ids": ["quanzhou-yifan-2024"], "reason": "泉州官方资料支持浥饭/油饭的地域家族。"},
+        "exact_project_equivalence": {"verdict": "not_proven", "evidence_source_ids": ["quanzhou-yifan-2024"], "reason": "来源为大米、三层肉、豆干和海味，项目为泡发糯米、肉末、鲜香菇且首轮排除海味。"},
+        "glutinous_staple_equivalence": {"verdict": "not_proven", "evidence_source_ids": ["quanzhou-yifan-2024"], "reason": "本来源明确写大米，不能反向证明项目糯米版本。"}
+      },
+      "forbidden_claims": ["seafood_free_project_is_exact_traditional_yifan", "generic_rice_means_glutinous_rice"],
+      "product_destinations": ["recipe_evidence", "taxonomy_rule", "research_only"]
+    },
+    {
+      "recipe_id": "fujian-gai-cai-minced-pork-rice",
+      "province_code": "CN-FJ",
+      "mapping_scope": "province_specific",
+      "source_ids": ["fj-school-menu-2025", "nhc-cook-through-2010"],
+      "claims": {
+        "official_menu_presence": {"verdict": "supported", "evidence_source_ids": ["fj-school-menu-2025"], "reason": "福建官方带量食谱中出现盖菜肉末咸饭。"},
+        "regional_traditional_identity": {"verdict": "not_proven", "evidence_source_ids": ["fj-school-menu-2025"], "reason": "学生餐菜单不是地域传统身份研究。"},
+        "exact_project_method": {"verdict": "not_proven", "evidence_source_ids": ["fj-school-menu-2025"], "reason": "来源不提供足以验证项目液体比例与完整做法的技法证据。"}
+      },
+      "forbidden_claims": ["official_menu_presence_equals_traditional_identity", "menu_weight_equals_ratio_dsl"],
+      "product_destinations": ["recipe_evidence", "research_only"]
+    },
+    {
+      "recipe_id": "fujian-hyacinth-bean-rice",
+      "province_code": "CN-FJ",
+      "mapping_scope": "province_specific",
+      "source_ids": ["fj-school-menu-2025", "samr-bean-2021"],
+      "claims": {
+        "official_menu_presence": {"verdict": "supported", "evidence_source_ids": ["fj-school-menu-2025"], "reason": "福建官方带量食谱中出现扁豆饭。"},
+        "regional_traditional_identity": {"verdict": "not_proven", "evidence_source_ids": ["fj-school-menu-2025"], "reason": "菜单存在不等于福建传统菜身份已经核实。"},
+        "bean_species_identity": {"verdict": "not_proven", "evidence_source_ids": ["fj-school-menu-2025", "samr-bean-2021"], "reason": "扁豆泛称不能自动鉴定为项目英文ID所暗示的具体豆种。"}
+      },
+      "forbidden_claims": ["generic_biandou_is_hyacinth_bean", "menu_presence_equals_regional_tradition"],
+      "product_destinations": ["recipe_evidence", "taxonomy_rule", "research_only"]
+    },
+    {
+      "recipe_id": "daxi-lotus-leaf-oil-rice",
+      "province_code": "CN-TW",
+      "mapping_scope": "province_specific",
+      "source_ids": ["daxi-oil-rice-2008", "nhc-cook-through-2010"],
+      "claims": {
+        "lotus_leaf_history": {"verdict": "supported", "evidence_source_ids": ["daxi-oil-rice-2008"], "reason": "桃园官方旅游资料记录店家早期售卖荷叶包油饭。"},
+        "daxi_oil_rice_presence": {"verdict": "supported", "evidence_source_ids": ["daxi-oil-rice-2008"], "reason": "来源支持大溪油饭的地方经营历史。"},
+        "exact_project_formula": {"verdict": "not_proven", "evidence_source_ids": ["daxi-oil-rice-2008"], "reason": "店家历史没有给出项目版糯米、肉末、荷叶的可执行配方。"},
+        "taiwan_hakka_identity": {"verdict": "not_proven", "evidence_source_ids": ["daxi-oil-rice-2008"], "reason": "该来源未把此结构界定为台湾客家传统。"}
+      },
+      "forbidden_claims": ["business_history_equals_exact_project_formula", "daxi_location_equals_hakka_identity"],
+      "product_destinations": ["recipe_evidence", "content_only", "research_only"]
+    },
+    {
+      "recipe_id": "she-people-black-rice",
+      "province_code": null,
+      "mapping_scope": "cross_regional_chinese",
+      "source_ids": ["gz-she-black-rice-2026", "samr-leftover-2021"],
+      "claims": {
+        "cultural_identity": {"verdict": "supported", "evidence_source_ids": ["gz-she-black-rice-2026"], "reason": "官方非遗资料支持畲族乌饭与乌稔树叶汁浸米蒸煮的文化结构。"},
+        "project_color_powder_equivalence": {"verdict": "not_proven", "evidence_source_ids": ["gz-she-black-rice-2026"], "reason": "项目食品级黑米色粉是家庭适配，不等于传统叶汁。"},
+        "province_specific_identity": {"verdict": "not_proven", "evidence_source_ids": ["gz-she-black-rice-2026"], "reason": "现有映射明确跨闽浙等地，不锁定福建或台湾单省。"}
+      },
+      "forbidden_claims": ["project_color_powder_is_traditional_leaf_juice", "cross_regional_recipe_is_province_specific"],
+      "product_destinations": ["recipe_evidence", "content_only", "research_only"]
+    }
+  ],
+  "concrete_research_leads": [
+    {
+      "lead_id": "quanzhou-seafood-pork-savory-rice",
+      "name": "泉州海味三层肉浥饭",
+      "province_code": "CN-FJ",
+      "family_id": "seafood-pork-savory-rice",
+      "meal_structure": "raw_rice_savory_braise",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": ["quanzhou-yifan-2024", "nhc-allergen-label-2025", "nhc-cook-through-2010"],
+      "claims": {
+        "regional_structure": {"verdict": "supported", "evidence_source_ids": ["quanzhou-yifan-2024"], "reason": "官方资料提供大米、猪肉、豆干、菌菇和多种海味同锅结构。"},
+        "production_ratio_safety": {"verdict": "not_proven", "evidence_source_ids": ["quanzhou-yifan-2024"], "reason": "来源没有机器液体比例或家庭锅具终点。"}
+      },
+      "ingredient_shapes": ["raw_non_glutinous_rice", "pork_belly_dice", "dried_shellfish_piece", "dried_mushroom_piece", "tofu_dice"],
+      "forbidden_shortcuts": ["omit_all_seafood_keep_exact_identity", "unreviewed_allergen_mix", "source_to_ratio_dsl"],
+      "known_structure": ["红葱头油", "大米", "三层肉", "香菇豆干", "蚵干干贝"],
+      "open_questions": ["家庭液体比例", "海味盐度", "过敏原分支", "猪肉与海味熟制顺序"],
+      "product_destinations": ["recipe_evidence", "template_evidence", "ratio_rule", "research_only"]
+    },
+    {
+      "lead_id": "fujian-putian-lor-noodle",
+      "name": "莆田海味卤面主餐",
+      "province_code": "CN-FJ",
+      "family_id": "thick-broth-lor-noodle",
+      "meal_structure": "single_pot_broth_noodle",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": ["fj-putian-lor-noodle-2025", "nhc-allergen-label-2025", "nhc-cook-through-2010"],
+      "claims": {
+        "regional_structure": {"verdict": "supported", "evidence_source_ids": ["fj-putian-lor-noodle-2025"], "reason": "官方报道支持干贝、海蛎等与面条同锅熬煮的卤面结构。"},
+        "broth_noodle_route": {"verdict": "supported", "evidence_source_ids": ["fj-putian-lor-noodle-2025"], "reason": "它是带汤卤的面条主餐，不是干拌或炒面。"},
+        "dry_noodle_hydration_rule": {"verdict": "not_proven", "evidence_source_ids": ["fj-putian-lor-noodle-2025"], "reason": "来源未给面条规格与吸水规则。"}
+      },
+      "ingredient_shapes": ["ready_wheat_noodle", "shellfish_piece", "thick_broth", "egg_or_mushroom_topping"],
+      "forbidden_shortcuts": ["dry_noodle_without_hydration_rule", "clear_soup_noodle_as_lor_noodle", "unreviewed_allergen_mix"],
+      "known_structure": ["面条主食", "海味卤汤", "锅内熬煮"],
+      "open_questions": ["鲜面与干面分型", "液体和淀粉约束", "无海鲜替代后的命名", "家庭时长"],
+      "product_destinations": ["new_family_research", "taxonomy_rule", "ratio_rule", "research_only"]
+    },
+    {
+      "lead_id": "taiwan-hakka-vegetable-rice",
+      "name": "台湾客家电锅菜饭结构",
+      "province_code": "CN-TW",
+      "family_id": "rice-cooker-hakka-vegetable-rice",
+      "meal_structure": "pretreated_mixed_rice",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": ["tw-hakka-vegetable-rice-2020", "samr-bean-2021"],
+      "claims": {
+        "contest_recipe_structure": {"verdict": "supported", "evidence_source_ids": ["tw-hakka-vegetable-rice-2020"], "reason": "官方活动食谱支持饭、豆类、豆干、竹笋等分开预处理后混合的结构。"},
+        "rice_cooker_route": {"verdict": "supported", "evidence_source_ids": ["tw-hakka-vegetable-rice-2020"], "reason": "食谱明确使用电锅煮饭。"},
+        "canonical_hakka_tradition": {"verdict": "not_proven", "evidence_source_ids": ["tw-hakka-vegetable-rice-2020"], "reason": "社区组参赛食谱不能单独定义所有客家菜饭的传统标准。"}
+      },
+      "ingredient_shapes": ["raw_rice", "precooked_green_bean", "fried_tofu_dice", "precooked_bamboo_shoot", "mixed_after_rice_cooks"],
+      "forbidden_shortcuts": ["contest_recipe_as_canonical_hakka_tradition", "raw_green_bean_without_cookthrough", "all_items_raw_in_one_pot"],
+      "known_structure": ["米饭电锅熟制", "豆类与豆干分别预处理", "熟后混合"],
+      "open_questions": ["家庭简化是否仍保留结构", "豆类熟制终点", "配料数量上限", "机器比例"],
+      "product_destinations": ["template_evidence", "taxonomy_rule", "research_only"]
+    }
+  ],
+  "family_model": [
+    {"family_id": "raw-rice-vegetable-braise", "name": "生米菜饭炊饭", "meal_structure": "raw_rice_braise", "evidence_status": "mixed_exactness"},
+    {"family_id": "glutinous-oil-rice", "name": "糯米油饭", "meal_structure": "glutinous_mixed_rice", "evidence_status": "project_adaptation_only"},
+    {"family_id": "seafood-pork-savory-rice", "name": "海味猪肉咸饭", "meal_structure": "raw_rice_savory_braise", "evidence_status": "regional_structure_supported"},
+    {"family_id": "leaf-wrapped-glutinous-rice", "name": "叶包糯米油饭", "meal_structure": "wrapped_glutinous_rice", "evidence_status": "history_supported_formula_unresolved"},
+    {"family_id": "thick-broth-lor-noodle", "name": "浓卤汤面", "meal_structure": "single_pot_broth_noodle", "evidence_status": "regional_structure_supported"},
+    {"family_id": "rice-cooker-hakka-vegetable-rice", "name": "电锅客家菜饭", "meal_structure": "pretreated_mixed_rice", "evidence_status": "contest_structure_only"},
+    {"family_id": "ritual-colored-glutinous-rice", "name": "植物色源礼俗糯米饭", "meal_structure": "colored_glutinous_rice", "evidence_status": "traditional_source_differs_from_project"}
+  ],
+  "adaptation_boundaries": [
+    {"boundary_id": "official-ratio-state-mismatch", "evidence_status": "checked", "notes": "浸泡沥干米、焯水沥干菜的0.8倍加水，不能直接等同项目按总保留液体记录的区间。"},
+    {"boundary_id": "quanzhou-family-not-project-equivalence", "evidence_status": "checked", "notes": "泉州浥饭家族成立，但大米海味三层肉结构不等于项目糯米肉末无海味版本。"},
+    {"boundary_id": "official-menu-not-traditional-identity", "evidence_status": "checked", "notes": "学生餐带量食谱只能证明菜单存在，不能证明地域传承、具体豆种或完整技法。"},
+    {"boundary_id": "daxi-history-not-formula", "evidence_status": "checked", "notes": "荷叶包油饭的店家历史存在，不等于项目配方、比例或台湾客家身份已经证实。"},
+    {"boundary_id": "cross-regional-she-rice-not-province-node", "evidence_status": "checked", "notes": "畲族乌饭继续保留跨地域映射，不计为福建或台湾单省节点的独立生产覆盖。"}
+  ],
+  "safety_boundaries": [
+    {
+      "safety_id": "bean-identity-and-cook-through",
+      "source_ids": ["samr-bean-2021", "nhc-cook-through-2010"],
+      "evidence_status": "principle_only",
+      "required_controls": ["记录商品名或豆种", "不明豆类不得替代", "充分熟透", "无生绿色和豆腥味"],
+      "endpoint_note": "不同豆类风险不同；先确认豆种，再按来源原则烧熟煮透，本轮不发明统一分钟数。"
+    },
+    {
+      "safety_id": "animal-and-seafood-cook-through",
+      "source_ids": ["nhc-cook-through-2010"],
+      "evidence_status": "principle_only",
+      "required_controls": ["肉类彻底加热", "蛋类彻底加热", "水产品彻底加热", "生熟分开避免交叉污染"],
+      "endpoint_note": "采用彻底加热和防交叉污染原则，不把来源扩写成项目分钟数或中心温度。"
+    },
+    {
+      "safety_id": "seafood-allergen-disclosure",
+      "source_ids": ["nhc-allergen-label-2025"],
+      "evidence_status": "principle_only",
+      "required_controls": ["虾米、蚵干、干贝分别显式列出", "不得以海味统称隐藏", "命中忌口时排除对应计划"],
+      "endpoint_note": "甲壳类、鱼类等致敏物质需要清楚提示；研究层不推断用户无过敏。"
+    },
+    {
+      "safety_id": "leftover-rice-storage-and-reheat",
+      "source_ids": ["samr-leftover-2021"],
+      "evidence_status": "principle_only",
+      "required_controls": ["按条件冷藏", "食用前检查色泽气味和黏滑", "异常立即丢弃", "再次食用彻底加热"],
+      "endpoint_note": "只采用冷藏、感官检查、丢弃和彻底复热原则，不将来源时长写成所有家庭场景的统一规则。"
+    }
+  ],
+  "journey_cases": [
+    {"journey_id":"ft-j01","province_code":"CN-FJ","mode":"recommend","intent":"normal","input_items":["大米","三层肉","香菇","豆干","干贝","蚵干"],"expected_family_ids":["seafood-pork-savory-rice"],"expected_structure":"raw_rice_savory_braise","expected_outcome":"research_family_route","forbidden_claims":["已是项目泉州油饭同款","无需过敏原提示"],"reason":"地域结构成立，但比例和海味安全仍需研究。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j02","province_code":"CN-FJ","mode":"recommend","intent":"normal","input_items":["泡发糯米","猪肉末","鲜香菇"],"expected_family_ids":["glutinous-oil-rice"],"expected_structure":"glutinous_mixed_rice","expected_outcome":"project_adaptation_only","forbidden_claims":["官方泉州浥饭逐项等同","来源证明无海味传统"],"reason":"可解释为项目家庭适配，不能冒充官方来源的精确复刻。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j03","province_code":"CN-FJ","mode":"pantry","intent":"normal","input_items":["大米","芥菜","猪肉末"],"expected_family_ids":["raw-rice-vegetable-braise"],"expected_structure":"raw_rice_braise","expected_outcome":"menu_presence_only","forbidden_claims":["福建传统已核实","菜单克数就是液体比例"],"reason":"官方菜单支持名称存在，但传统身份和做法仍需证据。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j04","province_code":"CN-FJ","mode":"pantry","intent":"normal","input_items":["大米","扁豆"],"expected_family_ids":[],"expected_structure":"identity_gate","expected_outcome":"needs_ingredient_identity","forbidden_claims":["扁豆一定是hyacinth bean","未确认豆种直接规划"],"reason":"泛称扁豆必须先确认商品或豆种。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j05","province_code":"CN-FJ","mode":"recommend","intent":"normal","input_items":["鲜面条","干贝","海蛎","香菇","鸡蛋"],"expected_family_ids":["thick-broth-lor-noodle"],"expected_structure":"single_pot_broth_noodle","expected_outcome":"research_family_route","forbidden_claims":["已有机器液体比例","海味无需逐项提示"],"reason":"符合莆田卤面研究结构，但尚未成为生产模板。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j06","province_code":"CN-FJ","mode":"recommend","intent":"quick","input_items":["干面条","干贝","海蛎"],"expected_family_ids":[],"expected_structure":"hydration_gate","expected_outcome":"requires_pretreatment","forbidden_claims":["任意干面可直接下锅","自动沿用鲜面时长"],"reason":"缺少干面规格和吸水规则，不能假装与鲜面等价。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j07","province_code":"CN-TW","mode":"recommend","intent":"normal","input_items":["大米","高丽菜","虾米","干香菇"],"expected_family_ids":["raw-rice-vegetable-braise"],"expected_structure":"pretreated_rice_cooker_braise","expected_outcome":"official_family_route","forbidden_claims":["项目鲜菇版完全等同","忽略虾米过敏原"],"reason":"官方高丽菜饭家族可用，但需保留虾米、泡发、焯菜等状态。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j08","province_code":"CN-TW","mode":"recommend","intent":"normal","input_items":["大米","卷心菜","鲜香菇"],"expected_family_ids":["raw-rice-vegetable-braise"],"expected_structure":"project_adapted_braise","expected_outcome":"project_adaptation_only","forbidden_claims":["官方食谱逐项相同","官方配方没有海味"],"reason":"项目可保留家庭适配身份，不反向改写官方来源。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j09","province_code":"CN-TW","mode":"pantry","intent":"normal","input_items":["浸泡沥干大米","焯水沥干高丽菜","虾米","干香菇"],"expected_family_ids":["raw-rice-vegetable-braise"],"expected_structure":"measured_state_required","expected_outcome":"ratio_research_only","forbidden_claims":["0.8倍水等于项目总液体比例","不记录蔬菜与泡发水"],"reason":"来源比例依赖预处理状态，需状态一致后才能进入机器规则。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j10","province_code":"CN-TW","mode":"recommend","intent":"normal","input_items":["糯米","猪肉末","食品级干荷叶"],"expected_family_ids":["leaf-wrapped-glutinous-rice"],"expected_structure":"wrapped_glutinous_rice","expected_outcome":"history_supported_formula_unresolved","forbidden_claims":["官方项目配方已核实","大溪即台湾客家传统"],"reason":"店家历史支持荷叶包油饭存在，不支持项目公式与族群身份。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j11","province_code":"CN-TW","mode":"recommend","intent":"normal","input_items":["大米","四季豆","豆干","毛豆","竹笋"],"expected_family_ids":["rice-cooker-hakka-vegetable-rice"],"expected_structure":"pretreated_mixed_rice","expected_outcome":"contest_structure_only","forbidden_claims":["参赛食谱就是客家唯一传统","四季豆可不熟透"],"reason":"可研究电锅饭与分项预处理结构，不能升级为通用传统标准。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}},
+    {"journey_id":"ft-j12","province_code":"CN-TW","mode":"recommend","intent":"normal","input_items":["糯米","食品级黑米色粉"],"expected_family_ids":["ritual-colored-glutinous-rice"],"expected_structure":"project_colored_rice_adaptation","expected_outcome":"cross_regional_adaptation_only","forbidden_claims":["色粉就是乌稔树叶汁","这是台湾省级代表菜"],"reason":"保留畲族跨地域与家庭适配标识，不归入台湾单省传统。","human_review":{"status":"pending","family_fit":"","household_feasibility":"","identity_preserved":"","notes":""}}
+  ]
+}

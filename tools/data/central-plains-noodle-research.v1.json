@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "assessment_version": "central-plains-noodle-research-v1-20260726",
+  "region_id": "central_plains",
+  "province_codes": ["CN-HA"],
+  "source_refs": [
+    {
+      "source_id": "nm-braised-noodle-2018",
+      "title": "乌拉特中旗美食资料：焖面",
+      "url": "https://www.wltzq.gov.cn/zjwzq/yxwltzq/ms/201812/t20181204_674031.html?slh=true",
+      "publisher": "乌拉特中旗人民政府",
+      "published_at": "2018-12-04",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "政府地方资料将焖面列为山西、陕西、河南、河北、京津、内蒙古等多地做法，记录面条、豆角、猪肉的基础结构，并把卷心菜、菌菇、土豆等列为可加入食材。",
+      "proves": [
+        "production:north-china-green-bean-braised-noodles:cross_northern_identity",
+        "candidate:henan-cabbage-mushroom-steamed-noodles:family_optional_ingredients"
+      ],
+      "does_not_prove": [
+        "production:north-china-green-bean-braised-noodles:henan_specific_origin",
+        "candidate:henan-cabbage-mushroom-steamed-noodles:fixed_regional_core",
+        "candidate:henan-celery-pork-steamed-noodles:fixed_regional_core"
+      ]
+    },
+    {
+      "source_id": "rmrb-yujin-bean-lumian-2018",
+      "title": "彩色的芸豆（泥土芬芳）",
+      "url": "https://country.people.com.cn/n1/2018/1015/c419842-30340356.html",
+      "publisher": "人民日报",
+      "published_at": "2018-10-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "人民日报原文记录卤面、炉面在豫晋交界长期流行，并描述五花肉与芸豆先炒、细面先蒸、混合后复蒸的高层流程，也说明其他蔬菜可替代芸豆。",
+      "proves": [
+        "candidate:henan-bean-pork-steamed-noodles:yujin_steamed_lumian_family",
+        "candidate:henan-bean-pork-steamed-noodles:bean_pork_pairing",
+        "candidate:henan-celery-pork-steamed-noodles:family_substitution_possible",
+        "candidate:henan-home-one-pot-steamed-braised-noodles:traditional_multistage_process"
+      ],
+      "does_not_prove": [
+        "candidate:henan-bean-pork-steamed-noodles:henan_exclusive_identity",
+        "candidate:henan-celery-pork-steamed-noodles:fixed_regional_core",
+        "candidate:henan-home-one-pot-steamed-braised-noodles:traditional_single_pot_identity",
+        "candidate:henan-home-one-pot-steamed-braised-noodles:vessel_process_equivalence"
+      ]
+    },
+    {
+      "source_id": "henan-current-lumian-2025",
+      "title": "河南党建引领高效能治理观察",
+      "url": "https://www.henan.gov.cn/2025/03-11/3134974.html",
+      "publisher": "河南省人民政府门户网站",
+      "published_at": "2025-03-11",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "河南省政府转载的基层报道把卤面列入当代河南助老餐食谱，只能证明当前生活场景中的存在。",
+      "proves": ["production:north-china-green-bean-braised-noodles:henan_current_presence"],
+      "does_not_prove": [
+        "production:north-china-green-bean-braised-noodles:henan_specific_origin",
+        "candidate:henan-bean-pork-steamed-noodles:bean_pork_pairing"
+      ]
+    },
+    {
+      "source_id": "scio-henan-huimian-2025",
+      "title": "河南烩面",
+      "url": "https://english.scio.gov.cn/featured/chinakeywords/2025-06/11/content_117925432.htm",
+      "publisher": "国务院新闻办公室网站",
+      "published_at": "2025-06-11",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方对外资料将河南烩面描述为河南特色，结构包含高筋面、高汤、肉、海带、千张、粉条和鹌鹑蛋等，是汤面而非蒸卤面。",
+      "proves": ["lead:henan-huimian-broth-pulled-noodle:regional_structure"],
+      "does_not_prove": [
+        "lead:henan-huimian-broth-pulled-noodle:quick_household_equivalence",
+        "lead:henan-huimian-broth-pulled-noodle:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "henan-culture-luoyang-jiangmian-2025",
+      "title": "洛阳，还得是洛阳",
+      "url": "https://hct.henan.gov.cn/2025/05-21/3160322.html",
+      "publisher": "河南省文化和旅游厅",
+      "published_at": "2025-05-21",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方文旅资料记录洛阳浆面条以发酵豆浆形成的酸浆煮面，配黄豆、青豆、芹菜粒与韭黄酱。",
+      "proves": ["lead:henan-luoyang-fermented-sour-noodle-bowl:regional_structure"],
+      "does_not_prove": [
+        "lead:henan-luoyang-fermented-sour-noodle-bowl:ordinary_soymilk_substitution",
+        "lead:henan-luoyang-fermented-sour-noodle-bowl:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "henan-wugang-mohu-2024",
+      "title": "舞钢沫糊：就是这个味儿解馋",
+      "url": "https://henan.people.com.cn/n2/2024/0415/c378397-40810569.html",
+      "publisher": "人民网河南频道",
+      "published_at": "2024-04-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "平顶山市委宣传部供稿记录舞钢沫糊以玉米、大豆、麦子、花生、大米、芝麻等炒熟磨粉，配泡发干菜熬稠，并可加入豆腐丝、粉条或肉末。",
+      "proves": ["lead:henan-wugang-mohu-grain-vegetable-bowl:regional_structure"],
+      "does_not_prove": [
+        "lead:henan-wugang-mohu-grain-vegetable-bowl:ordinary_porridge_equivalence",
+        "lead:henan-wugang-mohu-grain-vegetable-bowl:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "samr-bean-safety-2021",
+      "title": "关于食用扁豆的风险提示",
+      "url": "https://www.samr.gov.cn/zt/ndzt/2021n/splyyxkpzpzbpt/azspplhfcjpljqt/sg/art/2023/art_a0990c36d3bf4859a1158c3d68f9d482.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2021-10-19",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "市场监管总局风险提示要求扁豆、四季豆等充分熟透，不能为了鲜绿或脆嫩缩短烹煮。",
+      "proves": ["safety:bean-cook-through:principle"],
+      "does_not_prove": ["safety:bean-cook-through:project_minutes_ratio"]
+    },
+    {
+      "source_id": "nhc-home-food-safety-2024",
+      "title": "国家卫生健康委员会2024年6月21日新闻发布会文字实录",
+      "url": "https://www.nhc.gov.cn/xcs/c100122/202406/03d4253c5a8e4b9cad4c695ddc7d2e25.shtml",
+      "publisher": "国家卫生健康委员会",
+      "published_at": "2024-06-21",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家卫健委说明家庭食品安全应保持清洁、生熟分开、烧熟煮透，并特别提醒肉类与菜豆煮熟。",
+      "proves": ["safety:pork-cook-through-cross-contamination:principle"],
+      "does_not_prove": ["safety:pork-cook-through-cross-contamination:project_minutes_ratio"]
+    }
+  ],
+  "production_recipe_audits": [
+    {
+      "recipe_id": "north-china-green-bean-braised-noodles",
+      "audit_state": "needs_more_evidence",
+      "regional_scope_decision": "cross_regional_chinese",
+      "claims": {
+        "henan_current_presence": {
+          "verdict": "supported",
+          "evidence_source_ids": ["henan-current-lumian-2025"],
+          "reason": "河南当代助老餐场景可见卤面，但来源不描述这道生产 recipe 的固定配方。"
+        },
+        "cross_northern_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": ["nm-braised-noodle-2018"],
+          "reason": "政府地方资料将焖面分布指向多个北方省区，支持跨地域身份。"
+        },
+        "henan_specific_origin": {
+          "verdict": "not_proven",
+          "evidence_source_ids": ["nm-braised-noodle-2018", "henan-current-lumian-2025"],
+          "reason": "多地分布和河南当代出现都不能证明河南起源或独有传统。"
+        }
+      },
+      "ingredient_roles": [
+        {"item": "鲜小麦面条", "role": "fresh_noodle_staple", "evidence_status": "production"},
+        {"item": "豆角", "role": "long_cook_vegetable", "evidence_status": "production"},
+        {"item": "猪肉末", "role": "ground_pork_protein", "evidence_status": "production"}
+      ],
+      "product_destinations": ["recipe_evidence", "template_evidence"],
+      "priority": {"product_score": 9, "regional_score": 6, "risk_penalty": 3, "total_score": 12},
+      "decision_reason": "保留跨地域生产条目，不改成河南地方菜，也不把卤面当代存在误写成起源证据。"
+    }
+  ],
+  "candidate_audits": [
+    {
+      "candidate_id": "henan-bean-pork-steamed-noodles",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "yujin_steamed_lumian_family": {"verdict": "supported", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "人民日报记录该类蒸卤面在豫晋交界长期流行。"},
+        "bean_pork_pairing": {"verdict": "supported", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "来源明确记录五花肉、芸豆与细面条的分阶段做法。"},
+        "henan_exclusive_identity": {"verdict": "not_proven", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "来源范围是豫晋交界，不能声明河南全省独有。"},
+        "executable_ratio": {"verdict": "not_proven", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "来源没有本项目可直接执行的面水比、菜汁量与家庭份量。"}
+      },
+      "ingredient_shapes": ["fresh_noodle", "presteamed_noodle", "bean_segment", "pork_piece"],
+      "shape_distinctions": ["fresh_noodle", "presteamed_noodle", "steamed_then_mixed_and_resteamed"],
+      "product_destinations": ["template_evidence", "ratio_rule", "research_only"],
+      "priority": {"product_score": 10, "regional_score": 9, "risk_penalty": 6, "total_score": 13},
+      "decision_reason": "四候选中证据最强，但先补面条状态、含水与熟制验证，不创建 recipe。"
+    },
+    {
+      "candidate_id": "henan-celery-pork-steamed-noodles",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "family_substitution_possible": {"verdict": "supported", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "来源只支持蒸卤面可换其他蔬菜这一家族级可能性。"},
+        "fixed_regional_core": {"verdict": "not_proven", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018", "nm-braised-noodle-2018"], "reason": "现有来源没有把芹菜猪肉确立为河南蒸面固定核心。"},
+        "pork_pairing": {"verdict": "not_proven", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "猪肉可用于家族，不等于芹菜与猪肉是地域固定配对。"}
+      },
+      "ingredient_shapes": ["fresh_noodle", "presteamed_noodle", "celery_segment", "pork_piece"],
+      "shape_distinctions": ["fresh_noodle", "presteamed_noodle", "celery_as_adaptation_slot"],
+      "product_destinations": ["taxonomy_rule", "research_only"],
+      "priority": {"product_score": 7, "regional_score": 4, "risk_penalty": 5, "total_score": 6},
+      "decision_reason": "保留为蔬菜槽位适配问题，不把它固化成河南地域菜名。"
+    },
+    {
+      "candidate_id": "henan-cabbage-mushroom-steamed-noodles",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "family_optional_ingredients": {"verdict": "supported", "evidence_source_ids": ["nm-braised-noodle-2018"], "reason": "跨地域焖面资料把卷心菜和菌菇列为可加入食材，只支持家族可选性。"},
+        "fixed_regional_core": {"verdict": "not_proven", "evidence_source_ids": ["nm-braised-noodle-2018"], "reason": "来源不证明卷心菜菌菇是河南蒸面固定核心。"},
+        "steam_braise_equivalence": {"verdict": "not_proven", "evidence_source_ids": ["nm-braised-noodle-2018", "rmrb-yujin-bean-lumian-2018"], "reason": "焖面可选食材不能自动证明先蒸后拌复蒸的流程等价。"}
+      },
+      "ingredient_shapes": ["fresh_noodle", "presteamed_noodle", "cabbage_shred", "mushroom_piece"],
+      "shape_distinctions": ["fresh_noodle", "presteamed_noodle", "braised_optional_ingredient"],
+      "product_destinations": ["taxonomy_rule", "research_only"],
+      "priority": {"product_score": 7, "regional_score": 4, "risk_penalty": 5, "total_score": 6},
+      "decision_reason": "只作为卷心菜和菌菇槽位研究，不创建固定河南菜谱。"
+    },
+    {
+      "candidate_id": "henan-home-one-pot-steamed-braised-noodles",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "traditional_multistage_process": {"verdict": "supported", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "来源描述先炒菜、面上笼、混合再复蒸的多阶段流程。"},
+        "traditional_single_pot_identity": {"verdict": "not_proven", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "传统资料没有把该做法定义为一口锅完成。"},
+        "vessel_process_equivalence": {"verdict": "not_proven", "evidence_source_ids": ["rmrb-yujin-bean-lumian-2018"], "reason": "尚未验证把笼蒸、拌汁、复蒸收敛成单锅后仍有相同面条含水与口感。"}
+      },
+      "ingredient_shapes": ["fresh_noodle", "presteamed_noodle", "durable_vegetable_slot", "optional_protein_slot"],
+      "shape_distinctions": ["steamer_multistage", "single_vessel_adaptation", "braise_not_identical_to_steam"],
+      "product_destinations": ["new_family_research", "ratio_rule", "research_only"],
+      "priority": {"product_score": 9, "regional_score": 6, "risk_penalty": 8, "total_score": 7},
+      "decision_reason": "把单锅化明确标成产品适配研究，未验证前不宣称传统等价。"
+    }
+  ],
+  "concrete_research_leads": [
+    {
+      "lead_id": "henan-huimian-broth-pulled-noodle",
+      "name": "河南烩面高汤扯面家族",
+      "family_id": "broth-pulled-noodle",
+      "production_recipe_id": null,
+      "source_ids": ["scio-henan-huimian-2025", "nhc-home-food-safety-2024"],
+      "ingredient_shapes": ["pulled_noodle", "broth"],
+      "known_structure": ["高筋面或扯面", "肉骨高汤", "肉与蔬菜配料", "汤面主餐"],
+      "open_questions": ["家庭高汤降摩擦路线", "面体形态兼容", "液体比例", "肉类熟制终点"],
+      "product_destinations": ["new_family_research"],
+      "decision_reason": "地域身份清晰但工序重，单独研究家庭适配，不并入蒸卤面。",
+      "priority": {"product_score": 7, "regional_score": 10, "risk_penalty": 7, "total_score": 10}
+    },
+    {
+      "lead_id": "henan-luoyang-fermented-sour-noodle-bowl",
+      "name": "洛阳浆面条发酵酸汤家族",
+      "family_id": "fermented-sour-noodle-bowl",
+      "production_recipe_id": null,
+      "source_ids": ["henan-culture-luoyang-jiangmian-2025"],
+      "ingredient_shapes": ["fermented_sour_liquid", "fresh_noodle"],
+      "known_structure": ["发酵豆浆酸浆", "面条", "黄豆或青豆", "芹菜粒", "韭黄酱"],
+      "open_questions": ["酸浆可得性", "发酵原料安全", "家庭液体比例", "不可替代项"],
+      "product_destinations": ["new_family_research"],
+      "decision_reason": "结构清楚但关键酸浆不属于基础补充项，先研究可得性与安全。",
+      "priority": {"product_score": 6, "regional_score": 10, "risk_penalty": 8, "total_score": 8}
+    },
+    {
+      "lead_id": "henan-wugang-mohu-grain-vegetable-bowl",
+      "name": "舞钢沫糊杂粮蔬菜稠锅家族",
+      "family_id": "grain-vegetable-thick-bowl",
+      "production_recipe_id": null,
+      "source_ids": ["henan-wugang-mohu-2024", "nhc-home-food-safety-2024"],
+      "ingredient_shapes": ["ground_roasted_grain_powder", "rehydrated_dried_vegetable"],
+      "known_structure": ["炒熟杂粮磨粉", "泡发干菜", "慢熬稠糊", "豆腐丝粉条肉末可选"],
+      "open_questions": ["杂粮粉配比", "家庭研磨替代", "干菜复水", "一顿主餐份量"],
+      "product_destinations": ["new_family_research"],
+      "decision_reason": "地域与结构具体，先研究机器可执行比例和现代家庭操作，不降格成普通粥。",
+      "priority": {"product_score": 8, "regional_score": 9, "risk_penalty": 6, "total_score": 11}
+    }
+  ],
+  "family_model": [
+    {"family_id": "noodle-braise", "name": "北方鲜面焖制", "meal_structure": "same_pot", "evidence_status": "production_supported"},
+    {"family_id": "noodle-steam-braise", "name": "蒸卤面多阶段结构", "meal_structure": "multi_stage_vessel", "evidence_status": "regional_structure_supported"},
+    {"family_id": "broth-pulled-noodle", "name": "高汤扯面主餐", "meal_structure": "broth_bowl", "evidence_status": "regional_structure_supported"},
+    {"family_id": "fermented-sour-noodle-bowl", "name": "发酵酸浆面条", "meal_structure": "fermented_broth_bowl", "evidence_status": "regional_structure_supported"},
+    {"family_id": "grain-vegetable-thick-bowl", "name": "杂粮蔬菜稠锅", "meal_structure": "thick_grain_bowl", "evidence_status": "regional_structure_supported"}
+  ],
+  "adaptation_boundaries": [
+    {"boundary_id": "cross-regional-not-henan-origin", "evidence_status": "checked", "notes": "跨北方焖面不因河南当代出现而变成河南起源。"},
+    {"boundary_id": "steam-braise-not-generic-braise", "evidence_status": "checked", "notes": "先蒸、拌菜汁、复蒸不能与锅内直接焖面混为同一流程。"},
+    {"boundary_id": "single-pot-adaptation-not-traditional-equivalence", "evidence_status": "open", "notes": "一口锅简化尚未通过面条含水、粘连和口感验证。"},
+    {"boundary_id": "pulled-noodle-broth-not-steamed-noodle", "evidence_status": "checked", "notes": "烩面的面体与高汤结构独立于蒸卤面。"},
+    {"boundary_id": "fermented-sour-liquid-not-ordinary-soymilk", "evidence_status": "checked", "notes": "浆面条的发酵酸浆不能由普通豆浆静默替换。"},
+    {"boundary_id": "ground-grain-thick-bowl-not-porridge", "evidence_status": "checked", "notes": "沫糊的炒熟磨粉与干菜结构不能改写成普通杂粮粥。"}
+  ],
+  "safety_boundaries": [
+    {"safety_id": "bean-cook-through", "source_ids": ["samr-bean-safety-2021"], "evidence_status": "principle_only", "endpoint_note": "豆角必须充分熟透、失去生绿色和豆腥味；本轮不转写项目分钟与比例。"},
+    {"safety_id": "pork-cook-through-cross-contamination", "source_ids": ["nhc-home-food-safety-2024"], "evidence_status": "principle_only", "endpoint_note": "猪肉必须烧熟煮透并生熟分开；本轮不伪造项目时长或液体量。"}
+  ],
+  "journey_cases": [
+    {"journey_id":"cp-journey-01","mode":"pantry","intent":"normal","input_items":["鲜面条","豆角","猪肉"],"expected_family_ids":["noodle-braise","noodle-steam-braise"],"forbidden_claims":["河南独有","传统固定克数"],"expected_outcome":"research_route_only","reason":"可走跨北方焖面或蒸卤面研究，但不能声明河南独有。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-02","mode":"pantry","intent":"normal","input_items":["预蒸面条","豆角","猪肉"],"expected_family_ids":["noodle-steam-braise"],"forbidden_claims":["比例已验证"],"expected_outcome":"research_route_only","reason":"最接近蒸卤面结构，但菜汁量和复蒸含水仍待验证。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-03","mode":"pantry","intent":"normal","input_items":["面条","芹菜","猪肉"],"expected_family_ids":["noodle-steam-braise"],"forbidden_claims":["河南固定组合"],"expected_outcome":"adaptation_only","reason":"可以研究家庭变体，但没有地域固定核心证据。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-04","mode":"pantry","intent":"normal","input_items":["面条","卷心菜","菌菇"],"expected_family_ids":["noodle-braise"],"forbidden_claims":["河南传统蒸面"],"expected_outcome":"adaptation_only","reason":"跨地域资料仅支持可选食材，不支持河南固定组合。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-05","mode":"pantry","intent":"normal","input_items":["鲜面条","豆角","土豆"],"expected_family_ids":["noodle-braise"],"forbidden_claims":["河南蒸卤面"],"expected_outcome":"supported_family_route","reason":"可走北方焖面家族，不自动进入河南蒸卤面。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-06","mode":"recommend","intent":"normal","input_items":["普通鲜面","羊肉","清水"],"expected_family_ids":[],"forbidden_claims":["河南烩面"],"expected_outcome":"insufficient_identity","reason":"缺少扯面形态和高汤结构，不能称为河南烩面。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-07","mode":"recommend","intent":"normal","input_items":["宽扯面","羊肉高汤","海带","千张"],"expected_family_ids":["broth-pulled-noodle"],"forbidden_claims":["蒸卤面"],"expected_outcome":"new_family_research","reason":"符合河南烩面高汤扯面结构，必须保持独立家族。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-08","mode":"pantry","intent":"normal","input_items":["面条","发酵酸浆","黄豆","青豆","芹菜"],"expected_family_ids":["fermented-sour-noodle-bowl"],"forbidden_claims":["普通豆浆等价"],"expected_outcome":"new_family_research","reason":"符合洛阳浆面条的关键酸浆与配料结构。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-09","mode":"pantry","intent":"normal","input_items":["面条","普通豆浆","芹菜"],"expected_family_ids":[],"forbidden_claims":["洛阳浆面条"],"expected_outcome":"incompatible_substitution","reason":"普通豆浆不能静默替代发酵酸浆。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-10","mode":"pantry","intent":"batch","input_items":["炒熟杂粮粉","泡发干菜","豆腐丝"],"expected_family_ids":["grain-vegetable-thick-bowl"],"forbidden_claims":["普通杂粮粥"],"expected_outcome":"new_family_research","reason":"符合舞钢沫糊的杂粮粉与干菜稠熬结构。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-11","mode":"pantry","intent":"normal","input_items":["鲜面","豆角","猪肉","只用一口锅"],"expected_family_ids":["noodle-steam-braise"],"forbidden_claims":["传统等价"],"expected_outcome":"adaptation_only","reason":"一口锅限制只能进入产品适配研究，不能宣称传统流程等价。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"cp-journey-12","mode":"pantry","intent":"quick","input_items":["鲜面","未熟豆角","生猪肉"],"expected_family_ids":[],"forbidden_claims":["缩短熟制","鲜绿脆嫩"],"expected_outcome":"safety_conflict","reason":"quick 不能覆盖豆角和猪肉的熟透要求，应暂停而不是强行出方案。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}}
+  ]
+}

@@ -1,0 +1,2065 @@
+{
+  "schema_version": 1,
+  "assessment_version": "jiangnan-rice-research-v1-20260726",
+  "region_overview": {
+    "region_id": "jiangnan",
+    "name": "江南",
+    "province_codes": [
+      "CN-SH",
+      "CN-JS",
+      "CN-ZJ",
+      "CN-AH"
+    ],
+    "provinces": [
+      {
+        "atlas_code": "CN-SH",
+        "name": "上海",
+        "research_question": "整理上海咸肉菜饭、土灶菜饭与家庭锅适配的共享结构。",
+        "production_recipe_count": 2,
+        "production_recipe_ids": [
+          "jinshan-clay-oven-vegetable-rice",
+          "shanghai-salted-pork-vegetable-rice"
+        ],
+        "research_lead_count": 0,
+        "research_lead_ids": []
+      },
+      {
+        "atlas_code": "CN-JS",
+        "name": "江苏",
+        "research_question": "整理苏州与南京菜饭、咸肉香肠和鸭肉变种的同构关系。",
+        "production_recipe_count": 4,
+        "production_recipe_ids": [
+          "nanjing-cured-pork-greens-rice",
+          "nanjing-duck-greens-rice",
+          "nanjing-sausage-greens-rice",
+          "suzhou-salted-pork-vegetable-rice"
+        ],
+        "research_lead_count": 0,
+        "research_lead_ids": []
+      },
+      {
+        "atlas_code": "CN-ZJ",
+        "name": "浙江",
+        "research_question": "核实浙江菜饭、豆饭、乌饭和器具适配类主餐的来源与结构。",
+        "production_recipe_count": 1,
+        "production_recipe_ids": [
+          "banshan-wild-rice"
+        ],
+        "research_lead_count": 0,
+        "research_lead_ids": []
+      },
+      {
+        "atlas_code": "CN-AH",
+        "name": "安徽",
+        "research_question": "核实安徽菜饭、锅巴饭和咸肉蔬菜同锅主餐的地域原型。",
+        "production_recipe_count": 0,
+        "production_recipe_ids": [],
+        "research_lead_count": 2,
+        "research_lead_ids": [
+          "anhui-dongzhi-farm-pot-crust-rice",
+          "anhui-mugwort-pot-crust"
+        ]
+      }
+    ],
+    "family_id": "jiangnan-rice-families",
+    "research_focus": [
+      "菜饭",
+      "咸肉饭",
+      "香肠菜饭与豆饭"
+    ]
+  },
+  "recipe_audits": [
+    {
+      "recipe_id": "banshan-wild-rice",
+      "recipe_name": "半山野米饭风味平菇焖饭",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-regional-grain-specialties",
+      "core_ingredients": [
+        "大米",
+        "平菇"
+      ],
+      "candidate_id": "banshan-wild-rice",
+      "candidate_name": "半山烧野米饭",
+      "candidate_traditional_basis": "杭州半山地区保有烧野米饭这一地方饭食名称与民俗记忆。",
+      "province_codes": [
+        "CN-ZJ"
+      ],
+      "regional_scope": "province_specific",
+      "primary_family_id": "raw-rice-braise",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "cultural_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "ihchina-banshan-wild-rice-2017"
+          ],
+          "reason": "国家非遗网站直接记录半山立夏烧野米饭习俗。"
+        },
+        "production_core_combination": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "ihchina-banshan-wild-rice-2017"
+          ],
+          "reason": "来源提到米、鸡蛋、韭菜等户外合做，不支持生产版大米加平菇作为传统核心组合。"
+        },
+        "home_vessel_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "ihchina-banshan-wild-rice-2017"
+          ],
+          "reason": "户外搭灶明火的民俗结构不能自动等价为家庭焖饭。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "ihchina-banshan-wild-rice-2017"
+          ],
+          "reason": "民俗资料不提供平菇焖饭的机器比例和安全终点。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "米",
+          "role": "cultural_staple",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "鸡蛋",
+          "role": "documented_gathered_ingredient",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "韭菜",
+          "role": "documented_gathered_ingredient",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "平菇",
+          "role": "production_mushroom",
+          "evidence_status": "not_proven"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "outdoor-seasonal-rice",
+        "variant_axis": "mushroom home adaptation",
+        "notes": "民俗名称有据，平菇家庭焖饭不是来源支持的传统变体。"
+      },
+      "product_destinations": [
+        "content_only",
+        "research_only"
+      ],
+      "priority": {
+        "product_score": 4,
+        "regional_score": 8,
+        "risk_penalty": 7,
+        "total_score": 5
+      },
+      "decision_reason": "保留半山立夏文化线索；生产版平菇组合需要重新评价，不用于扩展组合能力。"
+    },
+    {
+      "recipe_id": "jinshan-clay-oven-vegetable-rice",
+      "recipe_name": "金山土灶菜饭",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-jiangnan-vegetable-rice",
+      "core_ingredients": [
+        "大米",
+        "小白菜"
+      ],
+      "candidate_id": "jinshan-clay-oven-vegetable-rice",
+      "candidate_name": "金山土灶菜饭",
+      "candidate_traditional_basis": "金山乡土饮食保留土灶烹制菜饭的做法印象。",
+      "province_codes": [
+        "CN-SH"
+      ],
+      "regional_scope": "province_specific",
+      "primary_family_id": "raw-rice-braise",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "regional_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "sh-jinshan-clay-stove-rice-2025"
+          ],
+          "reason": "上海官方页面记录金山村落的土灶菜饭。"
+        },
+        "vessel_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "sh-jinshan-clay-stove-rice-2025"
+          ],
+          "reason": "土灶是来源中明确出现的地方烹饪环境。"
+        },
+        "home_vessel_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sh-jinshan-clay-stove-rice-2025"
+          ],
+          "reason": "土灶事实不能证明普通锅或电饭锅在火力、锅巴和液体上等价。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sh-jinshan-clay-stove-rice-2025"
+          ],
+          "reason": "来源没有给出可机器执行的家庭锅比例和安全终点。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "大米",
+          "role": "plain_rice_staple",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "时令青菜",
+          "role": "leafy_green",
+          "evidence_status": "family_supported"
+        },
+        {
+          "item": "小白菜",
+          "role": "production_leafy_green",
+          "evidence_status": "project_adaptation"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "plain-greens-rice",
+        "variant_axis": "wood-fired clay stove",
+        "notes": "土灶身份有据，家庭锅适配不能冒充传统等价。"
+      },
+      "product_destinations": [
+        "template_evidence",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 7,
+        "regional_score": 8,
+        "risk_penalty": 4,
+        "total_score": 11
+      },
+      "decision_reason": "保留土灶菜饭文化与技法线索，普通家庭锅比例另行研究。"
+    },
+    {
+      "recipe_id": "nanjing-cured-pork-greens-rice",
+      "recipe_name": "南京矮脚黄腊肉菜饭",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-jiangnan-vegetable-rice",
+      "core_ingredients": [
+        "大米",
+        "腊五花肉",
+        "矮脚黄"
+      ],
+      "candidate_id": "nanjing-cured-pork-greens-rice",
+      "candidate_name": "南京矮脚黄腊肉菜饭",
+      "candidate_traditional_basis": "南京冬季常以矮脚黄和腊肉搭配米饭，形成菜饭变体。",
+      "province_codes": [
+        "CN-JS"
+      ],
+      "regional_scope": "province_specific",
+      "primary_family_id": "raw-rice-braise",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "regional_variant": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "文化资料支持南京矮脚黄菜饭的地方身份。"
+        },
+        "protein_variant": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "来源明确列出咸肉片作为菜饭配料。"
+        },
+        "production_staple_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "来源描述糯米，不能据此证明生产版普通大米与糯米传统等价。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "文化资料不提供生产克数、液体比例或腊肉熟制安全终点。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "普通大米",
+          "role": "production_plain_rice",
+          "evidence_status": "not_proven"
+        },
+        {
+          "item": "糯米",
+          "role": "source_staple",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "腊肉",
+          "role": "cured_pork",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "矮脚黄",
+          "role": "regional_leafy_green",
+          "evidence_status": "supported"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "nanjing-seasonal-greens-rice",
+        "variant_axis": "cured pork",
+        "notes": "肉类变体有据，普通大米替代糯米的传统等价性未证明。"
+      },
+      "product_destinations": [
+        "template_evidence",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 8,
+        "regional_score": 9,
+        "risk_penalty": 5,
+        "total_score": 12
+      },
+      "decision_reason": "保留南京变体证据，生产版主食形态与比例需另行核实。"
+    },
+    {
+      "recipe_id": "nanjing-duck-greens-rice",
+      "recipe_name": "南京矮脚黄板鸭菜饭",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-jiangnan-vegetable-rice",
+      "core_ingredients": [
+        "大米",
+        "包装熟制板鸭（去骨）",
+        "矮脚黄"
+      ],
+      "candidate_id": "nanjing-duck-greens-rice",
+      "candidate_name": "南京矮脚黄板鸭菜饭",
+      "candidate_traditional_basis": "南京矮脚黄菜饭也有以板鸭提味的地方组合。",
+      "province_codes": [
+        "CN-JS"
+      ],
+      "regional_scope": "province_specific",
+      "primary_family_id": "raw-rice-braise",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "regional_variant": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "文化资料支持南京矮脚黄菜饭的地方身份。"
+        },
+        "protein_variant": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "来源明确列出板鸭丁作为菜饭配料。"
+        },
+        "production_staple_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "来源描述糯米，不能据此证明生产版普通大米与糯米传统等价。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "文化资料不证明生产版包装熟制去骨板鸭的复热、去骨与盐度规则。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "普通大米",
+          "role": "production_plain_rice",
+          "evidence_status": "not_proven"
+        },
+        {
+          "item": "糯米",
+          "role": "source_staple",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "板鸭丁",
+          "role": "regional_cooked_duck",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "包装熟制板鸭（去骨）",
+          "role": "production_cooked_duck",
+          "evidence_status": "project_adaptation"
+        },
+        {
+          "item": "矮脚黄",
+          "role": "regional_leafy_green",
+          "evidence_status": "supported"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "nanjing-seasonal-greens-rice",
+        "variant_axis": "cooked duck",
+        "notes": "板鸭丁变体有据，普通大米和包装熟制去骨产品是生产适配。"
+      },
+      "product_destinations": [
+        "template_evidence",
+        "taxonomy_rule",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 7,
+        "regional_score": 9,
+        "risk_penalty": 6,
+        "total_score": 10
+      },
+      "decision_reason": "可支持南京板鸭变体，但生产食材形态和安全边界不能由文化来源代替。"
+    },
+    {
+      "recipe_id": "nanjing-sausage-greens-rice",
+      "recipe_name": "南京矮脚黄香肠菜饭",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-jiangnan-vegetable-rice",
+      "core_ingredients": [
+        "大米",
+        "广式腊肠",
+        "矮脚黄"
+      ],
+      "candidate_id": "nanjing-sausage-greens-rice",
+      "candidate_name": "南京矮脚黄香肠菜饭",
+      "candidate_traditional_basis": "南京矮脚黄菜饭可见香肠搭配的时令家常变化。",
+      "province_codes": [
+        "CN-JS"
+      ],
+      "regional_scope": "province_specific",
+      "primary_family_id": "raw-rice-braise",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "regional_variant": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "文化资料支持南京矮脚黄菜饭的地方身份。"
+        },
+        "protein_variant": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "来源明确列出香肠片作为菜饭配料。"
+        },
+        "production_staple_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "来源描述糯米，不能据此证明生产版普通大米与糯米传统等价。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nanjing-seasonal-rice-2024"
+          ],
+          "reason": "文化资料不提供生产克数、液体比例或香肠熟制安全终点。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "普通大米",
+          "role": "production_plain_rice",
+          "evidence_status": "not_proven"
+        },
+        {
+          "item": "糯米",
+          "role": "source_staple",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "香肠",
+          "role": "sausage",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "矮脚黄",
+          "role": "regional_leafy_green",
+          "evidence_status": "supported"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "nanjing-seasonal-greens-rice",
+        "variant_axis": "sausage",
+        "notes": "香肠变体有据，普通大米替代糯米的传统等价性未证明。"
+      },
+      "product_destinations": [
+        "template_evidence",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 8,
+        "regional_score": 9,
+        "risk_penalty": 5,
+        "total_score": 12
+      },
+      "decision_reason": "保留南京香肠变体证据，主食形态与生产比例需另行核实。"
+    },
+    {
+      "recipe_id": "shanghai-salted-pork-vegetable-rice",
+      "recipe_name": "上海奉贤咸肉菜饭",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-jiangnan-vegetable-rice",
+      "core_ingredients": [
+        "大米",
+        "咸五花肉",
+        "小白菜"
+      ],
+      "candidate_id": "shanghai-salted-pork-vegetable-rice",
+      "candidate_name": "上海奉贤咸肉菜饭",
+      "candidate_traditional_basis": "奉贤饮食中可见咸肉与青菜同米焖制的家常主食形式。",
+      "province_codes": [
+        "CN-SH"
+      ],
+      "regional_scope": "province_specific",
+      "primary_family_id": "raw-rice-braise",
+      "audit_state": "evidence_checked",
+      "claims": {
+        "regional_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "sh-fengxian-salted-rice-2022"
+          ],
+          "reason": "奉贤政府页面直接记录当地村民制作咸肉菜饭。"
+        },
+        "core_combination": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "sh-fengxian-salted-rice-2022"
+          ],
+          "reason": "来源直接出现咸肉、青菜和大米同锅。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sh-fengxian-salted-rice-2022"
+          ],
+          "reason": "文化报道不提供可机器执行的米水比、安全终点或家庭锅校准。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "大米",
+          "role": "plain_rice_staple",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "咸肉",
+          "role": "salted_pork",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "青菜",
+          "role": "leafy_green",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "小白菜",
+          "role": "production_leafy_green",
+          "evidence_status": "project_adaptation"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "greens-salted-meat-rice",
+        "variant_axis": "Shanghai-Fengxian salted pork",
+        "notes": "核心组合有据，小白菜的具体叶菜身份与生产比例属于项目标准。"
+      },
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence"
+      ],
+      "priority": {
+        "product_score": 9,
+        "regional_score": 9,
+        "risk_penalty": 3,
+        "total_score": 15
+      },
+      "decision_reason": "可作为江南咸肉菜饭家族证据，但不能用文化来源给生产比例背书。"
+    },
+    {
+      "recipe_id": "she-people-black-rice",
+      "recipe_name": "畲族乌饭风味家庭适配版",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-regional-grain-specialties",
+      "core_ingredients": [
+        "糯米",
+        "食品级黑米色粉"
+      ],
+      "candidate_id": "she-people-black-rice",
+      "candidate_name": "畲族乌饭",
+      "candidate_traditional_basis": "畲族乌饭以植物染米形成深色饭食，是民族节俗饮食线索。",
+      "province_codes": [],
+      "regional_scope": "cross_regional_chinese",
+      "primary_family_id": "glutinous-mixed-rice",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "cultural_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gz-she-black-rice-2026"
+          ],
+          "reason": "民族宗教部门资料直接记录畲族三月三乌饭及乌稔叶汁浸染糯米。"
+        },
+        "traditional_color_source_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gz-she-black-rice-2026"
+          ],
+          "reason": "生产版食品级黑米色粉不是来源中的乌稔叶汁，不能称为传统色源等价。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gz-she-black-rice-2026"
+          ],
+          "reason": "文化资料不能替代色粉用量、过敏原与糯米熟制的机器规则。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "糯米",
+          "role": "glutinous_rice_staple",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "乌稔树嫩叶汁",
+          "role": "traditional_color_source",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "食品级黑米色粉",
+          "role": "production_color_source",
+          "evidence_status": "project_adaptation"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "ritual-colored-glutinous-rice",
+        "variant_axis": "food-grade powder adaptation",
+        "notes": "文化身份有据，生产色源明确标为家庭适配而非复刻。"
+      },
+      "product_destinations": [
+        "taxonomy_rule",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 5,
+        "regional_score": 8,
+        "risk_penalty": 7,
+        "total_score": 6
+      },
+      "decision_reason": "适合作为文化与色源安全边界，不作为通用可组合食材模板。"
+    },
+    {
+      "recipe_id": "suzhou-salted-pork-vegetable-rice",
+      "recipe_name": "苏州青菜咸肉饭",
+      "recipe_status": "auto_approved",
+      "recipe_family_id": "family-jiangnan-vegetable-rice",
+      "core_ingredients": [
+        "大米",
+        "咸五花肉",
+        "小白菜"
+      ],
+      "candidate_id": "suzhou-salted-pork-vegetable-rice",
+      "candidate_name": "苏州青菜咸肉饭",
+      "candidate_traditional_basis": "苏州地方饮食中有以青菜和咸肉配米饭的一锅家常饭。",
+      "province_codes": [
+        "CN-JS"
+      ],
+      "regional_scope": "province_specific",
+      "primary_family_id": "raw-rice-braise",
+      "audit_state": "evidence_checked",
+      "claims": {
+        "regional_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "suzhou-wujiang-greens-rice-2025"
+          ],
+          "reason": "苏州市政府页面明确记录吴江香青菜咸肉饭。"
+        },
+        "core_combination": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "suzhou-wujiang-greens-rice-2025"
+          ],
+          "reason": "来源直接支持香青菜与咸肉饭的组合。"
+        },
+        "production_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "suzhou-wujiang-greens-rice-2025"
+          ],
+          "reason": "来源不提供生产条目的普通小白菜等价性、米水比或熟制终点。"
+        }
+      },
+      "ingredient_roles": [
+        {
+          "item": "大米",
+          "role": "plain_rice_staple",
+          "evidence_status": "family_supported"
+        },
+        {
+          "item": "咸肉",
+          "role": "salted_pork",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "吴江香青菜",
+          "role": "regional_leafy_green",
+          "evidence_status": "supported"
+        },
+        {
+          "item": "小白菜",
+          "role": "production_leafy_green",
+          "evidence_status": "project_adaptation"
+        }
+      ],
+      "ratio_evidence_status": "unresearched",
+      "safety_evidence_status": "unresearched",
+      "variant_relation": {
+        "family_anchor": "greens-salted-meat-rice",
+        "variant_axis": "Suzhou-Wujiang fragrant greens",
+        "notes": "香青菜咸肉饭有据，生产条目用小白菜属于受控家庭改造。"
+      },
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence"
+      ],
+      "priority": {
+        "product_score": 9,
+        "regional_score": 9,
+        "risk_penalty": 3,
+        "total_score": 15
+      },
+      "decision_reason": "可支持苏州家族身份，但不把吴江香青菜与所有青菜视为地域等价。"
+    }
+  ],
+  "variant_relationships": [
+    {
+      "recipe_id": "banshan-wild-rice",
+      "family_anchor": "outdoor-seasonal-rice",
+      "variant_axis": "mushroom home adaptation",
+      "notes": "民俗名称有据，平菇家庭焖饭不是来源支持的传统变体。"
+    },
+    {
+      "recipe_id": "jinshan-clay-oven-vegetable-rice",
+      "family_anchor": "plain-greens-rice",
+      "variant_axis": "wood-fired clay stove",
+      "notes": "土灶身份有据，家庭锅适配不能冒充传统等价。"
+    },
+    {
+      "recipe_id": "nanjing-cured-pork-greens-rice",
+      "family_anchor": "nanjing-seasonal-greens-rice",
+      "variant_axis": "cured pork",
+      "notes": "肉类变体有据，普通大米替代糯米的传统等价性未证明。"
+    },
+    {
+      "recipe_id": "nanjing-duck-greens-rice",
+      "family_anchor": "nanjing-seasonal-greens-rice",
+      "variant_axis": "cooked duck",
+      "notes": "板鸭丁变体有据，普通大米和包装熟制去骨产品是生产适配。"
+    },
+    {
+      "recipe_id": "nanjing-sausage-greens-rice",
+      "family_anchor": "nanjing-seasonal-greens-rice",
+      "variant_axis": "sausage",
+      "notes": "香肠变体有据，普通大米替代糯米的传统等价性未证明。"
+    },
+    {
+      "recipe_id": "shanghai-salted-pork-vegetable-rice",
+      "family_anchor": "greens-salted-meat-rice",
+      "variant_axis": "Shanghai-Fengxian salted pork",
+      "notes": "核心组合有据，小白菜的具体叶菜身份与生产比例属于项目标准。"
+    },
+    {
+      "recipe_id": "she-people-black-rice",
+      "family_anchor": "ritual-colored-glutinous-rice",
+      "variant_axis": "food-grade powder adaptation",
+      "notes": "文化身份有据，生产色源明确标为家庭适配而非复刻。"
+    },
+    {
+      "recipe_id": "suzhou-salted-pork-vegetable-rice",
+      "family_anchor": "greens-salted-meat-rice",
+      "variant_axis": "Suzhou-Wujiang fragrant greens",
+      "notes": "香青菜咸肉饭有据，生产条目用小白菜属于受控家庭改造。"
+    }
+  ],
+  "ingredient_coverage_matrix": [
+    {
+      "item": "矮脚黄",
+      "recipe_ids": [
+        "nanjing-cured-pork-greens-rice",
+        "nanjing-duck-greens-rice",
+        "nanjing-sausage-greens-rice"
+      ],
+      "roles": [
+        "regional_leafy_green"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "板鸭丁",
+      "recipe_ids": [
+        "nanjing-duck-greens-rice"
+      ],
+      "roles": [
+        "regional_cooked_duck"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "包装熟制板鸭（去骨）",
+      "recipe_ids": [
+        "nanjing-duck-greens-rice"
+      ],
+      "roles": [
+        "production_cooked_duck"
+      ],
+      "evidence_statuses": [
+        "project_adaptation"
+      ]
+    },
+    {
+      "item": "大米",
+      "recipe_ids": [
+        "jinshan-clay-oven-vegetable-rice",
+        "shanghai-salted-pork-vegetable-rice",
+        "suzhou-salted-pork-vegetable-rice"
+      ],
+      "roles": [
+        "plain_rice_staple"
+      ],
+      "evidence_statuses": [
+        "family_supported",
+        "supported"
+      ]
+    },
+    {
+      "item": "鸡蛋",
+      "recipe_ids": [
+        "banshan-wild-rice"
+      ],
+      "roles": [
+        "documented_gathered_ingredient"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "韭菜",
+      "recipe_ids": [
+        "banshan-wild-rice"
+      ],
+      "roles": [
+        "documented_gathered_ingredient"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "腊肉",
+      "recipe_ids": [
+        "nanjing-cured-pork-greens-rice"
+      ],
+      "roles": [
+        "cured_pork"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "米",
+      "recipe_ids": [
+        "banshan-wild-rice"
+      ],
+      "roles": [
+        "cultural_staple"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "糯米",
+      "recipe_ids": [
+        "nanjing-cured-pork-greens-rice",
+        "nanjing-duck-greens-rice",
+        "nanjing-sausage-greens-rice",
+        "she-people-black-rice"
+      ],
+      "roles": [
+        "glutinous_rice_staple",
+        "source_staple"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "平菇",
+      "recipe_ids": [
+        "banshan-wild-rice"
+      ],
+      "roles": [
+        "production_mushroom"
+      ],
+      "evidence_statuses": [
+        "not_proven"
+      ]
+    },
+    {
+      "item": "普通大米",
+      "recipe_ids": [
+        "nanjing-cured-pork-greens-rice",
+        "nanjing-duck-greens-rice",
+        "nanjing-sausage-greens-rice"
+      ],
+      "roles": [
+        "production_plain_rice"
+      ],
+      "evidence_statuses": [
+        "not_proven"
+      ]
+    },
+    {
+      "item": "青菜",
+      "recipe_ids": [
+        "shanghai-salted-pork-vegetable-rice"
+      ],
+      "roles": [
+        "leafy_green"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "时令青菜",
+      "recipe_ids": [
+        "jinshan-clay-oven-vegetable-rice"
+      ],
+      "roles": [
+        "leafy_green"
+      ],
+      "evidence_statuses": [
+        "family_supported"
+      ]
+    },
+    {
+      "item": "食品级黑米色粉",
+      "recipe_ids": [
+        "she-people-black-rice"
+      ],
+      "roles": [
+        "production_color_source"
+      ],
+      "evidence_statuses": [
+        "project_adaptation"
+      ]
+    },
+    {
+      "item": "乌稔树嫩叶汁",
+      "recipe_ids": [
+        "she-people-black-rice"
+      ],
+      "roles": [
+        "traditional_color_source"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "吴江香青菜",
+      "recipe_ids": [
+        "suzhou-salted-pork-vegetable-rice"
+      ],
+      "roles": [
+        "regional_leafy_green"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "咸肉",
+      "recipe_ids": [
+        "shanghai-salted-pork-vegetable-rice",
+        "suzhou-salted-pork-vegetable-rice"
+      ],
+      "roles": [
+        "salted_pork"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "香肠",
+      "recipe_ids": [
+        "nanjing-sausage-greens-rice"
+      ],
+      "roles": [
+        "sausage"
+      ],
+      "evidence_statuses": [
+        "supported"
+      ]
+    },
+    {
+      "item": "小白菜",
+      "recipe_ids": [
+        "jinshan-clay-oven-vegetable-rice",
+        "shanghai-salted-pork-vegetable-rice",
+        "suzhou-salted-pork-vegetable-rice"
+      ],
+      "roles": [
+        "production_leafy_green"
+      ],
+      "evidence_statuses": [
+        "project_adaptation"
+      ]
+    }
+  ],
+  "source_evidence_pack": [
+    {
+      "source_id": "sh-fengxian-salted-rice-2022",
+      "title": "大雪节气村民做咸肉菜饭，青菜甜糯咸肉清香",
+      "url": "https://www.fengxian.gov.cn/ymsmkfxjson/20221209/33096.html",
+      "publisher": "上海市奉贤区人民政府",
+      "published_at": "2022-12-09",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "奉贤政府页面记录村民将咸肉、青菜和浸泡后的大米放入土灶锅中焖制菜饭，可支持地域、核心组合和高层技法事实。",
+      "proves": [
+        "shanghai-salted-pork-vegetable-rice:regional_identity",
+        "shanghai-salted-pork-vegetable-rice:core_combination"
+      ],
+      "does_not_prove": [
+        "shanghai-salted-pork-vegetable-rice:production_ratio_safety",
+        "shanghai-salted-pork-vegetable-rice:home_vessel_equivalence"
+      ]
+    },
+    {
+      "source_id": "suzhou-wujiang-greens-rice-2025",
+      "title": "吴江香青菜入选国家地理标志产品",
+      "url": "https://www.suzhou.gov.cn/szsrmzf/szyw/202508/71a0b390ad12488b90e3761b40359c73.shtml",
+      "publisher": "苏州市人民政府（来源：苏州日报）",
+      "published_at": "2025-08-02",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "苏州市政府页面明确写到吴江香青菜可制作香青菜咸肉饭，支持苏州地域与青菜咸肉饭组合事实。",
+      "proves": [
+        "suzhou-salted-pork-vegetable-rice:regional_identity",
+        "suzhou-salted-pork-vegetable-rice:core_combination"
+      ],
+      "does_not_prove": [
+        "suzhou-salted-pork-vegetable-rice:production_ratio_safety",
+        "suzhou-salted-pork-vegetable-rice:common-greens-equivalence"
+      ]
+    },
+    {
+      "source_id": "nanjing-seasonal-rice-2024",
+      "title": "南京小寒食俗：菜饭",
+      "url": "https://www.zjskw.gov.cn/art/2024/8/15/art_1229556995_60165.html",
+      "publisher": "浙江省社会科学界联合会",
+      "published_at": "2024-08-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "文化资料记录南京小寒菜饭使用矮脚黄，可配咸肉片、香肠片或板鸭丁，并在文中描述糯米；支持变体事实，但不能证明生产版普通大米等价。",
+      "proves": [
+        "nanjing-cured-pork-greens-rice:regional_variant",
+        "nanjing-cured-pork-greens-rice:protein_variant",
+        "nanjing-sausage-greens-rice:regional_variant",
+        "nanjing-sausage-greens-rice:protein_variant",
+        "nanjing-duck-greens-rice:regional_variant",
+        "nanjing-duck-greens-rice:protein_variant"
+      ],
+      "does_not_prove": [
+        "nanjing-cured-pork-greens-rice:production_staple_equivalence",
+        "nanjing-sausage-greens-rice:production_staple_equivalence",
+        "nanjing-duck-greens-rice:production_staple_equivalence",
+        "nanjing-cured-pork-greens-rice:production_ratio_safety",
+        "nanjing-sausage-greens-rice:production_ratio_safety",
+        "nanjing-duck-greens-rice:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "sh-jinshan-clay-stove-rice-2025",
+      "title": "最美网红村踏青攻略来了",
+      "url": "https://mzj.sh.gov.cn/lnb-xw/20250403/72b3908562e14a8f89db37ea83d53ecd.html",
+      "publisher": "上海市民政局",
+      "published_at": "2025-04-03",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "上海市民政局页面在金山山塘村、中华村场景中记录当地土灶菜饭与高层烹饪过程，支持地方与土灶身份。",
+      "proves": [
+        "jinshan-clay-oven-vegetable-rice:regional_identity",
+        "jinshan-clay-oven-vegetable-rice:vessel_identity"
+      ],
+      "does_not_prove": [
+        "jinshan-clay-oven-vegetable-rice:home_vessel_equivalence",
+        "jinshan-clay-oven-vegetable-rice:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "gz-she-black-rice-2026",
+      "title": "正果镇畲族乌饭制作技艺成功入选市级非遗名录",
+      "url": "https://mzzjj.gz.gov.cn/xwdt/gqdt/content/post_10848697.html",
+      "publisher": "广州市民族宗教事务局",
+      "published_at": "2026-06-09",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方资料记录畲族三月三乌饭以乌稔树嫩叶汁浸泡糯米后蒸煮，支持文化身份与传统色源事实。",
+      "proves": [
+        "she-people-black-rice:cultural_identity"
+      ],
+      "does_not_prove": [
+        "she-people-black-rice:traditional_color_source_equivalence",
+        "she-people-black-rice:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "ihchina-banshan-wild-rice-2017",
+      "title": "拱墅区举办第六届半山立夏节",
+      "url": "https://www.ihchina.cn/solarzx_details/18383.html",
+      "publisher": "中国非物质文化遗产网·中国非物质文化遗产数字博物馆",
+      "published_at": "2017-05-05",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "国家非遗网站记录半山立夏烧野米饭：孩子带米、鸡蛋、韭菜等上山搭灶烧饭；支持民俗身份，不支持平菇焖饭这一项目改造。",
+      "proves": [
+        "banshan-wild-rice:cultural_identity"
+      ],
+      "does_not_prove": [
+        "banshan-wild-rice:production_core_combination",
+        "banshan-wild-rice:home_vessel_equivalence",
+        "banshan-wild-rice:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "ah-dongzhi-pot-crust-rice-2022",
+      "title": "新徽菜·名徽厨——东至五大名菜之一东至农家锅巴饭",
+      "url": "https://czsrsj.chizhou.gov.cn/Content/show/608587.html",
+      "publisher": "池州市人力资源和社会保障局（来源：东至县人社局）",
+      "published_at": "2022-11-22",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方页面将东至农家锅巴饭列为东至五大名菜之一，并记录香米、红心芋与粉蒸肉同锅形成锅巴饭。",
+      "proves": [
+        "anhui-dongzhi-farm-pot-crust-rice:regional_identity"
+      ],
+      "does_not_prove": [
+        "anhui-dongzhi-farm-pot-crust-rice:planner_compatibility",
+        "anhui-dongzhi-farm-pot-crust-rice:production_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "ah-huoqiu-mugwort-pot-crust-2025",
+      "title": "关于霍邱县第五批县级非物质文化遗产名录的解读",
+      "url": "https://www.huoqiu.gov.cn/public/6600541/37942838.html",
+      "publisher": "霍邱县人民政府（发布机构：霍邱县文旅体育局）",
+      "published_at": "2025-06-24",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "霍邱县非遗解读将霍邱蒿子锅巴列为传统技艺，并记录蒿子与大米同锅做菜干饭、锅底形成锅巴的地方事实。",
+      "proves": [
+        "anhui-mugwort-pot-crust:regional_identity"
+      ],
+      "does_not_prove": [
+        "anhui-mugwort-pot-crust:ingredient_identity_safety",
+        "anhui-mugwort-pot-crust:planner_compatibility",
+        "anhui-mugwort-pot-crust:production_ratio_safety"
+      ]
+    }
+  ],
+  "home_adaptation_boundaries": [
+    {
+      "boundary_id": "adaptation:traditional-staple-to-plain-rice",
+      "subject": "糯米改普通大米",
+      "boundary_type": "adaptation_equivalence",
+      "evidence_status": "not_proven",
+      "explanation": "南京来源写糯米，生产条目使用普通大米。"
+    },
+    {
+      "boundary_id": "adaptation:traditional-greens-to-common-greens",
+      "subject": "地域青菜改常见叶菜",
+      "boundary_type": "adaptation_equivalence",
+      "evidence_status": "needs_compatibility_review",
+      "explanation": "吴江香青菜、矮脚黄与小白菜不可只凭类别视为同一地域身份。"
+    },
+    {
+      "boundary_id": "adaptation:wood-fired-stove-to-home-pot",
+      "subject": "土灶改普通家庭锅",
+      "boundary_type": "adaptation_equivalence",
+      "evidence_status": "not_proven",
+      "explanation": "火力、锅巴和液体蒸发不同。"
+    },
+    {
+      "boundary_id": "adaptation:outdoor-fire-to-home-pot",
+      "subject": "户外明火改家庭锅",
+      "boundary_type": "adaptation_equivalence",
+      "evidence_status": "not_proven",
+      "explanation": "半山民俗的搭灶合做不能自动变成平菇焖饭。"
+    },
+    {
+      "boundary_id": "adaptation:color-source-to-food-grade-powder",
+      "subject": "乌稔叶汁改食品级黑米色粉",
+      "boundary_type": "adaptation_equivalence",
+      "evidence_status": "project_adaptation",
+      "explanation": "必须明确标为家庭适配，不得声称复刻传统色源。"
+    },
+    {
+      "boundary_id": "ratio:raw_plain_rice",
+      "subject": "普通生米菜饭比例",
+      "boundary_type": "ratio_and_liquid",
+      "evidence_status": "unresearched",
+      "explanation": "需按叶菜含水、器具和蛋白析出独立建立 Ratio DSL。"
+    },
+    {
+      "boundary_id": "ratio:glutinous_rice",
+      "subject": "糯米浸泡与熟制比例",
+      "boundary_type": "ratio_and_liquid",
+      "evidence_status": "unresearched",
+      "explanation": "不得借用普通米比例。"
+    },
+    {
+      "boundary_id": "ratio:cooked_rice",
+      "subject": "剩米饭含水路径",
+      "boundary_type": "ratio_and_liquid",
+      "evidence_status": "unresearched",
+      "explanation": "属于独立熟饭技法，不进入生米菜饭。"
+    },
+    {
+      "boundary_id": "safety:salted_pork",
+      "subject": "咸肉熟制与盐度",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "需要独立熟制和盐度规则。"
+    },
+    {
+      "boundary_id": "safety:cured_pork",
+      "subject": "腊肉熟制与盐度",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "不能与鲜肉或香肠共用一个模糊终点。"
+    },
+    {
+      "boundary_id": "safety:sausage",
+      "subject": "香肠熟制与脂肪析出",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "需按具体熟制状态建立规则。"
+    },
+    {
+      "boundary_id": "safety:cooked_duck",
+      "subject": "熟制板鸭复热与去骨",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "需要来源、去骨和彻底复热证据。"
+    },
+    {
+      "boundary_id": "safety:plant_identity",
+      "subject": "植物色源与蒿子身份",
+      "boundary_type": "safety_endpoint",
+      "evidence_status": "unresearched",
+      "explanation": "未知植物不得进入生产食材。"
+    }
+  ],
+  "product_destination_decisions": [
+    {
+      "subject_type": "province_research_lead",
+      "subject_id": "anhui-dongzhi-farm-pot-crust-rice",
+      "state": "discovery_only",
+      "product_destinations": [
+        "research_only"
+      ],
+      "priority": {
+        "product_score": 8,
+        "regional_score": 10,
+        "risk_penalty": 7,
+        "total_score": 11
+      },
+      "decision_reason": "地域和高层结构有据，但需先解决生肉熟制、锅巴器具与比例，不能直接创建生产菜谱。"
+    },
+    {
+      "subject_type": "province_research_lead",
+      "subject_id": "anhui-mugwort-pot-crust",
+      "state": "needs_source_review",
+      "product_destinations": [
+        "research_only"
+      ],
+      "priority": {
+        "product_score": 5,
+        "regional_score": 9,
+        "risk_penalty": 8,
+        "total_score": 6
+      },
+      "decision_reason": "地方事实成立，但植物身份和产品形态尚未满足家庭规划器要求。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "banshan-wild-rice",
+      "state": "needs_more_evidence",
+      "product_destinations": [
+        "content_only",
+        "research_only"
+      ],
+      "priority": {
+        "product_score": 4,
+        "regional_score": 8,
+        "risk_penalty": 7,
+        "total_score": 5
+      },
+      "decision_reason": "保留半山立夏文化线索；生产版平菇组合需要重新评价，不用于扩展组合能力。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "jinshan-clay-oven-vegetable-rice",
+      "state": "needs_more_evidence",
+      "product_destinations": [
+        "template_evidence",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 7,
+        "regional_score": 8,
+        "risk_penalty": 4,
+        "total_score": 11
+      },
+      "decision_reason": "保留土灶菜饭文化与技法线索，普通家庭锅比例另行研究。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "nanjing-cured-pork-greens-rice",
+      "state": "needs_more_evidence",
+      "product_destinations": [
+        "template_evidence",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 8,
+        "regional_score": 9,
+        "risk_penalty": 5,
+        "total_score": 12
+      },
+      "decision_reason": "保留南京变体证据，生产版主食形态与比例需另行核实。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "nanjing-duck-greens-rice",
+      "state": "needs_more_evidence",
+      "product_destinations": [
+        "template_evidence",
+        "taxonomy_rule",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 7,
+        "regional_score": 9,
+        "risk_penalty": 6,
+        "total_score": 10
+      },
+      "decision_reason": "可支持南京板鸭变体，但生产食材形态和安全边界不能由文化来源代替。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "nanjing-sausage-greens-rice",
+      "state": "needs_more_evidence",
+      "product_destinations": [
+        "template_evidence",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 8,
+        "regional_score": 9,
+        "risk_penalty": 5,
+        "total_score": 12
+      },
+      "decision_reason": "保留南京香肠变体证据，主食形态与生产比例需另行核实。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "shanghai-salted-pork-vegetable-rice",
+      "state": "evidence_checked",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence"
+      ],
+      "priority": {
+        "product_score": 9,
+        "regional_score": 9,
+        "risk_penalty": 3,
+        "total_score": 15
+      },
+      "decision_reason": "可作为江南咸肉菜饭家族证据，但不能用文化来源给生产比例背书。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "she-people-black-rice",
+      "state": "needs_more_evidence",
+      "product_destinations": [
+        "taxonomy_rule",
+        "content_only"
+      ],
+      "priority": {
+        "product_score": 5,
+        "regional_score": 8,
+        "risk_penalty": 7,
+        "total_score": 6
+      },
+      "decision_reason": "适合作为文化与色源安全边界，不作为通用可组合食材模板。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "suzhou-salted-pork-vegetable-rice",
+      "state": "evidence_checked",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence"
+      ],
+      "priority": {
+        "product_score": 9,
+        "regional_score": 9,
+        "risk_penalty": 3,
+        "total_score": 15
+      },
+      "decision_reason": "可支持苏州家族身份，但不把吴江香青菜与所有青菜视为地域等价。"
+    }
+  ],
+  "province_research_leads": [
+    {
+      "lead_id": "anhui-dongzhi-farm-pot-crust-rice",
+      "province_codes": [
+        "CN-AH"
+      ],
+      "name": "东至农家锅巴饭",
+      "production_recipe_id": null,
+      "research_state": "discovery_only",
+      "source_ids": [
+        "ah-dongzhi-pot-crust-rice-2022"
+      ],
+      "known_structure": [
+        "香米",
+        "红心芋",
+        "粉蒸肉",
+        "锅巴"
+      ],
+      "open_questions": [
+        "生肉与米同锅的熟制终点如何机器化",
+        "红心芋与粉蒸肉的家庭份量边界",
+        "锅巴目标在普通电饭锅中是否可复现"
+      ],
+      "product_destinations": [
+        "research_only"
+      ],
+      "decision_reason": "地域和高层结构有据，但需先解决生肉熟制、锅巴器具与比例，不能直接创建生产菜谱。",
+      "priority": {
+        "product_score": 8,
+        "regional_score": 10,
+        "risk_penalty": 7,
+        "total_score": 11
+      }
+    },
+    {
+      "lead_id": "anhui-mugwort-pot-crust",
+      "province_codes": [
+        "CN-AH"
+      ],
+      "name": "霍邱蒿子锅巴",
+      "production_recipe_id": null,
+      "research_state": "needs_source_review",
+      "source_ids": [
+        "ah-huoqiu-mugwort-pot-crust-2025"
+      ],
+      "known_structure": [
+        "蒿子",
+        "大米",
+        "菜干饭",
+        "锅巴"
+      ],
+      "open_questions": [
+        "蒿子具体植物身份与食品安全边界",
+        "家庭购买来源与可识别 taxonomy",
+        "它更适合主餐、节俗内容还是锅巴小吃"
+      ],
+      "product_destinations": [
+        "research_only"
+      ],
+      "decision_reason": "地方事实成立，但植物身份和产品形态尚未满足家庭规划器要求。",
+      "priority": {
+        "product_score": 5,
+        "regional_score": 9,
+        "risk_penalty": 8,
+        "total_score": 6
+      }
+    }
+  ],
+  "family_model": {
+    "families": [
+      {
+        "family_id": "greens-salted-meat-rice",
+        "name": "咸味肉类青菜饭",
+        "supported_recipe_ids": [
+          "shanghai-salted-pork-vegetable-rice",
+          "suzhou-salted-pork-vegetable-rice",
+          "nanjing-cured-pork-greens-rice",
+          "nanjing-sausage-greens-rice",
+          "nanjing-duck-greens-rice"
+        ]
+      },
+      {
+        "family_id": "plain-greens-rice",
+        "name": "无肉青菜饭",
+        "supported_recipe_ids": [
+          "jinshan-clay-oven-vegetable-rice"
+        ]
+      },
+      {
+        "family_id": "ritual-colored-glutinous-rice",
+        "name": "节俗植物染色糯米饭",
+        "supported_recipe_ids": [
+          "she-people-black-rice"
+        ]
+      },
+      {
+        "family_id": "outdoor-seasonal-rice",
+        "name": "户外合做节俗米饭",
+        "supported_recipe_ids": [
+          "banshan-wild-rice"
+        ]
+      },
+      {
+        "family_id": "anhui-pot-crust-rice",
+        "name": "安徽锅巴饭研究家族",
+        "supported_recipe_ids": []
+      }
+    ],
+    "staple_states": [
+      {
+        "state_id": "plain_rice",
+        "name": "普通生米",
+        "evidence_status": "family_supported",
+        "notes": "用于生米菜饭，不能借用糯米或剩米饭比例。"
+      },
+      {
+        "state_id": "glutinous_rice",
+        "name": "糯米",
+        "evidence_status": "family_supported",
+        "notes": "南京文化资料和畲族乌饭涉及糯米，吸水与熟制需独立研究。"
+      },
+      {
+        "state_id": "cooked_rice",
+        "name": "剩米饭",
+        "evidence_status": "separate_family",
+        "notes": "只能进入熟饭翻炒或烩煮路径，不属于本轮生米菜饭技法。"
+      }
+    ],
+    "protein_forms": [
+      {
+        "form_id": "salted_pork",
+        "name": "咸肉",
+        "compatibility": "salted-meat family only"
+      },
+      {
+        "form_id": "cured_pork",
+        "name": "腊肉",
+        "compatibility": "cured-meat variant only"
+      },
+      {
+        "form_id": "sausage",
+        "name": "香肠",
+        "compatibility": "sausage variant only"
+      },
+      {
+        "form_id": "cooked_duck",
+        "name": "熟制板鸭",
+        "compatibility": "audited cooked-duck variant only"
+      },
+      {
+        "form_id": "fresh_meat",
+        "name": "鲜肉",
+        "compatibility": "not equivalent to cured or salted variants"
+      }
+    ],
+    "adaptation_boundaries": [
+      {
+        "boundary_id": "traditional-staple-to-plain-rice",
+        "name": "糯米改普通大米",
+        "evidence_status": "not_proven",
+        "notes": "南京来源写糯米，生产条目使用普通大米。"
+      },
+      {
+        "boundary_id": "traditional-greens-to-common-greens",
+        "name": "地域青菜改常见叶菜",
+        "evidence_status": "needs_compatibility_review",
+        "notes": "吴江香青菜、矮脚黄与小白菜不可只凭类别视为同一地域身份。"
+      },
+      {
+        "boundary_id": "wood-fired-stove-to-home-pot",
+        "name": "土灶改普通家庭锅",
+        "evidence_status": "not_proven",
+        "notes": "火力、锅巴和液体蒸发不同。"
+      },
+      {
+        "boundary_id": "outdoor-fire-to-home-pot",
+        "name": "户外明火改家庭锅",
+        "evidence_status": "not_proven",
+        "notes": "半山民俗的搭灶合做不能自动变成平菇焖饭。"
+      },
+      {
+        "boundary_id": "color-source-to-food-grade-powder",
+        "name": "乌稔叶汁改食品级黑米色粉",
+        "evidence_status": "project_adaptation",
+        "notes": "必须明确标为家庭适配，不得声称复刻传统色源。"
+      }
+    ],
+    "ratio_branches": [
+      {
+        "branch_id": "raw_plain_rice",
+        "name": "普通生米菜饭比例",
+        "evidence_status": "unresearched",
+        "notes": "需按叶菜含水、器具和蛋白析出独立建立 Ratio DSL。"
+      },
+      {
+        "branch_id": "glutinous_rice",
+        "name": "糯米浸泡与熟制比例",
+        "evidence_status": "unresearched",
+        "notes": "不得借用普通米比例。"
+      },
+      {
+        "branch_id": "cooked_rice",
+        "name": "剩米饭含水路径",
+        "evidence_status": "unresearched",
+        "notes": "属于独立熟饭技法，不进入生米菜饭。"
+      }
+    ],
+    "safety_branches": [
+      {
+        "branch_id": "salted_pork",
+        "name": "咸肉熟制与盐度",
+        "evidence_status": "unresearched",
+        "endpoint_note": "需要独立熟制和盐度规则。"
+      },
+      {
+        "branch_id": "cured_pork",
+        "name": "腊肉熟制与盐度",
+        "evidence_status": "unresearched",
+        "endpoint_note": "不能与鲜肉或香肠共用一个模糊终点。"
+      },
+      {
+        "branch_id": "sausage",
+        "name": "香肠熟制与脂肪析出",
+        "evidence_status": "unresearched",
+        "endpoint_note": "需按具体熟制状态建立规则。"
+      },
+      {
+        "branch_id": "cooked_duck",
+        "name": "熟制板鸭复热与去骨",
+        "evidence_status": "unresearched",
+        "endpoint_note": "需要来源、去骨和彻底复热证据。"
+      },
+      {
+        "branch_id": "plant_identity",
+        "name": "植物色源与蒿子身份",
+        "evidence_status": "unresearched",
+        "endpoint_note": "未知植物不得进入生产食材。"
+      }
+    ]
+  },
+  "journey_cases": [
+    {
+      "journey_id": "jn-j01",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "大米",
+        "小白菜",
+        "咸肉"
+      ],
+      "expected_used_items": [
+        "大米",
+        "小白菜",
+        "咸肉"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "supported_family_route",
+      "explanation": "奉贤咸肉菜饭家族可覆盖三项，但小白菜具体地域身份和生产比例仍属于家庭适配。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j02",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "大米",
+        "吴江香青菜",
+        "咸肉"
+      ],
+      "expected_used_items": [
+        "大米",
+        "吴江香青菜",
+        "咸肉"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "supported_family_route",
+      "explanation": "苏州官方资料直接支持香青菜咸肉饭身份。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j03",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "大米",
+        "矮脚黄",
+        "腊肉"
+      ],
+      "expected_used_items": [
+        "大米",
+        "矮脚黄",
+        "腊肉"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "南京腊肉变体有据，但来源写糯米，普通大米主食等价性未证明。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j04",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "大米",
+        "矮脚黄",
+        "香肠"
+      ],
+      "expected_used_items": [
+        "大米",
+        "矮脚黄",
+        "香肠"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "南京香肠变体有据，但普通大米与生产比例尚未被来源证明。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j05",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "大米",
+        "矮脚黄",
+        "包装熟制板鸭"
+      ],
+      "expected_used_items": [
+        "大米",
+        "矮脚黄",
+        "包装熟制板鸭"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "板鸭变体有据，但包装熟制去骨状态、普通大米与复热安全属于生产适配。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j06",
+      "mode": "pantry",
+      "intent": "fresh",
+      "raw_items": [
+        "大米",
+        "青菜"
+      ],
+      "expected_used_items": [
+        "大米",
+        "青菜"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "supported_family_route",
+      "explanation": "金山土灶菜饭支持无肉菜饭家族，但普通家庭锅适配仍需验证。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j07",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "剩米饭",
+        "青菜",
+        "咸肉"
+      ],
+      "expected_used_items": [],
+      "expected_unplanned_items": [
+        "剩米饭",
+        "青菜",
+        "咸肉"
+      ],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "剩米饭不能套用生米菜饭的吸水与焖制结构，应进入独立熟饭家族。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j08",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "大米",
+        "鲜猪肉",
+        "青菜"
+      ],
+      "expected_used_items": [
+        "大米",
+        "青菜"
+      ],
+      "expected_unplanned_items": [
+        "鲜猪肉"
+      ],
+      "expected_research_outcome": "unsupported_for_family",
+      "explanation": "鲜猪肉不是咸肉、腊肉或香肠，不能借江南咸肉菜饭名称强行吸收。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j09",
+      "mode": "recommend",
+      "intent": "batch",
+      "raw_items": [
+        "糯米",
+        "食品级黑米色粉"
+      ],
+      "expected_used_items": [
+        "糯米",
+        "食品级黑米色粉"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "只可称畲族乌饭风味家庭适配版，黑米色粉不等同乌稔叶汁。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j10",
+      "mode": "pantry",
+      "intent": "normal",
+      "raw_items": [
+        "大米",
+        "平菇"
+      ],
+      "expected_used_items": [
+        "大米",
+        "平菇"
+      ],
+      "expected_unplanned_items": [],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "可作为普通平菇焖饭研究，但半山民俗来源不证明平菇是传统核心。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j11",
+      "mode": "recommend",
+      "intent": "quick",
+      "raw_items": [
+        "大米",
+        "小白菜",
+        "咸肉"
+      ],
+      "expected_used_items": [],
+      "expected_unplanned_items": [
+        "大米",
+        "小白菜",
+        "咸肉"
+      ],
+      "expected_research_outcome": "needs_more_evidence",
+      "explanation": "没有可执行时间证据前，研究层不能承诺该生米菜饭在30分钟内完成。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    },
+    {
+      "journey_id": "jn-j12",
+      "mode": "recommend",
+      "intent": "normal",
+      "raw_items": [
+        "香米",
+        "红心芋",
+        "猪前腿肉"
+      ],
+      "expected_used_items": [],
+      "expected_unplanned_items": [
+        "香米",
+        "红心芋",
+        "猪前腿肉"
+      ],
+      "expected_research_outcome": "research_lead_only",
+      "explanation": "东至农家锅巴饭有地域来源，但生肉熟制、份量和锅巴器具尚未成为 Planner 规则。",
+      "human_review": {
+        "status": "pending",
+        "household_intuition": null,
+        "operability": null,
+        "taste_judgement": null,
+        "reviewer": null,
+        "reviewed_at": null,
+        "notes": null,
+        "conclusion": null
+      }
+    }
+  ],
+  "completion_status": {
+    "status": "research_in_progress",
+    "blocking_gaps": [
+      "production_claim_gaps",
+      "ratio_evidence_incomplete",
+      "safety_evidence_incomplete",
+      "anhui_leads_not_promoted",
+      "human_journey_review_incomplete"
+    ]
+  },
+  "summary": {
+    "recipe_audit_count": 8,
+    "source_count": 8,
+    "source_count_by_grade": {
+      "A": 7,
+      "B": 1,
+      "C": 0
+    },
+    "evidence_checked_count": 2,
+    "needs_more_evidence_count": 6,
+    "rejected_count": 0,
+    "cross_regional_recipe_count": 1,
+    "research_lead_count": 2,
+    "ratio_ready_branch_count": 0,
+    "safety_ready_branch_count": 0,
+    "journey_count": 12,
+    "journey_reviewed_count": 0,
+    "production_recipe_changes": 0
+  }
+}

@@ -1,16 +1,44 @@
 #!/bin/bash
-# 双击启动「今天吃什么」: 拉起 AI 代理 + 打开 HTML
+# 双击启动「一锅出」: 拉起 AI 代理、本地网页服务器并打开页面
 # 第一次双击若被 macOS 拦, 右键 → 打开 → 确认
 
 cd "$(dirname "$0")"
 
-# 杀掉旧的 proxy (端口 8765 占用)
+# 当前本地入口只服务来源菜谱轮替。Node.js 仅用于构建 dist，启动时不再依赖
+# 旧版 Planner bridge，也不调用 DeepSeek 预检。
+NODE_BIN="${PLANNER_NODE_EXECUTABLE:-}"
+if [ -z "$NODE_BIN" ]; then
+  NODE_BIN="$(command -v node 2>/dev/null)"
+fi
+if [ -z "$NODE_BIN" ] || [ ! -x "$NODE_BIN" ]; then
+  echo "错误：本地菜饭页面构建需要 Node.js。" >&2
+  exit 1
+fi
+
+# 本地版与 Preview 使用同一套来源菜谱构建元数据。
+export YIGUOCHU_PRODUCT_FOCUS="rice-meal-v1"
+export YIGUOCHU_GENERATION_MODE="deterministic"
+export YIGUOCHU_RICE_CATALOG_SCOPE="calibration"
+# 每次双击都换缓存版本，避免浏览器继续显示上一次本地构建。
+LOCAL_BUILD_ID="rice-meal-local-$(date +%Y%m%d%H%M%S)"
+if ! "$NODE_BIN" tools/build-dist.mjs --out-dir dist --build-id "$LOCAL_BUILD_ID" --planner-rollout direct-recommend --generation-mode deterministic --product-focus rice-meal-v1 --rice-catalog-scope calibration >/dev/null; then
+  echo "错误：本地菜饭页面构建失败。" >&2
+  exit 1
+fi
+
+# 杀掉旧的本地服务
 lsof -ti :8765 2>/dev/null | xargs kill -9 2>/dev/null
+lsof -ti :8081 2>/dev/null | xargs kill -9 2>/dev/null
 
 # 后台启 proxy (日志写到 proxy.log)
 nohup python3 ai_proxy.py > proxy.log 2>&1 &
 PROXY_PID=$!
 echo "proxy 启动中 (PID $PROXY_PID), 日志: proxy.log"
+
+# 通过 localhost 提供本次构建产物，避免 raw index.html 的构建占位符回退 legacy 产品。
+nohup python3 -m http.server 8081 --bind 127.0.0.1 --directory dist > static.log 2>&1 &
+STATIC_PID=$!
+echo "网页服务启动中 (PID $STATIC_PID), 日志: static.log"
 
 # 等 proxy 就绪 (最多 5 秒)
 for i in 1 2 3 4 5 6 7 8 9 10; do
@@ -21,9 +49,18 @@ for i in 1 2 3 4 5 6 7 8 9 10; do
   sleep 0.5
 done
 
-# 默认浏览器打开 HTML
-open "index.html"
+# 等本地网页服务就绪 (最多 5 秒)
+for i in 1 2 3 4 5 6 7 8 9 10; do
+  if curl -fs http://localhost:8081/ -m 1 >/dev/null 2>&1; then
+    echo "✓ 网页服务就绪"
+    break
+  fi
+  sleep 0.5
+done
+
+# 默认浏览器打开本地页面；localhost 页面运行时只请求 localhost:8765
+open "http://localhost:8081"
 
 echo ""
-echo "✅ 启动完成。Terminal 窗口可以关掉, proxy 在后台跑。"
-echo "想停 proxy: lsof -ti :8765 | xargs kill -9"
+echo "✅ 启动完成。Terminal 窗口可以关掉，本地服务会继续在后台运行。"
+echo "想停止: lsof -ti :8765 :8081 | xargs kill -9"

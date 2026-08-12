@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "ledger_version": "northeast-stew-safety-evidence-v1-20260727-m3",
+  "scope": "research_only",
+  "sources": [
+    {
+      "source_id": "foodsafety-gov-pork-ribs-2023",
+      "title": "Beef, Lamb, Pork and Veal Roasting Chart",
+      "url": "https://www.foodsafety.gov/print/pdf/node/13?id=beef-lamb-veal-roasting",
+      "publisher": "FoodSafety.gov",
+      "author": "U.S. Department of Health & Human Services",
+      "published_at": "2023-09-21",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "U.S. federal government food-safety guidance; citation and direct URL retained; no recipe text copied",
+      "source_type": "official_safety_chart",
+      "classification": "direct_official_endpoint",
+      "applies_to_canonical_ids": ["pork-ribs"],
+      "endpoint_summary": "The official fresh-pork chart explicitly lists ribs and sets the chart minimum at 63 C with at least a 3-minute rest.",
+      "cannot_prove": [
+        "It does not establish an automatic Northeast stew duration for household rib size or pot geometry.",
+        "Its 90-120 minute reference times cannot be written as a production default for this product.",
+        "It does not establish cornmeal hydration, stew liquid or pot-edge steaming time."
+      ]
+    },
+    {
+      "source_id": "hubei-wjw-green-beans-2021",
+      "title": "警惕四季豆中毒",
+      "url": "https://wjw.hubei.gov.cn/bmdt/jkhb/spyy/202105/t20210525_3555672.shtml",
+      "publisher": "湖北省卫生健康委员会",
+      "author": "湖北省疾病预防控制中心",
+      "published_at": "2021-05-25",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "Official public-health guidance; citation and direct URL retained; facts summarized without copying a recipe",
+      "source_type": "official_public_health_guidance",
+      "classification": "direct_official_method_endpoint",
+      "applies_to_canonical_ids": ["green-beans"],
+      "endpoint_summary": "For household four-season beans, the guidance requires cooking through evenly until raw green and bean odor are absent, including covered simmering at 100 C for more than 10 minutes in the stated method.",
+      "cannot_prove": [
+        "It does not establish a shorter endpoint for pressure cookers, microwaves or other methods.",
+        "It does not prove that every food whose name contains the character 豆 belongs to this scope.",
+        "It does not establish a flavor or texture preference beyond the safety endpoint."
+      ]
+    },
+    {
+      "source_id": "hainan-amr-oil-beans-2017",
+      "title": "海南省食品安全委员会办公室食品安全消费提示（2017年第3号）",
+      "url": "https://amr.hainan.gov.cn/zw/xfts/201703/t20170309_1589724.html",
+      "publisher": "海南省市场监督管理局",
+      "author": "海南省食品安全委员会办公室",
+      "published_at": "2017-03-09",
+      "retrieved_at": "2026-07-27",
+      "rights_or_license": "Official food-safety consumer guidance; citation and direct URL retained; facts summarized without copying a recipe",
+      "source_type": "official_consumer_safety_guidance",
+      "classification": "direct_official_qualitative_endpoint",
+      "applies_to_canonical_ids": ["oil-beans"],
+      "endpoint_summary": "The guidance directly covers Northeast oil beans: cook through until pods are limp, color changes from bright to dark green and raw bean odor is absent, then continue cooking; long-heating methods such as stewing are preferred.",
+      "cannot_prove": [
+        "It does not publish an exact minimum number of minutes for oil beans.",
+        "It does not permit borrowing the four-season-bean 10-minute number as an oil-bean default.",
+        "It does not establish ratios, serving scaling or a production recipe."
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": "pork-ribs-safe-endpoint-v1",
+      "branch_id": "pork_ribs",
+      "decision_status": "calibration_ready",
+      "applies_to_canonical_ids": ["pork-ribs"],
+      "source_ids": ["foodsafety-gov-pork-ribs-2023"],
+      "all_of": [
+        {"metric": "internal_temperature_c", "operator": ">=", "value": 63, "unit": "C", "measurement": "thickest edible meat portion, measured away from bone"},
+        {"metric": "rest_time_minutes", "operator": ">=", "value": 3, "unit": "min", "measurement": "after removal from the heat source before carving or eating"}
+      ],
+      "method_constraints": [
+        "Use a food thermometer; color or tenderness alone cannot satisfy the endpoint.",
+        "The official time range is reference-only and cannot replace temperature measurement."
+      ],
+      "cannot_prove": ["household cooking time", "tenderness target", "stew liquid ratio"]
+    },
+    {
+      "rule_id": "green-beans-fully-cooked-v1",
+      "branch_id": "green_beans",
+      "decision_status": "calibration_ready",
+      "applies_to_canonical_ids": ["green-beans"],
+      "source_ids": ["hubei-wjw-green-beans-2021"],
+      "all_of": [
+        {"metric": "covered_simmer_temperature_c", "operator": ">=", "value": 100, "unit": "C", "measurement": "covered low simmer in the documented household method"},
+        {"metric": "covered_simmer_minutes", "operator": ">", "value": 10, "unit": "min", "measurement": "continuous covered low simmer after adding water"},
+        {"metric": "even_heating_confirmed", "operator": "==", "value": true, "unit": "boolean", "measurement": "all pods turned during cooking and no crowded cold spots"},
+        {"metric": "raw_green_absent", "operator": "==", "value": true, "unit": "boolean", "measurement": "all pods have lost the original raw green appearance"},
+        {"metric": "bean_smell_absent", "operator": "==", "value": true, "unit": "boolean", "measurement": "no raw bean odor remains"}
+      ],
+      "method_constraints": [
+        "This numeric endpoint applies only to the documented covered-simmer method.",
+        "Every condition is required; visual color alone is insufficient."
+      ],
+      "cannot_prove": ["oil-bean minimum minutes", "other bean species", "preferred texture"]
+    },
+    {
+      "rule_id": "oil-beans-fully-cooked-v1",
+      "branch_id": "green_beans",
+      "decision_status": "calibration_ready",
+      "applies_to_canonical_ids": ["oil-beans"],
+      "source_ids": ["hainan-amr-oil-beans-2017"],
+      "all_of": [
+        {"metric": "pod_limp", "operator": "==", "value": true, "unit": "boolean", "measurement": "pods have changed from upright or stiff to limp"},
+        {"metric": "dark_green_reached", "operator": "==", "value": true, "unit": "boolean", "measurement": "pod color has changed from bright green to dark green"},
+        {"metric": "bean_smell_absent", "operator": "==", "value": true, "unit": "boolean", "measurement": "no raw bean odor remains"},
+        {"metric": "fully_cooked_confirmed", "operator": "==", "value": true, "unit": "boolean", "measurement": "oil beans were fully cooked after the preliminary boiling endpoint; short high-heat cooking is forbidden"}
+      ],
+      "method_constraints": [
+        "Prefer a long-heating method such as stewing.",
+        "No exact minute value may be inferred from this source."
+      ],
+      "cannot_prove": ["minimum oil-bean minutes", "four-season-bean numeric endpoint", "serving-scale timing"]
+    }
+  ],
+  "calibration_admission": {
+    "status": "ready_for_kitchen_calibration",
+    "eligible_calibration_case_ids": ["ne-cal-2", "ne-cal-3", "ne-cal-4"],
+    "satisfied_safety_rule_ids": ["pork-ribs-safe-endpoint-v1", "green-beans-fully-cooked-v1", "oil-beans-fully-cooked-v1"],
+    "remaining_blockers": ["numeric_ratio_rules_blocked", "calibration_2_3_4_servings_pending", "template_not_runtime_eligible"],
+    "production_activation_allowed": false
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "fixture_scope": "synthetic_test_only",
+  "rule": {
+    "rule_id": "cornmeal-flour-to-dough-v1",
+    "activation_status": "active",
+    "when": {
+      "input_canonical_id": "cornmeal-flour",
+      "input_category": "cornmeal_flour"
+    },
+    "produces": {
+      "canonical_id": "cornmeal-dough",
+      "category": "cornmeal_dough",
+      "state": "prepared"
+    },
+    "operations": [
+      {
+        "operator": "per_serving",
+        "target": { "canonical_id": "cornmeal-flour" },
+        "grams": { "min": 1, "default": 2, "max": 3 }
+      },
+      {
+        "operator": "ratio",
+        "target": { "name": "水", "category": "liquid", "phase": "prepare_staple" },
+        "denominator": { "canonical_id": "cornmeal-flour", "measure": "grams" },
+        "bounds": { "min": 0.1, "default": 0.2, "max": 0.3 }
+      }
+    ],
+    "required_basic_extras": ["水"],
+    "evidence_source_ids": ["synthetic-source-a", "synthetic-source-b"],
+    "calibration_record_ids": ["ne-cal-2", "ne-cal-3", "ne-cal-4"],
+    "rounding": { "grams_to_nearest": 1 }
+  }
+}

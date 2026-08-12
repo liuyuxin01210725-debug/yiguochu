@@ -1,0 +1,4384 @@
+{
+  "schema_version": 2,
+  "atlas_version": "regional-atlas-v2-20260726",
+  "mapping_version": "regional-menu-mappings-v1-20260726-r2",
+  "summary": {
+    "region_count": 13,
+    "province_count": 34,
+    "technique_family_count": 12,
+    "production_audit_count": 72,
+    "research_audit_count": 24,
+    "province_specific_count": 28,
+    "cross_regional_chinese_count": 2,
+    "national_household_count": 31,
+    "outside_cn_atlas_count": 11,
+    "blank_province_count": 15,
+    "capability_full_count": 3,
+    "capability_partial_count": 3,
+    "capability_none_count": 6
+  },
+  "regions": [
+    {
+      "region_id": "northeast",
+      "name": "东北",
+      "province_codes": [
+        "CN-LN",
+        "CN-JL",
+        "CN-HL"
+      ],
+      "research_focus": [
+        "铁锅炖",
+        "锅边主食",
+        "花卷与粘卷子"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake",
+        "northeast-fish-tofu-vegetable-corn-cake",
+        "northeast-ribs-beans-corn-cake",
+        "northeast-ribs-beans-sticky-rolls"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "region_id": "jingjinji",
+      "name": "京津冀",
+      "province_codes": [
+        "CN-BJ",
+        "CN-TJ",
+        "CN-HE"
+      ],
+      "research_focus": [
+        "菜粮同锅",
+        "焖面",
+        "家庭大锅主餐"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "north-china-green-bean-braised-noodles"
+      ],
+      "research_candidate_ids": [
+        "north-cabbage-pork-braised-noodles",
+        "north-mushroom-vegetable-braised-noodles",
+        "north-pork-bean-braised-noodles",
+        "north-potato-bean-braised-noodles"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "region_id": "jinmeng",
+      "name": "晋蒙",
+      "province_codes": [
+        "CN-SX",
+        "CN-NM"
+      ],
+      "research_focus": [
+        "焖面",
+        "烀面",
+        "杂粮饭与羊肉饭锅"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "north-china-green-bean-braised-noodles",
+        "shanxi-nitun-millet-rice",
+        "shanxi-potato-rice"
+      ],
+      "research_candidate_ids": [
+        "north-cabbage-pork-braised-noodles",
+        "north-mushroom-vegetable-braised-noodles",
+        "north-pork-bean-braised-noodles",
+        "north-potato-bean-braised-noodles"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "region_id": "shandong",
+      "name": "山东",
+      "province_codes": [
+        "CN-SD"
+      ],
+      "research_focus": [
+        "大锅菜",
+        "豆腐粉条",
+        "玉米面主食与胶东海鲜锅"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "north-china-green-bean-braised-noodles"
+      ],
+      "research_candidate_ids": [
+        "shandong-cabbage-tofu-vermicelli-pot",
+        "shandong-seafood-staple-pot",
+        "shandong-southwest-family-pot",
+        "shandong-vegetable-cornmeal-one-pot"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "region_id": "central_plains",
+      "name": "中原",
+      "province_codes": [
+        "CN-HA"
+      ],
+      "research_focus": [
+        "蒸面",
+        "卤面",
+        "烩面家庭锅"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "north-china-green-bean-braised-noodles"
+      ],
+      "research_candidate_ids": [
+        "henan-bean-pork-steamed-noodles",
+        "henan-cabbage-mushroom-steamed-noodles",
+        "henan-celery-pork-steamed-noodles",
+        "henan-home-one-pot-steamed-braised-noodles"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "region_id": "middle_yangtze",
+      "name": "长江中游",
+      "province_codes": [
+        "CN-HB",
+        "CN-HN",
+        "CN-JX"
+      ],
+      "research_focus": [
+        "社饭",
+        "腊味饭",
+        "豆丝与米粉主餐"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "region_id": "jiangnan",
+      "name": "江南",
+      "province_codes": [
+        "CN-SH",
+        "CN-JS",
+        "CN-ZJ",
+        "CN-AH"
+      ],
+      "research_focus": [
+        "菜饭",
+        "咸肉饭",
+        "香肠菜饭与豆饭"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "banshan-wild-rice",
+        "jinshan-clay-oven-vegetable-rice",
+        "nanjing-cured-pork-greens-rice",
+        "nanjing-duck-greens-rice",
+        "nanjing-sausage-greens-rice",
+        "shanghai-salted-pork-vegetable-rice",
+        "she-people-black-rice",
+        "suzhou-salted-pork-vegetable-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "region_id": "fujian_taiwan",
+      "name": "闽台",
+      "province_codes": [
+        "CN-FJ",
+        "CN-TW"
+      ],
+      "research_focus": [
+        "咸饭",
+        "油饭",
+        "炊饭与卤面"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "daxi-lotus-leaf-oil-rice",
+        "fujian-gai-cai-minced-pork-rice",
+        "fujian-hyacinth-bean-rice",
+        "quanzhou-oil-rice",
+        "she-people-black-rice",
+        "taiwan-cabbage-mushroom-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "region_id": "lingnan_hk_macao",
+      "name": "岭南与港澳",
+      "province_codes": [
+        "CN-GD",
+        "CN-GX",
+        "CN-HI",
+        "CN-HK",
+        "CN-MO"
+      ],
+      "research_focus": [
+        "煲仔饭",
+        "砂锅饭",
+        "糯米饭与菜包饭"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice",
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice",
+        "guangxi-five-color-glutinous-rice",
+        "hainan-cai-bao-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "region_id": "sichuan_chongqing",
+      "name": "川渝",
+      "province_codes": [
+        "CN-SC",
+        "CN-CQ"
+      ],
+      "research_focus": [
+        "洋芋饭",
+        "箜饭",
+        "腊味饭与家庭焖饭"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "chongqing-firewood-potato-rice-home",
+        "sichuan-bean-potato-rice",
+        "sichuan-corn-potato-rice",
+        "sichuan-salted-pork-potato-rice"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "region_id": "yunnan_guizhou",
+      "name": "云贵",
+      "province_codes": [
+        "CN-YN",
+        "CN-GZ"
+      ],
+      "research_focus": [
+        "铜锅饭",
+        "洋芋饭",
+        "菌菇饭与社饭"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "dai-pineapple-purple-rice",
+        "guizhou-dong-community-rice"
+      ],
+      "research_candidate_ids": [
+        "yunnan-copper-pot-potato-rice-home",
+        "yunnan-corn-chicken-rice",
+        "yunnan-ham-flavor-rice-pot",
+        "yunnan-mushroom-potato-rice"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "region_id": "northwest",
+      "name": "西北",
+      "province_codes": [
+        "CN-SN",
+        "CN-GS",
+        "CN-NX",
+        "CN-XJ"
+      ],
+      "research_focus": [
+        "抓饭",
+        "熬饭",
+        "面片锅与杂粮焖饭"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "shaanbei-red-date-cowpea-rice",
+        "xinjiang-lamb-pilaf",
+        "xinjiang-vegetable-pilaf"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "region_id": "qinghai_tibet",
+      "name": "青藏",
+      "province_codes": [
+        "CN-QH",
+        "CN-XZ"
+      ],
+      "research_focus": [
+        "熬饭",
+        "青稞杂粮饭",
+        "地域谷物粥饭"
+      ],
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "qinghai-hao-fan",
+        "tibetan-ginseng-fruit-rice",
+        "tibetan-gutu",
+        "tibetan-savory-congee"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    }
+  ],
+  "province_coverage": [
+    {
+      "atlas_code": "CN-LN",
+      "name": "辽宁",
+      "region_id": "northeast",
+      "status": "skeleton_only",
+      "research_question": "核实辽宁铁锅炖、沿海鱼锅与锅边主食中适合家庭一锅主餐的结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-JL",
+      "name": "吉林",
+      "region_id": "northeast",
+      "status": "skeleton_only",
+      "research_question": "核实吉林鸡肉菌菇炖锅、豆角锅与面团主食同锅的地方变种。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-HL",
+      "name": "黑龙江",
+      "region_id": "northeast",
+      "status": "skeleton_only",
+      "research_question": "核实黑龙江铁锅炖中排骨或鸡肉、土豆、豆角与锅边饼花卷的稳定结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-BJ",
+      "name": "北京",
+      "region_id": "jingjinji",
+      "status": "skeleton_only",
+      "research_question": "核实北京家庭菜粮同锅、大锅菜与焖面类主餐的可追溯原型。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-TJ",
+      "name": "天津",
+      "region_id": "jingjinji",
+      "status": "skeleton_only",
+      "research_question": "核实天津米饭、面食与蔬菜肉类同锅完成的家庭主餐原型。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-HE",
+      "name": "河北",
+      "region_id": "jingjinji",
+      "status": "skeleton_only",
+      "research_question": "核实河北焖面、饼卷菜锅及豆角肉类同锅主餐的地域结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-SX",
+      "name": "山西",
+      "region_id": "jinmeng",
+      "status": "skeleton_only",
+      "research_question": "整理山西焖面、烀面、土豆饭与小米饭的技法和地域变种边界。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "shanxi-nitun-millet-rice",
+        "shanxi-potato-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-NM",
+      "name": "内蒙古",
+      "region_id": "jinmeng",
+      "status": "skeleton_only",
+      "research_question": "核实内蒙古羊肉饭锅、杂粮饭及焖面类家庭一锅结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-SD",
+      "name": "山东",
+      "region_id": "shandong",
+      "status": "skeleton_only",
+      "research_question": "核实山东白菜豆腐粉条、大锅菜、玉米面主食与胶东海鲜锅的主餐结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "shandong-cabbage-tofu-vermicelli-pot",
+        "shandong-seafood-staple-pot",
+        "shandong-southwest-family-pot",
+        "shandong-vegetable-cornmeal-one-pot"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "atlas_code": "CN-HA",
+      "name": "河南",
+      "region_id": "central_plains",
+      "status": "skeleton_only",
+      "research_question": "核实河南蒸面、卤面和烩面家庭单锅适配的面条含水与熟制边界。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "henan-bean-pork-steamed-noodles",
+        "henan-cabbage-mushroom-steamed-noodles",
+        "henan-celery-pork-steamed-noodles",
+        "henan-home-one-pot-steamed-braised-noodles"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "atlas_code": "CN-HB",
+      "name": "湖北",
+      "region_id": "middle_yangtze",
+      "status": "skeleton_only",
+      "research_question": "核实湖北豆丝、汤饭与腊味米饭同锅类主餐的地方原型。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-HN",
+      "name": "湖南",
+      "region_id": "middle_yangtze",
+      "status": "skeleton_only",
+      "research_question": "核实湖南社饭、腊味饭和家庭焖饭的地域技法与变种。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-JX",
+      "name": "江西",
+      "region_id": "middle_yangtze",
+      "status": "skeleton_only",
+      "research_question": "核实江西米粉、汤饭、腊味或豆类同锅主餐的家庭原型。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-SH",
+      "name": "上海",
+      "region_id": "jiangnan",
+      "status": "skeleton_only",
+      "research_question": "整理上海咸肉菜饭、土灶菜饭与家庭锅适配的共享结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "jinshan-clay-oven-vegetable-rice",
+        "shanghai-salted-pork-vegetable-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-JS",
+      "name": "江苏",
+      "region_id": "jiangnan",
+      "status": "skeleton_only",
+      "research_question": "整理苏州与南京菜饭、咸肉香肠和鸭肉变种的同构关系。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "nanjing-cured-pork-greens-rice",
+        "nanjing-duck-greens-rice",
+        "nanjing-sausage-greens-rice",
+        "suzhou-salted-pork-vegetable-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-ZJ",
+      "name": "浙江",
+      "region_id": "jiangnan",
+      "status": "skeleton_only",
+      "research_question": "核实浙江菜饭、豆饭、乌饭和器具适配类主餐的来源与结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "banshan-wild-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-AH",
+      "name": "安徽",
+      "region_id": "jiangnan",
+      "status": "skeleton_only",
+      "research_question": "核实安徽菜饭、锅巴饭和咸肉蔬菜同锅主餐的地域原型。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-FJ",
+      "name": "福建",
+      "region_id": "fujian_taiwan",
+      "status": "skeleton_only",
+      "research_question": "整理福建咸饭、油饭、扁豆饭和卤面的一锅技法与变种。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "fujian-gai-cai-minced-pork-rice",
+        "fujian-hyacinth-bean-rice",
+        "quanzhou-oil-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-TW",
+      "name": "台湾",
+      "region_id": "fujian_taiwan",
+      "status": "skeleton_only",
+      "research_question": "整理台湾炊饭、油饭、客家糯米饭与家庭电饭锅适配边界。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "daxi-lotus-leaf-oil-rice",
+        "taiwan-cabbage-mushroom-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-GD",
+      "name": "广东",
+      "region_id": "lingnan_hk_macao",
+      "status": "skeleton_only",
+      "research_question": "整理广东煲仔饭、砂锅饭与腊味鸡肉排骨变种的共享技法。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice",
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-GX",
+      "name": "广西",
+      "region_id": "lingnan_hk_macao",
+      "status": "skeleton_only",
+      "research_question": "核实广西糯米饭、菠萝饭与壮族家庭主餐的地域和技法边界。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "guangxi-five-color-glutinous-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-HI",
+      "name": "海南",
+      "region_id": "lingnan_hk_macao",
+      "status": "skeleton_only",
+      "research_question": "核实海南菜包饭、椰香饭与家庭一锅适配的主食结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "hainan-cai-bao-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-HK",
+      "name": "香港",
+      "region_id": "lingnan_hk_macao",
+      "status": "skeleton_only",
+      "research_question": "核实香港煲仔饭及家庭砂锅主餐的地方变种与来源。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-MO",
+      "name": "澳门",
+      "region_id": "lingnan_hk_macao",
+      "status": "skeleton_only",
+      "research_question": "核实澳门砂锅饭和葡式影响下可归入家庭一锅主餐的地方原型。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-SC",
+      "name": "四川",
+      "region_id": "sichuan_chongqing",
+      "status": "skeleton_only",
+      "research_question": "整理四川箜饭、洋芋饭、腊肉饭与家庭锅具适配的结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "sichuan-bean-potato-rice",
+        "sichuan-corn-potato-rice",
+        "sichuan-salted-pork-potato-rice"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "atlas_code": "CN-CQ",
+      "name": "重庆",
+      "region_id": "sichuan_chongqing",
+      "status": "skeleton_only",
+      "research_question": "核实重庆柴火洋芋饭及普通锅电饭锅适配时保留的核心身份。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "chongqing-firewood-potato-rice-home"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "atlas_code": "CN-YN",
+      "name": "云南",
+      "region_id": "yunnan_guizhou",
+      "status": "skeleton_only",
+      "research_question": "整理云南铜锅洋芋饭、菌菇饭、菠萝饭与器具替代边界。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "dai-pineapple-purple-rice"
+      ],
+      "research_candidate_ids": [
+        "yunnan-copper-pot-potato-rice-home",
+        "yunnan-corn-chicken-rice",
+        "yunnan-ham-flavor-rice-pot",
+        "yunnan-mushroom-potato-rice"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "atlas_code": "CN-GZ",
+      "name": "贵州",
+      "region_id": "yunnan_guizhou",
+      "status": "skeleton_only",
+      "research_question": "核实贵州社饭、糯米饭与洋芋或腊味同锅主餐的地方结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "guizhou-dong-community-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-SN",
+      "name": "陕西",
+      "region_id": "northwest",
+      "status": "skeleton_only",
+      "research_question": "整理陕西陕北豆饭、杂粮焖饭和面片锅的地域技法。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "shaanbei-red-date-cowpea-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-GS",
+      "name": "甘肃",
+      "region_id": "northwest",
+      "status": "skeleton_only",
+      "research_question": "核实甘肃面片、熬饭和杂粮饭的一锅主餐原型。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-NX",
+      "name": "宁夏",
+      "region_id": "northwest",
+      "status": "skeleton_only",
+      "research_question": "核实宁夏羊肉饭、回族主食锅与杂粮同锅结构。",
+      "defer_reason": "",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [],
+      "coverage_status": "skeleton_only"
+    },
+    {
+      "atlas_code": "CN-XJ",
+      "name": "新疆",
+      "region_id": "northwest",
+      "status": "skeleton_only",
+      "research_question": "整理新疆抓饭中羊肉与素抓饭的共享比例、技法和替换边界。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "xinjiang-lamb-pilaf",
+        "xinjiang-vegetable-pilaf"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-QH",
+      "name": "青海",
+      "region_id": "qinghai_tibet",
+      "status": "skeleton_only",
+      "research_question": "整理青海熬饭、面片与青稞杂粮主餐的技法和家庭适配。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "qinghai-hao-fan"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "atlas_code": "CN-XZ",
+      "name": "西藏",
+      "region_id": "qinghai_tibet",
+      "status": "skeleton_only",
+      "research_question": "整理西藏咸稀饭、古突、人参果饭和青稞主餐的技法边界。",
+      "defer_reason": "",
+      "production_recipe_ids": [
+        "tibetan-ginseng-fruit-rice",
+        "tibetan-gutu",
+        "tibetan-savory-congee"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    }
+  ],
+  "technique_coverage": [
+    {
+      "family_id": "raw-rice-braise",
+      "name": "生米菜肉同焖",
+      "staple_states": [
+        "生米"
+      ],
+      "research_question": "建立生米、液体、含水蔬菜与蛋白同锅的可执行比例边界。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "banshan-wild-rice",
+        "broccoli-beef-braised-rice",
+        "cabbage-tofu-braised-rice",
+        "chicken-leg-potato-braised-rice",
+        "corn-carrot-chicken-leg-covered-rice",
+        "fujian-gai-cai-minced-pork-rice",
+        "fujian-hyacinth-bean-rice",
+        "green-bean-pork-rib-braised-rice",
+        "greens-minced-pork-braised-rice",
+        "guizhou-dong-community-rice",
+        "jinshan-clay-oven-vegetable-rice",
+        "mushroom-green-bean-pork-rib-braised-rice",
+        "mushroom-greens-tofu-covered-rice",
+        "nanjing-cured-pork-greens-rice",
+        "nanjing-duck-greens-rice",
+        "nanjing-sausage-greens-rice",
+        "potato-broccoli-beef-covered-rice",
+        "shaanbei-red-date-cowpea-rice",
+        "shanghai-salted-pork-vegetable-rice",
+        "shanxi-nitun-millet-rice",
+        "shanxi-potato-rice",
+        "suzhou-salted-pork-vegetable-rice",
+        "taiwan-cabbage-mushroom-rice",
+        "tibetan-ginseng-fruit-rice",
+        "tomato-potato-pork-rib-covered-rice",
+        "xinjiang-lamb-pilaf",
+        "xinjiang-vegetable-pilaf"
+      ],
+      "research_candidate_ids": [
+        "chongqing-firewood-potato-rice-home",
+        "sichuan-bean-potato-rice",
+        "sichuan-corn-potato-rice",
+        "sichuan-salted-pork-potato-rice",
+        "yunnan-copper-pot-potato-rice-home",
+        "yunnan-corn-chicken-rice",
+        "yunnan-ham-flavor-rice-pot",
+        "yunnan-mushroom-potato-rice"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "family_id": "cooked-rice-stir",
+      "name": "熟饭翻炒",
+      "staple_states": [
+        "剩米饭"
+      ],
+      "research_question": "建立剩米饭含水、打散与快速熟制配料的容量边界。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "broccoli-beef-fried-rice",
+        "greens-sausage-fried-rice",
+        "greens-tofu-fried-rice",
+        "home-egg-fried-leftover-rice",
+        "shrimp-egg-fried-leftover-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "family_id": "cooked-rice-stew",
+      "name": "熟饭烩煮或汤饭",
+      "staple_states": [
+        "剩米饭"
+      ],
+      "research_question": "建立熟饭吸液与汤饭、烩饭浓度的机器规则。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "cabbage-egg-soup-rice",
+        "cabbage-potato-pork-rib-soup-rice",
+        "chicken-leg-mushroom-stewed-rice",
+        "greens-egg-braised-leftover-rice",
+        "mushroom-egg-covered-leftover-rice",
+        "potato-pork-rib-stewed-rice",
+        "tomato-broccoli-beef-stewed-rice",
+        "tomato-chicken-leg-soup-rice",
+        "tomato-egg-stewed-leftover-rice",
+        "tomato-tofu-stewed-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "family_id": "grain-porridge",
+      "name": "生谷物加液体熬煮",
+      "staple_states": [
+        "生米",
+        "小米",
+        "青稞",
+        "杂粮"
+      ],
+      "research_question": "区分谷物种类、浸泡状态与粥稀饭液体比例。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "chinese-congee",
+        "qinghai-hao-fan",
+        "tibetan-savory-congee"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "family_id": "noodle-braise",
+      "name": "面菜同焖",
+      "staple_states": [
+        "dry_raw_noodle",
+        "fresh_raw_noodle",
+        "presteamed_noodle"
+      ],
+      "research_question": "建立干生面、鲜生面与预蒸面各自的含水、铺面顺序和底菜液体边界。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "cabbage-potato-chicken-leg-braised-noodles",
+        "north-china-green-bean-braised-noodles"
+      ],
+      "research_candidate_ids": [
+        "henan-home-one-pot-steamed-braised-noodles",
+        "north-cabbage-pork-braised-noodles",
+        "north-mushroom-vegetable-braised-noodles",
+        "north-pork-bean-braised-noodles",
+        "north-potato-bean-braised-noodles"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "family_id": "noodle-steam-braise",
+      "name": "面菜蒸焖",
+      "staple_states": [
+        "生面",
+        "鲜面"
+      ],
+      "research_question": "建立蒸面回拌、二次蒸焖与单锅家庭化的结构。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "henan-bean-pork-steamed-noodles",
+        "henan-cabbage-mushroom-steamed-noodles",
+        "henan-celery-pork-steamed-noodles",
+        "henan-home-one-pot-steamed-braised-noodles"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "family_id": "noodle-broth",
+      "name": "汤面面片粉丝一锅",
+      "staple_states": [
+        "面条",
+        "面片",
+        "米粉",
+        "粉丝"
+      ],
+      "research_question": "区分面、米粉和粉丝的入锅时间、吸液与耐煮性。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "broccoli-beef-soup-noodles",
+        "greens-chicken-leg-soup-noodles",
+        "greens-tofu-soup-noodles",
+        "tibetan-gutu"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "family_id": "stew-with-staple",
+      "name": "炖菜带锅边主食",
+      "staple_states": [
+        "玉米面团",
+        "小麦面团"
+      ],
+      "research_question": "建立炖菜液位、蒸汽空间、锅边饼花卷和粘卷子的分离规则。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [],
+      "research_candidate_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake",
+        "northeast-fish-tofu-vegetable-corn-cake",
+        "northeast-ribs-beans-corn-cake",
+        "northeast-ribs-beans-sticky-rolls",
+        "shandong-vegetable-cornmeal-one-pot"
+      ],
+      "coverage_status": "research_only"
+    },
+    {
+      "family_id": "claypot-rice",
+      "name": "煲仔或砂锅主食",
+      "staple_states": [
+        "生米"
+      ],
+      "research_question": "建立砂锅受热、锅巴、加盖与肉类熟制的家庭边界。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "cantonese-black-bean-pork-rib-claypot-rice",
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "family_id": "glutinous-mixed-rice",
+      "name": "糯米与杂粮同锅",
+      "staple_states": [
+        "糯米",
+        "混合米"
+      ],
+      "research_question": "建立浸泡、糯米吸水和杂粮混合比例。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "daxi-lotus-leaf-oil-rice",
+        "guangxi-five-color-glutinous-rice",
+        "guizhou-dong-community-rice",
+        "quanzhou-oil-rice",
+        "she-people-black-rice"
+      ],
+      "research_candidate_ids": [],
+      "coverage_status": "production_only"
+    },
+    {
+      "family_id": "vessel-adapted-rice",
+      "name": "特殊器具家庭化",
+      "staple_states": [
+        "生米",
+        "糯米",
+        "杂粮"
+      ],
+      "research_question": "核实铜锅、叶包和果壳等器具变化后仍保留的核心身份。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "dai-pineapple-purple-rice",
+        "daxi-lotus-leaf-oil-rice",
+        "hainan-cai-bao-rice",
+        "jinshan-clay-oven-vegetable-rice"
+      ],
+      "research_candidate_ids": [
+        "chongqing-firewood-potato-rice-home",
+        "yunnan-copper-pot-potato-rice-home",
+        "yunnan-corn-chicken-rice",
+        "yunnan-ham-flavor-rice-pot",
+        "yunnan-mushroom-potato-rice"
+      ],
+      "coverage_status": "production_and_research"
+    },
+    {
+      "family_id": "family-pot-with-absorbent-staple",
+      "name": "大锅菜配吸汁主食",
+      "staple_states": [
+        "粉条",
+        "粉丝",
+        "可验证主食"
+      ],
+      "research_question": "建立耐炖蔬菜、豆腐肉类和吸汁主食的先后与液体边界。",
+      "status": "skeleton_only",
+      "production_recipe_ids": [
+        "greens-tofu-vermicelli-pot"
+      ],
+      "research_candidate_ids": [
+        "shandong-cabbage-tofu-vermicelli-pot",
+        "shandong-seafood-staple-pot",
+        "shandong-southwest-family-pot",
+        "shandong-vegetable-cornmeal-one-pot"
+      ],
+      "coverage_status": "production_and_research"
+    }
+  ],
+  "capability_coverage": [
+    {
+      "family_id": "raw-rice-braise",
+      "regional_scope": "mixed",
+      "region_ids": [
+        "jiangnan",
+        "fujian_taiwan",
+        "lingnan_hk_macao",
+        "northwest",
+        "jinmeng",
+        "qinghai_tibet",
+        "yunnan_guizhou",
+        "sichuan_chongqing"
+      ],
+      "coverage_level": "full",
+      "runtime_template_ids": [
+        "savory-mixed-rice-pot"
+      ],
+      "candidate_template_ids": [],
+      "covered_staple_states": [
+        "生米"
+      ],
+      "uncovered_staple_states": [],
+      "coverage_boundary_codes": [],
+      "promotion_status": "covered_by_active_template",
+      "evidence_recipe_ids": [
+        "shanghai-salted-pork-vegetable-rice",
+        "taiwan-cabbage-mushroom-rice"
+      ],
+      "evidence_research_ids": [
+        "chongqing-firewood-potato-rice-home"
+      ],
+      "required_ratio_rule_ids": [
+        "savory-mixed-rice-liquid-v1"
+      ],
+      "resolved_ratio_rule_ids": [
+        "savory-mixed-rice-liquid-v1"
+      ],
+      "taxonomy_item_ids": [
+        "raw-rice",
+        "leafy-greens",
+        "napa-cabbage",
+        "shiitake",
+        "green-cabbage",
+        "mustard-greens",
+        "ground-pork",
+        "choy-sum",
+        "chicken-leg"
+      ],
+      "blocker_codes": [],
+      "scope_note": "现有生米焖饭模板已覆盖受控生米、耐焖蔬菜与有限蛋白组合，不借模板名称伪造地域菜身份。",
+      "name": "生米菜肉同焖"
+    },
+    {
+      "family_id": "cooked-rice-stir",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "coverage_level": "full",
+      "runtime_template_ids": [
+        "cooked-rice-stir-pot"
+      ],
+      "candidate_template_ids": [],
+      "covered_staple_states": [
+        "剩米饭"
+      ],
+      "uncovered_staple_states": [],
+      "coverage_boundary_codes": [],
+      "promotion_status": "covered_by_active_template",
+      "evidence_recipe_ids": [
+        "home-egg-fried-leftover-rice",
+        "broccoli-beef-fried-rice"
+      ],
+      "evidence_research_ids": [],
+      "required_ratio_rule_ids": [
+        "cooked-rice-stir-portion-v1"
+      ],
+      "resolved_ratio_rule_ids": [
+        "cooked-rice-stir-portion-v1"
+      ],
+      "taxonomy_item_ids": [
+        "cooked-rice",
+        "egg",
+        "beef-generic"
+      ],
+      "blocker_codes": [],
+      "scope_note": "熟饭翻炒按全国性家庭结构覆盖，不绑定不存在的单一地域。",
+      "name": "熟饭翻炒"
+    },
+    {
+      "family_id": "cooked-rice-stew",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "coverage_level": "full",
+      "runtime_template_ids": [
+        "acid-staple-pot",
+        "broth-rice-pot"
+      ],
+      "candidate_template_ids": [],
+      "covered_staple_states": [
+        "剩米饭"
+      ],
+      "uncovered_staple_states": [],
+      "coverage_boundary_codes": [],
+      "promotion_status": "covered_by_active_template",
+      "evidence_recipe_ids": [
+        "tomato-egg-stewed-leftover-rice",
+        "cabbage-egg-soup-rice",
+        "tomato-chicken-leg-soup-rice"
+      ],
+      "evidence_research_ids": [],
+      "required_ratio_rule_ids": [
+        "acid-staple-cooked-rice-liquid-v1",
+        "broth-rice-liquid-v1"
+      ],
+      "resolved_ratio_rule_ids": [
+        "acid-staple-cooked-rice-liquid-v1",
+        "broth-rice-liquid-v1"
+      ],
+      "taxonomy_item_ids": [
+        "cooked-rice",
+        "tomato",
+        "egg",
+        "napa-cabbage",
+        "chicken-leg",
+        "potato"
+      ],
+      "blocker_codes": [],
+      "scope_note": "熟饭烩煮由酸味主食锅和普通汤饭锅共同覆盖；组合仍受槽位、部位、时间与安全规则约束。",
+      "name": "熟饭烩煮或汤饭"
+    },
+    {
+      "family_id": "grain-porridge",
+      "regional_scope": "mixed",
+      "region_ids": [
+        "qinghai_tibet"
+      ],
+      "coverage_level": "partial",
+      "runtime_template_ids": [
+        "soft-family-rice-pot"
+      ],
+      "candidate_template_ids": [],
+      "covered_staple_states": [
+        "小米"
+      ],
+      "uncovered_staple_states": [
+        "生米",
+        "青稞",
+        "杂粮"
+      ],
+      "coverage_boundary_codes": [],
+      "promotion_status": "preview_candidate",
+      "evidence_recipe_ids": [
+        "chinese-congee",
+        "qinghai-hao-fan",
+        "tibetan-savory-congee"
+      ],
+      "evidence_research_ids": [],
+      "required_ratio_rule_ids": [
+        "soft-family-millet-liquid-v1"
+      ],
+      "resolved_ratio_rule_ids": [
+        "soft-family-millet-liquid-v1"
+      ],
+      "taxonomy_item_ids": [
+        "raw-millet",
+        "potato",
+        "cooked-chickpea-seed"
+      ],
+      "blocker_codes": [],
+      "scope_note": "已覆盖小米、块茎和熟豆的食材兼容家庭方案，不声称传统复刻；生米、青稞与其他杂粮仍未覆盖。",
+      "name": "生谷物加液体熬煮"
+    },
+    {
+      "family_id": "noodle-braise",
+      "regional_scope": "mixed",
+      "region_ids": [
+        "jingjinji",
+        "jinmeng",
+        "shandong",
+        "central_plains"
+      ],
+      "coverage_level": "partial",
+      "runtime_template_ids": [
+        "braised-noodle-pot"
+      ],
+      "candidate_template_ids": [],
+      "covered_staple_states": [
+        "dry_raw_noodle",
+        "fresh_raw_noodle"
+      ],
+      "uncovered_staple_states": [
+        "presteamed_noodle"
+      ],
+      "coverage_boundary_codes": [
+        "fresh_dry_ratio_split",
+        "presteamed_noodle_uncovered"
+      ],
+      "promotion_status": "preview_candidate",
+      "evidence_recipe_ids": [
+        "north-china-green-bean-braised-noodles",
+        "cabbage-potato-chicken-leg-braised-noodles"
+      ],
+      "evidence_research_ids": [
+        "north-pork-bean-braised-noodles"
+      ],
+      "required_ratio_rule_ids": [
+        "braised-noodle-liquid-v1",
+        "braised-fresh-wheat-noodle-liquid-v1"
+      ],
+      "resolved_ratio_rule_ids": [
+        "braised-noodle-liquid-v1",
+        "braised-fresh-wheat-noodle-liquid-v1"
+      ],
+      "taxonomy_item_ids": [
+        "noodle",
+        "fresh-wheat-noodle",
+        "green-beans",
+        "potato",
+        "napa-cabbage",
+        "chicken-generic",
+        "pork-generic"
+      ],
+      "blocker_codes": [],
+      "scope_note": "干生面与鲜生面已用独立比例规则分流；预蒸面仍未覆盖，不得静默并入任一分支。",
+      "name": "面菜同焖"
+    },
+    {
+      "family_id": "noodle-steam-braise",
+      "regional_scope": "regional",
+      "region_ids": [
+        "central_plains"
+      ],
+      "coverage_level": "none",
+      "runtime_template_ids": [],
+      "candidate_template_ids": [],
+      "covered_staple_states": [],
+      "uncovered_staple_states": [
+        "生面",
+        "鲜面"
+      ],
+      "coverage_boundary_codes": [],
+      "promotion_status": "blocked_by_taxonomy",
+      "evidence_recipe_ids": [],
+      "evidence_research_ids": [
+        "henan-bean-pork-steamed-noodles",
+        "henan-celery-pork-steamed-noodles",
+        "henan-cabbage-mushroom-steamed-noodles"
+      ],
+      "required_ratio_rule_ids": [],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": [
+        "noodle"
+      ],
+      "blocker_codes": [
+        "taxonomy_missing:steamed_noodle_state",
+        "template_missing:noodle-steam-braise"
+      ],
+      "scope_note": "河南蒸面研究题目已归位，但回拌与二次蒸焖所需面条状态仍未受控。",
+      "name": "面菜蒸焖"
+    },
+    {
+      "family_id": "noodle-broth",
+      "regional_scope": "mixed",
+      "region_ids": [
+        "qinghai_tibet"
+      ],
+      "coverage_level": "partial",
+      "runtime_template_ids": [
+        "broth-noodle-pot"
+      ],
+      "candidate_template_ids": [],
+      "covered_staple_states": [
+        "面条"
+      ],
+      "uncovered_staple_states": [
+        "面片",
+        "米粉",
+        "粉丝"
+      ],
+      "coverage_boundary_codes": [
+        "plain_noodle_only"
+      ],
+      "promotion_status": "blocked_by_taxonomy",
+      "evidence_recipe_ids": [
+        "broccoli-beef-soup-noodles",
+        "tibetan-gutu"
+      ],
+      "evidence_research_ids": [],
+      "required_ratio_rule_ids": [
+        "broth-noodle-liquid-v1"
+      ],
+      "resolved_ratio_rule_ids": [
+        "broth-noodle-liquid-v1"
+      ],
+      "taxonomy_item_ids": [
+        "noodle"
+      ],
+      "blocker_codes": [
+        "taxonomy_missing:noodle_sheet",
+        "taxonomy_missing:rice_noodle",
+        "taxonomy_missing:vermicelli"
+      ],
+      "scope_note": "运行时只覆盖普通面条，面片、米粉和粉丝需要独立吸液与入锅规则。",
+      "name": "汤面面片粉丝一锅"
+    },
+    {
+      "family_id": "stew-with-staple",
+      "regional_scope": "regional",
+      "region_ids": [
+        "northeast",
+        "shandong"
+      ],
+      "coverage_level": "none",
+      "runtime_template_ids": [],
+      "candidate_template_ids": [
+        "stew-with-staple-pot"
+      ],
+      "covered_staple_states": [],
+      "uncovered_staple_states": [
+        "玉米面团",
+        "小麦面团"
+      ],
+      "coverage_boundary_codes": [],
+      "promotion_status": "blocked_by_ratio",
+      "evidence_recipe_ids": [],
+      "evidence_research_ids": [
+        "northeast-ribs-beans-corn-cake",
+        "northeast-ribs-beans-sticky-rolls"
+      ],
+      "required_ratio_rule_ids": [
+        "stew-with-staple-liquid-v1"
+      ],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": [
+        "cornmeal-dough",
+        "wheat-dough",
+        "pork-ribs",
+        "chicken-leg",
+        "green-beans",
+        "potato"
+      ],
+      "blocker_codes": [
+        "ratio_rule_missing:stew-with-staple-liquid-v1"
+      ],
+      "scope_note": "同锅炖菜带锅边主食的结构有据，但家庭液体、面团含水与蒸汽空间仍未机器化。",
+      "name": "炖菜带锅边主食"
+    },
+    {
+      "family_id": "claypot-rice",
+      "regional_scope": "regional",
+      "region_ids": [
+        "lingnan_hk_macao"
+      ],
+      "coverage_level": "none",
+      "runtime_template_ids": [],
+      "candidate_template_ids": [],
+      "covered_staple_states": [],
+      "uncovered_staple_states": [
+        "生米"
+      ],
+      "coverage_boundary_codes": [],
+      "promotion_status": "blocked_by_evidence",
+      "evidence_recipe_ids": [
+        "cantonese-cured-meat-claypot-rice",
+        "cantonese-mushroom-chicken-claypot-rice",
+        "cantonese-black-bean-pork-rib-claypot-rice"
+      ],
+      "evidence_research_ids": [],
+      "required_ratio_rule_ids": [],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": [
+        "raw-rice",
+        "cured-pork",
+        "chinese-sausage",
+        "chicken-leg",
+        "pork-ribs"
+      ],
+      "blocker_codes": [
+        "evidence_missing:household_heat_boundary",
+        "evidence_missing:crust_safety_boundary"
+      ],
+      "scope_note": "已有煲仔饭 evidence，但普通家庭锅具下的受热、锅巴与肉类熟制边界尚未独立验证。",
+      "name": "煲仔或砂锅主食"
+    },
+    {
+      "family_id": "glutinous-mixed-rice",
+      "regional_scope": "regional",
+      "region_ids": [
+        "fujian_taiwan",
+        "lingnan_hk_macao",
+        "jiangnan",
+        "yunnan_guizhou"
+      ],
+      "coverage_level": "none",
+      "runtime_template_ids": [],
+      "candidate_template_ids": [],
+      "covered_staple_states": [],
+      "uncovered_staple_states": [
+        "糯米",
+        "混合米"
+      ],
+      "coverage_boundary_codes": [],
+      "promotion_status": "blocked_by_ratio",
+      "evidence_recipe_ids": [
+        "quanzhou-oil-rice",
+        "guangxi-five-color-glutinous-rice",
+        "guizhou-dong-community-rice"
+      ],
+      "evidence_research_ids": [],
+      "required_ratio_rule_ids": [
+        "glutinous-mixed-rice-liquid-v1"
+      ],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": [],
+      "blocker_codes": [
+        "ratio_rule_missing:glutinous-mixed-rice-liquid-v1",
+        "taxonomy_missing:glutinous_rice",
+        "taxonomy_missing:mixed_rice"
+      ],
+      "scope_note": "糯米与混合米已有菜谱证据，但原料身份、浸泡和吸水比例尚未形成 Planner 能力。",
+      "name": "糯米与杂粮同锅"
+    },
+    {
+      "family_id": "vessel-adapted-rice",
+      "regional_scope": "regional",
+      "region_ids": [
+        "jiangnan",
+        "lingnan_hk_macao",
+        "fujian_taiwan",
+        "yunnan_guizhou",
+        "sichuan_chongqing"
+      ],
+      "coverage_level": "none",
+      "runtime_template_ids": [],
+      "candidate_template_ids": [],
+      "covered_staple_states": [],
+      "uncovered_staple_states": [
+        "生米",
+        "糯米",
+        "杂粮"
+      ],
+      "coverage_boundary_codes": [],
+      "promotion_status": "research_only",
+      "evidence_recipe_ids": [
+        "jinshan-clay-oven-vegetable-rice",
+        "hainan-cai-bao-rice",
+        "daxi-lotus-leaf-oil-rice",
+        "dai-pineapple-purple-rice"
+      ],
+      "evidence_research_ids": [
+        "yunnan-copper-pot-potato-rice-home"
+      ],
+      "required_ratio_rule_ids": [],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": [
+        "raw-rice"
+      ],
+      "blocker_codes": [
+        "research_scope_unresolved:vessel_identity"
+      ],
+      "scope_note": "特殊器具家庭化后应保留的核心身份尚未收敛，因此只保留研究位置。",
+      "name": "特殊器具家庭化"
+    },
+    {
+      "family_id": "family-pot-with-absorbent-staple",
+      "regional_scope": "mixed",
+      "region_ids": [
+        "shandong"
+      ],
+      "coverage_level": "none",
+      "runtime_template_ids": [],
+      "candidate_template_ids": [],
+      "covered_staple_states": [],
+      "uncovered_staple_states": [
+        "粉条",
+        "粉丝",
+        "可验证主食"
+      ],
+      "coverage_boundary_codes": [],
+      "promotion_status": "blocked_by_taxonomy",
+      "evidence_recipe_ids": [
+        "greens-tofu-vermicelli-pot"
+      ],
+      "evidence_research_ids": [
+        "shandong-cabbage-tofu-vermicelli-pot",
+        "shandong-southwest-family-pot"
+      ],
+      "required_ratio_rule_ids": [],
+      "resolved_ratio_rule_ids": [],
+      "taxonomy_item_ids": [
+        "firm-tofu",
+        "leafy-greens"
+      ],
+      "blocker_codes": [
+        "taxonomy_missing:vermicelli",
+        "taxonomy_missing:glass_noodle"
+      ],
+      "scope_note": "粉条和粉丝尚未具备受控吸液与耐煮语义，现有固定菜谱不能代替模板能力。",
+      "name": "大锅菜配吸汁主食"
+    }
+  ],
+  "cultural_overlays": [
+    {
+      "overlay_id": "mongol",
+      "name": "蒙古族饮食研究层",
+      "target_province_codes": [
+        "CN-NM",
+        "CN-LN",
+        "CN-JL"
+      ],
+      "research_question": "核实蒙古族羊肉、奶食与杂粮主餐中适合家庭一锅结构的地域差异。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "hui",
+      "name": "回族饮食研究层",
+      "target_province_codes": [
+        "CN-NX",
+        "CN-GS",
+        "CN-QH",
+        "CN-XJ"
+      ],
+      "research_question": "核实回族羊肉饭、面食锅和杂粮主餐的清真边界及地域变种。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "tibetan",
+      "name": "藏族饮食研究层",
+      "target_province_codes": [
+        "CN-XZ",
+        "CN-QH",
+        "CN-SC",
+        "CN-GS",
+        "CN-YN"
+      ],
+      "research_question": "核实藏族青稞、谷物粥饭与面食汤的跨地域变种。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "uyghur",
+      "name": "维吾尔族饮食研究层",
+      "target_province_codes": [
+        "CN-XJ"
+      ],
+      "research_question": "核实抓饭及羊肉蔬菜同锅结构的地方变种和家庭比例。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "zhuang",
+      "name": "壮族饮食研究层",
+      "target_province_codes": [
+        "CN-GX",
+        "CN-YN"
+      ],
+      "research_question": "核实壮族糯米、五色饭和菠萝饭的地域与家庭适配边界。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "miao",
+      "name": "苗族饮食研究层",
+      "target_province_codes": [
+        "CN-GZ",
+        "CN-HN",
+        "CN-YN",
+        "CN-GX",
+        "CN-HB"
+      ],
+      "research_question": "核实苗族糯米、酸味和腊味主餐中可归入一锅结构的原型。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "dong",
+      "name": "侗族饮食研究层",
+      "target_province_codes": [
+        "CN-GZ",
+        "CN-HN",
+        "CN-GX"
+      ],
+      "research_question": "核实侗家社饭、糯米主餐和地域配料变种。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "dai",
+      "name": "傣族饮食研究层",
+      "target_province_codes": [
+        "CN-YN"
+      ],
+      "research_question": "核实傣族菠萝饭、竹筒或叶包主食的器具与家庭适配。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "she",
+      "name": "畲族饮食研究层",
+      "target_province_codes": [
+        "CN-FJ",
+        "CN-ZJ",
+        "CN-JX",
+        "CN-AH",
+        "CN-GD"
+      ],
+      "research_question": "核实畲族乌饭的跨省地域、着色原料与家庭版身份边界。",
+      "status": "skeleton_only"
+    },
+    {
+      "overlay_id": "hakka",
+      "name": "客家饮食研究层",
+      "target_province_codes": [
+        "CN-GD",
+        "CN-FJ",
+        "CN-JX",
+        "CN-TW",
+        "CN-HK"
+      ],
+      "research_question": "核实客家油饭、咸饭与叶包糯米主餐的跨地域变种。",
+      "status": "skeleton_only"
+    }
+  ],
+  "production_audit": [
+    {
+      "source_id": "banshan-wild-rice",
+      "name": "半山野米饭风味平菇焖饭",
+      "status": "auto_approved",
+      "cuisine": "杭州菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jiangnan"
+      ],
+      "province_codes": [
+        "CN-ZJ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "半山野米饭按杭州地域归入浙江。",
+      "core_ingredients": [
+        "大米",
+        "平菇"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "basic-risotto",
+      "name": "基础意式烩饭",
+      "status": "approved",
+      "cuisine": "意大利风味",
+      "form": "烩饭",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-risotto",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "意大利风味烩饭不归入中国地域地图。",
+      "core_ingredients": [
+        "意式烩饭米",
+        "洋葱",
+        "高汤",
+        "黄油"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "broccoli-beef-braised-rice",
+      "name": "西兰花牛肉焖饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-braised-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "大米与西兰花牛肉同焖，保持全国性家常范围。",
+      "core_ingredients": [
+        "大米",
+        "西兰花",
+        "牛肉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "broccoli-beef-fried-rice",
+      "name": "西兰花牛肉炒饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stir",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-fried-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "西兰花牛肉炒饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "西兰花",
+        "牛肉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "broccoli-beef-soup-noodles",
+      "name": "西兰花牛肉汤面",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "汤面",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "noodle-broth",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-soup-staple",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "家常牛肉汤面不伪造单一地域。",
+      "core_ingredients": [
+        "面条",
+        "西兰花",
+        "牛肉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "cabbage-egg-soup-rice",
+      "name": "青菜鸡蛋汤饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "汤饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-soup-staple",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "白菜鸡蛋汤饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "白菜",
+        "鸡蛋"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "cabbage-potato-chicken-leg-braised-noodles",
+      "name": "白菜土豆鸡腿焖面",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖面",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "noodle-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northern-braised-noodles",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "鸡腿白菜土豆焖面是全国性家庭适配，不锁定省份。",
+      "core_ingredients": [
+        "面条",
+        "鸡腿肉",
+        "白菜",
+        "土豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "cabbage-potato-pork-rib-soup-rice",
+      "name": "白菜土豆排骨汤饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "汤饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-soup-staple",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "白菜土豆排骨汤饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "猪肋排",
+        "白菜",
+        "土豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "cabbage-tofu-braised-rice",
+      "name": "白菜豆腐焖饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-braised-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "白菜豆腐与生米同焖，保持全国性家常范围。",
+      "core_ingredients": [
+        "大米",
+        "老豆腐",
+        "白菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "cantonese-black-bean-pork-rib-claypot-rice",
+      "name": "广式豆豉排骨煲仔饭",
+      "status": "auto_approved",
+      "cuisine": "粤菜",
+      "form": "加盖焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "lingnan_hk_macao"
+      ],
+      "province_codes": [
+        "CN-GD"
+      ],
+      "primary_family_id": "claypot-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-covered-pot-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "广式豆豉排骨煲仔饭归入广东。",
+      "core_ingredients": [
+        "大米",
+        "猪肋排",
+        "豆豉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "cantonese-cured-meat-claypot-rice",
+      "name": "广式腊味煲仔饭",
+      "status": "auto_approved",
+      "cuisine": "粤菜",
+      "form": "加盖焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "lingnan_hk_macao"
+      ],
+      "province_codes": [
+        "CN-GD"
+      ],
+      "primary_family_id": "claypot-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-covered-pot-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "广式腊味煲仔饭归入广东。",
+      "core_ingredients": [
+        "大米",
+        "广式腊肠",
+        "菜心"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "cantonese-mushroom-chicken-claypot-rice",
+      "name": "广式香菇滑鸡煲仔饭",
+      "status": "auto_approved",
+      "cuisine": "粤菜",
+      "form": "加盖焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "lingnan_hk_macao"
+      ],
+      "province_codes": [
+        "CN-GD"
+      ],
+      "primary_family_id": "claypot-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-covered-pot-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "广式香菇滑鸡煲仔饭归入广东。",
+      "core_ingredients": [
+        "大米",
+        "去皮鸡腿肉",
+        "鲜香菇"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "chicken-black-eyed-pea-stew",
+      "name": "鸡肉黑眼豆番茄饭锅",
+      "status": "approved",
+      "cuisine": "香辣炖锅风味",
+      "form": "饭锅",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-rice-legume-pot",
+      "mapping_basis": [
+        "recipe_evidence",
+        "manual_review"
+      ],
+      "mapping_note": "黑眼豆鸡肉饭锅缺少中国地域事实，不归入中国地域地图。",
+      "core_ingredients": [
+        "黑眼豆（罐头沥干）",
+        "大米",
+        "鸡肉",
+        "番茄",
+        "洋葱"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "chicken-leg-mushroom-stewed-rice",
+      "name": "鸡腿香菇土豆烩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-stewed-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "鸡腿菌菇烩熟饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "鸡腿肉",
+        "鲜香菇"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "chicken-leg-potato-braised-rice",
+      "name": "鸡腿土豆焖饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-braised-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "鸡腿土豆焖饭是全国性家庭结构。",
+      "core_ingredients": [
+        "大米",
+        "鸡腿肉",
+        "土豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "chinese-congee",
+      "name": "中式基础粥",
+      "status": "approved",
+      "cuisine": "中式",
+      "form": "粥",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "grain-porridge",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-rice-porridge",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "中式基础粥属于全国性家庭结构，不伪造单一省份。",
+      "core_ingredients": [
+        "大米",
+        "水"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "corn-carrot-chicken-leg-covered-rice",
+      "name": "玉米土豆鸡腿饭锅",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-covered-pot",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "生米与鸡腿蔬菜同锅，保持全国性家常范围。",
+      "core_ingredients": [
+        "大米",
+        "鸡腿肉",
+        "玉米",
+        "胡萝卜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "creole-jambalaya",
+      "name": "克里奥尔番茄鸡肉什锦饭",
+      "status": "approved",
+      "cuisine": "美国路易斯安那风味",
+      "form": "焖饭",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-tomato-rice",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "美国路易斯安那风味菜单不归入中国地域地图。",
+      "core_ingredients": [
+        "大米",
+        "番茄",
+        "鸡肉",
+        "芹菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "dai-pineapple-purple-rice",
+      "name": "傣族菠萝紫米饭",
+      "status": "auto_approved",
+      "cuisine": "傣族饮食",
+      "form": "紫米饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "yunnan_guizhou"
+      ],
+      "province_codes": [
+        "CN-YN"
+      ],
+      "primary_family_id": "vessel-adapted-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "傣族菠萝紫米饭以菠萝容器结构归入云南。",
+      "core_ingredients": [
+        "紫米",
+        "菠萝"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "daxi-lotus-leaf-oil-rice",
+      "name": "大溪荷叶油饭",
+      "status": "auto_approved",
+      "cuisine": "台湾客家",
+      "form": "荷叶包糯米饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "fujian_taiwan"
+      ],
+      "province_codes": [
+        "CN-TW"
+      ],
+      "primary_family_id": "vessel-adapted-rice",
+      "secondary_family_ids": [
+        "glutinous-mixed-rice"
+      ],
+      "legacy_family_id": "family-southern-savory-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "大溪荷叶油饭归入台湾，荷叶器具结构为主技法。",
+      "core_ingredients": [
+        "糯米",
+        "猪肉末",
+        "食品级干荷叶"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "fujian-gai-cai-minced-pork-rice",
+      "name": "福建盖菜肉末咸饭",
+      "status": "auto_approved",
+      "cuisine": "闽菜",
+      "form": "咸饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "fujian_taiwan"
+      ],
+      "province_codes": [
+        "CN-FJ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-southern-savory-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "福建盖菜肉末咸饭归入福建。",
+      "core_ingredients": [
+        "大米",
+        "芥菜",
+        "猪肉末"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "fujian-hyacinth-bean-rice",
+      "name": "福建扁豆饭",
+      "status": "auto_approved",
+      "cuisine": "闽菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "fujian_taiwan"
+      ],
+      "province_codes": [
+        "CN-FJ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-southern-savory-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "福建扁豆饭归入福建。",
+      "core_ingredients": [
+        "大米",
+        "扁豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "green-bean-pork-rib-braised-rice",
+      "name": "豆角排骨焖饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-braised-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "豆角排骨焖饭是全国性家庭适配，不借名称伪造地域。",
+      "core_ingredients": [
+        "大米",
+        "猪肋排",
+        "豆角"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "greens-chicken-leg-soup-noodles",
+      "name": "青菜鸡腿汤面",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "汤面",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "noodle-broth",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-soup-staple",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "青菜鸡腿汤面是全国性家庭结构。",
+      "core_ingredients": [
+        "面条",
+        "青菜",
+        "鸡腿肉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "greens-egg-braised-leftover-rice",
+      "name": "青菜鸡蛋焖剩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-braised-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "使用熟米饭焖热，归入熟饭烩煮而非生米焖饭。",
+      "core_ingredients": [
+        "熟米饭",
+        "青菜",
+        "鸡蛋"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "greens-minced-pork-braised-rice",
+      "name": "青菜肉末焖饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-braised-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "青菜肉末与生米同焖，保持全国性家常范围。",
+      "core_ingredients": [
+        "大米",
+        "青菜",
+        "猪肉末"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "greens-sausage-fried-rice",
+      "name": "青菜香肠炒饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stir",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-fried-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "青菜香肠炒饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "青菜",
+        "香肠"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "greens-tofu-fried-rice",
+      "name": "青菜豆腐炒饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stir",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-fried-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "青菜豆腐炒饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "老豆腐",
+        "青菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "greens-tofu-soup-noodles",
+      "name": "青菜豆腐汤面",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "汤面",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "noodle-broth",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-soup-staple",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "青菜豆腐汤面是全国性家庭结构。",
+      "core_ingredients": [
+        "面条",
+        "老豆腐",
+        "青菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "greens-tofu-vermicelli-pot",
+      "name": "青菜豆腐粉丝煲",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "粉丝煲",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "family-pot-with-absorbent-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-vermicelli-pot",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "青菜豆腐粉丝煲是全国性家庭大锅主餐。",
+      "core_ingredients": [
+        "粉丝",
+        "青菜",
+        "老豆腐"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "guangxi-five-color-glutinous-rice",
+      "name": "广西壮族五色糯米饭",
+      "status": "auto_approved",
+      "cuisine": "壮族饮食",
+      "form": "糯米饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "lingnan_hk_macao"
+      ],
+      "province_codes": [
+        "CN-GX"
+      ],
+      "primary_family_id": "glutinous-mixed-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "广西壮族五色糯米饭归入广西。",
+      "core_ingredients": [
+        "糯米",
+        "食品级紫薯粉",
+        "食品级甜菜粉",
+        "食品级菠菜粉",
+        "食品级南瓜粉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "guizhou-dong-community-rice",
+      "name": "侗家社饭风味家庭适配版",
+      "status": "auto_approved",
+      "cuisine": "侗族饮食",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "yunnan_guizhou"
+      ],
+      "province_codes": [
+        "CN-GZ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [
+        "glutinous-mixed-rice"
+      ],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "贵州侗家社饭按菜单名称与证据归入贵州。",
+      "core_ingredients": [
+        "大米",
+        "腊五花肉",
+        "姜",
+        "小白菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "hainan-cai-bao-rice",
+      "name": "海南定安菜包饭",
+      "status": "auto_approved",
+      "cuisine": "海南菜",
+      "form": "包饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "lingnan_hk_macao"
+      ],
+      "province_codes": [
+        "CN-HI"
+      ],
+      "primary_family_id": "vessel-adapted-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-southern-savory-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "海南定安菜包饭以包裹器具结构归入海南。",
+      "core_ingredients": [
+        "大米",
+        "生菜",
+        "胡萝卜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "home-egg-fried-leftover-rice",
+      "name": "家常鸡蛋炒剩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stir",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-fried-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "家常剩饭炒饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "鸡蛋"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "jinshan-clay-oven-vegetable-rice",
+      "name": "金山土灶菜饭",
+      "status": "auto_approved",
+      "cuisine": "上海本帮",
+      "form": "菜饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jiangnan"
+      ],
+      "province_codes": [
+        "CN-SH"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [
+        "vessel-adapted-rice"
+      ],
+      "legacy_family_id": "family-jiangnan-vegetable-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "金山地域与土灶适配身份归入上海，主技法仍为生米菜饭。",
+      "core_ingredients": [
+        "大米",
+        "小白菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "jollof-rice",
+      "name": "西非番茄香料饭",
+      "status": "approved",
+      "cuisine": "西非风味",
+      "form": "焖饭",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-tomato-rice",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "西非风味菜单不归入中国地域地图。",
+      "core_ingredients": [
+        "大米",
+        "番茄",
+        "甜椒",
+        "洋葱"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "kari-ayam-coconut-chicken",
+      "name": "印尼椰香鸡肉咖喱",
+      "status": "approved",
+      "cuisine": "印尼风味",
+      "form": "咖喱锅",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-coconut-curry",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "印尼风味咖喱菜单不归入中国地域地图。",
+      "core_ingredients": [
+        "鸡肉",
+        "椰奶",
+        "红葱头"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "lentil-potato-tomato-curry",
+      "name": "扁豆土豆番茄咖喱",
+      "status": "approved",
+      "cuisine": "印度风味",
+      "form": "炖锅",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-legume-vegetable-stew",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "印度风味咖喱菜单不归入中国地域地图。",
+      "core_ingredients": [
+        "红扁豆",
+        "土豆",
+        "番茄"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "mushroom-egg-covered-leftover-rice",
+      "name": "香菇鸡蛋焖剩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-covered-pot",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "使用熟米饭加盖焖热，属于全国性熟饭锅。",
+      "core_ingredients": [
+        "熟米饭",
+        "鲜香菇",
+        "鸡蛋"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "mushroom-green-bean-pork-rib-braised-rice",
+      "name": "香菇豆角排骨焖饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "焖饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-braised-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "菌菇豆角排骨焖饭是全国性家庭结构。",
+      "core_ingredients": [
+        "大米",
+        "猪肋排",
+        "鲜香菇",
+        "豆角"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "mushroom-greens-tofu-covered-rice",
+      "name": "香菇青菜豆腐饭锅",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-covered-pot",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "生米与菌菇豆腐青菜同锅，保持全国性家常范围。",
+      "core_ingredients": [
+        "大米",
+        "鲜香菇",
+        "老豆腐",
+        "青菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "nanjing-cured-pork-greens-rice",
+      "name": "南京矮脚黄腊肉菜饭",
+      "status": "auto_approved",
+      "cuisine": "南京菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jiangnan"
+      ],
+      "province_codes": [
+        "CN-JS"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-jiangnan-vegetable-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "南京菜饭按城市归入江苏节点。",
+      "core_ingredients": [
+        "大米",
+        "腊五花肉",
+        "矮脚黄"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "nanjing-duck-greens-rice",
+      "name": "南京矮脚黄板鸭菜饭",
+      "status": "auto_approved",
+      "cuisine": "南京菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jiangnan"
+      ],
+      "province_codes": [
+        "CN-JS"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-jiangnan-vegetable-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "南京板鸭菜饭按城市归入江苏节点。",
+      "core_ingredients": [
+        "大米",
+        "包装熟制板鸭（去骨）",
+        "矮脚黄"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "nanjing-sausage-greens-rice",
+      "name": "南京矮脚黄香肠菜饭",
+      "status": "auto_approved",
+      "cuisine": "南京菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jiangnan"
+      ],
+      "province_codes": [
+        "CN-JS"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-jiangnan-vegetable-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "南京香肠菜饭按城市归入江苏节点。",
+      "core_ingredients": [
+        "大米",
+        "广式腊肠",
+        "矮脚黄"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "north-china-green-bean-braised-noodles",
+      "name": "北方豆角焖面",
+      "status": "auto_approved",
+      "cuisine": "北方家常",
+      "form": "焖面",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "jingjinji",
+        "jinmeng",
+        "shandong",
+        "central_plains"
+      ],
+      "province_codes": [],
+      "primary_family_id": "noodle-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northern-braised-noodles",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "manual_review"
+      ],
+      "mapping_note": "北方家常豆角焖面跨多个北方地域，不锁定单省。",
+      "core_ingredients": [
+        "鲜小麦面条",
+        "豆角",
+        "猪肉末"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "potato-broccoli-beef-covered-rice",
+      "name": "土豆西兰花牛肉饭锅",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-covered-pot",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "生米与牛肉蔬菜同锅，保持全国性家常范围。",
+      "core_ingredients": [
+        "大米",
+        "土豆",
+        "西兰花",
+        "牛肉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "potato-pork-rib-stewed-rice",
+      "name": "土豆排骨烩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-stewed-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "土豆排骨烩熟饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "猪肋排",
+        "土豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "qinghai-hao-fan",
+      "name": "青海熬饭风味家庭适配版",
+      "status": "auto_approved",
+      "cuisine": "河湟饮食",
+      "form": "熬煮饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "qinghai_tibet"
+      ],
+      "province_codes": [
+        "CN-QH"
+      ],
+      "primary_family_id": "grain-porridge",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northwest-grain-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "青海熬饭以小米加液熬煮结构归入青海谷物粥饭。",
+      "core_ingredients": [
+        "小米",
+        "土豆",
+        "熟鹰嘴豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "quanzhou-oil-rice",
+      "name": "泉州浥饭（油饭）",
+      "status": "auto_approved",
+      "cuisine": "闽南",
+      "form": "糯米饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "fujian_taiwan"
+      ],
+      "province_codes": [
+        "CN-FJ"
+      ],
+      "primary_family_id": "glutinous-mixed-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-southern-savory-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "泉州油饭按城市归入福建，主食为糯米。",
+      "core_ingredients": [
+        "泡发糯米",
+        "猪肉末",
+        "鲜香菇"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "rice-cabbage-minestrone",
+      "name": "米粒卷心菜杂蔬汤",
+      "status": "approved",
+      "cuisine": "意大利风味",
+      "form": "浓汤",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-minestrone",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "意大利风味杂蔬汤不归入中国地域地图。",
+      "core_ingredients": [
+        "大米",
+        "卷心菜",
+        "高汤"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "shaanbei-red-date-cowpea-rice",
+      "name": "陕北红枣豇豆焖饭",
+      "status": "auto_approved",
+      "cuisine": "陕北菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "northwest"
+      ],
+      "province_codes": [
+        "CN-SN"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northwest-grain-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "陕北红枣豇豆焖饭归入陕西。",
+      "core_ingredients": [
+        "大米",
+        "去核红枣",
+        "豇豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "shakshuka-tomato-egg",
+      "name": "番茄甜椒炖蛋",
+      "status": "approved",
+      "cuisine": "中东风味",
+      "form": "炖锅",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-tomato-egg-pot",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "中东风味炖蛋菜单不归入中国地域地图。",
+      "core_ingredients": [
+        "鸡蛋",
+        "番茄",
+        "甜椒"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "shanghai-salted-pork-vegetable-rice",
+      "name": "上海奉贤咸肉菜饭",
+      "status": "auto_approved",
+      "cuisine": "上海本帮",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jiangnan"
+      ],
+      "province_codes": [
+        "CN-SH"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-jiangnan-vegetable-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "菜名、菜系和现有证据共同指向上海咸肉菜饭。",
+      "core_ingredients": [
+        "大米",
+        "咸五花肉",
+        "小白菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "shanxi-nitun-millet-rice",
+      "name": "山西泥屯小米饭",
+      "status": "auto_approved",
+      "cuisine": "晋菜",
+      "form": "小米饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jinmeng"
+      ],
+      "province_codes": [
+        "CN-SX"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northwest-grain-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "山西泥屯小米饭为干饭结构，归入生谷物同焖而非稀粥。",
+      "core_ingredients": [
+        "小米",
+        "土豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "shanxi-potato-rice",
+      "name": "山西岚县土豆饭",
+      "status": "auto_approved",
+      "cuisine": "晋菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jinmeng"
+      ],
+      "province_codes": [
+        "CN-SX"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northwest-grain-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "山西岚县土豆饭归入山西。",
+      "core_ingredients": [
+        "大米",
+        "土豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "she-people-black-rice",
+      "name": "畲族乌饭风味家庭适配版",
+      "status": "auto_approved",
+      "cuisine": "畲族饮食",
+      "form": "糯米饭",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "jiangnan",
+        "fujian_taiwan"
+      ],
+      "province_codes": [],
+      "primary_family_id": "glutinous-mixed-rice",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "manual_review"
+      ],
+      "mapping_note": "畲族乌饭跨越闽浙等地，当前证据不足以锁定单一省份。",
+      "core_ingredients": [
+        "糯米",
+        "食品级黑米色粉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "shrimp-egg-fried-leftover-rice",
+      "name": "虾仁鸡蛋炒剩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "炒饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stir",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-fried-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "虾仁鸡蛋炒剩饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "虾仁",
+        "鸡蛋"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "simple-chicken-biryani",
+      "name": "简化一锅鸡肉香料饭",
+      "status": "approved",
+      "cuisine": "南亚风味",
+      "form": "焖饭",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-spiced-rice",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "南亚风味菜单保留在产品库，但不归入中国地域地图。",
+      "core_ingredients": [
+        "大米",
+        "鸡肉",
+        "洋葱"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "soy-lentil-vegetable-stew",
+      "name": "大豆扁豆西兰花炖锅",
+      "status": "approved",
+      "cuisine": "家常纯素炖锅",
+      "form": "炖锅",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-legume-vegetable-stew",
+      "mapping_basis": [
+        "recipe_evidence",
+        "manual_review"
+      ],
+      "mapping_note": "该纯素炖锅缺少中国地域事实，不为审计计数强行归省。",
+      "core_ingredients": [
+        "红扁豆",
+        "大豆蛋白块",
+        "西兰花",
+        "红洋葱"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "suzhou-salted-pork-vegetable-rice",
+      "name": "苏州青菜咸肉饭",
+      "status": "auto_approved",
+      "cuisine": "苏帮",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "jiangnan"
+      ],
+      "province_codes": [
+        "CN-JS"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-jiangnan-vegetable-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "苏州地域名称与苏帮身份指向江苏。",
+      "core_ingredients": [
+        "大米",
+        "咸五花肉",
+        "小白菜"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "taiwan-cabbage-mushroom-rice",
+      "name": "高丽菜香菇炊饭",
+      "status": "auto_approved",
+      "cuisine": "台湾家常",
+      "form": "炊饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "fujian_taiwan"
+      ],
+      "province_codes": [
+        "CN-TW"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-southern-savory-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "台湾家常炊饭归入台湾节点。",
+      "core_ingredients": [
+        "大米",
+        "卷心菜",
+        "鲜香菇"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "texas-beef-chili",
+      "name": "德州风味牛肉辣炖锅",
+      "status": "approved",
+      "cuisine": "美国德州风味",
+      "form": "炖锅",
+      "regional_scope": "outside_cn_atlas",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": null,
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-legume-vegetable-stew",
+      "mapping_basis": [
+        "cuisine",
+        "manual_review"
+      ],
+      "mapping_note": "美国德州风味菜单不归入中国地域地图。",
+      "core_ingredients": [
+        "牛肉（粗绞）",
+        "干辣椒"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tibetan-ginseng-fruit-rice",
+      "name": "西藏人参果饭",
+      "status": "auto_approved",
+      "cuisine": "藏族饮食",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "qinghai_tibet"
+      ],
+      "province_codes": [
+        "CN-XZ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "西藏人参果饭归入西藏。",
+      "core_ingredients": [
+        "食品级蕨麻",
+        "大米"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tibetan-gutu",
+      "name": "古突风味家庭适配版",
+      "status": "auto_approved",
+      "cuisine": "藏族饮食",
+      "form": "面食汤",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "qinghai_tibet"
+      ],
+      "province_codes": [
+        "CN-XZ"
+      ],
+      "primary_family_id": "noodle-broth",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "古突面食汤按现有菜单身份归入西藏。",
+      "core_ingredients": [
+        "小麦面团",
+        "小白菜",
+        "水"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tibetan-savory-congee",
+      "name": "藏式咸稀饭风味家庭适配版",
+      "status": "auto_approved",
+      "cuisine": "藏族饮食",
+      "form": "稀饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "qinghai_tibet"
+      ],
+      "province_codes": [
+        "CN-XZ"
+      ],
+      "primary_family_id": "grain-porridge",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-regional-grain-specialties",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "藏式咸稀饭按现有菜单身份归入西藏谷物粥饭。",
+      "core_ingredients": [
+        "大米",
+        "牛奶"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tomato-broccoli-beef-stewed-rice",
+      "name": "番茄西兰花牛肉烩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-stewed-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "使用熟米饭烩煮，保持全国性家常范围。",
+      "core_ingredients": [
+        "熟米饭",
+        "番茄",
+        "西兰花",
+        "牛肉"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tomato-chicken-leg-soup-rice",
+      "name": "番茄鸡腿土豆汤饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "汤饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-soup-staple",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "番茄鸡腿汤饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "鸡腿肉",
+        "番茄"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tomato-egg-stewed-leftover-rice",
+      "name": "番茄鸡蛋烩剩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-stewed-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "番茄鸡蛋烩剩饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "番茄",
+        "鸡蛋"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tomato-potato-pork-rib-covered-rice",
+      "name": "番茄土豆排骨饭锅",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "饭锅",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-covered-pot",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "生米与排骨番茄土豆同锅，保持全国性家常范围。",
+      "core_ingredients": [
+        "大米",
+        "猪肋排",
+        "番茄",
+        "土豆"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "tomato-tofu-stewed-rice",
+      "name": "番茄青菜豆腐烩饭",
+      "status": "auto_approved",
+      "cuisine": "中式家常",
+      "form": "烩饭",
+      "regional_scope": "national_household",
+      "region_ids": [],
+      "province_codes": [],
+      "primary_family_id": "cooked-rice-stew",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-home-stewed-rice",
+      "mapping_basis": [
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "番茄豆腐烩熟饭是全国性家庭结构。",
+      "core_ingredients": [
+        "熟米饭",
+        "番茄",
+        "老豆腐"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "xinjiang-lamb-pilaf",
+      "name": "新疆羊肉抓饭",
+      "status": "auto_approved",
+      "cuisine": "新疆菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "northwest"
+      ],
+      "province_codes": [
+        "CN-XJ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northwest-grain-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "新疆羊肉抓饭归入新疆。",
+      "core_ingredients": [
+        "羊腿肉",
+        "洋葱",
+        "胡萝卜",
+        "大米"
+      ],
+      "source_count": 1
+    },
+    {
+      "source_id": "xinjiang-vegetable-pilaf",
+      "name": "新疆素抓饭",
+      "status": "auto_approved",
+      "cuisine": "新疆菜",
+      "form": "焖饭",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "northwest"
+      ],
+      "province_codes": [
+        "CN-XJ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "family-northwest-grain-rice",
+      "mapping_basis": [
+        "cuisine",
+        "name",
+        "recipe_evidence"
+      ],
+      "mapping_note": "新疆素抓饭归入新疆。",
+      "core_ingredients": [
+        "大米",
+        "洋葱",
+        "胡萝卜"
+      ],
+      "source_count": 1
+    }
+  ],
+  "research_audit": [
+    {
+      "source_id": "chongqing-firewood-potato-rice-home",
+      "prototype_name": "柴火洋芋饭家庭版",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "sichuan_chongqing"
+      ],
+      "province_codes": [
+        "CN-CQ"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [
+        "vessel-adapted-rice"
+      ],
+      "legacy_family_id": "potato-rice-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "重庆洋芋饭研究题目，柴火转家庭锅的身份仍待核实。",
+      "pantry_gap_items": [
+        "土豆"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "henan-bean-pork-steamed-noodles",
+      "prototype_name": "豆角猪肉蒸面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "central_plains"
+      ],
+      "province_codes": [
+        "CN-HA"
+      ],
+      "primary_family_id": "noodle-steam-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "steamed-noodle-home-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "河南豆角猪肉蒸面研究题目。",
+      "pantry_gap_items": [
+        "豆角",
+        "猪肉"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "henan-cabbage-mushroom-steamed-noodles",
+      "prototype_name": "卷心菜菌菇蒸面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "central_plains"
+      ],
+      "province_codes": [
+        "CN-HA"
+      ],
+      "primary_family_id": "noodle-steam-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "steamed-noodle-home-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "河南卷心菜菌菇蒸面研究题目。",
+      "pantry_gap_items": [
+        "卷心菜",
+        "菌菇"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "henan-celery-pork-steamed-noodles",
+      "prototype_name": "芹菜猪肉蒸面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "central_plains"
+      ],
+      "province_codes": [
+        "CN-HA"
+      ],
+      "primary_family_id": "noodle-steam-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "steamed-noodle-home-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "河南芹菜猪肉蒸面研究题目。",
+      "pantry_gap_items": [
+        "芹菜",
+        "猪肉"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "henan-home-one-pot-steamed-braised-noodles",
+      "prototype_name": "家庭单锅蒸焖面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "central_plains"
+      ],
+      "province_codes": [
+        "CN-HA"
+      ],
+      "primary_family_id": "noodle-steam-braise",
+      "secondary_family_ids": [
+        "noodle-braise"
+      ],
+      "legacy_family_id": "steamed-noodle-home-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "河南家庭单锅蒸焖面是适配研究题目，尚未成为固定菜谱。",
+      "pantry_gap_items": [
+        "耐蒸蔬菜",
+        "可选蛋白"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "north-cabbage-pork-braised-noodles",
+      "prototype_name": "卷心菜猪肉焖面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "jingjinji",
+        "jinmeng"
+      ],
+      "province_codes": [],
+      "primary_family_id": "noodle-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "noodle-braise",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "现有华北粒度跨京津冀与晋蒙，待来源细化。",
+      "pantry_gap_items": [
+        "卷心菜",
+        "猪肉"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "north-mushroom-vegetable-braised-noodles",
+      "prototype_name": "菌菇时蔬焖面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "jingjinji",
+        "jinmeng"
+      ],
+      "province_codes": [],
+      "primary_family_id": "noodle-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "noodle-braise",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "现有华北粒度跨京津冀与晋蒙，待来源细化。",
+      "pantry_gap_items": [
+        "菌菇",
+        "时蔬"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "north-pork-bean-braised-noodles",
+      "prototype_name": "豆角猪肉焖面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "jingjinji",
+        "jinmeng"
+      ],
+      "province_codes": [],
+      "primary_family_id": "noodle-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "noodle-braise",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "现有华北粒度跨京津冀与晋蒙，待来源细化。",
+      "pantry_gap_items": [
+        "猪肉",
+        "豆角"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "north-potato-bean-braised-noodles",
+      "prototype_name": "土豆豆角焖面",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "jingjinji",
+        "jinmeng"
+      ],
+      "province_codes": [],
+      "primary_family_id": "noodle-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "noodle-braise",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "现有华北粒度跨京津冀与晋蒙，待来源细化。",
+      "pantry_gap_items": [
+        "土豆",
+        "豆角"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "northeast-chicken-mushroom-potato-corn-cake",
+      "prototype_name": "鸡肉蘑菇土豆配锅边饼",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "northeast"
+      ],
+      "province_codes": [],
+      "primary_family_id": "stew-with-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "stew-with-staple",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "东北级研究题目，省级事实待核实。",
+      "pantry_gap_items": [
+        "鸡肉",
+        "蘑菇",
+        "土豆"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "northeast-fish-tofu-vegetable-corn-cake",
+      "prototype_name": "鱼豆腐蔬菜锅配玉米饼",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "northeast"
+      ],
+      "province_codes": [],
+      "primary_family_id": "stew-with-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "stew-with-staple",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "东北级鱼锅研究题目，安全与省级事实均待核实。",
+      "pantry_gap_items": [
+        "鱼",
+        "豆腐",
+        "耐炖蔬菜"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "northeast-ribs-beans-corn-cake",
+      "prototype_name": "排骨豆角配锅边饼",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "northeast"
+      ],
+      "province_codes": [],
+      "primary_family_id": "stew-with-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "stew-with-staple",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "东北级研究题目，尚未锁定辽吉黑单省。",
+      "pantry_gap_items": [
+        "排骨",
+        "豆角"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "northeast-ribs-beans-sticky-rolls",
+      "prototype_name": "排骨豆角粘卷子",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "cross_regional_chinese",
+      "region_ids": [
+        "northeast"
+      ],
+      "province_codes": [],
+      "primary_family_id": "stew-with-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "stew-with-staple",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "东北级粘卷子研究题目，尚未锁定单省。",
+      "pantry_gap_items": [
+        "排骨",
+        "豆角"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "shandong-cabbage-tofu-vermicelli-pot",
+      "prototype_name": "白菜豆腐粉条大锅主餐",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "shandong"
+      ],
+      "province_codes": [
+        "CN-SD"
+      ],
+      "primary_family_id": "family-pot-with-absorbent-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "vegetable-staple-family-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "山东研究题目，地方事实和粉条主食身份仍待核实。",
+      "pantry_gap_items": [
+        "白菜",
+        "豆腐"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "shandong-seafood-staple-pot",
+      "prototype_name": "胶东海鲜主食锅",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "shandong"
+      ],
+      "province_codes": [
+        "CN-SD"
+      ],
+      "primary_family_id": "family-pot-with-absorbent-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "vegetable-staple-family-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "胶东海鲜与主食形态均为待核实假设。",
+      "pantry_gap_items": [
+        "海鲜",
+        "蔬菜"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "shandong-southwest-family-pot",
+      "prototype_name": "鲁西南家常大锅路线",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "shandong"
+      ],
+      "province_codes": [
+        "CN-SD"
+      ],
+      "primary_family_id": "family-pot-with-absorbent-staple",
+      "secondary_family_ids": [],
+      "legacy_family_id": "vegetable-staple-family-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "鲁西南大锅路线仅为研究题目，不代表已验证地方菜。",
+      "pantry_gap_items": [
+        "白菜",
+        "豆腐",
+        "猪肉或粉条"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "shandong-vegetable-cornmeal-one-pot",
+      "prototype_name": "蔬菜与玉米面主食同锅",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "shandong"
+      ],
+      "province_codes": [
+        "CN-SD"
+      ],
+      "primary_family_id": "family-pot-with-absorbent-staple",
+      "secondary_family_ids": [
+        "stew-with-staple"
+      ],
+      "legacy_family_id": "vegetable-staple-family-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "当前主技法只是研究 crosswalk；玉米面形态核实后可能改归炖菜带锅边主食。",
+      "pantry_gap_items": [
+        "耐煮蔬菜"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "sichuan-bean-potato-rice",
+      "prototype_name": "豆类洋芋饭",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "sichuan_chongqing"
+      ],
+      "province_codes": [
+        "CN-SC"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "potato-rice-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "四川豆类洋芋饭研究题目。",
+      "pantry_gap_items": [
+        "豆类",
+        "土豆"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "sichuan-corn-potato-rice",
+      "prototype_name": "玉米洋芋饭",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "sichuan_chongqing"
+      ],
+      "province_codes": [
+        "CN-SC"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "potato-rice-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "四川玉米洋芋饭研究题目。",
+      "pantry_gap_items": [
+        "玉米",
+        "土豆"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "sichuan-salted-pork-potato-rice",
+      "prototype_name": "腊肉洋芋饭",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "sichuan_chongqing"
+      ],
+      "province_codes": [
+        "CN-SC"
+      ],
+      "primary_family_id": "raw-rice-braise",
+      "secondary_family_ids": [],
+      "legacy_family_id": "potato-rice-pot",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "四川腊肉洋芋饭研究题目。",
+      "pantry_gap_items": [
+        "腊肉",
+        "土豆"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "yunnan-copper-pot-potato-rice-home",
+      "prototype_name": "铜锅洋芋饭家庭版",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "yunnan_guizhou"
+      ],
+      "province_codes": [
+        "CN-YN"
+      ],
+      "primary_family_id": "vessel-adapted-rice",
+      "secondary_family_ids": [
+        "raw-rice-braise"
+      ],
+      "legacy_family_id": "vessel-adapted-rice",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "云南铜锅洋芋饭家庭适配研究题目。",
+      "pantry_gap_items": [
+        "土豆"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "yunnan-corn-chicken-rice",
+      "prototype_name": "玉米鸡肉饭",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "yunnan_guizhou"
+      ],
+      "province_codes": [
+        "CN-YN"
+      ],
+      "primary_family_id": "vessel-adapted-rice",
+      "secondary_family_ids": [
+        "raw-rice-braise"
+      ],
+      "legacy_family_id": "vessel-adapted-rice",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "云南玉米鸡肉饭研究题目，器具身份待核实。",
+      "pantry_gap_items": [
+        "玉米",
+        "鸡肉"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "yunnan-ham-flavor-rice-pot",
+      "prototype_name": "火腿风味可替换饭锅",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "yunnan_guizhou"
+      ],
+      "province_codes": [
+        "CN-YN"
+      ],
+      "primary_family_id": "vessel-adapted-rice",
+      "secondary_family_ids": [
+        "raw-rice-braise"
+      ],
+      "legacy_family_id": "vessel-adapted-rice",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "云南火腿风味位仅为研究假设，不授权自由替换。",
+      "pantry_gap_items": [
+        "火腿风味位",
+        "蔬菜"
+      ],
+      "source_ref_count": 0
+    },
+    {
+      "source_id": "yunnan-mushroom-potato-rice",
+      "prototype_name": "菌菇洋芋饭",
+      "status": "research_queue",
+      "source_confidence": "discovery_only",
+      "regional_scope": "province_specific",
+      "region_ids": [
+        "yunnan_guizhou"
+      ],
+      "province_codes": [
+        "CN-YN"
+      ],
+      "primary_family_id": "vessel-adapted-rice",
+      "secondary_family_ids": [
+        "raw-rice-braise"
+      ],
+      "legacy_family_id": "vessel-adapted-rice",
+      "mapping_basis": [
+        "research_hypothesis",
+        "family_crosswalk"
+      ],
+      "mapping_note": "云南菌菇洋芋饭研究题目，器具身份待核实。",
+      "pantry_gap_items": [
+        "菌菇",
+        "土豆"
+      ],
+      "source_ref_count": 0
+    }
+  ],
+  "pantry_gap_coverage": [
+    {
+      "item": "土豆",
+      "research_candidate_count": 8,
+      "research_candidate_ids": [
+        "chongqing-firewood-potato-rice-home",
+        "north-potato-bean-braised-noodles",
+        "northeast-chicken-mushroom-potato-corn-cake",
+        "sichuan-bean-potato-rice",
+        "sichuan-corn-potato-rice",
+        "sichuan-salted-pork-potato-rice",
+        "yunnan-copper-pot-potato-rice-home",
+        "yunnan-mushroom-potato-rice"
+      ]
+    },
+    {
+      "item": "豆角",
+      "research_candidate_count": 5,
+      "research_candidate_ids": [
+        "henan-bean-pork-steamed-noodles",
+        "north-pork-bean-braised-noodles",
+        "north-potato-bean-braised-noodles",
+        "northeast-ribs-beans-corn-cake",
+        "northeast-ribs-beans-sticky-rolls"
+      ]
+    },
+    {
+      "item": "猪肉",
+      "research_candidate_count": 4,
+      "research_candidate_ids": [
+        "henan-bean-pork-steamed-noodles",
+        "henan-celery-pork-steamed-noodles",
+        "north-cabbage-pork-braised-noodles",
+        "north-pork-bean-braised-noodles"
+      ]
+    },
+    {
+      "item": "豆腐",
+      "research_candidate_count": 3,
+      "research_candidate_ids": [
+        "northeast-fish-tofu-vegetable-corn-cake",
+        "shandong-cabbage-tofu-vermicelli-pot",
+        "shandong-southwest-family-pot"
+      ]
+    },
+    {
+      "item": "菌菇",
+      "research_candidate_count": 3,
+      "research_candidate_ids": [
+        "henan-cabbage-mushroom-steamed-noodles",
+        "north-mushroom-vegetable-braised-noodles",
+        "yunnan-mushroom-potato-rice"
+      ]
+    },
+    {
+      "item": "白菜",
+      "research_candidate_count": 2,
+      "research_candidate_ids": [
+        "shandong-cabbage-tofu-vermicelli-pot",
+        "shandong-southwest-family-pot"
+      ]
+    },
+    {
+      "item": "鸡肉",
+      "research_candidate_count": 2,
+      "research_candidate_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake",
+        "yunnan-corn-chicken-rice"
+      ]
+    },
+    {
+      "item": "卷心菜",
+      "research_candidate_count": 2,
+      "research_candidate_ids": [
+        "henan-cabbage-mushroom-steamed-noodles",
+        "north-cabbage-pork-braised-noodles"
+      ]
+    },
+    {
+      "item": "排骨",
+      "research_candidate_count": 2,
+      "research_candidate_ids": [
+        "northeast-ribs-beans-corn-cake",
+        "northeast-ribs-beans-sticky-rolls"
+      ]
+    },
+    {
+      "item": "蔬菜",
+      "research_candidate_count": 2,
+      "research_candidate_ids": [
+        "shandong-seafood-staple-pot",
+        "yunnan-ham-flavor-rice-pot"
+      ]
+    },
+    {
+      "item": "玉米",
+      "research_candidate_count": 2,
+      "research_candidate_ids": [
+        "sichuan-corn-potato-rice",
+        "yunnan-corn-chicken-rice"
+      ]
+    },
+    {
+      "item": "豆类",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "sichuan-bean-potato-rice"
+      ]
+    },
+    {
+      "item": "海鲜",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "shandong-seafood-staple-pot"
+      ]
+    },
+    {
+      "item": "火腿风味位",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "yunnan-ham-flavor-rice-pot"
+      ]
+    },
+    {
+      "item": "可选蛋白",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "henan-home-one-pot-steamed-braised-noodles"
+      ]
+    },
+    {
+      "item": "腊肉",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "sichuan-salted-pork-potato-rice"
+      ]
+    },
+    {
+      "item": "蘑菇",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "northeast-chicken-mushroom-potato-corn-cake"
+      ]
+    },
+    {
+      "item": "耐炖蔬菜",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "northeast-fish-tofu-vegetable-corn-cake"
+      ]
+    },
+    {
+      "item": "耐蒸蔬菜",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "henan-home-one-pot-steamed-braised-noodles"
+      ]
+    },
+    {
+      "item": "耐煮蔬菜",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "shandong-vegetable-cornmeal-one-pot"
+      ]
+    },
+    {
+      "item": "芹菜",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "henan-celery-pork-steamed-noodles"
+      ]
+    },
+    {
+      "item": "时蔬",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "north-mushroom-vegetable-braised-noodles"
+      ]
+    },
+    {
+      "item": "鱼",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "northeast-fish-tofu-vegetable-corn-cake"
+      ]
+    },
+    {
+      "item": "猪肉或粉条",
+      "research_candidate_count": 1,
+      "research_candidate_ids": [
+        "shandong-southwest-family-pot"
+      ]
+    }
+  ],
+  "source_status": {
+    "production": {
+      "with_sources": 72,
+      "without_sources": 0
+    },
+    "research": {
+      "discovery_only": 24,
+      "fact_checked": 0,
+      "other": 0
+    }
+  }
+}

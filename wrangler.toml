@@ -3,8 +3,21 @@ name = "yiguochu"
 compatibility_date = "2026-06-04"
 pages_build_output_dir = "dist"
 
+[limits]
+# Planner V2 performs deterministic catalog validation and bounded template search.
+# Keep a finite per-request ceiling while allowing cold-isolate validation on Pages.
+cpu_ms = 1000
+
 [env.production]
 
 [[env.production.kv_namespaces]]
+binding = "RATE_KV"
+id = "5c29cff841c7496da029b43c6273e1ea"
+
+# Pages preview(所有非 main 分支, 如 recipe-validation)同样持 DeepSeek secret, 必须同档全局熔断;
+# budgetConsume 已 fail-closed, 不绑 RATE_KV 的环境一律 503 budget_unavailable。
+[env.preview]
+
+[[env.preview.kv_namespaces]]
 binding = "RATE_KV"
 id = "5c29cff841c7496da029b43c6273e1ea"

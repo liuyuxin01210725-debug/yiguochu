@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "assessment_version": "sichuan-chongqing-rice-research-v1-20260726",
+  "region_id": "sichuan_chongqing",
+  "province_codes": ["CN-SC", "CN-CQ"],
+  "source_refs": [
+    {
+      "source_id": "sc-kong-rice-2021",
+      "title": "古蜀先民‘菜篮子’里都有啥？",
+      "url": "https://www.hljzx.gov.cn/contents/68/7320.html",
+      "publisher": "黑龙江省政协（转载人民政协网，原作者为成都日报记者）",
+      "published_at": "2021-06-16",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "转载的成都日报采访中，巴蜀文化专家说明四川孔干饭常把米煮至半熟沥出，菜料翻炒后铺饭文火孔熟；豌豆、四季豆、洋芋是并列常见菜料，另有玉米粉与米同孔的金裹银。",
+      "proves": [
+        "candidate:sichuan-bean-potato-rice:kong_family_parallel_vegetables",
+        "candidate:sichuan-corn-potato-rice:cornmeal_variant_identity",
+        "lead:sichuan-kong-dry-rice:regional_structure",
+        "lead:sichuan-kong-dry-rice:parboiled_rice_state",
+        "lead:sichuan-golden-wrapped-silver-rice:regional_structure"
+      ],
+      "does_not_prove": [
+        "candidate:sichuan-bean-potato-rice:fixed_bean_potato_core",
+        "candidate:sichuan-corn-potato-rice:fixed_corn_potato_core",
+        "lead:sichuan-kong-dry-rice:project_ratio_safety",
+        "lead:sichuan-golden-wrapped-silver-rice:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "cq-qianjiang-potato-rice-2026",
+      "title": "柴火洋芋饭",
+      "url": "https://www.qianjiang.gov.cn/bmjd/xzfgzbm/qwhlyw/zwgk_49175/gkml/cyqj/czqj/202506/t20250612_14708703.html",
+      "publisher": "重庆市黔江区文化和旅游发展委员会",
+      "published_at": "2026-06-12",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "区政府页面明确描述高山洋芋翻炒至金黄后加入大米，以柴火慢炖；腊肉、腊肠或蔬菜被列为可选点缀。",
+      "proves": [
+        "candidate:chongqing-firewood-potato-rice-home:chongqing_potato_rice_identity",
+        "candidate:chongqing-firewood-potato-rice-home:firewood_vessel_identity",
+        "candidate:sichuan-salted-pork-potato-rice:cured_meat_as_optional_garnish"
+      ],
+      "does_not_prove": [
+        "candidate:chongqing-firewood-potato-rice-home:household_appliance_equivalence",
+        "candidate:sichuan-salted-pork-potato-rice:sichuan_fixed_cured_pork_core",
+        "candidate:chongqing-firewood-potato-rice-home:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "cq-wanzhou-potato-rice-2024",
+      "title": "万州罗田洋芋饭烹饪大比拼",
+      "url": "https://www.wz.gov.cn/zwxx_266/jdtp/202406/t20240617_13297911.html",
+      "publisher": "重庆市万州区人民政府（来源：万州时报）",
+      "published_at": "2024-06-17",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "政府页面记录罗田镇14个村居以大铁锅进行洋芋饭烹饪比赛，支持重庆乡村洋芋饭的当代在地实践。",
+      "proves": ["candidate:chongqing-firewood-potato-rice-home:chongqing_potato_rice_identity"],
+      "does_not_prove": [
+        "candidate:chongqing-firewood-potato-rice-home:household_appliance_equivalence",
+        "candidate:chongqing-firewood-potato-rice-home:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "cq-yuwei-360-2025",
+      "title": "2025年重庆美食‘渝味360碗’评选结果公告",
+      "url": "https://whlyw.cq.gov.cn/zwxx_221/bmdt/tzgg/202505/P020250530603313691848.pdf",
+      "publisher": "重庆市文化和旅游发展委员会",
+      "published_at": "2025-05-30",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方名单记录巫山孔洋芋、石柱马耳巴合渣和酉阳酉州社饭等当代地域美食名称，只能证明名称与地点出现。",
+      "proves": ["lead:chongqing-youzhou-shefan:official_current_presence"],
+      "does_not_prove": [
+        "lead:chongqing-youzhou-shefan:project_ratio_safety",
+        "candidate:chongqing-firewood-potato-rice-home:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "cq-youyang-shefan-2025",
+      "title": "典籍里的酉阳美食",
+      "url": "https://youyang.gov.cn/sy_236/yyyw/202506/t20250610_14698997.html",
+      "publisher": "重庆市酉阳土家族苗族自治县人民政府",
+      "published_at": "2025-06-09",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "县政府页面记录酉州社饭以半熟再蒸的大米、腊肉、豆腐干、野菜等拌炒或蒸熟的结构。",
+      "proves": [
+        "lead:chongqing-youzhou-shefan:regional_structure",
+        "lead:chongqing-youzhou-shefan:ingredient_identity"
+      ],
+      "does_not_prove": [
+        "lead:chongqing-youzhou-shefan:single_vessel_equivalence",
+        "lead:chongqing-youzhou-shefan:project_ratio_safety"
+      ]
+    },
+    {
+      "source_id": "cq-wuxi-potato-innovation-2022",
+      "title": "巫溪土豆变身的秘密",
+      "url": "https://nyncw.cq.gov.cn/zwxx_161/mtbb/202208/t20220825_11037466.html",
+      "publisher": "重庆市农业农村委员会（来源：华龙网）",
+      "published_at": "2022-08-25",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "市农业农村委转载报道把豌豆疙瘩洋芋饭明确列为厨艺比赛评出的新菜品，支持当代创新存在但不支持四川传统固定豆薯组合。",
+      "proves": ["candidate:sichuan-bean-potato-rice:contemporary_bean_potato_innovation"],
+      "does_not_prove": ["candidate:sichuan-bean-potato-rice:fixed_bean_potato_core"]
+    },
+    {
+      "source_id": "samr-potato-safety-2022",
+      "title": "发芽的马铃薯还能吃吗？",
+      "url": "https://www.samr.gov.cn/spcjs/yjjl/art/2022/art_d958ba4998c94acda15b72b195c62e4d.html",
+      "publisher": "国家市场监督管理总局",
+      "published_at": "2022-05-05",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "市场监管总局提示大面积发芽或变绿马铃薯应丢弃，烹饪时应彻底烧熟炖透。",
+      "proves": ["safety:potato-sprout-green-control:principle"],
+      "does_not_prove": ["safety:potato-sprout-green-control:project_time_quantity"]
+    },
+    {
+      "source_id": "dgamr-green-bean-safety-2022",
+      "title": "谨防食用四季豆中毒 烹饪四季豆要煮熟煮透",
+      "url": "https://dgamr.dg.gov.cn/zdlyxxgk/spypaq/spypaqxfjs/content/post_3708691.html",
+      "publisher": "东莞市市场监督管理局",
+      "published_at": "2022-01-14",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "官方预警要求四季豆受热均匀并彻底煮熟煮透，外观失去生绿色且没有豆腥味。",
+      "proves": ["safety:green-bean-cook-through:principle"],
+      "does_not_prove": ["safety:green-bean-cook-through:project_time_quantity"]
+    },
+    {
+      "source_id": "cq-cured-meat-safety-2026",
+      "title": "腊肉、香肠的消费提示",
+      "url": "https://scjgj.cq.gov.cn/bkzs/xfts/202602/t20260213_15442166.html",
+      "publisher": "重庆市市场监督管理局",
+      "published_at": "2026-02-13",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "重庆市场监管部门要求腊味彻底炒熟煮透，并提示其高盐、应控制摄入。",
+      "proves": ["safety:cured-meat-cook-through-and-salt:principle"],
+      "does_not_prove": ["safety:cured-meat-cook-through-and-salt:project_time_quantity"]
+    }
+  ],
+  "production_recipe_audits": [],
+  "candidate_audits": [
+    {
+      "candidate_id": "chongqing-firewood-potato-rice-home",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "chongqing_potato_rice_identity": {"verdict":"supported","evidence_source_ids":["cq-qianjiang-potato-rice-2026","cq-wanzhou-potato-rice-2024"],"reason":"重庆黔江和万州官方页面共同支持洋芋饭的在地身份。"},
+        "firewood_vessel_identity": {"verdict":"supported","evidence_source_ids":["cq-qianjiang-potato-rice-2026"],"reason":"来源明确把柴火灶和大铁锅写入高层技法身份。"},
+        "household_appliance_equivalence": {"verdict":"not_proven","evidence_source_ids":["cq-qianjiang-potato-rice-2026","cq-wanzhou-potato-rice-2024"],"reason":"柴火慢炖和村居大铁锅资料不能证明普通锅或电饭煲自动等价。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["cq-qianjiang-potato-rice-2026"],"reason":"来源没有项目可执行的生米液体比例、土豆块尺寸和时间。"}
+      },
+      "ingredient_shapes": ["raw_rice", "fried_potato_chunks", "optional_cured_meat_or_vegetable"],
+      "forbidden_claims": ["firewood_equals_electric_cooker", "optional_garnish_as_fixed_core", "published_ratio_claim"],
+      "product_destinations": ["candidate_evidence", "template_evidence", "ratio_rule"],
+      "priority": {"product_score":10,"regional_score":10,"risk_penalty":5,"total_score":15},
+      "decision_reason": "保留重庆洋芋饭家族；家庭锅具适配和 Ratio DSL 未解决前不晋升。"
+    },
+    {
+      "candidate_id": "sichuan-salted-pork-potato-rice",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "cured_meat_as_optional_garnish": {"verdict":"supported","evidence_source_ids":["cq-qianjiang-potato-rice-2026"],"reason":"黔江资料明确把腊肉或腊肠列为洋芋饭可选点缀。"},
+        "sichuan_fixed_cured_pork_core": {"verdict":"not_proven","evidence_source_ids":["cq-qianjiang-potato-rice-2026"],"reason":"重庆可选点缀不能证明四川腊肉洋芋饭的固定传统核心。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["cq-cured-meat-safety-2026"],"reason":"通用腊味安全原则不提供本候选克数、盐量或同锅熟制规则。"}
+      },
+      "ingredient_shapes": ["raw_rice", "potato_chunks", "cured_pork_dice"],
+      "forbidden_claims": ["optional_garnish_as_fixed_core", "chongqing_evidence_as_sichuan_origin", "published_ratio_claim"],
+      "product_destinations": ["research_only", "ratio_rule"],
+      "priority": {"product_score":8,"regional_score":5,"risk_penalty":7,"total_score":6},
+      "decision_reason": "保留为待核四川候选，不借重庆可选配料伪造四川定式。"
+    },
+    {
+      "candidate_id": "sichuan-corn-potato-rice",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "cornmeal_variant_identity": {"verdict":"supported","evidence_source_ids":["sc-kong-rice-2021"],"reason":"四川孔干饭资料支持玉米粉与米同孔的金裹银家族。"},
+        "fixed_corn_potato_core": {"verdict":"not_proven","evidence_source_ids":["sc-kong-rice-2021"],"reason":"来源把玉米粉作为替代菜料的另一结构，没有证明玉米与洋芋固定共现。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["sc-kong-rice-2021"],"reason":"来源没有玉米粉、半熟米与保留水分的机器比例。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice", "cornmeal", "unproven_potato"],
+      "forbidden_claims": ["parallel_examples_as_required_combination", "cornmeal_as_corn_kernel_equivalence", "raw_rice_braise_equivalence"],
+      "product_destinations": ["new_family_research", "ratio_rule"],
+      "priority": {"product_score":7,"regional_score":6,"risk_penalty":6,"total_score":7},
+      "decision_reason": "把金裹银拆为独立研究线索；当前玉米洋芋候选不能据此晋升。"
+    },
+    {
+      "candidate_id": "sichuan-bean-potato-rice",
+      "audit_state": "needs_more_evidence",
+      "claims": {
+        "kong_family_parallel_vegetables": {"verdict":"supported","evidence_source_ids":["sc-kong-rice-2021"],"reason":"资料支持豌豆、四季豆、洋芋作为孔干饭并列常见菜料。"},
+        "contemporary_bean_potato_innovation": {"verdict":"supported","evidence_source_ids":["cq-wuxi-potato-innovation-2022"],"reason":"重庆巫溪报道记录豌豆疙瘩洋芋饭为厨艺比赛评出的新菜品。"},
+        "fixed_bean_potato_core": {"verdict":"not_proven","evidence_source_ids":["sc-kong-rice-2021","cq-wuxi-potato-innovation-2022"],"reason":"并列菜料和重庆当代创新都不能证明四川豆类洋芋饭固定传统核心。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["dgamr-green-bean-safety-2022"],"reason":"四季豆安全原则不能替代米水、豆种、加入顺序和熟制时间规则。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice", "bean_species_unresolved", "optional_potato"],
+      "forbidden_claims": ["parallel_examples_as_required_combination", "all_beans_interchangeable", "contemporary_innovation_as_ancient_tradition"],
+      "product_destinations": ["candidate_evidence", "ratio_rule"],
+      "priority": {"product_score":8,"regional_score":6,"risk_penalty":7,"total_score":7},
+      "decision_reason": "可研究豌豆或四季豆孔饭，但必须先拆豆种并拒绝固定豆薯传统叙述。"
+    }
+  ],
+  "concrete_research_leads": [
+    {
+      "lead_id": "sichuan-kong-dry-rice",
+      "name": "四川孔／箜干饭技法家族",
+      "province_code": "CN-SC",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "family_id": "parboiled-rice-vegetable-kong",
+      "meal_structure": "parboiled_rice_over_sauteed_fillings_then_gently_finished",
+      "source_ids": ["sc-kong-rice-2021"],
+      "claims": {
+        "regional_structure": {"verdict":"supported","evidence_source_ids":["sc-kong-rice-2021"],"reason":"专家采访支持四川家庭孔干饭的半熟沥米、菜料翻炒、铺饭文火孔熟结构。"},
+        "parboiled_rice_state": {"verdict":"supported","evidence_source_ids":["sc-kong-rice-2021"],"reason":"来源明确米先煮至半熟并沥出。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["sc-kong-rice-2021"],"reason":"没有半熟程度、保留液体、锅径和家庭火力的机器规则。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice", "sauteed_named_vegetable", "optional_pork_or_cured_meat_unproven"],
+      "known_structure": ["大米先煮至半熟并沥水", "明确菜料先翻炒", "铺米后文火完成", "底部锅巴可出现但不是比例证据"],
+      "forbidden_shortcuts": ["raw_rice_braise_equivalence", "cooked_leftover_rice_equivalence", "parallel_examples_as_required_combination"],
+      "open_questions": ["半熟米含水状态", "锅径与火力", "保留液体 DSL", "不同菜料加入顺序"],
+      "product_destinations": ["new_family_research", "template_evidence", "ratio_rule"],
+      "priority": {"product_score":10,"regional_score":10,"risk_penalty":5,"total_score":15},
+      "decision_reason": "这是比固定菜名更有组合价值的川味技法家族，但 Ratio DSL 前只研究不生产。"
+    },
+    {
+      "lead_id": "sichuan-golden-wrapped-silver-rice",
+      "name": "四川金裹银孔饭家族",
+      "province_code": "CN-SC",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "family_id": "cornmeal-parboiled-rice-kong",
+      "meal_structure": "cornmeal_with_parboiled_rice_gently_finished",
+      "source_ids": ["sc-kong-rice-2021"],
+      "claims": {
+        "regional_structure": {"verdict":"supported","evidence_source_ids":["sc-kong-rice-2021"],"reason":"资料明确记录部分地区以玉米粉与大米同孔并称金裹银。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["sc-kong-rice-2021"],"reason":"来源没有玉米粉与半熟米的可执行比例和液体约束。"}
+      },
+      "ingredient_shapes": ["cornmeal", "parboiled_drained_rice"],
+      "known_structure": ["玉米粉而非玉米粒", "与米同孔", "独立于洋芋固定组合"],
+      "forbidden_shortcuts": ["cornmeal_as_corn_kernel_equivalence", "silent_potato_addition", "published_ratio_claim"],
+      "open_questions": ["玉米粉粒度", "米的半熟状态", "粉米比例", "保留液体"],
+      "product_destinations": ["new_family_research", "ratio_rule"],
+      "priority": {"product_score":7,"regional_score":9,"risk_penalty":6,"total_score":10},
+      "decision_reason": "作为独立谷物家族研究，不用于给玉米洋芋候选背书。"
+    },
+    {
+      "lead_id": "chongqing-youzhou-shefan",
+      "name": "重庆酉州社饭家族",
+      "province_code": "CN-CQ",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "family_id": "parboiled-rice-seasonal-shefan",
+      "meal_structure": "parboiled_rice_mixed_with_cooked_fillings",
+      "source_ids": ["cq-yuwei-360-2025", "cq-youyang-shefan-2025", "cq-cured-meat-safety-2026"],
+      "claims": {
+        "official_current_presence": {"verdict":"supported","evidence_source_ids":["cq-yuwei-360-2025"],"reason":"重庆官方美食名单记录酉州社饭。"},
+        "regional_structure": {"verdict":"supported","evidence_source_ids":["cq-youyang-shefan-2025"],"reason":"酉阳县政府资料提供半熟再蒸大米与腊肉、豆干、野菜的结构。"},
+        "ingredient_identity": {"verdict":"supported","evidence_source_ids":["cq-youyang-shefan-2025"],"reason":"来源直接列出贡米、腊肉、豆腐干和多种野菜。"},
+        "single_vessel_equivalence": {"verdict":"not_proven","evidence_source_ids":["cq-youyang-shefan-2025"],"reason":"来源含煮、捞、蒸、炒或拌等多步，不证明严格一锅单容器。"},
+        "project_ratio_safety": {"verdict":"not_proven","evidence_source_ids":["cq-youyang-shefan-2025","cq-cured-meat-safety-2026"],"reason":"地方做法和通用腊味安全原则不足以形成项目 Ratio DSL。"}
+      },
+      "ingredient_shapes": ["parboiled_drained_rice", "cured_pork_dice", "dried_tofu_dice", "wild_green_chopped", "optional_sweet_potato_cake_dice"],
+      "known_structure": ["大米煮半熟后再蒸熟", "腊肉与豆腐干切粒炒香", "野菜处理后拌入", "炒熟或蒸熟完成"],
+      "forbidden_shortcuts": ["single_vessel_claim", "generic_leafy_green_equivalence", "published_ratio_claim"],
+      "open_questions": ["可识别野菜范围", "苕粑是否可选", "家庭多步骤负担", "腊味盐分与熟制规则"],
+      "product_destinations": ["new_family_research", "template_evidence", "ratio_rule"],
+      "priority": {"product_score":7,"regional_score":10,"risk_penalty":7,"total_score":10},
+      "decision_reason": "地域结构清楚但多流程，先判断是否符合一锅出低摩擦目标。"
+    }
+  ],
+  "family_model": [
+    {"family_id":"parboiled-rice-vegetable-kong","name":"半熟沥米菜料孔饭","meal_structure":"parboiled_rice_over_sauteed_fillings_then_gently_finished","evidence_status":"research_supported"},
+    {"family_id":"raw-rice-potato-firewood","name":"生米洋芋柴火饭","meal_structure":"fried_potato_and_raw_rice_firewood_finished","evidence_status":"research_supported"},
+    {"family_id":"cornmeal-parboiled-rice-kong","name":"玉米粉金裹银孔饭","meal_structure":"cornmeal_with_parboiled_rice_gently_finished","evidence_status":"research_supported"},
+    {"family_id":"parboiled-rice-seasonal-shefan","name":"半熟米腊味野菜社饭","meal_structure":"parboiled_rice_mixed_with_cooked_fillings","evidence_status":"research_supported"}
+  ],
+  "adaptation_boundaries": [
+    {"boundary_id":"parboiled-not-raw-or-leftover","evidence_status":"checked","notes":"半熟沥米不能静默改成生米焖饭或熟剩饭炒饭。"},
+    {"boundary_id":"parallel-vegetables-not-fixed-combination","evidence_status":"checked","notes":"豌豆、四季豆、洋芋是并列常见菜料，不代表必须共现。"},
+    {"boundary_id":"cornmeal-not-corn-kernel","evidence_status":"checked","notes":"金裹银的玉米粉不能被玉米粒替代后仍宣称同一身份。"},
+    {"boundary_id":"firewood-not-electric-cooker","evidence_status":"needs_more_evidence","notes":"柴火锅的热源和锅底特征不能无证据映射成电饭煲。"},
+    {"boundary_id":"optional-cured-meat-not-fixed-core","evidence_status":"checked","notes":"可选腊肉或腊肠不能变成固定传统核心。"},
+    {"boundary_id":"ratio-dsl-not-published","evidence_status":"unresearched","notes":"米状态、液体、锅径、火力和食材含水尚未转成机器规则。"}
+  ],
+  "safety_boundaries": [
+    {"safety_id":"potato-sprout-green-control","source_ids":["samr-potato-safety-2022"],"evidence_status":"principle_only","required_controls":["大面积发芽或变绿土豆直接丢弃","土豆彻底烧熟炖透"],"endpoint_note":"只记录采购与熟透原则，不编造本项目分钟数。"},
+    {"safety_id":"green-bean-cook-through","source_ids":["dgamr-green-bean-safety-2022"],"evidence_status":"principle_only","required_controls":["明确豆种","四季豆受热均匀并彻底煮熟煮透","不得以仍有生绿色或豆腥味作为完成状态"],"endpoint_note":"来源提供感官终点原则，但不等于本项目火力和分钟数。"},
+    {"safety_id":"cured-meat-cook-through-and-salt","source_ids":["cq-cured-meat-safety-2026"],"evidence_status":"principle_only","required_controls":["腊味彻底炒熟煮透","按高盐食材控制用量与额外盐","异常气味或状态不得使用"],"endpoint_note":"来源支持熟透与高盐原则，不提供本项目克数和时间。"}
+  ],
+  "journey_cases": [
+    {"journey_id":"sc-cq-j01","province_code":"CN-SC","mode":"pantry","intent":"normal","input_items":["大米","土豆"],"expected_family_ids":["parboiled-rice-vegetable-kong"],"expected_structure":"parboiled_rice_state_required","expected_outcome":"family_supported_ratio_unresolved","forbidden_claims":["生米直接焖即传统孔饭"],"reason":"四川孔饭可用洋芋，但必须先确认半熟沥米状态。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j02","province_code":"CN-SC","mode":"pantry","intent":"normal","input_items":["大米","四季豆"],"expected_family_ids":["parboiled-rice-vegetable-kong"],"expected_structure":"parboiled_rice_with_named_bean","expected_outcome":"family_supported_safety_required","forbidden_claims":["任意豆类都等价","四季豆无需熟透"],"reason":"四季豆是有证据的常见菜料，但豆种与熟透终点不能省略。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j03","province_code":"CN-SC","mode":"pantry","intent":"normal","input_items":["大米","豌豆","土豆"],"expected_family_ids":["parboiled-rice-vegetable-kong"],"expected_structure":"optional_fillings_not_fixed_tradition","expected_outcome":"combination_requires_household_test","forbidden_claims":["豆类洋芋饭是固定四川传统"],"reason":"来源支持并列菜料，不证明豌豆和土豆必须共现。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j04","province_code":"CN-SC","mode":"recommend","intent":"normal","input_items":["大米","玉米粉"],"expected_family_ids":["cornmeal-parboiled-rice-kong"],"expected_structure":"cornmeal_with_parboiled_rice","expected_outcome":"regional_family_ratio_unresolved","forbidden_claims":["玉米粒等于玉米粉","自动加入土豆"],"reason":"金裹银是独立谷物结构，比例仍待研究。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j05","province_code":"CN-SC","mode":"recommend","intent":"quick","input_items":["剩米饭","土豆"],"expected_family_ids":[],"expected_structure":"generic_leftover_rice_route","expected_outcome":"not_kong_family","forbidden_claims":["四川孔干饭"],"reason":"熟剩饭不是半熟沥米，不能沿用孔饭身份。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j06","province_code":"CN-SC","mode":"pantry","intent":"normal","input_items":["大米","腊肉","土豆"],"expected_family_ids":[],"expected_structure":"candidate_only","expected_outcome":"sichuan_fixed_core_unproven","forbidden_claims":["已证四川腊肉洋芋饭"],"reason":"重庆可选腊肉证据不能证明四川固定传统组合。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j07","province_code":"CN-CQ","mode":"pantry","intent":"normal","input_items":["大米","土豆"],"expected_family_ids":["raw-rice-potato-firewood"],"expected_structure":"fried_potato_with_raw_rice","expected_outcome":"regional_family_supported","forbidden_claims":["电饭煲比例已验证"],"reason":"重庆洋芋饭核心身份成立，家庭比例仍未成立。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j08","province_code":"CN-CQ","mode":"pantry","intent":"normal","input_items":["大米","土豆","腊肉"],"expected_family_ids":["raw-rice-potato-firewood"],"expected_structure":"potato_rice_with_optional_cured_meat","expected_outcome":"optional_variant_safety_required","forbidden_claims":["腊肉是固定核心","无需额外盐控制"],"reason":"腊肉可作点缀，但必须标可选并执行熟透与盐分控制。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j09","province_code":"CN-CQ","mode":"recommend","intent":"quick","input_items":["大米","土豆","电饭煲"],"expected_family_ids":["raw-rice-potato-firewood"],"expected_structure":"appliance_adaptation_pending","expected_outcome":"household_appliance_unresolved","forbidden_claims":["柴火做法与电饭煲完全等价"],"reason":"有产品价值，但器具转换必须单独验证。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j10","province_code":"CN-CQ","mode":"pantry","intent":"batch","input_items":["大米","腊肉","豆腐干","荠菜","野葱"],"expected_family_ids":["parboiled-rice-seasonal-shefan"],"expected_structure":"parboiled_rice_mixed_with_cooked_fillings","expected_outcome":"regional_family_supported_ratio_unresolved","forbidden_claims":["严格单容器一锅","任意青菜都等价"],"reason":"酉州社饭结构成立，但野菜身份、多步骤负担和比例需人工验证。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j11","province_code":"CN-CQ","mode":"pantry","intent":"normal","input_items":["大米","发芽土豆"],"expected_family_ids":[],"expected_structure":"unsafe_input_rejection","expected_outcome":"potato_rejected","forbidden_claims":["削掉芽即可安全使用"],"reason":"发芽或大面积变绿土豆必须走安全拒绝，不进入地域家族。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}},
+    {"journey_id":"sc-cq-j12","province_code":"CN-CQ","mode":"recommend","intent":"normal","input_items":["大米","豌豆疙瘩","土豆"],"expected_family_ids":[],"expected_structure":"contemporary_innovation_only","expected_outcome":"not_traditional_core","forbidden_claims":["千年传统豆类洋芋饭"],"reason":"巫溪资料明确这是新菜品，只能标当代创新。","human_review":{"status":"pending","family_fit":null,"household_feasibility":null,"identity_preserved":null,"notes":""}}
+  ]
+}

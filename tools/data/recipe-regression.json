@@ -49,7 +49,7 @@
   },
   {
     "id": "adversarial-002-shrimp-not-cooked-b",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 2,
     "pantry": [
       "大米",
@@ -98,7 +98,7 @@
   },
   {
     "id": "adversarial-003-raw-poultry-a",
-    "purpose": "quick",
+    "purpose": "fresh",
     "servings": 4,
     "pantry": [
       "大米",
@@ -473,7 +473,8 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:面条"
+      "unused_pantry_used:面条",
+      "diet_violation:glutenFree:面条"
     ],
     "forbidden_validation_flags": [
       "allergen_present:面条",
@@ -483,14 +484,6 @@
     "expected_grounding_tokens": [
       "舍弃库存",
       "面条"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "glutenFree",
-      "note": "Worker selector/validator has no deterministic gluten-free violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "glutenFree"
   },
@@ -542,7 +535,8 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:面条"
+      "unused_pantry_used:面条",
+      "diet_violation:glutenFree:面条"
     ],
     "forbidden_validation_flags": [
       "allergen_present:面条",
@@ -552,14 +546,6 @@
     "expected_grounding_tokens": [
       "舍弃库存",
       "面条"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "glutenFree",
-      "note": "Worker selector/validator has no deterministic gluten-free violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "glutenFree"
   },
@@ -611,7 +597,8 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:鸡肉"
+      "unused_pantry_used:鸡肉",
+      "diet_violation:vegan:鸡肉"
     ],
     "forbidden_validation_flags": [
       "allergen_present:鸡肉",
@@ -621,14 +608,6 @@
     "expected_grounding_tokens": [
       "舍弃库存",
       "鸡肉"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "vegan",
-      "note": "Worker selector/validator has no deterministic vegan violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "vegan"
   },
@@ -686,30 +665,28 @@
       ]
     },
     "expected_validation_flags": [
-      "unused_pantry_used:牛肉"
+      "unused_pantry_used:牛肉",
+      "diet_violation:vegan:牛肉"
     ],
     "forbidden_validation_flags": [
       "allergen_present:牛肉",
       "high_risk_not_cooked:牛肉",
       "ingredient_missing_in_steps:牛肉"
     ],
+    "expected_live_rejection": {
+      "status": 422,
+      "code": "unsafe_recipe",
+      "validation_flag_types": ["diet_violation"]
+    },
     "expected_grounding_tokens": [
       "舍弃库存",
       "牛肉"
-    ],
-    "known_gap": {
-      "code": "diet_constraint_not_validated",
-      "scope": "vegan",
-      "note": "Worker selector/validator has no deterministic vegan violation flag; this fixture only proves unused-pantry grounding."
-    },
-    "manual_review_required": [
-      "diet_compliance"
     ],
     "diet": "vegan"
   },
   {
     "id": "adversarial-013-leaf-vegetable-water-release-a",
-    "purpose": "quick",
+    "purpose": "fresh",
     "servings": 1,
     "pantry": [
       "大米",
@@ -859,15 +836,18 @@
         {
           "name": "大米",
           "grams": 100
+        },
+        {
+          "name": "水",
+          "grams": 100
         }
       ],
       "steps": [
-        "大米煮熟。"
+        "大米和水煮熟。"
       ]
     },
     "expected_validation_flags": [
-      "used_pantry_missing:水",
-      "base_recipe_anchor_missing"
+      "ratio_out_of_bounds:rice_water"
     ],
     "forbidden_validation_flags": [
       "multi_pot_step"
@@ -875,14 +855,6 @@
     "expected_grounding_tokens": [
       "比例规则",
       "1:11"
-    ],
-    "known_gap": {
-      "code": "numeric_ratio_not_validated",
-      "scope": "rice_water_ratio",
-      "note": "Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review."
-    },
-    "manual_review_required": [
-      "numeric_ratio"
     ]
   },
   {
@@ -919,16 +891,25 @@
         {
           "name": "洋葱",
           "grams": 100
+        },
+        {
+          "name": "大米",
+          "grams": 100
+        },
+        {
+          "name": "鸡高汤",
+          "grams": 400
         }
       ],
       "steps": [
         "番茄煮熟。",
         "甜椒煮熟。",
-        "洋葱煮熟。"
+        "洋葱煮熟。",
+        "大米加入鸡高汤煮熟。"
       ]
     },
     "expected_validation_flags": [
-      "used_pantry_missing:大米"
+      "ratio_out_of_bounds:rice_water"
     ],
     "forbidden_validation_flags": [
       "multi_pot_step"
@@ -936,14 +917,6 @@
     "expected_grounding_tokens": [
       "比例规则",
       "1:1"
-    ],
-    "known_gap": {
-      "code": "numeric_ratio_not_validated",
-      "scope": "rice_water_ratio",
-      "note": "Grounding carries the ratio rule, but arbitrary ingredient gram ratios still require human review."
-    },
-    "manual_review_required": [
-      "numeric_ratio"
     ]
   },
   {
@@ -1070,7 +1043,7 @@
   },
   {
     "id": "adversarial-019-repeated-swap-a",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -1146,8 +1119,7 @@
       "lentil-potato-tomato-curry"
     ],
     "expected_recipe_ids": [
-      "fujian-hyacinth-bean-rice",
-      "creole-jambalaya"
+      "fujian-hyacinth-bean-rice"
     ],
     "forbidden_recipe_ids": [
       "lentil-potato-tomato-curry"
@@ -1189,7 +1161,7 @@
   },
   {
     "id": "base-001-chinese-congee-exact-core",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -1266,7 +1238,7 @@
   },
   {
     "id": "base-005-simple-chicken-biryani-exact-core",
-    "purpose": "quick",
+    "purpose": "fresh",
     "servings": 2,
     "pantry": [
       "大米",
@@ -1589,7 +1561,7 @@
       "红扁豆过敏"
     ],
     "expected_recipe_ids": [
-      "chinese-congee"
+      "broccoli-beef-fried-rice"
     ],
     "forbidden_recipe_ids": [
       "soy-lentil-vegetable-stew"
@@ -1830,7 +1802,7 @@
   },
   {
     "id": "base-032-shakshuka-tomato-egg-fixed-core-dislike",
-    "purpose": "quick",
+    "purpose": "pantry",
     "servings": 2,
     "pantry": [
       "番茄",
@@ -2120,7 +2092,7 @@
     "servings": 1,
     "pantry": [
       "白米",
-      "卷心菜",
+      "高丽菜",
       "高汤"
     ],
     "dislikes": [],
@@ -2177,8 +2149,8 @@
     "disliked_fixed_core": "大米"
   },
   {
-    "id": "cycle-001-chinese-congee-quick-1",
-    "purpose": "quick",
+    "id": "cycle-001-chinese-congee-pantry-1",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -2325,8 +2297,8 @@
     "family_id": "family-tomato-egg-pot"
   },
   {
-    "id": "cycle-009-texas-beef-chili-quick-4",
-    "purpose": "quick",
+    "id": "cycle-009-texas-beef-chili-fresh-4",
+    "purpose": "fresh",
     "servings": 4,
     "pantry": [
       "牛肉（粗绞）",
@@ -2541,8 +2513,8 @@
     "family_id": "family-tomato-egg-pot"
   },
   {
-    "id": "cycle-021-texas-beef-chili-quick-4",
-    "purpose": "quick",
+    "id": "cycle-021-texas-beef-chili-fresh-4",
+    "purpose": "fresh",
     "servings": 4,
     "pantry": [
       "牛肉（粗绞）",
@@ -2613,8 +2585,8 @@
     "family_id": "family-minestrone"
   },
   {
-    "id": "cycle-025-chinese-congee-quick-1",
-    "purpose": "quick",
+    "id": "cycle-025-chinese-congee-pantry-1",
+    "purpose": "pantry",
     "servings": 1,
     "pantry": [
       "大米",
@@ -2648,116 +2620,113 @@
     "family_id": "family-spiced-rice"
   },
   {
-    "id": "cycle-027-jollof-rice-fresh-4",
+    "id": "cycle-027-home-fried-rice-fresh-4",
     "purpose": "fresh",
     "servings": 4,
     "pantry": [
-      "大米",
-      "番茄",
-      "甜椒",
-      "洋葱"
-    ],
-    "dislikes": [],
-    "expected_recipe_ids": [
-      "jollof-rice"
-    ],
-    "forbidden_recipe_ids": [],
-    "case_group": "cycle",
-    "base_recipe_id": "jollof-rice",
-    "family_id": "family-tomato-rice"
-  },
-  {
-    "id": "cycle-028-creole-jambalaya-batch-1",
-    "purpose": "batch",
-    "servings": 1,
-    "pantry": [
-      "大米",
-      "番茄",
-      "鸡肉",
-      "芹菜"
-    ],
-    "dislikes": [],
-    "expected_recipe_ids": [
-      "creole-jambalaya"
-    ],
-    "forbidden_recipe_ids": [],
-    "case_group": "cycle",
-    "base_recipe_id": "creole-jambalaya",
-    "family_id": "family-tomato-rice"
-  },
-  {
-    "id": "cycle-029-soy-lentil-vegetable-stew-quick-2",
-    "purpose": "quick",
-    "servings": 2,
-    "pantry": [
-      "红扁豆",
-      "大豆蛋白块",
+      "熟米饭",
       "西兰花",
-      "红洋葱"
+      "牛肉"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "soy-lentil-vegetable-stew"
+      "broccoli-beef-fried-rice"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "soy-lentil-vegetable-stew",
-    "family_id": "family-legume-vegetable-stew"
+    "base_recipe_id": "broccoli-beef-fried-rice",
+    "family_id": "family-home-fried-rice"
   },
   {
-    "id": "cycle-030-chicken-black-eyed-pea-stew-pantry-4",
+    "id": "cycle-028-home-braised-rice-batch-1",
+    "purpose": "batch",
+    "servings": 1,
+    "pantry": [
+      "大米",
+      "排骨",
+      "豆角"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "green-bean-pork-rib-braised-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "green-bean-pork-rib-braised-rice",
+    "family_id": "family-home-braised-rice"
+  },
+  {
+    "id": "cycle-029-home-stewed-rice-pantry-2",
     "purpose": "pantry",
+    "servings": 2,
+    "pantry": [
+      "熟米饭",
+      "番茄",
+      "豆腐",
+      "青菜"
+    ],
+    "dislikes": [],
+    "expected_recipe_ids": [
+      "tomato-tofu-stewed-rice"
+    ],
+    "forbidden_recipe_ids": [],
+    "case_group": "cycle",
+    "base_recipe_id": "tomato-tofu-stewed-rice",
+    "family_id": "family-home-stewed-rice"
+  },
+  {
+    "id": "cycle-030-home-soup-staple-quick-4",
+    "purpose": "quick",
     "servings": 4,
     "pantry": [
-      "黑眼豆（罐头沥干）",
-      "大米",
-      "鸡肉",
-      "番茄",
-      "洋葱"
+      "面条",
+      "西兰花",
+      "牛肉"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "chicken-black-eyed-pea-stew"
+      "broccoli-beef-soup-noodles"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "chicken-black-eyed-pea-stew",
-    "family_id": "family-rice-legume-pot"
+    "base_recipe_id": "broccoli-beef-soup-noodles",
+    "family_id": "family-home-soup-staple"
   },
   {
-    "id": "cycle-031-lentil-potato-tomato-curry-fresh-1",
+    "id": "cycle-031-home-covered-pot-fresh-1",
     "purpose": "fresh",
     "servings": 1,
     "pantry": [
-      "红扁豆",
+      "大米",
       "土豆",
-      "番茄"
+      "西兰花",
+      "牛肉"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "lentil-potato-tomato-curry"
+      "potato-broccoli-beef-covered-rice"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "lentil-potato-tomato-curry",
-    "family_id": "family-legume-vegetable-stew"
+    "base_recipe_id": "potato-broccoli-beef-covered-rice",
+    "family_id": "family-home-covered-pot"
   },
   {
-    "id": "cycle-032-shakshuka-tomato-egg-batch-2",
-    "purpose": "batch",
+    "id": "cycle-032-home-vermicelli-pot-pantry-2",
+    "purpose": "pantry",
     "servings": 2,
     "pantry": [
-      "鸡蛋",
-      "番茄",
-      "甜椒"
+      "粉丝",
+      "青菜",
+      "豆腐"
     ],
     "dislikes": [],
     "expected_recipe_ids": [
-      "shakshuka-tomato-egg"
+      "greens-tofu-vermicelli-pot"
     ],
     "forbidden_recipe_ids": [],
     "case_group": "cycle",
-    "base_recipe_id": "shakshuka-tomato-egg",
-    "family_id": "family-tomato-egg-pot"
+    "base_recipe_id": "greens-tofu-vermicelli-pot",
+    "family_id": "family-home-vermicelli-pot"
   }
 ]

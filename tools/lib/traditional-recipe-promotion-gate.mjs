@@ -494,7 +494,9 @@ export function validateTraditionalRecipePromotion({ candidates, drafts, product
       errors.push(`${recipeId} missing production recipe`);
       continue;
     }
-    if (recipe.status !== 'approved') errors.push(`${recipeId} production status must be approved`);
+    if (recipe.status !== 'auto_approved') {
+      errors.push(`${recipeId} production status must be auto_approved (auto-gate passed, pending human review; approved is reserved for human-reviewed recipes)`);
+    }
     if (recipe.family_id !== promotion.family_id) {
       errors.push(`${recipeId} production family_id must equal manifest ${promotion.family_id}`);
     }

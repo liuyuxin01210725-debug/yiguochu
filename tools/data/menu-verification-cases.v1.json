@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "catalog_version": "menu-verification-v1-20260725",
+  "purpose": "逐菜单记录真实正向、反向和跨菜单用户旅程；空表表示尚未验证，不表示通过。",
+  "entries": []
+}

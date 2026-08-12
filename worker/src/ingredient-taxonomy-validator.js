@@ -1,0 +1,331 @@
+import { normalizeIngredientTaxonomyKey } from './planner-v2.js';
+
+export { normalizeIngredientTaxonomyKey };
+
+const CATEGORIES = new Set([
+  'raw_rice', 'cooked_rice', 'noodle', 'acid_vegetable', 'egg', 'soft_tofu', 'firm_tofu', 'seafood',
+  'beef', 'chicken', 'pork', 'lamb', 'leafy_vegetable', 'cruciferous_vegetable', 'pod_vegetable',
+  'watery_vegetable', 'aromatic_vegetable', 'root_vegetable', 'starchy_vegetable', 'mushroom', 'cornmeal_dough',
+  'cornmeal_flour', 'cornmeal_cake', 'ready_staple', 'prepared_glutinous_rice',
+  'wheat_dough', 'dry_legume', 'cooked_legume', 'dried_fruit', 'raw_millet', 'liquid', 'oil', 'seasoning',
+  'legume', 'squash_vegetable', 'shoot_vegetable',
+]);
+const STATES = new Set(['raw', 'cooked', 'dry', 'basic', 'cured', 'prepared', 'derived_plan_output']);
+const SHAPES = new Set([
+  'whole', 'slice', 'dice', 'shred', 'ground', 'tenderloin', 'breast', 'leg', 'rib',
+  'brisket', 'cured_slice', 'sausage', 'dough_piece', 'liquid', 'fine', 'coarse',
+  'unspecified', 'cake', 'whole_seed', 'whole_grain', 'pitted',
+]);
+const INPUT_SCOPES = new Set(['pantry_input', 'derived_only']);
+const RATIO_RULE_POLICIES = new Set(['category_fallback', 'canonical_required']);
+const ALLERGEN_TAGS = new Set(['大豆', '小麦', '贝类', '奶', '芝麻']);
+const CONTROLLED_SEASONING_ALLERGENS = new Map([
+  ['soy-sauce', ['大豆', '小麦']],
+  ['cooking-wine', []],
+  ['sesame-oil', ['芝麻']],
+  ['oyster-sauce', ['贝类', '大豆', '小麦']],
+  ['curry-block', ['小麦', '奶', '大豆']],
+  ['sugar', []],
+  ['salt', []],
+  ['cooking-oil', []],
+]);
+const COOK_SPEEDS = new Set(['no_cook', 'fast', 'medium', 'slow']);
+const MOISTURE_RELEASE = new Set(['low', 'medium', 'high']);
+const TEXTURE_BEHAVIORS = new Set([
+  'absorbs_liquid', 'reheats_without_breaking', 'softens_with_simmering', 'releases_juice_when_cooked',
+  'sets_when_heated', 'delicate_breaks_when_stirred', 'firm_holds_shape', 'tender_when_quick_cooked',
+  'tender_after_long_simmer', 'crumbles_when_cooked', 'tender_when_cooked_through', 'wilts_quickly',
+  'renders_fat_when_heated', 'steams_above_stew', 'liquid', 'dissolves',
+  'forms_dough_with_water',
+  'absorbs_liquid_and_thickens',
+]);
+const RISK_CODES = new Set(['none', 'raw_egg', 'raw_poultry', 'raw_pork', 'raw_beef', 'raw_lamb', 'raw_seafood', 'raw_dough', 'raw_flour', 'raw_legume', 'raw_grain', 'pit_hazard', 'unknown']);
+const METHOD_CODES = new Set(['simmer', 'braise', 'quick_saute', 'short_simmer', 'long_simmer', 'steam', 'hydrate', 'soak']);
+const FAILURE_MODE_CODES = new Set([
+  'undercooked_when_liquid_is_short', 'mushy_when_overmixed', 'soft_when_overcooked',
+  'watery_when_overloaded', 'rubbery_when_overcooked', 'breaks_when_stirred',
+  'dry_when_overcooked', 'tough_when_overcooked', 'tough_when_undercooked', 'tough_when_rushed',
+  'chewy_when_undercooked', 'firm_when_undercooked', 'burns_when_unattended', 'smokes_when_overheated',
+  'salty_when_overseasoned', 'dense_when_understeamed',
+  'clumps_when_hydration_is_wrong',
+  'hard_center_when_undercooked', 'scorches_without_stirring',
+]);
+const ENDPOINT_CODES = new Set([
+  'rice_tender', 'heated_through', 'noodle_tender', 'egg_fully_set', 'beef_fully_cooked',
+  'poultry_fully_cooked', 'pork_fully_cooked', 'lamb_fully_cooked', 'bean_fully_cooked',
+  'seafood_fully_cooked',
+  'legume_fully_cooked', 'pit_absent_verified', 'tender', 'dough_cooked_through',
+  'grain_tender_no_hard_center',
+]);
+const SLOT_CODES = new Set([
+  'staple', 'raw_rice', 'cooked_rice', 'noodle', 'acid_base', 'vegetable', 'protein', 'egg',
+  'soft_tofu', 'firm_tofu', 'generic_beef', 'quick_cook_protein', 'brisket_required',
+  'ground_meat_required', 'generic_poultry', 'generic_pork', 'generic_lamb', 'rib_required',
+  'fast_cooking_vegetable', 'aromatic', 'mushroom', 'liquid', 'oil', 'seasoning',
+  'hard_stir_fry', 'long_braise', 'cured_pork', 'edge_steamed_staple',
+  'staple_preparation_input', 'derived_staple', 'ready_staple',
+  'dry_legume_required', 'cooked_legume_required', 'legume_preparation_input', 'cooked_legume',
+  'dried_fruit_accent',
+  'soft_grain_staple', 'raw_rice_required', 'cooked_rice_required', 'noodle_required',
+]);
+
+function isStringArray(value) {
+  return Array.isArray(value) && value.length > 0 && value.every(item => typeof item === 'string' && item.trim());
+}
+
+const VIRTUAL_CANONICAL_NAMES = new Map([['lamb-leg', '羊肉']]);
+
+function validateAmbiguousInputs(data, displayEntries, aliasEntries, errors) {
+  const rows = data.ambiguous_inputs;
+  if (!Array.isArray(rows) || rows.length === 0) {
+    errors.push('ambiguous_inputs must be a non-empty array');
+    return;
+  }
+  const seen = new Set();
+  const seenIds = new Set();
+  for (const [index, row] of rows.entries()) {
+    const label = `ambiguous_inputs[${index}]`;
+    if (!row || typeof row !== 'object' || Array.isArray(row)) {
+      errors.push(`${label} must be an object`);
+      continue;
+    }
+    const allowed = new Set(['ambiguity_id', 'input', 'aliases', 'reason_code', 'reason', 'eligible_items']);
+    for (const key of Object.keys(row)) {
+      if (!allowed.has(key)) errors.push(`${label}.${key} is unknown`);
+    }
+    const aliases = row.aliases == null ? [] : row.aliases;
+    if (typeof row.ambiguity_id !== 'string'
+      || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(row.ambiguity_id)
+      || seenIds.has(row.ambiguity_id)) {
+      errors.push(`${label}.ambiguity_id must be unique kebab-case`);
+    } else {
+      seenIds.add(row.ambiguity_id);
+    }
+    if (typeof row.input !== 'string' || !row.input.trim()) {
+      errors.push(`${label}.input must be non-empty`);
+    }
+    if (!Array.isArray(aliases)
+      || !aliases.every(value => typeof value === 'string' && value.trim())) {
+      errors.push(`${label}.aliases must be a string array`);
+    }
+    if (row.reason_code !== 'ambiguous_ingredient_state') {
+      errors.push(`${label}.reason_code is invalid`);
+    }
+    if (typeof row.reason !== 'string' || !row.reason.trim() || row.reason.length > 160) {
+      errors.push(`${label}.reason must be 1-160 characters`);
+    }
+    if (!Array.isArray(row.eligible_items) || row.eligible_items.length === 0
+      || !row.eligible_items.every(value => typeof value === 'string' && value.trim())) {
+      errors.push(`${label}.eligible_items must be a non-empty string array`);
+    } else {
+      const eligibleKeys = new Set();
+      for (const target of row.eligible_items) {
+        const targetKey = normalizeIngredientTaxonomyKey(target);
+        const targetEntries = displayEntries.get(targetKey) || [];
+        if (targetEntries.length !== 1 || targetEntries[0]?.input_scope !== 'pantry_input') {
+          errors.push(`${label}.eligible_items must name an existing display_name`);
+        }
+        if (eligibleKeys.has(targetKey)) errors.push(`${label}.eligible_items must be unique`);
+        eligibleKeys.add(targetKey);
+      }
+    }
+    for (const input of [row.input, ...(Array.isArray(aliases) ? aliases : [])]) {
+      if (typeof input !== 'string' || !input.trim()) continue;
+      const key = normalizeIngredientTaxonomyKey(input);
+      if (seen.has(key)) errors.push(`duplicate normalized ambiguity input: ${key}`);
+      seen.add(key);
+      if (displayEntries.has(key) || aliasEntries.has(key)) {
+        errors.push(`ambiguity input conflicts with canonical identity: ${key}`);
+      }
+    }
+  }
+}
+
+export function validateIngredientTaxonomy(data) {
+  const errors = [];
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return ['taxonomy must be an object'];
+  const allowedRootFields = new Set(['taxonomy_version', 'items', 'ambiguous_inputs', 'formal_review_only_ids']);
+  for (const key of Object.keys(data)) {
+    if (!allowedRootFields.has(key)) errors.push(`unknown taxonomy field: ${key}`);
+  }
+  if (data.taxonomy_version !== 'taxonomy-v1-20260802-r12') errors.push('taxonomy_version must be taxonomy-v1-20260802-r12');
+  if (!Array.isArray(data.items) || data.items.length === 0) return [...errors, 'items must be a non-empty array'];
+  if (data.formal_review_only_ids != null
+    && (!Array.isArray(data.formal_review_only_ids)
+      || data.formal_review_only_ids.some(id => typeof id !== 'string' || !id.trim())
+      || new Set(data.formal_review_only_ids).size !== data.formal_review_only_ids.length)) {
+    errors.push('formal_review_only_ids must be a unique string array');
+  }
+
+  const ids = [];
+  const displayEntries = new Map();
+  const aliasEntries = new Map();
+  data.items.forEach((item, index) => {
+    const label = `items[${index}]`;
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      errors.push(`${label} must be an object`);
+      return;
+    }
+    const aliases = Array.isArray(item.aliases) ? item.aliases : [];
+    const shapes = Array.isArray(item.shapes_or_cuts) ? item.shapes_or_cuts : [];
+    for (const field of ['canonical_id', 'display_name']) {
+      if (typeof item[field] !== 'string' || !item[field].trim()) errors.push(`${label}.${field} must be a non-empty string`);
+    }
+    if (item.canonical_id) ids.push(item.canonical_id);
+    if (item.display_name) {
+      const key = normalizeIngredientTaxonomyKey(item.display_name);
+      const entries = displayEntries.get(key) || [];
+      entries.push(item);
+      displayEntries.set(key, entries);
+    }
+    if (item.canonical_name != null && (typeof item.canonical_name !== 'string' || !item.canonical_name.trim())) {
+      errors.push(`${label}.canonical_name must be a non-empty string when present`);
+    }
+    if (!isStringArray(item.aliases) && !(Array.isArray(item.aliases) && item.aliases.length === 0)) {
+      errors.push(`${label}.aliases must be a string array`);
+    } else {
+      for (const alias of item.aliases) {
+        const key = normalizeIngredientTaxonomyKey(alias);
+        const entries = aliasEntries.get(key) || [];
+        entries.push(item);
+        aliasEntries.set(key, entries);
+      }
+    }
+    if (!CATEGORIES.has(item.category)) errors.push(`${label}.category is invalid`);
+    if (item.allergen_tags !== undefined) {
+      if (!Array.isArray(item.allergen_tags)
+          || new Set(item.allergen_tags).size !== item.allergen_tags.length
+          || item.allergen_tags.some(tag => !ALLERGEN_TAGS.has(tag))) {
+        const unknownTag = Array.isArray(item.allergen_tags)
+          ? item.allergen_tags.find(tag => !ALLERGEN_TAGS.has(tag))
+          : null;
+        errors.push(unknownTag
+          ? `${item.canonical_id}.allergen_tags contains unknown tag: ${String(unknownTag)}`
+          : `${label}.allergen_tags must be a unique controlled array`);
+      }
+    }
+    if (CONTROLLED_SEASONING_ALLERGENS.has(item.canonical_id)) {
+      const expectedTags = CONTROLLED_SEASONING_ALLERGENS.get(item.canonical_id);
+      if (JSON.stringify(item.allergen_tags) !== JSON.stringify(expectedTags)) {
+        errors.push(`${item.canonical_id}.allergen_tags must equal ${expectedTags.join(',')}`);
+      }
+      if (!['seasoning', 'oil'].includes(item.category)) {
+        errors.push(`${item.canonical_id} controlled seasoning category must be seasoning or oil`);
+      }
+    }
+    if (!INPUT_SCOPES.has(item.input_scope)) errors.push(`${label}.input_scope is invalid`);
+    if (item.ratio_rule_policy != null && !RATIO_RULE_POLICIES.has(item.ratio_rule_policy)) {
+      errors.push(`${label}.ratio_rule_policy is invalid`);
+    }
+    if (!isStringArray(item.states) || item.states.some(state => !STATES.has(state))) errors.push(`${label}.states are invalid`);
+    if (!isStringArray(item.shapes_or_cuts) || item.shapes_or_cuts.some(shape => !SHAPES.has(shape))) errors.push(`${label}.shapes_or_cuts are invalid`);
+    if (item.default_shape_or_cut != null && !shapes.includes(item.default_shape_or_cut)) {
+      errors.push(`${label}.default_shape_or_cut must be a declared shape`);
+    }
+    if (!COOK_SPEEDS.has(item.cook_speed)) errors.push(`${label}.cook_speed is invalid`);
+    if (!MOISTURE_RELEASE.has(item.moisture_release)) errors.push(`${label}.moisture_release is invalid`);
+    if (!item.texture_behavior || typeof item.texture_behavior !== 'object'
+      || !TEXTURE_BEHAVIORS.has(item.texture_behavior.behavior_code)
+      || !isStringArray(item.texture_behavior.best_method_codes)
+      || !item.texture_behavior.best_method_codes.every(code => METHOD_CODES.has(code))) {
+      errors.push(`${label}.texture_behavior is invalid`);
+    }
+    if (!item.texture_behavior || !Array.isArray(item.texture_behavior.failure_mode_codes)
+      || !item.texture_behavior.failure_mode_codes.every(code => FAILURE_MODE_CODES.has(code))) {
+      errors.push(`${label}.texture_behavior.failure_mode_codes are invalid`);
+    }
+    if (!item.texture_behavior || !isStringArray(item.texture_behavior.best_method_codes)
+      || !item.texture_behavior.best_method_codes.every(code => METHOD_CODES.has(code))) {
+      errors.push(`${label}.texture_behavior.best_method_codes are invalid`);
+    }
+    if (!item.cooking_risk || typeof item.cooking_risk !== 'object'
+      || !RISK_CODES.has(item.cooking_risk.risk_code)
+      || !Array.isArray(item.cooking_risk.required_endpoint_codes)
+      || !item.cooking_risk.required_endpoint_codes.every(code => ENDPOINT_CODES.has(code))) {
+      errors.push(`${label}.cooking_risk is invalid`);
+    }
+    if (!item.cooking_risk || !Array.isArray(item.cooking_risk.required_endpoint_codes)
+      || !item.cooking_risk.required_endpoint_codes.every(code => ENDPOINT_CODES.has(code))) {
+      errors.push(`${label}.cooking_risk.required_endpoint_codes are invalid`);
+    }
+    if (item.cooking_risk && RISK_CODES.has(item.cooking_risk.risk_code)
+      && item.cooking_risk.risk_code !== 'none'
+      && item.cooking_risk.required_endpoint_codes?.length === 0) {
+      errors.push(`${label}.cooking_risk.required_endpoint_codes must not be empty for ${item.cooking_risk.risk_code}`);
+    }
+    for (const field of ['compatible_slot_codes', 'incompatible_slot_codes']) {
+      if (!Array.isArray(item[field]) || (field === 'compatible_slot_codes' && item[field].length === 0)
+        || !item[field].every(code => SLOT_CODES.has(code))) {
+        errors.push(`${label}.${field} are invalid`);
+      }
+    }
+    if (item.input_scope === 'derived_only') {
+      if (item.states?.length !== 1 || item.states[0] !== 'derived_plan_output') {
+        errors.push(`${label}: derived_only identity must use derived_plan_output`);
+      }
+      if (aliases.length) errors.push(`${label}: derived_only identities must not define aliases`);
+    }
+    if (item.states?.includes('derived_plan_output') && item.input_scope !== 'derived_only') {
+      errors.push(`${label}: derived_plan_output must be derived_only`);
+    }
+    if (item.alias_shape_or_cut != null) {
+      if (!item.alias_shape_or_cut || typeof item.alias_shape_or_cut !== 'object' || Array.isArray(item.alias_shape_or_cut)) {
+        errors.push(`${label}.alias_shape_or_cut must be an object`);
+      } else {
+        for (const [alias, shape] of Object.entries(item.alias_shape_or_cut)) {
+          if (!aliases.includes(alias) || !shapes.includes(shape)) {
+            errors.push(`${label}.alias_shape_or_cut must reference an alias and declared shape`);
+          }
+        }
+      }
+    }
+  });
+  for (const [key, entries] of displayEntries) {
+    if (entries.length > 1) errors.push(`duplicate normalized display_name: ${key}`);
+  }
+  const idsSeen = new Set();
+  for (const id of ids) {
+    if (idsSeen.has(id)) errors.push(`duplicate canonical_id: ${id}`);
+    idsSeen.add(id);
+  }
+  for (const id of data.formal_review_only_ids || []) {
+    if (!idsSeen.has(id)) errors.push(`formal_review_only_ids references unknown canonical_id: ${id}`);
+  }
+  for (const [key, entries] of aliasEntries) {
+    if (entries.length > 1) errors.push(`duplicate normalized alias: ${key}`);
+    if (displayEntries.has(key)) errors.push(`normalized alias conflicts with display_name: ${key}`);
+  }
+  validateAmbiguousInputs(data, displayEntries, aliasEntries, errors);
+  const strictRatioIdentities = data.items.filter(item => item?.ratio_rule_policy === 'canonical_required');
+  if (strictRatioIdentities.length !== 1 || strictRatioIdentities[0]?.canonical_id !== 'fresh-wheat-noodle') {
+    errors.push('canonical_required ratio policy must belong only to fresh-wheat-noodle');
+  }
+  for (const item of data.items) {
+    if (!item?.canonical_name) continue;
+    const ownKey = normalizeIngredientTaxonomyKey(item.display_name);
+    const targetKey = normalizeIngredientTaxonomyKey(item.canonical_name);
+    if (targetKey === ownKey) {
+      errors.push(`${item.canonical_id}.canonical_name must not point to itself`);
+      continue;
+    }
+    const targets = displayEntries.get(targetKey) || [];
+    if (targets.length === 0 && VIRTUAL_CANONICAL_NAMES.get(item.canonical_id) === item.canonical_name) continue;
+    if (targets.length !== 1) {
+      errors.push(`${item.canonical_id}.canonical_name must name an existing display_name`);
+      continue;
+    }
+    const [target] = targets;
+    if (target.canonical_name) errors.push(`${item.canonical_id}.canonical_name must not point to another canonical alias`);
+    if (target.input_scope === 'derived_only') {
+      errors.push(`${item.canonical_id}.canonical_name must not target a derived_only identity`);
+    }
+    if (target.category !== item.category) errors.push(`${item.canonical_id}.canonical_name category must match`);
+  }
+  return errors;
+}
+
+export function assertIngredientTaxonomy(data) {
+  const errors = validateIngredientTaxonomy(data);
+  if (errors.length) throw new Error(`ingredient taxonomy invalid: ${errors.join('; ')}`);
+  return data;
+}

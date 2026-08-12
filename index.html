@@ -103,14 +103,6 @@
   .ing-name { flex: 1; font-size: 14.5px; color: var(--ink); display: flex; align-items: center; gap: 6px; }
   .est-tag { font-size: 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 4px; line-height: 15px; }
   .ing-grams { font-size: 13px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; background: var(--surface-2); padding: 3px 9px; border-radius: 8px; white-space: nowrap; }
-  .ing-edit { display: flex; align-items: center; gap: 6px; }
-  .stepper { width: 26px; height: 26px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink-2); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .stepper:active { background: var(--surface-2); }
-  .ing-grams-ed { min-width: 36px; text-align: center; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
-  .del { width: 26px; height: 26px; border-radius: 8px; border: none; background: none; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .del:hover { color: var(--clay); }
-  .add-ing { margin-top: 11px; width: 100%; border: 1.5px dashed var(--line); background: none; color: var(--ink-2); border-radius: 11px; padding: 10px; font-size: 13.5px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; }
-  .add-ing:hover { border-color: var(--clay); color: var(--clay); }
   .steps { list-style: none; margin: 11px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
   .step-row { display: flex; gap: 11px; }
   .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-variant-numeric: tabular-nums; }
@@ -186,6 +178,23 @@
   .result-foot { text-align: center; font-size: 11.5px; color: var(--muted); padding: 8px 16px 2px; }
   .gen-notice { display: flex; gap: 8px; align-items: flex-start; background: #fdf6e8; border: 1px solid #ecd9a8; border-radius: 12px; padding: 10px 13px; font-size: 12.5px; line-height: 1.5; color: #7a6233; }
   .gen-notice svg { flex-shrink: 0; margin-top: 1px; }
+  .pantry-plan-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+  .pantry-plan-card { width: 100%; text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 14px; font-family: inherit; cursor: pointer; color: var(--ink); }
+  .pantry-plan-card:hover, .pantry-plan-card:focus-visible { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(181,97,58,.1); outline: none; }
+  .pantry-plan-choice { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; }
+  .pantry-plan-choice:focus-visible { outline: 2px solid var(--clay); outline-offset: 4px; border-radius: 8px; }
+  .plan-presentation-badge { display: inline-flex; width: fit-content; padding: 3px 8px; border-radius: 999px; background: var(--sage-pale); color: var(--sage-dark); font-size: 12px; font-weight: 700; }
+  .plan-presentation-subtitle { display: block; margin-top: 6px; color: var(--ink2); font-size: 13px; line-height: 1.55; }
+  .plan-presentation-source { display: inline-flex; margin-top: 8px; color: var(--clay-dark); font-size: 13px; font-weight: 700; }
+  .pantry-plan-top { display: flex; justify-content: space-between; gap: 8px 12px; align-items: baseline; flex-wrap: wrap; }
+  .pantry-plan-name { font-size: 15px; font-weight: 700; flex: 1 1 160px; }
+  .pantry-plan-label { padding: 2px 7px; border-radius: 999px; background: var(--clay-soft); color: var(--clay); font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .pantry-plan-count { font-size: 12px; color: var(--clay); font-weight: 700; white-space: nowrap; }
+  .pantry-plan-items { display: block; margin-top: 7px; font-size: 13px; line-height: 1.55; color: var(--ink-2); }
+  .pantry-plan-note { margin: 12px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+  .pantry-coverage { background: var(--sage-soft); border: 1px solid #d9ddc6; border-radius: 12px; padding: 11px 13px; font-size: 13px; line-height: 1.55; color: var(--ink-2); }
+  .pantry-coverage strong { color: var(--sage-ink); }
+  .pantry-coverage .btn { margin-top: 9px; }
   .col-main, .col-side { display: flex; flex-direction: column; gap: 12px; }
 
   /* 档案页 */
@@ -289,6 +298,8 @@
   .fb-banner-text { margin: 3px 0 0; font-size: 13px; line-height: 1.55; color: #7a6233; }
   .fallback-banner .btn-primary { align-self: flex-start; background: var(--amber); box-shadow: none; }
   .fallback-banner .btn-primary:hover { background: #a9772f; }
+  .fallback-banner .dish-actions { flex-wrap: wrap; }
+  .fallback-banner .dish-actions .btn { flex: 1 1 180px; min-height: 46px; white-space: nowrap; }
 
   .field-row { display:flex; gap:8px; align-items:stretch; }
   .field-row .text-input { flex:1; }
@@ -306,6 +317,32 @@
     .photo-slot { height: 232px; }
     .profile-screen, .gen-screen, .fallback-screen { max-width: 560px; margin: 0 auto; }
   }
+
+  /* 来源菜饭自由轮替：打开即看一条，不再经过食材表单或候选卡。 */
+  .source-rotation-screen { max-width: 620px; margin: 0 auto; }
+  .source-rotation-head { display: flex; flex-direction: column; gap: 7px; }
+  .source-rotation-kicker { color: var(--clay); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+  .source-rotation-title { margin: 0; font-family: var(--serif); font-size: clamp(28px, 7vw, 40px); line-height: 1.2; }
+  .source-rotation-subtitle { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.65; }
+  .source-rotation-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: 0 10px 28px rgba(40,40,30,.05); }
+  .source-rotation-card h2 { margin: 0; font-family: var(--serif); font-size: clamp(25px, 6vw, 34px); line-height: 1.3; }
+  .source-rotation-meta { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 8px 0 0; }
+  .source-rotation-badge { display: inline-flex; align-items: center; padding: 4px 9px; border-radius: 999px; background: var(--clay-soft); color: var(--clay-ink); font-size: 12px; font-weight: 700; }
+  .source-rotation-section { margin-top: 17px; padding-top: 14px; border-top: 1px solid var(--line-2); }
+  .source-rotation-section h3 { margin: 0 0 8px; font-size: 15px; }
+  .source-rotation-list { margin: 0; padding-left: 1.25rem; color: var(--ink-2); }
+  .source-rotation-list li { margin: 7px 0; line-height: 1.6; }
+  .source-rotation-amount { color: var(--ink); font-weight: 600; white-space: nowrap; }
+  .source-rotation-provenance { color: var(--muted); font-size: .78rem; }
+  .source-rotation-note { color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+  .source-rotation-warning { margin-top: 12px; padding: 10px 12px; border-left: 3px solid var(--amber); background: #fff9ed; color: #75521e; font-size: 13px; line-height: 1.6; }
+  .source-rotation-actions { display: flex; flex-direction: column; gap: 9px; margin-top: 17px; }
+  .source-rotation-actions .btn { width: 100%; min-height: 48px; }
+  .source-rotation-source { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+  .source-rotation-source a { color: var(--clay); overflow-wrap: anywhere; }
+  .source-rotation-counter { color: var(--muted); font-size: 12px; text-align: center; }
+  .source-rotation-loading, .source-rotation-error { max-width: 520px; margin: 0 auto; text-align: center; color: var(--ink-2); }
+  .source-rotation-loading .source-rotation-card, .source-rotation-error .source-rotation-card { padding: 28px 20px; }
 </style>
 </head>
 <body>
@@ -317,21 +354,50 @@
 
    产品纪律 —— 活的拒绝清单，每加一个功能前过一遍这道闸：
 
-   已接受（界面或后台）：填偏好→生成→主餐卡→食材/做法→配两样→是否真吃了；
-     换一换意图、看一周节奏、第二天反馈、语音输入；
-     后台：#0 营养查表纠偏、按周动态调配、吃鱼/营养存档（无感，不在界面长仪表盘）。
+   核心旅程：选这次做饭目的和份数→填现有食材/忌口→生成→食材/做法→可选搭配。
+   这是按需打开的做饭决策工具，不是假设用户每天使用的饮食追踪器。
 
    现在仍然拒绝（要加，先说服自己越过这条）：
-   - 不做每餐卡路里审判 / 红色警报（营养只是参考、看一周）
-   - 不做手动打卡 / 连续天数 streak 压力
+   - 不做全天营养目标、周累计、每日追问或连续天数压力
+   - 不收集用户行为；本地只保存下次还会用到的场景、份数、食材和忌口
    - 不做社交 feed / 晒图 / 排行榜
    - 不开补剂剂量、不做个体化医疗建议（维 D 等只给方向）
-   - 主营养面板营养项封顶 6 个，其余进后台或"展开"
+   - 单次营养只按整锅/每份展示，封顶 6 项，不评价全天是否达标
    - 不做账号必填（本地优先、匿名可用）
    - 不让后台学习在界面冒出新按钮 / 报表（复杂度留后台）
 
    真正的护栏不是这段注释，是有人愿意对"就这一个没关系"说不。
    ============================================================ */
+
+const BUILD_ID = '__YIGUOCHU_BUILD_ID__';
+const PLANNER_ROLLOUT = '__YIGUOCHU_PLANNER_ROLLOUT__';
+const GENERATION_MODE = '__YIGUOCHU_GENERATION_MODE__';
+const PRODUCT_FOCUS = '__YIGUOCHU_PRODUCT_FOCUS__';
+const RICE_CATALOG_SCOPE = '__YIGUOCHU_RICE_CATALOG_SCOPE__';
+// A raw source file must not silently reopen the retired ingredient form. It
+// cannot load the generated shelf itself, so file:// still gives the explicit
+// start.command instruction; the built product uses the injected value.
+const UNBUILT_SOURCE_INDEX = PRODUCT_FOCUS === '__YIGUOCHU_PRODUCT_FOCUS__'
+  && typeof location !== 'undefined'
+  && location.protocol === 'file:';
+const RICE_MEAL_PRODUCT = PRODUCT_FOCUS === 'rice-meal-v1' || UNBUILT_SOURCE_INDEX;
+const EFFECTIVE_GENERATION_MODE = ['deterministic','llm'].includes(GENERATION_MODE)
+  ? GENERATION_MODE
+  : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'deterministic' : 'llm');
+const DETERMINISTIC_DIRECT_RECOMMEND = (PLANNER_ROLLOUT === 'direct-recommend'
+  || location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  && EFFECTIVE_GENERATION_MODE === 'deterministic';
+if (typeof window !== 'undefined') {
+  window.__YIGUOCHU_BUILD_META__ = Object.freeze({
+    buildId: BUILD_ID,
+    plannerRollout: PLANNER_ROLLOUT,
+    generationMode: EFFECTIVE_GENERATION_MODE,
+    productFocus: RICE_MEAL_PRODUCT ? 'rice-meal-v1' : 'legacy',
+    riceCatalogScope: ['ready','calibration'].includes(RICE_CATALOG_SCOPE)
+      ? RICE_CATALOG_SCOPE
+      : 'ready',
+  });
+}
 
 // ---- 极简线性图标 ----
 const ICON_PATHS = {
@@ -385,6 +451,18 @@ function safeHttpUrl(value) {
     return url.href;
   } catch (e) {
     return '';
+  }
+}
+function isProjectCanonicalRecipeUrl(value) {
+  const safe = safeHttpUrl(value);
+  if (!safe) return false;
+  try {
+    const url = new URL(safe);
+    return url.hostname === 'yiguochu.pages.dev'
+      && url.pathname === '/recipes.html'
+      && url.searchParams.has('id');
+  } catch (e) {
+    return false;
   }
 }
 function normalizedSourceRefs(value) {
@@ -595,6 +673,8 @@ const FOODS = [
   { id:'g-17', name:'大米（生）', category:'主食谷物', kcal:346, p:7.1, mg:34,  k:103, ca:8,  fe:1.1, zn:1.5, na:2,  vc:0, vd:0, fb:0.7, w3:0.03 },
   { id:'g-18', name:'糙米（生）', category:'主食谷物', kcal:370, p:7.7, mg:143, k:223, ca:12, fe:1.3, zn:2.0, na:4,  vc:0, vd:0, fb:3.4, w3:0.05 },
   { id:'g-19', name:'薏米（生）', category:'主食谷物', kcal:361, p:12.8,mg:88,  k:238, ca:42, fe:3.6, zn:1.7, na:3,  vc:0, vd:0, fb:2.0, w3:0.05 },
+  // 台湾食药署食品营养成分资料库 R4600201「冬粉」（别名：粉丝），每100g干品。
+  { id:'g-20', name:'粉丝（干）', category:'主食谷物', kcal:351, p:0.1, mg:6, k:13, ca:2, fe:1.9, zn:0.1, na:10, vc:0, vd:0, fb:1.4, w3:0 },
   // 蔬菜 / 菌菇
   { id:'s-50', name:'洋葱', category:'蔬菜', kcal:40, p:1.1, mg:10, k:146, ca:23, fe:0.2, zn:0.17, na:4, vc:7.4, vd:0,   fb:1.7, w3:0.01 },
   { id:'s-51', name:'口蘑', category:'蔬菜', kcal:22, p:3.1, mg:9,  k:318, ca:3,  fe:0.5, zn:0.52, na:5, vc:2.1, vd:0.2, fb:1.0, w3:0 },
@@ -627,6 +707,7 @@ const FOOD_ALIAS = {
   '西红柿':'s-5', '圣女果':'s-5', '小番茄':'s-5',
   '鸡腿':'m-4', '鸡腿肉':'m-4', '鸡胸':'m-3', '鸡胸肉':'m-3',
   '土豆丝':'s-13', '土豆片':'s-13', '马铃薯':'s-13', '洋芋':'s-13',
+  '粉丝':'g-20', '干粉丝':'g-20', '冬粉':'g-20',
   '豆腐':'d-4', '老豆腐':'d-4', '北豆腐':'d-4', '嫩豆腐':'d-14', '南豆腐':'d-14',
   '圆白菜':'s-29', '卷心菜':'s-29', '包菜':'s-29',
   // V9 主食生/熟钉死(alias 优先级最高, 防生米错配成熟饭)
@@ -652,14 +733,85 @@ const FOOD_ALIAS = {
   '辣白菜':'s-52', '韩式泡菜':'s-52', '韩国泡菜':'s-52', '泡菜(韩国)':'s-52', '朝鲜泡菜':'s-52',
   '鸡大腿':'m-4', '鸡全腿':'m-4', '油':'v-23',
 };
-// V9 调味料归零: 用量小、营养可忽略的辅料统一按 0 贡献(不计入估算、不污染总营养)。油/盐另有处理思路, 见 task。
-const SEASONINGS = new Set(['盐','食盐','酱油','生抽','老抽','蒸鱼豉油','蚝油','料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','姜蓉','葱','葱花','香葱','小葱','大葱','葱段','葱姜','蒜','蒜末','蒜蓉','蒜泥','蒜瓣','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','小米辣','花椒','八角','桂皮','香叶','孜然','糖','白糖','冰糖','红糖','味精','鸡精','淀粉','生粉','玉米淀粉','水淀粉','芡粉','香油','芝麻油','枸杞','香菜','豆瓣酱','郫县豆瓣','番茄酱','沙拉酱','柠檬汁','鱼露','咖喱酱','青咖喱酱','红咖喱酱','青柠','柠檬','茶叶','普洱','蒜头','豆豉','紫苏','紫苏叶','豆瓣']);
+// 与 Worker / ai_proxy.py 同一张受控菜谱匹配表；只决定库存语义去重，不覆盖展示名与营养查表部位。
+const RECIPE_MATCH_NORMALIZATION = {
+  '牛肉':'牛肉', '牛里脊':'牛肉', '牛里脊肉':'牛肉', '牛柳':'牛肉', '牛肉片':'牛肉',
+  '鸡肉':'鸡肉', '鸡胸':'鸡肉', '鸡胸肉':'鸡肉', '鸡腿':'鸡肉', '鸡腿肉':'鸡肉',
+  '猪肉':'猪肉', '猪里脊':'猪肉', '猪里脊肉':'猪肉', '猪肉片':'猪肉',
+  '嫩豆腐':'嫩豆腐', '南豆腐':'嫩豆腐',
+  '老豆腐':'老豆腐', '北豆腐':'老豆腐', '豆腐':'老豆腐',
+};
+function pantryIdentity(name) {
+  const q = normFoodName(name);
+  if (!q) return '';
+  const base = baseFoodName(name);
+  const recipeMatch = RECIPE_MATCH_NORMALIZATION[q] || RECIPE_MATCH_NORMALIZATION[base];
+  if (recipeMatch) return recipeMatch;
+  const exactFood = FOODS.find(food => normFoodName(food.name) === q || baseFoodName(food.name) === base);
+  return FOOD_ALIAS[q] || FOOD_ALIAS[base] || (exactFood && exactFood.id) || base;
+}
+function uniquePantryItems(value) {
+  const seen = new Set();
+  return boundedTextList(value, 20, 80).filter(item => {
+    const key = pantryIdentity(item);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+function pantryItemMatchesIngredient(item, ingredientName) {
+  const itemKey = pantryIdentity(item), ingredientKey = pantryIdentity(ingredientName);
+  if (itemKey && itemKey === ingredientKey) return true;
+  const a = baseFoodName(item), b = baseFoodName(ingredientName);
+  return !!a && !!b && (a.includes(b) || b.includes(a));
+}
+// ===== 过敏类别表（与 worker/src/worker.js、ai_proxy.py 保持一致，parity 测试锁定）
+const ALLERGEN_GROUPS = {
+  '海鲜': ['鱼','鲈鱼','鳕鱼','三文鱼','金枪鱼','带鱼','黄花鱼','鲫鱼','鲤鱼','草鱼','鱼头','鱼片','虾','虾仁','虾皮','虾米','海米','蟹','螃蟹','蛤蜊','扇贝','干贝','瑶柱','牡蛎','生蚝','鲍鱼','蛏子','鱿鱼','章鱼','墨鱼','海参','海螺','贝类'],
+  '蛋': ['鸡蛋','鸭蛋','鹌鹑蛋','皮蛋','咸蛋','咸鸭蛋','蛋白','蛋黄','蛋液'],
+  '奶': ['牛奶','羊奶','奶粉','奶酪','芝士','黄油','奶油','淡奶油','酸奶','炼乳'],
+  '花生': ['花生','花生米','花生酱'],
+  '坚果': ['核桃','杏仁','腰果','开心果','榛子','松子','碧根果','夏威夷果','巴旦木','板栗','芝麻','芝麻酱'],
+  '大豆': ['大豆','黄豆','豆腐','嫩豆腐','老豆腐','油炸豆腐','炸豆腐','豆浆','豆皮','腐竹','酱油','豆豉','味噌'],
+  '鸡肉': ['鸡肉','鸡腿','鸡腿肉','鸡胸','鸡胸肉','鸡翅','鸡爪','鸡柳','土鸡','乌鸡','三黄鸡','鸡胗','鸡肝','鸡汤'],
+  '牛肉': ['牛肉','牛里脊','牛腩','牛腱','肥牛','牛肉片','牛肉末','牛排','牛仔骨'],
+  '猪肉': ['猪肉','猪里脊','五花肉','猪排','排骨','猪蹄','猪肝','猪腰','腊肉','腊肠','培根','火腿'],
+  '羊肉': ['羊腿肉','去骨羊腿肉']
+};
+// 忌口/食材先经 FOOD_ALIAS 归一到基名: 基围虾仁→虾仁, 鸡大腿→鸡腿; 查不到就用自身基名
+function allergyBaseName(s) {
+  const q = normFoodName(s);
+  if (!q) return '';
+  const aliasId = FOOD_ALIAS[q] || FOOD_ALIAS[baseFoodName(s)];
+  if (aliasId) { const f = FOODS.find(x => x.id === aliasId); if (f) return baseFoodName(f.name); }
+  return baseFoodName(s);
+}
+// 忌口匹配: 双向子串 + 仅当忌口词等于 ALLERGEN_GROUPS 类别名本身时按组扩展(组成员如「虾仁」不牵连同组)
+// 同时用「原词基名」和「alias 归一名」两路形态: alias 只用于对齐, 不许收窄保护面(单用归一名会让 豆腐≠豆腐干)
+function allergyMatchForms(s) {
+  return [...new Set([baseFoodName(s), allergyBaseName(s)].filter(Boolean))];
+}
+function matchAllergy(dislikeTerm, ingredientName) {
+  const dForms = allergyMatchForms(dislikeTerm), iForms = allergyMatchForms(ingredientName);
+  if (!dForms.length || !iForms.length) return false;
+  const groupNames = dForms.filter(d => ALLERGEN_GROUPS[d]);
+  if (groupNames.length) {
+    if (dForms.some(d => iForms.some(i => i === d || (d.length >= 2 && i.includes(d))))) return true;
+    return groupNames.some(g => ALLERGEN_GROUPS[g].some(m => {
+      const bForms = allergyMatchForms(m);
+      return bForms.some(b => iForms.some(i => i.includes(b) || b.includes(i)));
+    }));
+  }
+  return dForms.some(d => iForms.some(i => i.includes(d) || d.includes(i)));
+}
+// 只忽略用量很小的香辛料/酸味料。油、糖、盐和复合酱料必须参与热量或钠估算。
+const SEASONINGS = new Set(['料酒','黄酒','米酒','醋','白醋','陈醋','香醋','米醋','姜','生姜','姜末','姜片','姜丝','姜蓉','葱','葱花','香葱','小葱','大葱','葱段','葱姜','蒜','蒜末','蒜蓉','蒜泥','蒜瓣','蒜头','咖喱粉','五香粉','十三香','胡椒粉','白胡椒','黑胡椒','胡椒','辣椒粉','干辣椒','小米辣','花椒','八角','桂皮','香叶','孜然','香菜','柠檬汁','青柠','柠檬','茶叶','普洱','紫苏','紫苏叶']);
 const SEASONING_STUB = { id:'_seasoning', name:'调味料', category:'调味品', seasoning:true, kcal:0, p:0, mg:0, k:0, ca:0, fe:0, zn:0, na:0, vc:0, vd:0, fb:0, w3:0 };
 function isSeasoning(name) { return SEASONINGS.has(normFoodName(name)) || SEASONINGS.has(baseFoodName(name)); }
 function lookupFoodNutrition(name) {
   const q = normFoodName(name);
   if (!q) return null;
-  // V9: 调味料 → 零贡献 stub(视为命中, 不算 AI 估算)
+  // 小用量香辛料/酸味料 → 零贡献 stub；油糖盐和酱料继续查库或标估算。
   if (isSeasoning(name)) return SEASONING_STUB;
   // 0. 人工 alias (用 id, 不会因中文名细节而错)
   const aliasId = FOOD_ALIAS[q] || FOOD_ALIAS[baseFoodName(name)];
@@ -682,134 +834,178 @@ const STORE = (function () {
   const KEY = 'yiguochu_v1';
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
   const save = (o) => { try { localStorage.setItem(KEY, JSON.stringify(o)); return true; } catch (e) { return false; } };
-  const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
-  const num = (v, fallback) => { const n = Number(v); return Number.isFinite(n) ? Math.round(n * 10) / 10 : (fallback || 0); };
-  const cleanNut = (o) => {
-    const out = {}; NUTRIENTS.forEach(n => { out[n.key] = num(o && o[n.key], 0); }); return out;
-  };
-  const dishSnapshot = (dish, ts) => {
-    const d = dish || {};
-    const ingredients = (d.ingredients || []).map(it => ({
-      name: String(it.name || '').trim(),
-      grams: num(it.grams, 0),
-      est: !!it.est,
-      nut: cleanNut(it.nut || {}),
-    })).filter(it => it.name && it.grams > 0);
-    return {
-      schema: 1, savedAt: ts, id: String(d.id || ''), name: String(d.name || '').trim(),
-      form: String(d.form || '').trim(), flavor: Array.isArray(d.flavor) ? d.flavor.map(String).slice(0, 5) : [],
-      minutes: num(d.minutes, 0), difficulty: num(d.difficulty, 0),
-      taste: String(d.taste || '').trim(), why: String(d.why || '').trim(),
-      hasFish: !!d.hasFish, vegCount: num(d.vegCount, 0), kcal: num(d.kcal, 0), protein: num(d.protein, 0),
-      targets: d._targets ? { ...d._targets } : null,
-      nutrients: cleanNut(d.nutrients || {}),
-      ingredients,
-      steps: Array.isArray(d.steps) ? d.steps.map(String).map(s => s.trim()).filter(Boolean).slice(0, 8) : [],
-    };
-  };
   return {
     getProfile: () => load().profile || null,
     saveProfile: (p) => { const s = load(); s.profile = p; save(s); },
-    recordChoice: (dish) => { const s = load(); const ts = Date.now(); const snap = dishSnapshot(dish, ts); s.schemaVersion = 2; s.choices = s.choices || []; s.choices.push({ date: today(), ts, name: snap.name, hasFish: !!snap.hasFish, ings: snap.ingredients.map(x => x.name), snapshot: snap }); s.choices = s.choices.slice(-90); s.pending = { date: today(), name: snap.name }; s.lastFeedback = null; s.updatedAt = ts; if (!save(s)) { s.choices = s.choices.slice(-30).map(c => c.snapshot ? { ...c, snapshot: { ...c.snapshot, ingredients: c.snapshot.ingredients.map(i => ({ name: i.name, grams: i.grams, est: i.est })), nutrients: {}, targets: null } } : c); save(s); } },
-    feedbackHint: () => { const fb = load().lastFeedback; if (!fb || fb.ate || !fb.reason) return ''; const m = { '食材不好买':'上次用户嫌食材不好买，这次只用常见、超市好买的食材。', '做起来太麻烦':'上次嫌太麻烦，这次更简单：步骤更少、食材更少、时间更短。', '临时不想吃':'上次那道没胃口，这次换个菜系和口味。', '步骤没看懂':'上次觉得步骤没看懂，这次每步写得更短更明确。' }; return m[fb.reason] || ''; },
-    recordFeedback: (ate, reason) => { const s = load(); s.lastFeedback = { date: today(), ate: !!ate, reason: reason || null }; s.pending = null; s.stats = s.stats || {}; if (ate) s.stats.feedback_ate = (s.stats.feedback_ate || 0) + 1; else s.stats.feedback_skip = (s.stats.feedback_skip || 0) + 1; save(s); },
-    bumpStat: (k) => { try { const s = load(); s.stats = s.stats || {}; s.stats[k] = (s.stats[k] || 0) + 1; save(s); } catch (e) {} },
-    getStats: () => { const s = load(); return { ...(s.stats || {}), choices_total: (s.choices || []).length }; },
-    recentNames: (n) => { const c = (load().choices || []).map(x => x.name); const u = []; for (let i = c.length-1; i >= 0 && u.length < (n||6); i--) if (!u.includes(c[i])) u.push(c[i]); return u; },
-    pendingFeedback: () => { const s = load(); return (s.pending && s.pending.date !== today()) ? s.pending : null; },
-    recordNutritionChoice: (dish) => { const s = load(); s.nutriLog = s.nutriLog || []; s.nutriLog.push({ ts: Date.now(), n: dish.nutrients || {}, fish: !!dish.hasFish }); s.nutriLog = s.nutriLog.slice(-60); save(s); },
-    getNutriLog: () => load().nutriLog || [],
+    getSwapHistory: () => { const h = load().swapHistory; return Array.isArray(h) ? h : []; },
+    saveSwapHistory: (list) => { const s = load(); s.swapHistory = Array.isArray(list) ? list : []; save(s); },
     exportForMigration: () => { const s = load(); return { key: KEY, schemaVersion: s.schemaVersion || 1, exportedAt: Date.now(), profile: s.profile || null, choices: s.choices || [], nutriLog: s.nutriLog || [], lastFeedback: s.lastFeedback || null }; },
-    today,
   };
 })();
 
-// ---- 示意数据（下一步换成真实生成） ----
-const DISHES = [
-  { id:'d1', name:'腊味春笋焖饭', form:'焖饭', flavor:['咸鲜','锅气','不辣'], minutes:38, difficulty:1, hasFish:false, vegCount:4, kcal:1980, protein:96,
-    taste:'腊味咸香打底，米饭吸足汤汁微甜，春笋脆嫩解腻；油润但不腻口。', why:'用上了你冰箱里的春笋和剩米饭，本周还没吃到笋，今天正应季。',
-    ingredients:[{name:'剩米饭',grams:300},{name:'腊肠',grams:60},{name:'春笋',grams:120,est:true},{name:'香菇（鲜）',grams:80},{name:'胡萝卜',grams:70},{name:'青豆',grams:50,est:true},{name:'鸡蛋',grams:55},{name:'小白菜',grams:100}],
-    steps:['腊肠切片，春笋、香菇、胡萝卜切丁，小白菜切段。','锅下少许油，腊肠煸香，下春笋香菇胡萝卜炒匀。','倒入剩米饭和青豆，沿锅边淋一勺生抽，翻炒至粒粒分开。','打入鸡蛋炒散、铺上小白菜焖 2 分钟即可。'] },
-  { id:'d2', name:'番茄龙利鱼汤面', form:'汤面', flavor:['鲜香','微酸','清爽'], minutes:25, difficulty:1, hasFish:true, vegCount:4, kcal:1620, protein:88,
-    taste:'番茄汤底酸鲜开胃，龙利鱼滑嫩无刺，面条吸饱汤汁，一碗下去暖而不腻。', why:'本周还差一次鱼，这道用龙利鱼正好补上；汤面清爽，25 分钟就能上桌。',
-    ingredients:[{name:'龙利鱼',grams:150},{name:'面条',grams:120},{name:'番茄',grams:160},{name:'鸡蛋',grams:55},{name:'菠菜',grams:100},{name:'金针菇',grams:80,est:true}],
-    steps:['番茄切块炒出沙，加水煮成汤底。','下面条煮软，放入龙利鱼片和金针菇。','打蛋花、下菠菜，加盐调味即可。'] },
-  { id:'d3', name:'照烧鸡腿杂粮拌饭', form:'拌饭', flavor:['咸甜','酱香','下饭'], minutes:35, difficulty:2, hasFish:false, vegCount:5, kcal:2050, protein:102,
-    taste:'照烧鸡腿外焦里嫩、咸甜挂汁，杂粮饭有嚼劲，拌着溏心蛋和脆口蔬菜，丰富又顶饱。', why:'换个口味试试拌饭——杂粮饭纤维足，配色也好看，五种菜一次到位。',
-    ingredients:[{name:'鸡腿肉',grams:150},{name:'糙米饭',grams:280},{name:'西兰花',grams:90},{name:'胡萝卜',grams:60},{name:'黄豆芽',grams:70},{name:'鸡蛋',grams:55},{name:'紫甘蓝',grams:60,est:true}],
-    steps:['鸡腿肉煎熟，刷照烧汁收亮。','西兰花、胡萝卜、豆芽焯熟。','糙米饭打底，铺上鸡腿和各色蔬菜，加一个溏心蛋拌匀。'] },
-];
-const WEEK = {
-  days:[{d:'一',cooked:true,dish:'番茄牛肉汤面',fish:false},{d:'二',cooked:true,dish:'三文鱼杂粮碗',fish:true},{d:'三',cooked:false},{d:'四',cooked:true,dish:'咖喱鸡腿烩饭',fish:false},{d:'五',cooked:null},{d:'六',cooked:null},{d:'日',cooked:null}],
-  fishDone:1, fishTarget:2,
-  variety:{count:14, sample:['牛肉','三文鱼','番茄','西兰花','香菇','胡萝卜']},
-  takeaway:'这周吃得挺杂，蛋白也换着来，节奏不错。鱼再来一次就够了。',
-};
 const SUPPLEMENTS = [
-  { id:'milk', icon:'milk', title:'无糖酸奶 / 牛奶', sub:'一锅菜最缺的钙，靠它补', detail:'一杯 / 一盒' },
-  { id:'fruit', icon:'fruit', title:'一份水果', sub:'维 C 和纤维，随手一个', detail:'苹果 / 橙子等' },
+  { id:'milk', icon:'milk', title:'奶或豆制品', sub:'手边方便时顺手搭配', detail:'一杯 / 一盒' },
+  { id:'fruit', icon:'fruit', title:'一份水果', sub:'饭后想吃再拿一个', detail:'苹果 / 橙子等' },
 ];
-const LOADING_STAGES = ['正在按你家里的食材搭一锅','正在看是不是 40 分钟内能做','第一版有点麻烦，换一版更顺手的'];
-const FEEDBACK_REASONS = ['食材不好买','做起来太麻烦','临时不想吃','步骤没看懂','其他'];
-const GOAL_TEXT = { normal:'普通健康', cut:'减脂', bulk:'增肌' };
+const LOADING_STAGES = ['选基础菜','检查份量时间','检查步骤安全'];
+const MODE_TEXT = { recommend:'直接推荐', pantry:'帮我清库存' };
+const INTENT_TEXT = { normal:'正常做', quick:'快点吃上', fresh:'清爽些', batch:'多做一些' };
 const DIFF = { 1:'新手可做', 2:'中等难度', 3:'需要经验' };
-const TONE_TEXT = { enough:'够了', soft:'偏少 · 看一周', week:'看习惯' };
-const DEFAULT_PROFILE = { goal:'normal', sex:'female', age:'31', weight:'58', pantry:'', dislikes:'' };
-const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','青椒','茄子','菠菜','玉米','金针菇'];
+const TONE_TEXT = { week:'每份参考' };
+const DEFAULT_PROFILE = RICE_MEAL_PRODUCT
+  ? { servings:'2', pantry:'', dislikes:'' }
+  : { mode:'recommend', intent:'normal', servings:'2', pantry:'', dislikes:'' };
+const COMMON_PANTRY = ['鸡蛋','西红柿','土豆','鸡胸肉','西兰花','豆腐','胡萝卜','洋葱','虾仁','香菇','白菜','玉米','金针菇','大米','剩米饭','面条'];
+const LEGACY_UNSUPPORTED_COMMON_PANTRY = new Set(['青椒','茄子','菠菜']);
 const SHOW_PHOTO = false; // 暂无真实菜品照, 先不占位(尤其移动端会把决策信息挤下去)。有图时改 true。
+const GENERATION_REQUEST_TIMEOUT_MS = 55000;
 
-// 营养行（示意；下一步换成后端真实计算）
+function profilePantryChoices(profile) {
+  const saved = Array.isArray(profile && profile.myFoods) ? profile.myFoods : [];
+  const migrated = saved.filter(item =>
+    typeof item === 'string' && item.trim() && !LEGACY_UNSUPPORTED_COMMON_PANTRY.has(item.trim()));
+  return migrated.length ? migrated : COMMON_PANTRY;
+}
+
+function plannerLabEnabled() {
+  if (typeof location === 'undefined') return false;
+  const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  return local && /(?:^|[?&])planner_v2=1(?:&|$)/.test(String(location.search || ''));
+}
+function plannerDirectRecommendEnabled() {
+  if (PLANNER_ROLLOUT === 'direct-recommend') return true;
+  return plannerLabEnabled();
+}
+function publicIntent(value) {
+  return value === 'quick' || value === 'batch' ? value : 'normal';
+}
+function servingCount(profile) {
+  const n = Number(profile && profile.servings);
+  return [1,2,3,4].includes(n) ? n : 2;
+}
+function servingLabel(value) {
+  if (RICE_MEAL_PRODUCT) return String(value || 2);
+  return Number(value) === 4 ? '3–4' : String(value || 2);
+}
+// 单次主餐营养：只展示整锅折算后的每份值，不拿它评价全天是否达标。
 function nutriFor(d) {
-  const n = d.nutrients || {}, t = d._targets || {};
-  const pc = k => (t[k] ? (n[k] || 0) / t[k] : 1);
-  const rows = [];
-  rows.push({ label:'热量', value: Math.round(n.kcal != null ? n.kcal : d.kcal) + '', note: pc('kcal') >= 0.85 ? '今天够一天的量' : (pc('kcal') >= 0.6 ? '比一天目标略少，没关系' : '这锅约小半天的量，今天记得再吃一顿'), status: pc('kcal') >= 0.7 ? 'enough' : 'soft' });
-  rows.push({ label:'蛋白', value: Math.round(n.p != null ? n.p : d.protein) + 'g', note: pc('p') >= 0.85 ? '充足' : '稍欠，明天补点', status: pc('p') >= 0.7 ? 'enough' : 'soft' });
-  rows.push({ label:'纤维', value: Math.round(n.fb || 0) + 'g', note: pc('fb') >= 0.7 ? '杂粮和蔬菜带来的' : '多来点蔬菜杂粮', status: pc('fb') >= 0.6 ? 'enough' : 'soft' });
-  rows.push({ label:'钙', value: Math.round(n.ca || 0) + 'mg', note: pc('ca') >= 0.7 ? '这锅钙不少' : '一锅难凑齐，配杯奶就好', status: pc('ca') >= 0.7 ? 'enough' : 'soft' });
-  const naOver = !!(t.na && (n.na || 0) > t.na);
-  rows.push({ label:'钠', value: Math.round(n.na || 0) + 'mg', note: naOver ? '口味重了点，下次少放盐' : '不算重，挺好', status: naOver ? 'soft' : 'enough' });
-  rows.push({ label:'Omega-3', value: d.hasFish ? '够了' : '看一周', note: d.hasFish ? '这道有鱼' : '本周吃鱼没满，下锅会补', status: d.hasFish ? 'enough' : 'week' });
-  return rows;
+  const n = d.nutrients || {}, servings = d.servings || servingCount(state.profile);
+  const per = k => (n[k] || 0) / servings;
+  return [
+    { label:'热量', value: Math.round(per('kcal')) + ' kcal', note:'按整锅均分估算', status:'week' },
+    { label:'蛋白', value: Math.round(per('p')) + 'g', note:'来自肉蛋豆和主食', status:'week' },
+    { label:'纤维', value: Math.round(per('fb')) + 'g', note:'来自蔬菜、豆类和谷物', status:'week' },
+    { label:'钙', value: Math.round(per('ca')) + 'mg', note:'这一顿的粗略含量', status:'week' },
+    { label:'钠', value: Math.round(per('na')) + 'mg', note:'调味用量会影响较大', status:'week' },
+    { label:'Omega-3', value: per('w3').toFixed(1) + 'g', note:d.hasFish ? '本餐含水产' : '本餐不以鱼类为主', status:'week' },
+  ];
 }
 
 // ---- 视图状态 ----
 const state = {
-  view:'profile', dish:DISHES[0], week:JSON.parse(JSON.stringify(WEEK)),
-  chosen:false, swapOpen:false, swapPantryEdit:false, addingFood:false, fbThanks:'', editing:false, items:[], nutriOpen:false, weekOpen:false, suppDone:{},
-  genStage:0, feedbackOpen:false, feedbackPicked:null, notice:'', lastGenError:null,
+  view:'profile', dish:null, // 首屏是表单页, 没有菜品; 静态示意菜已随失败兜底一起移除(F2)
+  swapOpen:false, swapPantryEdit:false, addingFood:false, items:[], nutriOpen:false,
+  genStage:0, notice:'', lastGenError:null,
+  swapHistory:[], // 历史=换掉或点过「开始做」的菜(带 kind+ts), 生成时发给后端避开; 与 localStorage 同步, 跨会话保留 7 天
+  sessionRejectedBaseRecipes:[], // 份量拦截只在当前页面会话避开，不写入 7 天历史
+  lastSwapIntent:null, // 最后一次换一换意图: 候选枯竭屏点「清掉记录继续换」时按它重新生成
+  pantryPlan:null, // 多食材先分组：不把没选进这一锅的食材静默丢掉
+  displayedPlan:null, planCandidates:[], planCandidateResult:null, planRequestSnapshot:null, generatedPlan:null, noAlternativeResult:null,
+  riceSelection:null, riceCandidates:[], riceSelectedCandidate:null, riceGeneratedPlan:null, riceStatusResult:null,
+  riceRequestSnapshot:null, riceRecentPlanIds:[],
+  rolloutNotice:'',
+  noAlternativeSwap:false,
+  sourceRotationRecords:[], sourceRotationCurrent:null, sourceRotationIndex:0,
+  sourceRotationLoading:false, sourceRotationError:'', sourceRotationNotice:'',
   profile:Object.assign({}, DEFAULT_PROFILE), profileEditing:true, firstTime:true,
 };
 
+// 换一换历史跨会话冷却(F-A): 读回/落盘前先修剪——丢弃 7 天前的条目, 最多留 20 条
+const SWAP_HISTORY_TTL = 7 * 24 * 60 * 60 * 1000;
+function pruneSwapHistory(list, now) {
+  const t = typeof now === 'number' ? now : Date.now();
+  const normalized = (Array.isArray(list) ? list : [])
+    .filter(h => h && typeof h.ts === 'number' && (h.planId || h.name || h.base) && t - h.ts < SWAP_HISTORY_TTL)
+    .map(h => ({
+      name: String(h.name || ''), base: String(h.base || ''), fam: String(h.fam || ''),
+      planId: String(h.planId || ''), kind: h.kind === 'started' ? 'started' : 'swapped', ts: h.ts,
+    }));
+  const latest = new Map();
+  for (const entry of normalized) {
+    const key = entry.planId
+      ? 'plan:' + entry.planId
+      : 'legacy:' + entry.base + '\u0000' + entry.name + '\u0000' + entry.fam;
+    const prior = latest.get(key);
+    if (!prior || entry.ts >= prior.ts) latest.set(key, entry);
+  }
+  return [...latest.values()]
+    .sort((left, right) => left.ts - right.ts)
+    .slice(-20);
+}
+// state.swapHistory 就是持久层在内存的镜像: 修剪后写回 localStorage
+function persistSwapHistory() {
+  state.swapHistory = pruneSwapHistory(state.swapHistory);
+  STORE.saveSwapHistory(state.swapHistory);
+}
+
 // ============ 渲染片段 ============
 function photoSlot() { return '<div class="photo-slot" role="img"><div class="photo-stripes"></div><span class="photo-cap">菜品照 · 之后替换</span></div>'; }
-function dishHeader(d, fallback) {
+function dishHeader(d) {
   const intents = [['flavor','换个口味'],['cuisine','换个菜系'],['lighter','清淡点'],['easier','想省事'],['protein','换种蛋白']];
   const pantryItems = (state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean);
   const pantryBar = state.swapPantryEdit
     ? '<div class="swap-pantry editing"><input class="text-input" id="swap-pantry-input" value="' + esc(state.profile.pantry || '') + '" placeholder="家里有/想用掉，逗号分隔"><button class="swap-pantry-btn" data-act="save-swap-pantry">存</button></div>'
     : '<div class="swap-pantry"><span class="swap-pantry-lbl">用掉</span><span class="swap-pantry-val">' + (pantryItems.length ? esc(pantryItems.join(' / ')) : '随便，没指定') + '</span><button class="swap-pantry-btn" data-act="edit-swap-pantry">改</button></div>';
-  const tray = state.swapOpen ? ('<div class="swap-tray"><div class="swap-cap">想换成什么样的？家里的食材会优先使用，搭不上的会说明。</div>' + pantryBar + '<div class="swap-chips">' +
-    intents.map(it => '<button class="swap-chip" data-swap="' + it[0] + '">' + esc(it[1]) + '</button>').join('') +
-    '<button class="swap-chip swap-any" data-swap="any">' + icon('refresh',{size:13,sw:1.9}) + '随便换一个</button></div></div>') : '';
-  const actions = fallback ? '' : (
-    '<div class="dish-actions"><button class="btn btn-primary btn-full" data-act="choose">' + (state.chosen ? icon('check',{size:18,sw:1.9,stroke:'#fff'}) : '') + '<span>' + (state.chosen ? '已选定 · 明天问你' : '就吃这个') + '</span></button>' +
+  const tray = state.swapOpen
+    ? (state.noAlternativeSwap
+      ? '<div class="swap-tray"><div class="swap-cap"><strong>当前组合只有一个可靠的一锅方案。</strong><br>继续用当前这道，或者修改食材后重新选择。</div><div class="swap-chips"><button class="swap-chip swap-any" data-act="edit-safe-profile">修改食材</button></div></div>'
+      : '<div class="swap-tray"><div class="swap-cap">想换成什么样的？家里的食材会优先使用，搭不上的会说明。</div>' + pantryBar + '<div class="swap-chips">' +
+        intents.map(it => '<button class="swap-chip" data-swap="' + it[0] + '">' + esc(it[1]) + '</button>').join('') +
+        '<button class="swap-chip swap-any" data-swap="any">' + icon('refresh',{size:13,sw:1.9}) + '随便换一个</button></div></div>')
+    : '';
+  const servings = d.servings || servingCount(state.profile), servingsText = servingLabel(servings);
+  const perKcal = Math.round((d.kcal || 0) / servings);
+  const perProtein = Math.round((d.protein || 0) / servings);
+  const actions = '<div class="dish-actions"><button class="btn btn-primary btn-full" data-act="start-cooking">' + icon('bowl',{size:18,sw:1.9,stroke:'#fff'}) + '<span>开始做</span></button>' +
     '<button class="btn ' + (state.swapOpen ? 'btn-ghost-on' : 'btn-ghost') + '" data-act="swap">' + icon('refresh',{size:18,sw:1.9}) + '<span>换一换</span></button></div>' + tray +
-    (state.chosen ? '<p class="chosen-hint">记下了。明天打开会问你「' + esc(d.name) + '」最后吃了吗。</p>' : ''));
+    '<p class="chosen-hint">不用打卡，照着做就行。</p>';
   return '<section class="dish-card">' + (SHOW_PHOTO ? photoSlot() : '') + '<div class="dish-body">' +
-    '<div class="dish-eyebrow"><span>' + (fallback ? '应急参考 · 未按你的偏好定制' : '今天做这个') + '</span><span class="chip chip-form">' + esc(d.form) + '</span></div>' +
+    '<div class="dish-eyebrow"><span>今天做这个</span><span class="chip chip-form">' + esc(d.form) + '</span></div>' +
     '<h1 class="dish-name">' + esc(d.name) + '</h1>' +
     '<div class="dish-flavor">' + (d.flavor||[]).map(f => '<span class="chip chip-flavor">' + esc(f) + '</span>').join('') + '</div>' +
     '<div class="dish-meta"><span class="meta">' + icon('clock',{size:15,sw:1.7}) + '<span>' + d.minutes + ' 分钟</span></span><span class="meta-dot"></span>' +
     '<span class="meta">' + icon('flame',{size:15,sw:1.7}) + '<span>' + esc(DIFF[d.difficulty]||'') + '</span></span><span class="meta-dot"></span>' +
     '<span class="meta">' + icon('bowl',{size:15,sw:1.7}) + '<span>一锅出</span></span></div>' +
-    (fallback ? '' : '<p class="dish-taste">' + esc(d.taste) + '</p>') +
-    '<div class="dish-quick"><div class="quick-item"><b>' + d.kcal + '</b><span>kcal</span></div>' +
-    '<div class="quick-item"><b>' + d.protein + '</b><span>g 蛋白</span></div>' +
-    '<div class="quick-item"><b>' + d.vegCount + '</b><span>种菜</span></div></div>' + '<div style="font-size:11px;color:var(--muted);margin-top:3px;text-align:center;">数字为整锅总量，可分 1-2 顿</div>' + actions +
+    '<p class="dish-taste">' + esc(d.taste) + '</p>' +
+    '<div class="dish-quick"><div class="quick-item"><b>' + servingsText + '</b><span>份</span></div>' +
+    '<div class="quick-item"><b>' + perKcal + '</b><span>kcal / 份</span></div>' +
+    '<div class="quick-item"><b>' + perProtein + '</b><span>g 蛋白 / 份</span></div></div>' + '<div style="font-size:11px;color:var(--muted);margin-top:3px;text-align:center;">整锅约 ' + d.kcal + ' kcal，按 ' + servingsText + ' 份均分估算</div>' + actions +
     '</div></section>';
 }
-function whyFits(d) { return '<section class="why-card"><span class="why-mark">' + icon('spark',{size:16,sw:1.7,stroke:'#b5613a'}) + '</span><p class="why-text">' + esc(d.why) + '</p></section>'; }
+function pantryCoverageBlock(d) {
+  const context = d && d.pantryContext;
+  const original = boundedTextList(context && context.original, 20, 80);
+  if (!original.length) return '';
+  const used = boundedTextList(d.usedPantry, 16, 80);
+  const remaining = boundedTextList(context && context.remaining, 20, 80);
+  return '<section class="pantry-coverage"><strong>本锅使用 ' + used.length + '/' + original.length + ' 种：</strong>'
+    + esc(used.join('、') || '没有指定')
+    + (remaining.length ? '<br>剩下：' + esc(remaining.join('、')) : '<br>你为这一锅选的食材已经全部用上。')
+    + '</section>';
+}
+function whyFits(d) {
+  const context = d && d.pantryContext;
+  const original = boundedTextList(context && context.original, 20, 80);
+  let copy = boundedText(d && d.why, 300);
+  if (original.length) {
+    const used = boundedTextList(d && d.usedPantry, 16, 80);
+    const remaining = boundedTextList(context && context.remaining, 20, 80);
+    copy = used.length ? '本锅用上你选择的：' + used.join('、') + '。' : '这次没有把你填写的食材硬凑进菜谱。';
+    if (remaining.length) copy += remaining.join('、') + '暂时没有使用。';
+    copy += '其他需要准备的材料以本页食材清单为准。';
+  }
+  return '<section class="why-card"><span class="why-mark">' + icon('spark',{size:16,sw:1.7,stroke:'#b5613a'}) + '</span><p class="why-text">' + esc(copy) + '</p></section>';
+}
 function recipeBasisBlock(d) {
   const sources = normalizedSourceRefs(d && d.sourceRefs);
   if (!d || !boundedText(d.baseRecipeId, 100) || !boundedText(d.pairingBasis, 400) || !sources.length) return '';
@@ -821,43 +1017,30 @@ function recipeBasisBlock(d) {
     const title = source.title ? '<div class="basis-source-title">' + esc(source.title) + '</div>' : '';
     const license = source.license ? '<div class="basis-source-meta">授权：' + esc(source.license) + '</div>' : '';
     const attribution = source.attribution ? '<div class="basis-source-meta">署名：' + esc(source.attribution) + '</div>' : '';
-    return '<div class="basis-source">' + title + '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">打开原始来源</a>' + license + attribution + '</div>';
+    const linkText = isProjectCanonicalRecipeUrl(source.url) ? '查看一锅出标准配方' : '查看事实来源';
+    return '<div class="basis-source">' + title + '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">' + linkText + '</a>' + license + attribution + '</div>';
   }).join('');
   return '<section class="recipe-basis"><p class="basis-line"><strong>搭配依据：</strong>' + esc(boundedText(d.pairingBasis, 400)) + '</p>' + usedLine + unusedLine + '<details class="basis-sources"><summary>参考来源（' + sources.length + '）</summary>' + sourceRows + '</details></section>';
 }
 function ingredients() {
-  const rows = state.items.map((it, i) => {
-    const right = state.editing ?
-      '<span class="ing-edit"><button class="stepper" data-bump="' + i + '" data-delta="-10">' + icon('minus',{size:14,sw:2.2}) + '</button><span class="ing-grams-ed">' + it.grams + 'g</span><button class="stepper" data-bump="' + i + '" data-delta="10">' + icon('plus',{size:14,sw:2.2}) + '</button><button class="del" data-del="' + i + '">' + icon('close',{size:14,sw:2}) + '</button></span>' :
-      '<span class="ing-grams">' + it.grams + ' g</span>';
-    return '<li class="ing-row"><span class="ing-bullet"></span><span class="ing-name">' + esc(it.name) + (it.est ? '<span class="est-tag" title="此食材未收录营养库，营养值为 AI 估算，仅供参考">估</span>' : '') + '</span>' + right + '</li>';
+  const rows = state.items.map(it => {
+    return '<li class="ing-row"><span class="ing-bullet"></span><span class="ing-name">' + esc(it.name) + (it.est ? '<span class="est-tag" title="此食材未收录营养库，营养值为 AI 估算，仅供参考">估</span>' : '') + '</span><span class="ing-grams">' + it.grams + ' g</span></li>';
   }).join('');
-  return '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3>' +
-    '<button class="link-btn" data-act="toggle-edit">' + icon(state.editing ? 'check' : 'edit',{size:14,sw:1.9}) + (state.editing ? '完成' : '调整') + '</button></div>' +
-    '<div class="ing-sub">' + state.items.length + ' 样 · 整锅量，可分 1-2 顿</div><ul class="ing-list">' + rows + '</ul>' +
-    '</section>'; // 「加一样」已移除: 加出的"新食材"无法改名, 半成品比没有更伤信任; 调整克数+删除已够 pilot 用
+  return '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">需要这些</h3></div>' +
+    '<div class="ing-sub">' + state.items.length + ' 样 · 整锅约 ' + servingLabel(state.dish.servings || servingCount(state.profile)) + ' 份</div><ul class="ing-list">' + rows + '</ul>' +
+    '</section>';
 }
 function stepsBlock(d) {
   const rows = d.steps.map((s, i) => '<li class="step-row"><span class="step-num">' + (i+1) + '</span><span class="step-text">' + esc(s) + '</span></li>').join('');
-  return '<section class="block"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3><span class="block-aside">' + d.steps.length + ' 步 · ' + d.minutes + ' 分钟</span></div><ol class="steps">' + rows + '</ol></section>';
+  return '<section class="block" id="cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3><span class="block-aside">' + d.steps.length + ' 步 · ' + d.minutes + ' 分钟</span></div><ol class="steps">' + rows + '</ol></section>';
 }
-function weekRhythm(w) {
-  const days = w.days.map(d => { const cls = d.cooked===true ? 'done' : d.cooked===false ? 'skip' : 'todo'; return '<div class="week-day"><span class="week-dot ' + cls + '">' + (d.cooked===true ? icon('check',{size:13,sw:2.4,stroke:'#fff'}) : '') + '</span><span class="week-dlabel">' + esc(d.d) + '</span></div>'; }).join('');
-  const pips = Array.from({length:w.fishTarget}).map((_, i) => '<span class="fish-pip' + (i < w.fishDone ? ' on' : '') + '"></span>').join('');
-  let expand = '';
-  if (state.weekOpen) {
-    const log = w.days.map(d => { const cls = d.cooked===true ? 'on' : d.cooked===false ? 'off' : 'wait'; const txt = d.cooked===true ? d.dish : d.cooked===false ? '没做饭，没关系' : '还没到'; return '<li class="wlog ' + cls + '"><span class="wlog-d">' + esc(d.d) + '</span><span class="wlog-dish">' + esc(txt) + '</span>' + (d.fish ? '<span class="wlog-fish">' + icon('fish',{size:13,sw:1.7,stroke:'#6f8a52'}) + '</span>' : '') + '</li>'; }).join('');
-    expand = '<div class="week-expand"><div class="week-sec">这周做过的</div><ul class="week-log">' + log + '</ul><div class="week-sec">吃到的食材</div><div class="variety-line"><span class="variety-count">' + w.variety.count + ' 种</span><span class="variety-note">越杂越好，不用数着吃</span></div><div class="variety-chips">' + w.variety.sample.map(v => '<span class="vchip">' + esc(v) + '</span>').join('') + '<span class="vchip more">…等 ' + w.variety.count + ' 种</span></div><p class="week-takeaway">' + esc(w.takeaway) + '</p></div>';
-  }
-  return '<div class="week-card"><button class="week-top" data-act="toggle-week"><div class="week-top-l"><span class="week-title">这一周的节奏</span><span class="week-sub">看一周，不盯一天</span></div><span class="week-chev' + (state.weekOpen ? ' open' : '') + '">' + icon('down',{size:18,sw:1.8,stroke:'#8b8d7e'}) + '</span></button><div class="week-days">' + days + '</div><div class="week-fish"><span>' + icon('fish',{size:17,sw:1.7,stroke:'#6f8a52'}) + '</span><span class="week-fish-text">本周吃鱼 ' + w.fishDone + '/' + w.fishTarget + ' 次</span><span class="week-fish-pips">' + pips + '</span><span class="week-fish-note">' + (w.fishDone >= w.fishTarget ? '够了' : '下一锅会优先安排鱼') + '</span></div>' + expand + '</div>';
-}
-function supplementBlock(w) {
-  const rows = SUPPLEMENTS.map(s => { const on = !!state.suppDone[s.id]; return '<li class="supp-row' + (on ? ' checked' : '') + '" data-supp="' + s.id + '"><span class="supp-check">' + (on ? icon('check',{size:15,sw:2.4,stroke:'#fff'}) : '') + '</span><span class="supp-icon">' + icon(s.icon,{size:22,sw:1.5,stroke:'#6f8a52'}) + '</span><span class="supp-main"><span class="supp-title">' + esc(s.title) + '</span><span class="supp-sub">' + esc(s.sub) + '</span></span><span class="supp-detail">' + esc(s.detail) + '</span></li>'; }).join('');
-  return '<section class="block supp-block"><div class="step-head"><span class="step-n">3</span><h3 class="step-title">今天再配两样</h3><span class="block-aside">一锅之外，不用想</span></div><p class="supp-lead">这一锅主食、蛋白、蔬菜都齐了。它不太擅长的钙和水果，靠下面两样轻轻补上——勾掉就行。</p><ul class="supp-list">' + rows + '</ul>' + weekRhythm(w) + '<div class="vd-hint">' + icon('sun',{size:17,sw:1.6,stroke:'#c08a3e'}) + '<span>维 D 靠吃很难补足——多晒太阳就好；真担心缺，问问医生或营养师，这里不给剂量。</span></div></section>';
+function pairingBlock() {
+  const rows = SUPPLEMENTS.map(s => '<li class="supp-row"><span class="supp-icon">' + icon(s.icon,{size:22,sw:1.5,stroke:'#6f8a52'}) + '</span><span class="supp-main"><span class="supp-title">' + esc(s.title) + '</span><span class="supp-sub">' + esc(s.sub) + '</span></span><span class="supp-detail">' + esc(s.detail) + '</span></li>').join('');
+  return '<section class="block supp-block"><div class="step-head"><span class="step-n">3</span><h3 class="step-title">想搭得更完整</h3><span class="block-aside">可选，不用打卡</span></div><p class="supp-lead">这一锅已经是一顿主餐。手边方便时，再配一份水果或奶 / 豆制品就行。</p><ul class="supp-list">' + rows + '</ul></section>';
 }
 function nutritionPanel(d) {
   const rows = nutriFor(d);
-  const head = '<button class="nutri-head" data-act="toggle-nutri"><div class="nutri-head-l"><h3 class="nutri-title">营养只是参考</h3><span class="nutri-tag">看一周，不必每天满格</span></div>' + icon(state.nutriOpen ? 'up' : 'down',{size:20,sw:1.8,stroke:'#8c8e80'}) + '</button>';
+  const head = '<button class="nutri-head" data-act="toggle-nutri"><div class="nutri-head-l"><h3 class="nutri-title">这一顿的营养参考</h3><span class="nutri-tag">按每份估算，不评价全天是否达标</span></div>' + icon(state.nutriOpen ? 'up' : 'down',{size:20,sw:1.8,stroke:'#8c8e80'}) + '</button>';
   const body = state.nutriOpen ?
     '<ul class="nutri-rows">' + rows.map(r => '<li class="nutri-row"><span class="nutri-dot status-' + r.status + '"></span><span class="nutri-label">' + esc(r.label) + '</span><span class="nutri-note">' + esc(r.note) + '</span><span class="nutri-status status-' + r.status + '">' + esc(TONE_TEXT[r.status]) + '</span></li>').join('') + '</ul>' :
     '<div class="nutri-summary">' + rows.slice(0,4).map(r => '<span class="nutri-mini status-' + r.status + '">' + esc(r.label) + ' <b>' + esc(r.value) + '</b></span>').join('') + '</div>';
@@ -866,64 +1049,1198 @@ function nutritionPanel(d) {
   const srcNote = '<p class="nutri-src-note" style="font-size:10px;color:var(--muted);margin:8px 14px 0;line-height:1.5;opacity:.75;">营养数据部分采自 台湾卫生福利部食品药物管理署「食品营养成分资料库」（依政府资料开放授权条款 OGDL-Taiwan-1.0）</p>';
   return '<section class="block nutri-block">' + head + estNote + body + srcNote + '</section>';
 }
-function resultScreen(fallback) {
+function resultScreen() {
   const d = state.dish;
   const notice = state.notice ? '<div class="gen-notice">' + icon('pin',{size:15,sw:1.7,stroke:'#c08a3e'}) + '<span>' + esc(state.notice) + '</span></div>' : '';
-  if (fallback) {
-    const fb = fallbackCopy(state.lastGenError);
-    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">' + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(fb.title) + '</div><p class="fb-banner-text">' + esc(fb.text) + '</p></div></div><button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>再试一次</span></button></section>' + dishHeader(d, true) + ingredients() + supplementBlock(state.week) + nutritionPanel(d) + '</div>';
+  return '<div class="screen result-screen"><div class="col-main">' + notice + dishHeader(d) + pantryCoverageBlock(d) + whyFits(d) + recipeBasisBlock(d) + ingredients() + stepsBlock(d) + '</div><div class="col-side">' + pairingBlock() + nutritionPanel(d) + '</div><div class="result-foot">营养为粗略参考、非医疗或营养诊疗建议；孕期 / 哺乳 / 儿童 / 慢性病 / 严重食物过敏 / 服药期间，请咨询医生或注册营养师。<br>偏好只保存在本机；生成时会将份数、食材和忌口发送给 AI 服务。</div></div>';
+}
+function riceMealProfileScreen() {
+  const p = state.profile;
+  const pantrySet = new Set(splitPlannerItems(p.pantry));
+  const riceFoods = ['鸡腿','土豆','豆角','排骨','豆腐','牛肉','西兰花','猪肉末','青菜','玉米','胡萝卜','洋葱','香菇','白菜'];
+  const seg = '<div class="segmented">' + [['1','1 份'],['2','2 份'],['3','3 份'],['4','4 份']]
+    .map(option => '<button class="seg' + (p.servings === option[0] ? ' on' : '') + '" data-seg="servings" data-val="' + option[0] + '">' + option[1] + '</button>').join('') + '</div>';
+  const notice = state.rolloutNotice
+    ? '<div class="gen-notice"><span>' + esc(state.rolloutNotice) + '</span></div>' : '';
+  return '<div class="screen profile-screen">'
+    + '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出菜饭</div>'
+    + '<p class="app-tagline">家里默认有米，选你想用的配菜。用电饭煲做一锅真正能端上桌的菜饭。</p></header>'
+    + notice + '<section class="form-card">'
+    + '<div class="field"><label class="field-label">这一锅做几份</label>' + seg + '<span class="field-hint">大米和水会按份数计算。</span></div>'
+    + '<div class="field"><label class="field-label">想用的配菜 <span class="field-label-aside">至少一种</span></label>'
+    + '<div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡腿, 土豆, 胡萝卜"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div>'
+    + '<div class="pantry-chips">' + riceFoods.map(food => '<span class="pantry-chip' + (pantrySet.has(food) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(food) + '">' + (pantrySet.has(food) ? '✓ ' : '') + esc(food) + '</button></span>').join('') + '</div>'
+    + '<span class="field-hint">会优先选真实菜饭里合理的搭配；用不上的会说明原因，不为了凑数硬放。</span></div>'
+    + '<div class="field"><label class="field-label">不吃 / 过敏</label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div>'
+    + '<span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>'
+    + '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>推荐菜饭</span></button>'
+    + '<p class="privacy-note"><strong>仅供日常做饭参考，非医疗 / 营养诊疗建议。</strong><br>份数、配菜和忌口只保存在本机；菜名、用量、顺序和安全步骤都由受控规则确定，不调用 AI。</p></div></div>';
+}
+
+// ============ 来源菜饭自由轮替 ==========
+// 这个产品分支不再接收用户食材，也不调用 planner / DeepSeek。
+// 轮替来源目录全部执行卡；A/B 显示来源合同，C/阻断条目保留研究或安全边界。
+const SOURCE_ROTATION_EXCLUDED_FAMILIES = /(?:porridge|congee|rice-soup|leftover-rice)/iu;
+const SOURCE_ROTATION_EXCLUDED_RECIPE_IDS = new Set([
+  'tatung-seafood-porridge',
+  'panasonic-my-century-egg-chicken-congee',
+]);
+const SOURCE_ROTATION_EXCLUDED_TITLE = /(?:粥|稀饭|汤饭|湯飯|congee|porridge|ぞうすい|雑炊|leftover\s+rice|剩饭)/iu;
+const SOURCE_ROTATION_REGION_LABELS = {
+  'CN-AH':'安徽','CN-BJ':'北京','CN-CQ':'重庆','CN-FJ':'福建','CN-GD':'广东','CN-GS':'甘肃','CN-GX':'广西','CN-GZ':'贵州',
+  'CN-HA':'河南','CN-HB':'湖北','CN-HE':'河北','CN-HI':'海南','CN-HK':'香港','CN-HL':'黑龙江','CN-HN':'湖南','CN-JL':'吉林',
+  'CN-JS':'江苏','CN-JX':'江西','CN-LN':'辽宁','CN-MO':'澳门','CN-NM':'内蒙古','CN-NX':'宁夏','CN-QH':'青海','CN-SC':'四川',
+  'CN-SD':'山东','CN-SH':'上海','CN-SN':'陕西','CN-SX':'山西','CN-TJ':'天津','CN-XJ':'新疆','CN-XZ':'西藏','CN-YN':'云南',
+  'CN-ZJ':'浙江','TW':'台湾','HK':'香港','MO':'澳门','JP':'日本','KR':'韩国'
+};
+const SOURCE_ROTATION_FAMILY_LABELS = {
+  'cantonese-claypot-rice':'广东煲仔饭','hong-kong-claypot-rice':'香港煲仔饭','jiangnan-vegetable-rice':'江南菜饭',
+  'sichuan-home-style-menfan':'四川焖饭','tongren-seasonal-shefan':'贵州社饭','manufacturer-rice-cooker-recipes':'厂商电饭煲食谱',
+  'manufacturer-one-pot-recipes':'厂商一锅饭食谱','tatung-electric-rice-recipes':'大同电锅食谱','taiwan-electric-cooker-rice':'台湾电锅饭',
+  'taiwan-vegetable-rice':'台湾菜饭'
+};
+function sourceRotationRecords(shelf) {
+  const records = shelf && Array.isArray(shelf.records) ? shelf.records : [];
+  // All source cards are reachable here. C-layer and blocked cards stay
+  // visibly labelled as research/blocked; they are not promoted to Planner.
+  return records.filter(record => record && (record.research_method
+    || (record.fixed_batch && Array.isArray(record.fixed_batch.ingredients) && record.fixed_batch.ingredients.length
+      && Array.isArray(record.cooking_sequence) && record.cooking_sequence.length)))
+    .slice()
+    .sort((a, b) => sourceRotationRegionPriority(a) - sourceRotationRegionPriority(b)
+      || (a.shelf === 'A' ? 0 : 1) - (b.shelf === 'A' ? 0 : 1)
+      || sourceRotationTitleLanguagePriority(a) - sourceRotationTitleLanguagePriority(b)
+      || String(a.canonical_name || '').localeCompare(String(b.canonical_name || ''), 'zh-CN')
+      || String(a.recipe_id || '').localeCompare(String(b.recipe_id || '')));
+}
+function sourceRotationRegionPriority(record) {
+  const codes = Array.isArray(record && record.region_codes) ? record.region_codes : [];
+  if (codes.some(code => /^CN(?:-|$)/.test(String(code || '').trim()))) return 0;
+  const name = sourceRotationDisplayName(record);
+  const chineseTitle = /[\u4e00-\u9fff]/u.test(name)
+    && !/[\u3040-\u30ff\uac00-\ud7af]|\b(?:rice|congee|porridge|recipe)\b/iu.test(name);
+  if (codes.some(code => /^(?:TW|HK|MO)(?:-|$)/.test(String(code || '').trim()))) return chineseTitle ? 1 : 3;
+  if (chineseTitle) return 2;
+  if (codes.some(code => /^KR(?:-|$)/.test(String(code || '').trim()))) return 4;
+  if (codes.some(code => /^JP(?:-|$)/.test(String(code || '').trim()))) return 5;
+  return 6;
+}
+function sourceRotationTitleLanguagePriority(record) {
+  const name = String(record && record.canonical_name || '').trim();
+  return /[\u3040-\u30ff\uac00-\ud7af]|\b(?:rice|congee|porridge|recipe)\b/iu.test(name) ? 1 : 0;
+}
+function sourceRotationAmount(amount) {
+  if (!amount || amount.value === undefined || amount.value === null) return '来源未给出';
+  return String(amount.value) + (amount.unit || '');
+}
+function sourceRotationRegion(record) {
+  const regions = Array.isArray(record && record.region_codes) ? record.region_codes.filter(Boolean) : [];
+  const labels = regions.map(code => SOURCE_ROTATION_REGION_LABELS[String(code || '').trim()]).filter(Boolean);
+  if (labels.length) return [...new Set(labels)].join('、');
+  if (record && record.cuisine_family === 'manufacturer-rice-cooker-recipes') return '厂商电饭煲食谱';
+  if (record && record.cuisine_family === 'manufacturer-one-pot-recipes') return '厂商一锅饭食谱';
+  return '地域未注明';
+}
+function sourceRotationRegionLabel(record) { return sourceRotationRegion(record); }
+function sourceRotationFamilyLabel(record) {
+  return SOURCE_ROTATION_FAMILY_LABELS[String(record && record.cuisine_family || '').trim()] || '来源记录的菜饭';
+}
+function sourceRotationDisplayName(record) {
+  const raw = String(record && record.canonical_name || '').trim() || '未命名菜饭';
+  return raw.replace(/^〖[^〗]+〗/u, '').trim() || '未命名菜饭';
+}
+function sourceRotationProvenanceLabel(value) {
+  return value === 'source' ? '来源' : value === 'source_hint' ? '来源线索' : value === 'estimated' ? '研究起步' : '待核';
+}
+function sourceRotationShelfLabel(record) {
+  if (record && record.research_method && record.research_method.blocked_reason) return '禁止家庭执行（安全阻断）';
+  if (record && record.shelf === 'A') return '来源合同完整（待厨房验证）';
+  if (record && record.shelf === 'B') return '来源有据（待厨房验证）';
+  return '研究起步卡（含估算/待核）';
+}
+function sourceRotationSources(record) {
+  const refs = Array.isArray(record && record.source_refs) ? record.source_refs : [];
+  if (!refs.length) return '<p class="source-rotation-note">暂未记录可打开的来源链接。</p>';
+  const rows = refs.slice(0, 8).map(ref => {
+    const url = safeHttpUrl(ref && ref.url);
+    const title = esc(boundedText(ref && ref.title, 240) || '事实来源');
+    const publisher = boundedText(ref && ref.publisher, 160);
+    const link = url
+      ? '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">查看事实来源：' + title + '</a>'
+      : title;
+    return '<li>' + link + (publisher ? ' · ' + esc(publisher) : '') + '</li>';
+  }).join('');
+  return '<ul class="source-rotation-list">' + rows + '</ul>';
+}
+function sourceRotationRecipeCard(record) {
+  const method = record && record.research_method && typeof record.research_method === 'object' ? record.research_method : {};
+  const batch = record.fixed_batch || {};
+  const sourceIngredients = Array.isArray(batch.ingredients) ? batch.ingredients : [];
+  const ingredients = sourceIngredients.length ? sourceIngredients : (Array.isArray(method.ingredients) ? method.ingredients : []);
+  const servings = batch.servings !== undefined && batch.servings !== null && batch.servings !== ''
+    ? String(batch.servings)
+    : method.servings && method.servings.value !== undefined ? String(method.servings.value) : '研究起步';
+  const ingredientRows = ingredients.map(item => {
+    const provenance = sourceIngredients.length ? 'source' : item && item.provenance;
+    return '<li>' + esc(item && item.name || '未命名食材')
+      + ' <span class="source-rotation-amount">' + esc(sourceRotationAmount(item && item.amount)) + '</span>'
+      + ' <span class="source-rotation-provenance">[' + esc(sourceRotationProvenanceLabel(provenance)) + ']</span></li>';
+  }).join('');
+  const sourceLiquid = record.liquid_contract && record.liquid_contract.amount ? record.liquid_contract.amount : null;
+  const methodLiquid = method.liquid && method.liquid.amount
+    ? method.liquid.amount
+    : method.liquid && method.liquid.research_starting_point ? method.liquid.research_starting_point : null;
+  const liquid = sourceLiquid ? sourceRotationAmount(sourceLiquid)
+    : method.liquid && method.liquid.waterline ? '按来源机型的' + String(method.liquid.waterline.scale || '') + ' ' + String(method.liquid.waterline.mark || '')
+    : methodLiquid ? sourceRotationAmount(methodLiquid) : '待核';
+  const liquidProvenance = sourceLiquid ? 'source' : method.liquid && method.liquid.provenance;
+  const sourceMinutes = record.time_contract && Number.isFinite(Number(record.time_contract.total_minutes)) ? Number(record.time_contract.total_minutes) : null;
+  const minutes = sourceMinutes !== null ? String(sourceMinutes) + ' 分钟'
+    : method.time && method.time.total_minutes ? String(method.time.total_minutes) + ' 分钟' : '待核';
+  const minutesProvenance = sourceMinutes !== null ? 'source' : method.time && method.time.provenance;
+  const sourceSteps = Array.isArray(record.cooking_sequence) ? record.cooking_sequence : [];
+  const methodSteps = Array.isArray(method.steps) ? method.steps : [];
+  const stepsList = methodSteps.length ? methodSteps : sourceSteps;
+  const steps = stepsList.map(step => '<li>' + esc(step && step.instruction || '来源未给出')
+    + ' <span class="source-rotation-provenance">[' + esc(sourceRotationProvenanceLabel(step && step.provenance || (sourceSteps.length ? 'source' : undefined))) + ']</span></li>').join('');
+  const missing = [...new Set([
+    ...(Array.isArray(record.missing_contract_labels) ? record.missing_contract_labels.filter(Boolean) : []),
+    ...(Array.isArray(method.missing_source_fields) ? method.missing_source_fields.filter(Boolean) : []),
+  ])];
+  const safety = Array.isArray(record.safety_notes) ? record.safety_notes.filter(Boolean) : [];
+  const warnings = [];
+  if (missing.length) warnings.push('尚缺：' + missing.join('、') + '。缺项不补猜。');
+  if (method.status && method.status !== 'source_complete') warnings.push('研究起步字段带有估算/待核标记，不是原文完整配方；首次试做后请记录实际结果。');
+  if (method.blocked_reason) warnings.unshift('禁止家庭执行：' + method.blocked_reason);
+  if (Array.isArray(method.assumptions)) warnings.push(...method.assumptions.slice(0, 3));
+  warnings.push(...safety);
+  const warningHtml = warnings.length
+    ? '<div class="source-rotation-warning">' + warnings.map(note => '<div>' + esc(note) + '</div>').join('') + '</div>' : '';
+  const adaptation = boundedText(record.cooker_adaptation && record.cooker_adaptation.notes, 800);
+  const trialHref = 'source-recipes/?recipe_id=' + encodeURIComponent(String(record.recipe_id || ''));
+  const cookHref = 'cook/?id=' + encodeURIComponent(String(record.recipe_id || ''));
+  return '<article class="source-rotation-card">'
+    + '<span class="source-rotation-badge">' + esc(sourceRotationShelfLabel(record)) + '</span>'
+    + '<h2>' + esc(sourceRotationDisplayName(record)) + '</h2>'
+    + '<p class="source-rotation-meta">' + esc(sourceRotationRegionLabel(record)) + ' · ' + esc(sourceRotationFamilyLabel(record)) + '</p>'
+    + '<section class="source-rotation-section"><h3>执行卡定量（' + esc(servings) + ' 份）</h3><ul class="source-rotation-list">' + ingredientRows + '</ul>'
+    + '<p class="source-rotation-note">液体：' + esc(liquid) + ' [' + esc(sourceRotationProvenanceLabel(liquidProvenance)) + '] · 总时长：' + esc(minutes) + ' [' + esc(sourceRotationProvenanceLabel(minutesProvenance)) + ']</p></section>'
+    + '<section class="source-rotation-section"><h3>执行卡步骤</h3><ol class="source-rotation-list">' + steps + '</ol></section>'
+    + (adaptation ? '<p class="source-rotation-note">器具边界：' + esc(adaptation) + '</p>' : '')
+    + warningHtml
+    + '<section class="source-rotation-section"><h3>出处</h3>' + sourceRotationSources(record) + '</section>'
+    + '<div class="source-rotation-actions"><a class="btn btn-primary" href="' + esc(cookHref) + '">开始逐步试做</a><a class="btn btn-ghost" href="' + esc(trialHref) + '">去资料库记录这道菜</a><button class="btn btn-primary" data-act="rotate-source-recipe">换一道</button></div>'
+    + '</article>';
+}
+function sourceRotationScreen() {
+  if (state.sourceRotationError) {
+    return '<div class="screen source-rotation-error"><section class="source-rotation-card"><h2>菜饭目录暂时打不开</h2><p class="source-rotation-subtitle">' + esc(state.sourceRotationError) + '</p><p class="source-rotation-note">请重新打开页面；如果是在电脑上直接打开文件，请双击 start.command 启动本地版本。</p></section></div>';
   }
-  return '<div class="screen result-screen"><div class="col-main">' + notice + dishHeader(d) + whyFits(d) + recipeBasisBlock(d) + ingredients() + stepsBlock(d) + '</div><div class="col-side">' + supplementBlock(state.week) + nutritionPanel(d) + '</div><div class="result-foot">营养为粗略参考、非医疗或营养诊疗建议；孕期 / 哺乳 / 儿童 / 慢性病(糖尿病、肾病、高血压等) / 食物过敏 / 服药期间，请遵医嘱或咨询注册营养师。<br>数据都存在你这台设备上，没有账号，也不上传。</div></div>';
+  if (state.sourceRotationLoading || !state.sourceRotationCurrent) {
+    return '<div class="screen source-rotation-loading"><section class="source-rotation-card"><p class="source-rotation-kicker">一锅出菜饭</p><h1 class="source-rotation-title">正在打开 923 条来源执行卡</h1><p class="source-rotation-subtitle">每条都有食材、液体、步骤和时长；来源事实、研究起步量与安全阻断会分开标注。</p></section></div>';
+  }
+  const total = state.sourceRotationRecords.length;
+  const position = state.sourceRotationIndex + 1;
+  const notice = state.sourceRotationNotice ? '<p class="source-rotation-note" aria-live="polite">' + esc(state.sourceRotationNotice) + '</p>' : '';
+  return '<div class="screen source-rotation-screen"><header class="source-rotation-head">'
+    + '<p class="source-rotation-kicker">一锅出菜饭 · 自由轮替</p><h1 class="source-rotation-title">今天做哪一道？</h1>'
+    + '<p class="source-rotation-subtitle">打开就给你一张来源执行卡。默认先轮中国大陆、港台澳门，再轮其他来源；想换就点“换一道”，不按食材临时拼菜名。</p>'
+    + '</header>' + sourceRotationRecipeCard(state.sourceRotationCurrent)
+    + '<p class="source-rotation-counter" aria-live="polite">第 ' + position + ' / ' + total + ' 道来源执行卡 · <a href="/source-recipes/">查看完整来源资料库</a></p>'
+    + notice + '<p class="source-rotation-note">本页现在覆盖全部 923 条来源执行卡；正式 Planner 仍只运行已通过生产闸门的 72 条。研究起步量、估算和安全阻断会明确标记，不会伪装成正式配方。</p></div>';
+}
+async function initSourceRotation() {
+  state.sourceRotationLoading = true;
+  state.sourceRotationError = '';
+  state.view = 'source-rotation-loading';
+  render();
+  if (typeof location !== 'undefined' && location.protocol === 'file:') {
+    state.sourceRotationLoading = false;
+    state.sourceRotationError = '请双击 start.command 启动本地版本。';
+    state.view = 'source-rotation';
+    render();
+    return;
+  }
+  try {
+    const response = await fetch('/source-backed-one-pot-shelf.v1.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('catalog unavailable');
+    const shelf = await response.json();
+    const records = sourceRotationRecords(shelf);
+    if (!records.length) throw new Error('no rotatable recipes');
+    state.sourceRotationRecords = records;
+    state.sourceRotationIndex = 0;
+    state.sourceRotationCurrent = records[0];
+    state.sourceRotationLoading = false;
+    state.view = 'source-rotation';
+  } catch (_error) {
+    state.sourceRotationLoading = false;
+    state.sourceRotationError = '来源菜饭目录没有加载成功。';
+    state.view = 'source-rotation';
+  }
+  window.scrollTo(0, 0);
+  render();
+}
+function rotateSourceRecipe() {
+  const records = Array.isArray(state.sourceRotationRecords) ? state.sourceRotationRecords : [];
+  if (!records.length) return;
+  state.sourceRotationIndex = (state.sourceRotationIndex + 1) % records.length;
+  state.sourceRotationCurrent = records[state.sourceRotationIndex];
+  state.sourceRotationNotice = state.sourceRotationIndex === 0 ? '已经轮过一遍，从第一道重新开始。' : '';
+  window.scrollTo(0, 0);
+  render();
 }
 function profileScreen() {
+  if (RICE_MEAL_PRODUCT) return sourceRotationScreen();
   const p = state.profile;
+  const lab = plannerLabEnabled();
   const pantrySet = new Set((p.pantry || '').split(/[,，、\s]+/).filter(Boolean));
-  const myFoods = (Array.isArray(p.myFoods) && p.myFoods.length) ? p.myFoods : COMMON_PANTRY;
-  const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">做一锅 / 一碗主餐，再配两样，少想一点。</p></header>';
+  const myFoods = profilePantryChoices(p);
+  const head = '<header class="app-head"><div class="wordmark"><span>' + icon('bowl',{size:20,sw:1.7,stroke:'#b5613a'}) + '</span>一锅出</div><p class="app-tagline">没灵感或赶时间时，给你一锅真正能做的主餐。</p></header>';
+  const rolloutNotice = state.rolloutNotice
+    ? '<div class="gen-notice"><span>' + esc(state.rolloutNotice) + '</span></div>'
+    : '';
   const seg = (field, opts) => '<div class="segmented">' + opts.map(o => '<button class="seg' + (p[field]===o[0] ? ' on' : '') + '" data-seg="' + field + '" data-val="' + o[0] + '">' + esc(o[1]) + '</button>').join('') + '</div>';
   let body;
   if (!state.profileEditing) {
     const pantryShort = (p.pantry||'').split(/[,，、\s]+/).filter(Boolean).join(' / ') || '随便';
-    body = '<section class="pref-card" data-act="edit-profile"><div class="pref-summary"><div class="pref-line">' + (p.sex==='male'?'男':'女') + ' · ' + esc(p.age) + '岁 · ' + esc(p.weight) + 'kg · ' + esc(GOAL_TEXT[p.goal]) + '</div><div class="pref-sub">用掉 ' + esc(pantryShort) + (p.dislikes ? ' · 不吃 ' + esc(p.dislikes) : '') + '</div></div><span class="pref-edit">调一下' + icon('chevron',{size:15,sw:2}) + '</span></section>';
+    const modeText = lab ? esc(MODE_TEXT[p.mode] || MODE_TEXT.recommend) + ' / ' : '';
+    const pantryLead = lab && p.mode === 'pantry' ? '必须安排 ' : '优先使用 ';
+    body = '<section class="pref-card" data-act="edit-profile"><div class="pref-summary"><div class="pref-line">' + modeText + esc(INTENT_TEXT[p.intent] || INTENT_TEXT.normal) + ' · 约 ' + servingLabel(servingCount(p)) + ' 份</div><div class="pref-sub">' + pantryLead + esc(pantryShort) + (p.dislikes ? ' · 不吃 ' + esc(p.dislikes) : '') + '</div></div><span class="pref-edit">调一下' + icon('chevron',{size:15,sw:2}) + '</span></section>';
   } else {
-    const collapse = state.firstTime ? '' : '<div class="form-head"><span class="form-head-t">你的偏好</span><button class="link-btn" data-act="collapse-profile">' + icon('check',{size:14,sw:2}) + '收起</button></div>';
+    const collapse = state.firstTime ? '' : '<div class="form-head"><span class="form-head-t">这次怎么做</span><button class="link-btn" data-act="collapse-profile">' + icon('check',{size:14,sw:2}) + '收起</button></div>';
+    const modeControl = lab
+      ? '<div class="field"><label class="field-label">这次需要哪种帮助</label>' + seg('mode',[['recommend','直接推荐'],['pantry','帮我清库存']]) + '</div>'
+      : '';
+    const intentOptions = lab
+      ? [['normal','正常做'],['quick','快点吃上'],['fresh','清爽些'],['batch','多做一些']]
+      : [['normal','正常做'],['quick','快点吃上'],['batch','多做一些']];
+    const pantryHint = lab
+      ? '一次最多 20 种。直接推荐会挑合理组合；帮我清库存会完整安排，安排不了时先请你决定。'
+      : '至少填一种家里的食材。会优先选合理搭配，用不上的会说明，不会为了用完而硬凑。';
     body = '<section class="form-card">' + collapse +
-      '<div class="field"><label class="field-label">今天想往哪个方向吃</label>' + seg('goal',[['normal','普通健康'],['cut','减脂'],['bulk','增肌']]) + '</div>' +
-      '<div class="field"><label class="field-label">关于你</label><div class="mini-row">' + seg('sex',[['female','女'],['male','男']]) +
-      '<div class="num-field"><input class="num-input" id="pf-age" inputmode="numeric" value="' + esc(p.age) + '"><span class="num-unit">岁</span></div>' +
-      '<div class="num-field"><input class="num-input" id="pf-weight" inputmode="numeric" value="' + esc(p.weight) + '"><span class="num-unit">kg</span></div></div></div>' +
-      '<div class="field"><label class="field-label">家里有 / 想用掉 <span class="field-label-aside">会优先使用，搭不上的会说明</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button><button class="pchip-del" data-del-myfood="' + esc(f) + '" title="从常用删掉">×</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">点麦克风说出来也行；或点上面常见食材一键加。</span></div>' +
-      '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">过敏食材务必填，会严格避开</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div></div></section>';
+      modeControl +
+      '<div class="field"><label class="field-label">这次怎么做</label>' + seg('intent',intentOptions) + '</div>' +
+      '<div class="field"><label class="field-label">这一锅做几份</label>' + seg('servings',[['1','1 份'],['2','2 份'],['4','3–4 份']]) + '<span class="field-hint">按正常一顿的份量计算；“多做一些”会优先给适合分装复热的做法。</span></div>' +
+      '<div class="field"><label class="field-label">家里的食材 <span class="field-label-aside">至少一种，结果会说明用上和没用的</span></label><div class="field-row"><input class="text-input" id="pf-pantry" value="' + esc(p.pantry) + '" placeholder="如：鸡蛋, 西兰花, 剩米饭"><button class="mic-btn" data-mic="pf-pantry" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><div class="pantry-chips">' + myFoods.map(f => '<span class="pantry-chip' + (pantrySet.has(f) ? ' on' : '') + '"><button class="pchip-sel" data-pantry-chip="' + esc(f) + '">' + (pantrySet.has(f) ? '✓ ' : '') + esc(f) + '</button></span>').join('') + (state.addingFood ? '<span class="pantry-chip adding"><input class="pchip-input" id="add-food-input" placeholder="自己加…" maxlength="10"><button class="pchip-sel pchip-addbtn" data-act="save-myfood">加</button></span>' : '<button class="pantry-chip pchip-add" data-act="add-myfood">+ 添加</button>') + '</div><span class="field-hint">' + pantryHint + '</span></div>' +
+      '<div class="field"><label class="field-label">不吃 / 过敏 <span class="field-label-aside">用于过滤菜谱建议</span></label><div class="field-row"><input class="text-input" id="pf-dislikes" value="' + esc(p.dislikes) + '" placeholder="如：花生过敏、不吃香菜"><button class="mic-btn" data-mic="pf-dislikes" title="语音输入">' + icon('mic',{size:18,sw:1.7}) + '</button></div><span class="field-hint">严重过敏仍需核对包装标签，并注意餐厨交叉接触。</span></div></section>';
   }
-  const thanks = state.fbThanks ? '<div class="fb-thanks">' + icon('check',{size:15,sw:2.2,stroke:'#6f8a52'}) + '<span>' + esc(state.fbThanks) + '</span></div>' : '';
-  const cta = '<div class="profile-cta">' + thanks + '<button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>生成今天这顿</span></button><p class="privacy-note"><strong>仅供日常饮食灵感，非医疗 / 营养诊疗建议</strong>——孕期、儿童、慢性病、食物过敏或服药期间请咨询医生 / 注册营养师。<br>档案存在你这台设备本地；生成时只把由年龄体重<strong>算出的营养目标</strong>和食材偏好交给 AI，原始年龄体重不上传。</p></div>';
-  return '<div class="screen profile-screen">' + head + body + cta + '</div>';
+  const privacyDetail = DETERMINISTIC_DIRECT_RECOMMEND
+    ? '份数、常用食材和忌口只保存在本机；本次组合和步骤由受控规划规则确定，不调用 AI，也不记录你的每日饮食。'
+    : '份数、常用食材和忌口只保存在本机；生成时会将本次份数、食材和忌口发送给 AI 服务，不记录你的每日饮食。';
+  const cta = '<div class="profile-cta"><button class="btn btn-primary btn-full" data-act="generate">' + icon('bowl',{size:18,sw:1.9}) + '<span>给我一锅</span></button><p class="privacy-note"><strong>仅供日常做饭灵感，非医疗 / 营养诊疗建议。</strong><br>' + esc(privacyDetail) + '</p></div>';
+  return '<div class="screen profile-screen">' + head + rolloutNotice + body + cta + '</div>';
 }
 function generatingScreen() {
-  const note = '第一版要是太麻烦，会自动帮你换一版更顺手的，不用等太久。';
+  const note = '正在按你选择的食材、份数和忌口逐项检查。';
   const stages = LOADING_STAGES.map((s, i) => '<div class="gen-stage' + (i===state.genStage ? ' active' : i < state.genStage ? ' done' : '') + '"><span class="gen-stage-dot">' + (i < state.genStage ? icon('check',{size:13,sw:2.4,stroke:'#fff'}) : '') + '</span><span class="gen-stage-label">' + esc(s) + '</span></div>').join('');
   return '<div class="screen gen-screen"><div class="gen-center"><div class="simmer"><span class="bubble b1"></span><span class="bubble b2"></span><span class="bubble b3"></span><div class="simmer-bowl">' + icon('bowl',{size:40,sw:1.4,stroke:'#b5613a'}) + '</div></div><div class="gen-stages">' + stages + '</div><p class="gen-note">' + esc(note) + '</p></div></div>';
 }
-function feedbackModal() {
-  const dev = (window.innerWidth >= 900) ? 'desktop' : 'phone';
-  const reasons = FEEDBACK_REASONS.map(r => '<button class="fb-reason' + (state.feedbackPicked===r ? ' on' : '') + '" data-fbreason="' + esc(r) + '">' + esc(r) + '</button>').join('');
-  return '<div class="modal-scrim modal-' + dev + '"><div class="feedback-sheet"><div class="sheet-grip"></div><h2 class="fb-title">昨天那道菜，最后吃了吗？</h2><div class="fb-dish"><span class="fb-thumb">' + icon('bowl',{size:20,sw:1.6,stroke:'#b5613a'}) + '</span><span class="fb-dishname">' + esc(state.feedbackDish || '') + '</span></div><button class="btn btn-primary btn-full" data-act="fb-ate">' + icon('check',{size:18,sw:1.9,stroke:'#fff'}) + '<span>吃了</span></button><p class="fb-soft">没吃也没关系，选一个原因就行，下次会避开。</p><div class="fb-reasons">' + reasons + '</div><button class="fb-skip">跳过</button></div></div>';
+
+// ============ Pantry Planner V2 前端契约 ============
+function cloneJson(value) { return JSON.parse(JSON.stringify(value)); }
+function migrateProfile(value) {
+  const saved = value && typeof value === 'object' ? value : {};
+  const hasV2Mode = saved.mode === 'recommend' || saved.mode === 'pantry';
+  const next = Object.assign({}, DEFAULT_PROFILE, saved);
+  if (!hasV2Mode) {
+    next.mode = saved.purpose === 'pantry' ? 'pantry' : 'recommend';
+  }
+  if (!['normal','quick','fresh','batch'].includes(saved.intent)) {
+    next.intent = hasV2Mode ? DEFAULT_PROFILE.intent
+      : saved.purpose === 'pantry' ? 'normal'
+        : ['quick','fresh','batch'].includes(saved.purpose) ? saved.purpose : 'normal';
+  }
+  delete next.purpose;
+  return next;
+}
+function splitPlannerItems(value) {
+  return uniquePantryItems(String(value || '').split(/[,，、\s]+/).map(item => item.trim()).filter(Boolean));
+}
+function recentPlanIds(excluding) {
+  return boundedTextList((state.swapHistory || []).map(item => item.planId).filter(id => id && id !== excluding), 20, 100);
+}
+function buildPlanRequest(options) {
+  const opts = options || {}, profile = state.profile;
+  const pantry = splitPlannerItems(profile.pantry);
+  const mode = profile.mode === 'pantry' ? 'pantry' : 'recommend';
+  return {
+    schema_version:2,
+    planner_version:'pantry-planner-v2',
+    constraints:{
+      mode,
+      intent:['normal','quick','fresh','batch'].includes(profile.intent) ? profile.intent : 'normal',
+      servings:servingCount(profile),
+      must_use:mode === 'pantry' ? pantry : [],
+      prefer_use:mode === 'recommend' ? pantry : [],
+      dislikes:splitPlannerItems(profile.dislikes),
+      current_plan_id:boundedText(opts.currentPlanId, 100) || null,
+      recent_plan_ids:boundedTextList(opts.recentPlanIds || recentPlanIds(opts.currentPlanId), 20, 100),
+      decision:opts.decision ? cloneJson(opts.decision) : null,
+    },
+  };
+}
+async function postPlannerV2(path, body) {
+  const endpoints = apiCandidates(path);
+  if (!endpoints.length) throw genError('local_start_required', '请双击 start.command 启动本地版本。', false);
+  const ctrl = new AbortController();
+  const generationTimeout = EFFECTIVE_GENERATION_MODE === 'deterministic' ? 15000 : GENERATION_REQUEST_TIMEOUT_MS;
+  const tid = setTimeout(() => ctrl.abort(), path === '/generate-plan' ? generationTimeout : 15000);
+  let response;
+  try {
+    response = await fetch(endpoints[0], {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body),
+      signal:ctrl.signal, cache:'no-store',
+    });
+  } catch (error) {
+    throw genError(error && error.name === 'AbortError' ? 'timeout' : 'network', 'request failed', true);
+  } finally { clearTimeout(tid); }
+  let payload;
+  try { payload = await response.json(); }
+  catch (_error) { throw badJsonResponseError(response, endpoints[0]); }
+  if (!response.ok) {
+    if (payload && ['stale_plan','no_alternative_plan','no_valid_plan','needs_user_decision'].includes(payload.status)) return payload;
+    throw genError(payload && payload.code ? payload.code : 'http_' + response.status,
+      payload && (payload.error || payload.message), response.status >= 500);
+  }
+  return payload;
+}
+function fetchPlan(planRequest) { return postPlannerV2('/plan-meal', planRequest || buildPlanRequest()); }
+function itemText(item) { return boundedText(item && (item.raw || item.canonical || item.name), 80); }
+function planItems(items) { return (Array.isArray(items) ? items : []).map(itemText).filter(Boolean); }
+const PLAN_PRESENTATION_KEYS = Object.freeze(['badge','title','subtitle','source_label','canonical_path']);
+const CUSTOM_PRESENTATION_TECHNIQUES = Object.freeze(['焖饭','烩饭','汤饭','汤面','焖面','炖锅','快炒饭']);
+function exactPresentationKeys(value) {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    && JSON.stringify(Object.keys(value).sort()) === JSON.stringify([...PLAN_PRESENTATION_KEYS].sort());
+}
+function safePresentationText(value, maxLength) {
+  return typeof value === 'string' && value === value.trim() && value.length > 0
+    && [...value].length <= maxLength && !/[<>\u0000-\u001f\u007f]/u.test(value);
+}
+function validPlanPresentation(result) {
+  const p = result && result.presentation;
+  if (!exactPresentationKeys(p)
+      || !safePresentationText(p.badge, 16)
+      || !safePresentationText(p.title, 80)
+      || !safePresentationText(p.subtitle, 160)
+      || !(p.source_label === null || safePresentationText(p.source_label, 40))
+      || !(p.canonical_path === null || safePresentationText(p.canonical_path, 160))) return false;
+  const source = result.plan_source, recipeId = result.recipe_id, variantId = result.variant_id;
+  if (source === 'custom_template') {
+    return result.identity_level === 'custom' && recipeId == null && variantId == null
+      && p.badge === '自定义方案' && p.source_label === null && p.canonical_path === null
+      && CUSTOM_PRESENTATION_TECHNIQUES.some(technique => p.title.endsWith(technique))
+      && !/地域|正宗|传统|经典|酸香主食锅|家常主食锅/iu.test(p.title + '\n' + p.subtitle)
+      && !/(?:[a-z0-9]+-){1,}[a-z0-9-]+/iu.test(p.title + '\n' + p.subtitle);
+  }
+  const canonicalPath = typeof recipeId === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(recipeId)
+    ? '/recipes.html?id=' + recipeId : '';
+  if (!canonicalPath || p.source_label !== '查看一锅出标准配方' || p.canonical_path !== canonicalPath) return false;
+  if (source === 'named_recipe') {
+    return result.identity_level === 'canonical' && variantId == null && p.badge === '依据菜谱'
+      && !/人工批准|正宗|标准菜谱/u.test(p.badge + '\n' + p.title + '\n' + p.subtitle);
+  }
+  return source === 'recipe_variant'
+    && ['approved_variant','style_adaptation'].includes(result.identity_level)
+    && typeof variantId === 'string' && variantId.length > 0 && p.badge === '菜谱替换版'
+    && /已复核/u.test(p.subtitle) && /替换/u.test(p.subtitle)
+    && !/人工批准|正宗|标准菜谱/u.test(p.title + '\n' + p.subtitle);
+}
+function planPresentation(result) { return validPlanPresentation(result) ? result.presentation : null; }
+function directRecommendCoverageFloor(total) {
+  if (total <= 0) return 0;
+  if (total <= 2) return total;
+  if (total === 3) return 2;
+  if (total === 4) return 3;
+  if (total <= 6) return 4;
+  return Math.ceil(total * 0.6);
+}
+function displayablePlanCandidate(candidate) {
+  const plan = candidate && candidate.plan || {};
+  if (!planPresentation(candidate) || typeof plan.plan_id !== 'string' || !plan.plan_id) return false;
+  const submitted = uniquePlanItemTexts((candidate.normalized_items || [])
+    .filter(item => item && item.role === 'prefer_use' && item.duplicate_of == null));
+  const used = uniquePlanItemTexts(plan.planned_prefer_use);
+  const denominator = submitted.length || used.length + uniquePlanItemTexts(plan.unused_prefer_use).length;
+  return used.length >= directRecommendCoverageFloor(denominator);
+}
+function presentationSourceLink(presentation) {
+  return presentation.source_label && presentation.canonical_path
+    ? '<a class="plan-presentation-source" href="' + esc(presentation.canonical_path) + '">' + esc(presentation.source_label) + '</a>'
+    : '';
+}
+function presentationSummary(result) {
+  const presentation = planPresentation(result);
+  if (!presentation) return '';
+  return '<span class="plan-presentation-badge">' + esc(presentation.badge) + '</span>'
+    + '<span class="plan-presentation-subtitle">' + esc(presentation.subtitle) + '</span>'
+    + presentationSourceLink(presentation);
+}
+function uniquePlanItemTexts(items) {
+  return [...new Set(planItems(items))];
+}
+function plannerCandidatesScreen() {
+  const candidates = Array.isArray(state.planCandidates)
+    ? state.planCandidates.filter(displayablePlanCandidate) : [];
+  if (!candidates.length) {
+    const candidateResult = state.planCandidateResult || {};
+    const unavailableItems = [
+      ...((candidateResult.plan && candidateResult.plan.unused_prefer_use) || []),
+      ...((candidateResult.plan && candidateResult.plan.unplanned_must_use) || []),
+      ...(candidateResult.unplanned || []),
+    ];
+    const blockedByDislike = unavailableItems.filter(item => item && item.reason_code === 'allergen_conflict');
+    const blockedNames = uniquePlanItemTexts(blockedByDislike);
+    const unavailableByName = new Map();
+    unavailableItems.filter(item => item && item.reason_code !== 'allergen_conflict').forEach(item => {
+      const name = itemText(item);
+      if (!name || unavailableByName.has(name)) return;
+      const reason = boundedText(item.reason || item.message, 160)
+        || (item.reason_code === 'unrecognized_ingredient'
+          ? '暂时无法识别这种食材。'
+          : '当前规则下暂时无法安排。');
+      unavailableByName.set(name, reason);
+    });
+    const unavailableDetails = [...unavailableByName.entries()].map(([name, reason]) =>
+      '<p class="pantry-plan-note"><strong>' + esc(name) + '：</strong>' + esc(reason) + '</p>'
+    ).join('');
+    const protectedTitle = blockedNames.length
+      ? '已按忌口拦下不合适的组合'
+      : '当前还没有足够可靠的一锅组合';
+    const protectedText = blockedNames.length
+      ? blockedNames.join('、') + '与你设置的忌口冲突，因此没有放进方案。调整食材或忌口后再试。'
+      : '这次不拿低覆盖方案凑数。改一两样食材后再试，会更容易得到真正能做的一锅。';
+    return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+      + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(protectedTitle) + '</div>'
+      + '<p class="fb-banner-text">' + esc(protectedText) + '</p>'
+      + (!blockedNames.length && unavailableDetails ? '<div class="pantry-plan-list">' + unavailableDetails + '</div>' : '')
+      + '</div></div>'
+      + '<div class="dish-actions"><button class="btn btn-primary" data-act="edit-safe-profile">修改食材</button></div></section></div>';
+  }
+  const cards = candidates.map(candidate => {
+    const plan = candidate.plan || {};
+    const presentation = planPresentation(candidate);
+    const used = uniquePlanItemTexts(plan.planned_prefer_use);
+    const unused = Array.isArray(plan.unused_prefer_use) ? plan.unused_prefer_use : [];
+    const submitted = uniquePlanItemTexts((candidate.normalized_items || [])
+      .filter(item => item && item.role === 'prefer_use' && item.duplicate_of == null));
+    const denominator = submitted.length || used.length + unused.length;
+    const extras = uniquePlanItemTexts(plan.required_extra_items);
+    const maxMinutes = plan.pots && plan.pots[0] && plan.pots[0].time_range
+      && Number.isFinite(+plan.pots[0].time_range.max_minutes)
+      ? Math.round(+plan.pots[0].time_range.max_minutes)
+      : null;
+    const unusedHtml = unused.length
+      ? '<span class="pantry-plan-items"><strong>这次没用：</strong>'
+        + unused.map(item => esc(itemText(item)) + '（'
+          + esc(boundedText(item.reason || item.message, 120) || '这套组合里先不使用') + '）').join('；')
+        + '</span>'
+      : '';
+    return '<article class="pantry-plan-card"><button class="pantry-plan-choice" data-act="choose-plan" data-plan-id="' + esc(plan.plan_id) + '">'
+      + '<span class="pantry-plan-top"><span class="pantry-plan-name"><span class="plan-presentation-badge">' + esc(presentation.badge) + '</span><br>' + esc(presentation.title) + '</span>'
+      + '<span class="pantry-plan-count">用上 ' + used.length + '/' + denominator
+      + (maxMinutes ? ' · 最多 ' + maxMinutes + ' 分钟' : '') + '</span></span>'
+      + '<span class="plan-presentation-subtitle">' + esc(presentation.subtitle) + '</span>'
+      + '<span class="pantry-plan-items"><strong>这次用上：</strong>' + esc(used.join('、')) + '</span>'
+      + unusedHtml
+      + (extras.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(extras.join('、')) + '</span>' : '')
+      + '<span class="pantry-plan-note">选这套后，再生成详细步骤。</span></button>'
+      + presentationSourceLink(presentation) + '</article>';
+  }).join('');
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">先选一套真正用得上的组合</div>'
+    + '<p class="fb-banner-text">' + esc(DETERMINISTIC_DIRECT_RECOMMEND
+      ? '这些组合由规划器检查覆盖、时间和安全边界；详细步骤也会由同一套受控规则确定。'
+      : '这些组合由规划器先检查覆盖、时间和安全边界；此时还没有调用 AI 生成步骤。') + '</p></div></div>'
+    + '<div class="pantry-plan-list">' + cards + '</div>'
+    + '<div class="dish-actions"><button class="btn btn-ghost" data-act="edit-safe-profile">返回修改食材</button></div></section></div>';
+}
+function plannerPotsHtml(result) {
+  const pots = result && result.plan && Array.isArray(result.plan.pots) ? result.plan.pots : [];
+  return '<div class="pantry-plan-list">' + pots.map((pot, index) => {
+    const label = pots.length === 1
+      ? '一锅方案'
+      : boundedText(pot.label, 20) || ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
+    const used = planItems([...(pot.planned_must_use || []), ...(pot.planned_prefer_use || [])]);
+    const extras = planItems(pot.required_extra_items);
+    const time = pot.time_range && Number.isFinite(+pot.time_range.max_minutes) ? ' / 最多 ' + Math.round(+pot.time_range.max_minutes) + ' 分钟' : '';
+    return '<section class="pantry-plan-card"><span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(label) + '</span><span class="pantry-plan-count">约 ' + esc(String(pot.servings || servingCount(state.profile))) + ' 份' + esc(time) + '</span></span>'
+      + '<span class="pantry-plan-items"><strong>安排：</strong>' + esc(used.join('、') || '基础食材') + '</span>'
+      + (extras.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(extras.join('、')) + '</span>' : '')
+      + '</section>';
+  }).join('') + '</div>';
+}
+function plannerActionHtml(action) {
+  if (!action || !action.action) return '';
+  if (action.action === 'replan') return '<button class="btn btn-primary" data-act="replan-v2">重新规划</button>';
+  if (action.action === 'relax_item') {
+    return (action.eligible_items || []).map(item => '<button class="btn btn-ghost" data-act="plan-decision" data-decision="relax_item" data-item="' + esc(String(item)) + '">放宽 ' + esc(String(item)) + '</button>').join('');
+  }
+  if (action.action === 'edit_ingredients') return '<button class="btn btn-ghost" data-act="edit-safe-profile">' + esc(action.label || '返回修改食材') + '</button>';
+  const labels = {
+    force_multi_pot:'分成两锅',
+    accept_partial:'确认未处理食材，生成部分方案',
+    allow_third_pot:'确认增加第三锅并继续',
+  };
+  return '<button class="btn ' + (action.action === 'accept_partial' ? 'btn-primary' : 'btn-ghost') + '" data-act="plan-decision" data-decision="' + esc(action.action) + '">' + esc(labels[action.action] || action.label || '继续') + '</button>';
+}
+function plannerCoverageHtml(result) {
+  const plan = result && result.plan || {};
+  const used = planItems(result.mode === 'pantry' ? plan.planned_must_use : plan.planned_prefer_use);
+  const unused = planItems(result.mode === 'pantry' ? plan.unplanned_must_use : plan.unused_prefer_use);
+  if (result.mode === 'pantry') {
+    return '<p class="pantry-plan-note"><strong>已经安排：</strong>' + esc(used.join('、') || '暂无') + '</p>'
+      + (unused.length ? '<p class="pantry-plan-note"><strong>尚未处理：</strong>' + esc(unused.join('、')) + '</p>' : '');
+  }
+  return '<p class="pantry-plan-note"><strong>这次优先用了：</strong>' + esc(used.join('、') || '没有指定食材') + '</p>'
+    + (unused.length ? '<p class="pantry-plan-note"><strong>这次没有使用：</strong>' + esc(unused.join('、')) + '</p>' : '');
+}
+function plannerStateScreen() {
+  const result = state.displayedPlan || {};
+  const isGeneratedPreview = result.generation_allowed && state.view === 'v2-plan-preview';
+  const previewPresentation = isGeneratedPreview ? planPresentation(result) : null;
+  if (isGeneratedPreview && !previewPresentation) {
+    return generationFailureScreen(genError('plan_identity_mismatch', '新方案的菜名与已选计划不一致', false));
+  }
+  const unplanned = result.plan && result.plan.unplanned_must_use || [];
+  const hasAmbiguousIngredient = unplanned.some(item => item.reason_code === 'ambiguous_ingredient_state');
+  let title = result.status === 'complete' ? '完整清库存计划'
+    : result.status === 'partial_accepted' ? '部分处理方案'
+      : result.status === 'needs_user_decision' ? (hasAmbiguousIngredient ? '需要确认食材状态' : '还有食材没有安排')
+        : result.status === 'stale_plan' ? '这份计划已经更新，请重新规划'
+          : result.status === 'no_valid_plan' ? '暂时没有可靠的安排' : '这套方案可以做';
+  const reasons = unplanned.length ? '<div class="pantry-plan-list">' + unplanned.map(item => '<p class="pantry-plan-note"><strong>' + esc(itemText(item)) + '：</strong>' + esc(boundedText(item.reason || item.message, 160) || '当前规则下暂时无法安排') + '</p>').join('') + '</div>' : '';
+  const actions = (result.actions || []).map(plannerActionHtml).join('');
+  const edit = (result.actions || []).some(action => action && action.action === 'edit_ingredients')
+    ? '' : '<button class="btn btn-ghost" data-act="edit-safe-profile">返回修改食材</button>';
+  const generate = result.generation_allowed && state.view === 'v2-plan-preview'
+    ? '<button class="btn btn-primary" data-act="generate-displayed-plan">生成这套做法</button>' : '';
+  const swap = result.generation_allowed && state.view !== 'v2-plan-preview'
+    ? '<button class="btn btn-ghost" data-act="request-plan-swap">换一换</button>' : '';
+  const hasPlanDetails = result.plan && ['ready','complete','needs_user_decision','partial_accepted'].includes(result.status);
+  const planDetails = hasPlanDetails ? plannerPotsHtml(result) + plannerCoverageHtml(result) + reasons : '';
+  const previewIdentity = previewPresentation
+    ? '<section class="dish-card"><div class="dish-body"><div class="dish-eyebrow"><span>' + esc(previewPresentation.badge) + '</span></div><h1 class="dish-name">' + esc(previewPresentation.title) + '</h1><p class="dish-taste">' + esc(previewPresentation.subtitle) + '</p>' + presentationSourceLink(previewPresentation) + '</div></section>'
+    : '';
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(title) + '</div><p class="fb-banner-text">' + esc(boundedText(result.commitment, 240)) + '</p></div></div>'
+    + previewIdentity + planDetails
+    + '<div class="dish-actions">' + generate + actions + swap + edit + '</div></section></div>';
+}
+function noAlternativePlanScreen() {
+  const result = state.noAlternativeResult || {};
+  const keepCurrent = state.displayedPlan && state.displayedPlan.plan
+    ? '<button class="btn btn-primary" data-act="continue-current-plan">继续用当前方案</button>' : '';
+  const hasRelax = (result.actions || []).some(action => action && action.action === 'relax_item');
+  const guidance = hasRelax
+    ? '当前方案仍然保留。你可以继续用它，或放宽一种食材、回去调整食材。'
+    : '当前方案仍然保留。你可以继续用它，或回去调整食材后再试。';
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">当前组合只有一个可靠的一锅方案</div>'
+    + '<p class="fb-banner-text">' + esc(guidance) + '</p></div></div><div class="dish-actions">'
+    + keepCurrent + (result.actions || []).map(plannerActionHtml).join('') + '</div></section></div>';
+}
+function generatedPlanScreen() {
+  const generated = state.generatedPlan || {}, meals = Array.isArray(generated.meals) ? generated.meals.slice().sort((a,b) => (+a.meal_sequence || 0) - (+b.meal_sequence || 0)) : [];
+  const result = state.displayedPlan || generated;
+  const planLevelPresentation = planPresentation(result);
+  const mealPresentations = meals.map(meal => planPresentation(meal));
+  if (!planLevelPresentation || mealPresentations.some(presentation => !presentation)) {
+    return generationFailureScreen(genError('plan_identity_mismatch', '生成结果与所选方案不一致', false));
+  }
+  const title = result.status === 'complete' ? '完整清库存计划' : result.status === 'partial_accepted' ? '部分处理方案' : '今天按这套做';
+  const mealHtml = meals.map((meal, index) => {
+    const presentation = mealPresentations[index];
+    const label = meals.length === 1
+      ? '一锅方案'
+      : ['第一锅','第二锅','第三锅'][index] || ('第 ' + (index + 1) + ' 锅');
+    const ingredients = (meal.locked_ingredients || []).map(item => '<li class="ing-row"><span class="ing-name">' + esc(boundedText(item.raw_name || item.name, 80)) + '</span><span class="ing-grams">' + esc(String(Math.round(+item.planned_grams || 0))) + ' g</span></li>').join('');
+    const steps = (meal.steps || []).map((step, stepIndex) => '<li class="step-row"><span class="step-num">' + (stepIndex + 1) + '</span><span class="step-text">' + esc(boundedText(typeof step === 'string' ? step : step.text, 400)) + '</span></li>').join('');
+    return '<section class="dish-card"><div class="dish-body"><div class="dish-eyebrow"><span>' + esc(label) + ' · ' + esc(presentation.badge) + '</span><span class="chip chip-form">约 ' + esc(String(meal.servings || servingCount(state.profile))) + ' 份</span></div><h1 class="dish-name">' + esc(presentation.title) + '</h1><p class="dish-taste">' + esc(presentation.subtitle) + '</p>' + presentationSourceLink(presentation) + '<p class="dish-taste">' + esc(boundedText(meal.recommendation_reason, 300)) + '</p></div></section>'
+      + '<section class="block"><div class="step-head"><h3 class="step-title">需要这些</h3></div><ul class="ing-list">' + ingredients + '</ul></section>'
+      + '<section class="block"><div class="step-head"><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>';
+  }).join('');
+  return '<div class="screen result-screen"><div class="col-main"><div class="gen-notice"><span>' + esc(title) + '</span></div>' + plannerCoverageHtml(result) + mealHtml
+    + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-v2-cooking">开始做</button><button class="btn btn-ghost" data-act="request-plan-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改食材忌口</button></div></div>'
+    + '<div class="result-foot">' + esc(DETERMINISTIC_DIRECT_RECOMMEND
+      ? '这套菜名、用量、顺序和安全步骤均由受控规则确定；全程无需连接模型服务，结果可重复核对。'
+      : '份数、食材和忌口会发送给 AI 服务生成这套已确认计划的文字步骤。页面不会使用模型编写的营养数值。') + '</div></div>';
+}
+function setDisplayedPlan(result, requestSnapshot, preview) {
+  state.displayedPlan = cloneJson(result);
+  state.planCandidateResult = null;
+  state.planRequestSnapshot = cloneJson(requestSnapshot);
+  state.generatedPlan = null;
+  state.noAlternativeResult = null;
+  state.view = preview && result.generation_allowed ? 'v2-plan-preview' : 'v2-plan';
+  window.scrollTo(0, 0); render();
+}
+async function choosePlan(planId) {
+  const chosen = (state.planCandidates || []).find(candidate => (
+    candidate && candidate.plan && candidate.plan.plan_id === String(planId || '')
+  ));
+  if (!chosen || !state.planRequestSnapshot) return;
+  setDisplayedPlan(chosen, state.planRequestSnapshot, true);
+  await generateDisplayedPlan();
+}
+function generationEnvelope(result, requestSnapshot) {
+  return {
+    schema_version:2,
+    planner_version:result.planner_version,
+    template_catalog_version:result.template_catalog_version,
+    plan_id:result.plan && result.plan.plan_id,
+    plan_request:cloneJson(requestSnapshot),
+  };
+}
+function exactSelectedIdentityTuple(left, right) {
+  for (const field of ['plan_source','recipe_id','variant_id','identity_level']) {
+    if ((left && left[field]) !== (right && right[field])) return false;
+  }
+  return true;
+}
+function exactSelectedIdentity(left, right) {
+  if (!exactSelectedIdentityTuple(left, right)) return false;
+  return JSON.stringify(left && left.presentation) === JSON.stringify(right && right.presentation);
+}
+function generatedMatchesSelectedPlan(generated, selected) {
+  const selectedPlanId = selected && selected.plan && selected.plan.plan_id;
+  if (!selectedPlanId || !planPresentation(selected) || !planPresentation(generated)
+      || generated.plan_id !== selectedPlanId
+      || !generated.plan || generated.plan.plan_id !== selectedPlanId
+      || !exactSelectedIdentity(generated, selected)
+      || !Array.isArray(generated.meals) || generated.meals.length === 0) return false;
+  const multipleCustomPots = generated.meals.length > 1 && selected.plan_source === 'custom_template';
+  return generated.meals.every(meal => (
+    planPresentation(meal)
+    && exactSelectedIdentityTuple(meal, selected)
+    && meal.dish_name === meal.presentation.title
+    && (multipleCustomPots
+      || JSON.stringify(meal.presentation) === JSON.stringify(selected.presentation))
+  ));
+}
+async function generateConfirmedPlan(result, requestSnapshot) {
+  return postPlannerV2('/generate-plan', generationEnvelope(result, requestSnapshot));
+}
+function showGeneratedPlan(generated, planned, requestSnapshot) {
+  state.generatedPlan = cloneJson(generated);
+  state.displayedPlan = cloneJson(planned);
+  state.planRequestSnapshot = cloneJson(requestSnapshot);
+  state.noAlternativeResult = null;
+  state.view = 'v2-result'; window.scrollTo(0, 0); render();
+}
+let v2GenerationInFlight = null;
+async function generateDisplayedPlan() {
+  if (v2GenerationInFlight) return v2GenerationInFlight;
+  if (!state.displayedPlan || !state.planRequestSnapshot || !state.displayedPlan.generation_allowed) return;
+  const planned = cloneJson(state.displayedPlan);
+  const requestSnapshot = cloneJson(state.planRequestSnapshot);
+  const operation = (async () => {
+    // 规划器已完成选模板、份量与时间检查；表达模式由构建元数据决定，服务端始终重算并校验。
+    state.view = 'generating'; state.genStage = 2; render();
+    try {
+      const generated = await generateConfirmedPlan(planned, requestSnapshot);
+      if (!generated.generation_allowed || !Array.isArray(generated.meals)) {
+        if (generated.status === 'no_alternative_plan') {
+          state.noAlternativeResult = cloneJson(generated); state.view = 'v2-no-alternative'; render(); return;
+        }
+        setDisplayedPlan(generated, requestSnapshot, false); return;
+      }
+      if (!generatedMatchesSelectedPlan(generated, planned)) {
+        throw genError('plan_identity_mismatch', '生成结果与所选方案不一致', false);
+      }
+      showGeneratedPlan(generated, planned, requestSnapshot);
+    } catch (error) { showGenerationFailure(error); }
+  })();
+  v2GenerationInFlight = operation;
+  try { return await operation; }
+  finally { if (v2GenerationInFlight === operation) v2GenerationInFlight = null; }
+}
+function isLegacyRecipeFallback(result) {
+  return !!(result && result.status === 'ready'
+    && result.plan_source === 'legacy_recipe_selector'
+    && result.legacy_fallback === true
+    && result.plan && result.plan.fallback_kind === 'legacy_recipe_selector');
+}
+async function generateLegacyRecipeFallback() {
+  state.displayedPlan = null;
+  state.planCandidates = [];
+  state.planCandidateResult = null;
+  state.planRequestSnapshot = null;
+  state.generatedPlan = null;
+  state.noAlternativeResult = null;
+  state.view = 'generating'; state.genStage = 2; render();
+  try {
+    const dish = await fetchRealDish({ profile:state.profile });
+    showResult(dish);
+  } catch (error) { showGenerationFailure(error); }
+}
+async function runPlannerFlow(options) {
+  const opts = options || {};
+  if (typeof location !== 'undefined' && location.protocol === 'file:') {
+    showGenerationFailure(genError('local_start_required', '请双击 start.command 启动本地版本。', false)); return;
+  }
+  const pantryCount = splitPlannerItems(state.profile.pantry).length;
+  if (pantryCount > 20) { showGenerationFailure(genError('pantry_too_many', '一次最多填写 20 种食材', false)); return; }
+  const requestSnapshot = cloneJson(opts.planRequest || buildPlanRequest());
+  state.view = 'generating'; state.genStage = 0; render();
+  try {
+    const planned = await fetchPlan(requestSnapshot);
+    if (opts.showCandidates === true) {
+      state.displayedPlan = null;
+      state.generatedPlan = null;
+      state.noAlternativeResult = null;
+      state.planRequestSnapshot = requestSnapshot;
+      state.planCandidateResult = cloneJson(planned);
+      state.planCandidates = Array.isArray(planned.candidate_plans)
+        ? cloneJson(planned.candidate_plans).filter(displayablePlanCandidate)
+        : [];
+      state.view = 'v2-candidates';
+      window.scrollTo(0, 0);
+      render();
+      return;
+    }
+    if (isLegacyRecipeFallback(planned) && opts.autoGenerate) {
+      await generateLegacyRecipeFallback();
+      return;
+    }
+    if (planned.status === 'no_alternative_plan') {
+      state.noAlternativeResult = cloneJson(planned); state.view = 'v2-no-alternative'; render(); return;
+    }
+    if (opts.rejectUnchangedPlanId && planned.plan && planned.plan.plan_id === opts.rejectUnchangedPlanId) {
+      state.view = 'v2-no-alternative'; render(); return;
+    }
+    setDisplayedPlan(planned, requestSnapshot, opts.preview === true);
+    if (opts.autoGenerate && planned.generation_allowed) await generateDisplayedPlan();
+  } catch (error) { showGenerationFailure(error); }
+}
+async function runPrimaryFlow() {
+  if (RICE_MEAL_PRODUCT) return runRiceMealPlanning();
+  const pantryCount = splitPlannerItems(state.profile.pantry).length;
+  if (pantryCount > 20) {
+    showGenerationFailure(genError('pantry_too_many', '一次最多填写 20 种食材', false));
+    return;
+  }
+  if (PLANNER_ROLLOUT === 'direct-recommend' && pantryCount >= 7 && pantryCount <= 10) {
+    state.profile.mode = 'recommend';
+    state.view = 'profile';
+    state.profileEditing = true;
+    state.rolloutNotice = '这次先保留你填写的全部食材；请删减到本顿优先的 3–5 项后再获取方案。';
+    render();
+    return;
+  }
+  if (plannerLabEnabled()) return runPlannerFlow({ autoGenerate:true });
+  state.profile.mode = 'recommend';
+  if (plannerDirectRecommendEnabled()) {
+    if (pantryCount === 0) {
+      state.view = 'profile';
+      state.profileEditing = true;
+      state.rolloutNotice = '先选或填写至少一种家里的食材。';
+      render();
+      return;
+    }
+    state.rolloutNotice = '';
+    return runPlannerFlow({ autoGenerate:false, showCandidates:true });
+  }
+  return generateLegacyRecipeFallback();
+}
+function swapPlanRequest() {
+  const current = state.displayedPlan, currentId = current && current.plan && current.plan.plan_id;
+  if (!currentId || !state.planRequestSnapshot) return null;
+  const request = cloneJson(state.planRequestSnapshot);
+  request.constraints.current_plan_id = currentId;
+  request.constraints.recent_plan_ids = recentPlanIds(currentId);
+  const priorDecision = request.constraints.decision;
+  if (current.status === 'partial_accepted' && priorDecision && priorDecision.action === 'accept_partial') {
+    request.constraints.decision = Object.assign({}, priorDecision, { swap_current:true });
+  } else if (priorDecision && priorDecision.action === 'relax_item') {
+    const normalized = Array.isArray(current.normalized_items) ? current.normalized_items : [];
+    request.constraints.must_use = normalized.filter(item => item.role === 'must_use').map(item => item.raw);
+    request.constraints.prefer_use = normalized.filter(item => item.role === 'prefer_use').map(item => item.raw);
+    request.constraints.decision = null;
+  }
+  return request;
+}
+async function requestAlternativePlan() {
+  const request = swapPlanRequest();
+  if (!request) return;
+  const currentId = state.displayedPlan.plan.plan_id;
+  recordDisplayedPlanHistory('swapped');
+  try {
+    const alternative = await fetchPlan(request);
+    if (alternative.status === 'no_alternative_plan') {
+      state.noAlternativeResult = cloneJson(alternative); state.view = 'v2-no-alternative'; render(); return;
+    }
+    if (!planPresentation(alternative)) {
+      throw genError('plan_identity_mismatch', '新方案的菜名与已选计划不一致', false);
+    }
+    setDisplayedPlan(alternative, request, true);
+  } catch (error) { showGenerationFailure(error); }
+}
+function continueCurrentPlan() {
+  if (!state.displayedPlan || !state.displayedPlan.plan) return;
+  state.noAlternativeResult = null;
+  state.view = state.generatedPlan && Array.isArray(state.generatedPlan.meals)
+    ? 'v2-result'
+    : state.displayedPlan.generation_allowed ? 'v2-plan-preview' : 'v2-plan';
+  window.scrollTo(0, 0); render();
+}
+function recordDisplayedPlanHistory(kind) {
+  if ((kind !== 'swapped' && kind !== 'started') || !state.displayedPlan || !state.displayedPlan.plan) return;
+  const planId = boundedText(state.displayedPlan.plan.plan_id, 100);
+  if (!planId) return;
+  const firstMeal = state.generatedPlan && state.generatedPlan.meals && state.generatedPlan.meals[0];
+  const entry = { planId, name:boundedText(firstMeal && firstMeal.dish_name, 100), base:'', fam:'', kind, ts:Date.now() };
+  const index = state.swapHistory.findIndex(item => item.planId === planId);
+  if (index >= 0) state.swapHistory[index] = entry; else state.swapHistory.push(entry);
+  persistSwapHistory();
+}
+async function applyPlanDecision(action, item) {
+  if (action === 'edit_ingredients') { openEditableProfile(); return; }
+  const result = state.displayedPlan, planId = result && result.plan && result.plan.plan_id;
+  if (!planId || !state.planRequestSnapshot) return;
+  const actionSource = state.noAlternativeResult || result;
+  const declared = (actionSource.actions || []).find(candidate => candidate && candidate.action === action);
+  if (!declared) return;
+  if (action === 'relax_item' && !(declared.eligible_items || []).map(String).includes(String(item || ''))) return;
+  const request = cloneJson(state.planRequestSnapshot);
+  request.constraints.current_plan_id = planId;
+  const unplanned = planItems(result.plan.unplanned_must_use);
+  if (action === 'relax_item') request.constraints.decision = { action, item:String(item || '') };
+  else if (action === 'accept_partial') request.constraints.decision = { action, plan_id:planId, acknowledged_unplanned:unplanned };
+  else {
+    // force_multi_pot / allow_third_pot 是在同一输入上重规划，不是换一换。
+    // 精确的旧计划 ID 放在 decision.plan_id 作为用户确认凭据；current_plan_id 留给结构换一换。
+    request.constraints.current_plan_id = null;
+    request.constraints.decision = { action, plan_id:planId };
+  }
+  await runPlannerFlow({
+    planRequest:request,
+    autoGenerate:true,
+    rejectUnchangedPlanId:action === 'force_multi_pot' ? planId : null,
+  });
 }
 
+// ============ 菜饭聚焦前端契约（schema v3） ============
+function buildRiceMealRequest(options) {
+  const opts = options || {};
+  const request = {
+    schema_version:3,
+    product_focus:'rice_meal',
+    servings:servingCount(state.profile),
+    pantry:splitPlannerItems(state.profile.pantry),
+    dislikes:splitPlannerItems(state.profile.dislikes),
+  };
+  if (opts.currentPlanId) {
+    request.swap = {
+      current_plan_id:String(opts.currentPlanId),
+      recent_plan_ids:boundedTextList(opts.recentPlanIds || state.riceRecentPlanIds, 20, 100),
+    };
+  }
+  return request;
+}
+function riceItemName(item) {
+  return boundedText(item && (item.raw || item.raw_name || item.display_name || item.name || item.canonical), 80);
+}
+function riceUnusedReason(item) {
+  return boundedText(item && (item.reason || item.message), 180)
+    || (item && item.reason_code === 'unrecognized_ingredient'
+      ? '暂时还无法可靠识别这样食材。'
+      : '当前可靠菜饭的搭配暂不使用这样食材。');
+}
+function riceNutritionRoleLabel(role) {
+  return ({ carb:'碳水 / 主食', protein:'蛋白质', fiber:'膳食纤维' })[role] || '';
+}
+function riceNutritionRoleLabels(items) {
+  return [...new Set((Array.isArray(items) ? items : [])
+    .map(item => riceNutritionRoleLabel(item && item.role)).filter(Boolean))];
+}
+const RICE_USER_NOTICE_COPY = Object.freeze({
+  household_test_pending_feedback:'这道菜饭仍在家庭试做验证中，请先按页面克数和步骤操作。',
+  four_serving_cooker_capacity_check:'请先确认普通电饭煲容量，食材和水不得超过最高刻度/说明书上限',
+});
+function riceUserNoticeHtml(notices) {
+  return (Array.isArray(notices) ? notices : []).map(notice => {
+    const text = notice && RICE_USER_NOTICE_COPY[notice.code];
+    return text && notice.text === text
+      ? '<span class="pantry-plan-note rice-user-notice">' + esc(text) + '</span>'
+      : '';
+  }).join('');
+}
+function validRiceCandidate(candidate) {
+  return !!(candidate && typeof candidate.plan_id === 'string' && candidate.plan_id
+    && typeof candidate.plan_token === 'string' && candidate.plan_token
+    && typeof candidate.variant_id === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(candidate.variant_id)
+    && (candidate.recipe_id == null
+      || (typeof candidate.recipe_id === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(candidate.recipe_id)))
+    && typeof candidate.display_name === 'string' && candidate.display_name
+    && Number.isInteger(candidate.coverage_count) && Number.isInteger(candidate.coverage_total)
+    && candidate.coverage_count >= 1 && candidate.coverage_total >= candidate.coverage_count
+    && ['A','B'].includes(candidate.nutrition_grade)
+    && Array.isArray(candidate.used_items) && Array.isArray(candidate.unused_items)
+    && Array.isArray(candidate.controlled_seasonings)
+    && candidate.controlled_seasonings.every(item => item
+      && typeof item.canonical_ingredient_id === 'string' && item.canonical_ingredient_id
+      && typeof item.amount_rule_id === 'string' && item.amount_rule_id
+      && typeof item.phase === 'string' && typeof item.action_code === 'string'
+      && Array.isArray(item.allergen_tags))
+    && Array.isArray(candidate.required_extra_items));
+}
+function riceSourceLink(candidate) {
+  const recipeId = candidate && candidate.recipe_id;
+  if (typeof recipeId === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(recipeId)) {
+    return '<a class="plan-presentation-source" href="/recipes.html?id=' + encodeURIComponent(recipeId) + '">查看一锅出标准配方</a>';
+  }
+  for (const ref of Array.isArray(candidate && candidate.source_refs) ? candidate.source_refs : []) {
+    const rawUrl = boundedText(ref && ref.url, 500);
+    try {
+      const parsed = new URL(rawUrl);
+      if (parsed.protocol !== 'https:' || parsed.username || parsed.password) continue;
+      return '<a class="plan-presentation-source" href="' + esc(parsed.href) + '" target="_blank" rel="noopener noreferrer">查看事实来源</a>';
+    } catch (_error) { /* ignore malformed source evidence */ }
+  }
+  return '';
+}
+function ricePreparationLabel(candidate, preActions) {
+  if (candidate && candidate.cooker_adaptation_level === 'process_adaptation') {
+    return '需锅外预处理' + (preActions ? ' · 约 ' + preActions + ' 步' : '');
+  }
+  return preActions ? '简单备料约 ' + preActions + ' 步' : '无额外处理';
+}
+function riceCookingBadge(candidate) {
+  if (candidate && candidate.cooker_adaptation_level === 'process_adaptation') {
+    return '需锅外预处理 · 电饭煲完成';
+  }
+  return '电饭煲一锅完成';
+}
+function riceCandidateCard(candidate) {
+  const used = candidate.used_items.map(riceItemName).filter(Boolean);
+  const unused = candidate.unused_items.map(item => {
+    const name = riceItemName(item);
+    return name ? esc(name) + '（' + esc(riceUnusedReason(item)) + '）' : '';
+  }).filter(Boolean);
+  const roles = riceNutritionRoleLabels(candidate.nutrition_roles);
+  const preActions = candidate.execution_actions && Array.isArray(candidate.execution_actions.pre_actions)
+    ? candidate.execution_actions.pre_actions.length : 0;
+  const active = Number.isFinite(+candidate.active_time_minutes) ? Math.round(+candidate.active_time_minutes) : null;
+  const total = Number.isFinite(+candidate.total_time_minutes) ? Math.round(+candidate.total_time_minutes) : null;
+  const seasoningExtras = candidate.required_extra_items
+    .filter(item => item && item.kind === 'controlled_seasoning')
+    .map(riceItemName).filter(Boolean);
+  const majorExtras = candidate.required_extra_items
+    .filter(item => item && item.kind === 'major_material')
+    .map(riceItemName).filter(Boolean);
+  return '<article class="pantry-plan-card"><button class="pantry-plan-choice" data-act="choose-rice-meal" data-plan-id="' + esc(candidate.plan_id) + '">'
+    + '<span class="pantry-plan-top"><span class="pantry-plan-name">' + esc(candidate.display_name) + '</span>'
+    + '<span class="pantry-plan-count">用上 ' + candidate.coverage_count + '/' + candidate.coverage_total + '</span></span>'
+    + '<span class="pantry-plan-items"><strong>这锅用上：</strong>' + esc(used.join('、')) + '</span>'
+    + (unused.length ? '<span class="pantry-plan-items"><strong>这次没用：</strong>' + unused.join('；') + '</span>' : '')
+    + '<span class="pantry-plan-items"><strong>营养搭配 ' + esc(candidate.nutrition_grade) + '：</strong>' + esc(roles.join('、')) + '</span>'
+    + (majorExtras.length ? '<span class="pantry-plan-items"><strong>还需准备的配菜：</strong>' + esc(majorExtras.join('、')) + '</span>' : '')
+    + (seasoningExtras.length ? '<span class="pantry-plan-items"><strong>还需准备的基础调味：</strong>' + esc(seasoningExtras.join('、')) + '</span>' : '')
+    + '<span class="pantry-plan-items"><strong>前置处理：</strong>' + ricePreparationLabel(candidate, preActions)
+    + (active == null ? '' : ' · ' + active + ' 分钟') + '</span>'
+    + (total == null ? '' : '<span class="pantry-plan-items"><strong>全程 ' + total + ' 分钟</strong></span>')
+    + riceUserNoticeHtml(candidate.user_notices)
+    + '<span class="pantry-plan-note">选中后直接打开已锁定的用量和电饭煲步骤。</span></button>'
+    + riceSourceLink(candidate)
+    + '</article>';
+}
+function riceMealCandidatesScreen() {
+  const candidates = (state.riceCandidates || []).filter(validRiceCandidate).slice(0, 3);
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">选一道真正能做的菜饭</div>'
+    + '<p class="fb-banner-text">每张卡都是有固定菜名、用量、电饭煲顺序和安全终点的可靠方案。不会为了凑数补满三张。</p></div></div>'
+    + '<div class="pantry-plan-list">' + candidates.map(riceCandidateCard).join('') + '</div>'
+    + '<div class="dish-actions"><button class="btn btn-ghost" data-act="edit-safe-profile">返回修改配菜</button></div></section></div>';
+}
+function riceStatusCopy(status) {
+  return ({
+    needs_balance_input:{ title:'这几样还缺一个主餐支点', text:'再加一样蛋白质或蔬菜，才更像一顿营养搭配合理的菜饭。' },
+    no_reliable_rice_meal:{ title:'暂时没有可靠的菜饭方案', text:'现有目录还不能稳妥承接这组配菜。这次没有硬拼一道名不副实的饭。' },
+    unsafe_recipe:{ title:'这次先不给出菜饭', text:'为了避开不适合的食材、忌口或熟制风险，已停止这次推荐。' },
+    stale_plan:{ title:'这份菜饭计划已经变化', text:'目录或比例规则已更新，请回到配菜页重新规划。' },
+  })[status] || { title:'这次暂时没有结果', text:'你的输入已保留，可以返回调整配菜。' };
+}
+function riceMealStatusScreen() {
+  const result = state.riceStatusResult || {};
+  const copy = riceStatusCopy(result.status);
+  const safetyReasons = [...new Set((Array.isArray(result.safety_rejections) ? result.safety_rejections : [])
+    .map(item => boundedText(item && (item.reason || item.message), 200)).filter(Boolean))];
+  const safetyNotes = safetyReasons.map(reason => '<p class="pantry-plan-note"><strong>为什么拦下：</strong>' + esc(reason) + '</p>').join('');
+  const unusedItems = safetyReasons.length
+    ? (result.unused_items || []).filter(item => item && item.reason_code === 'allergen_conflict')
+    : (result.unused_items || []);
+  const unused = unusedItems.map(item => {
+    const name = riceItemName(item);
+    return name ? '<p class="pantry-plan-note"><strong>' + esc(name) + '：</strong>' + esc(riceUnusedReason(item)) + '</p>' : '';
+  }).join('');
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">' + esc(copy.title) + '</div><p class="fb-banner-text">' + esc(copy.text) + '</p>' + safetyNotes + unused + '</div></div>'
+    + '<div class="dish-actions"><button class="btn btn-primary" data-act="edit-safe-profile">返回修改配菜</button></div></section></div>';
+}
+function riceGeneratedSummary() {
+  const generated = state.riceGeneratedPlan;
+  const meal = generated && Array.isArray(generated.meals) ? generated.meals[0] : null;
+  return meal ? '<section class="dish-card"><div class="dish-body"><h1 class="dish-name">' + esc(meal.dish_name) + '</h1><p class="dish-taste">' + esc(meal.recommendation_reason) + '</p></div></section>' : '';
+}
+function riceNoAlternativeScreen() {
+  return '<div class="screen fallback-screen"><section class="fallback-banner"><div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'}) + '</span><div><div class="fb-banner-title">当前组合只有这一道可靠菜饭</div>'
+    + '<p class="fb-banner-text">当前这道菜饭仍然保留。这次没有用只换名字或降低食材覆盖的方案充数。</p></div></div>'
+    + riceGeneratedSummary() + '<div class="dish-actions"><button class="btn btn-primary" data-act="continue-rice-meal">继续用当前菜饭</button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">返回修改配菜</button></div></section></div>';
+}
+function riceMealResultScreen() {
+  const generated = state.riceGeneratedPlan || {};
+  const candidate = state.riceSelectedCandidate || {};
+  const meal = Array.isArray(generated.meals) ? generated.meals[0] : null;
+  if (!meal) return riceMealStatusScreen();
+  const nutritionById = new Map(((generated.plan && generated.plan.nutrition_inputs) || [])
+    .map(item => [item.canonical_id, item]));
+  const liquidContract = meal.liquid_constraints || (generated.plan && generated.plan.liquid_constraints) || {};
+  const ingredientRow = item => {
+    const nutrition = nutritionById.get(item.canonical_id) || {};
+    const localAuthority = lookupFoodNutrition(nutrition.name || riceItemName(item) || item.raw_name);
+    const zeroNutritionBasic = item.canonical_id === 'water'
+      || nutrition.canonical_id === 'water'
+      || riceItemName(item) === '水';
+    const estimated = nutrition.auth !== 'tw' && !localAuthority && !zeroNutritionBasic;
+    const totalLiquidWater = item.canonical_id === 'water' && liquidContract.kind === 'total_free_liquid';
+    const displayName = totalLiquidWater ? '清水（本锅约总液体）' : (riceItemName(item) || item.raw_name);
+    const displayAmount = totalLiquidWater
+      ? '约 ' + String(Math.round(+liquidContract.display_grams || +item.planned_grams || 0)) + ' g'
+      : String(Math.round(+item.planned_grams || 0)) + ' g';
+    return '<li class="ing-row"><span class="ing-name">' + esc(displayName)
+      + (estimated ? '<span class="est-tag" title="未命中权威营养库，营养数据仅作估算"> 估</span>' : '')
+      + '</span><span class="ing-grams">' + esc(displayAmount) + '</span></li>';
+  };
+  const lockedIngredients = Array.isArray(meal.locked_ingredients) ? meal.locked_ingredients : [];
+  const majorIngredients = lockedIngredients.filter(item => item && item.source !== 'controlled_seasoning').map(ingredientRow).join('');
+  const controlledSeasonings = lockedIngredients.filter(item => item && item.source === 'controlled_seasoning').map(ingredientRow).join('');
+  const steps = (meal.steps || []).map((step, index) => '<li class="step-row"><span class="step-num">' + (index + 1) + '</span><span class="step-text">' + esc(boundedText(step && step.text, 500)) + '</span></li>').join('');
+  const unused = (candidate.unused_items || []).map(item => {
+    const name = riceItemName(item);
+    return name ? esc(name) + '（' + esc(riceUnusedReason(item)) + '）' : '';
+  }).filter(Boolean);
+  const nutritionRoles = riceNutritionRoleLabels(candidate.nutrition_roles);
+  return '<div class="screen result-screen"><div class="col-main"><section class="dish-card"><div class="dish-body">'
+    + '<div class="dish-eyebrow"><span>今天做这道菜饭</span><span class="chip chip-form">' + esc(riceCookingBadge(candidate)) + '</span></div><h1 class="dish-name">' + esc(meal.dish_name) + '</h1>'
+    + '<div class="dish-meta"><span class="meta">用上 ' + esc(String(candidate.coverage_count || 0)) + '/' + esc(String(candidate.coverage_total || 0)) + '</span><span class="meta-dot"></span><span class="meta">营养 ' + esc(candidate.nutrition_grade || '') + '</span></div>'
+    + '<p class="dish-taste">' + esc(meal.recommendation_reason) + '</p>'
+    + '<p class="pantry-plan-items"><strong>营养搭配 ' + esc(candidate.nutrition_grade || '') + '：</strong>' + esc(nutritionRoles.join('、')) + '</p>'
+    + (unused.length ? '<p class="pantry-plan-items"><strong>这次没有使用：</strong>' + unused.join('；') + '</p>' : '')
+    + riceUserNoticeHtml(generated.user_notices || meal.user_notices)
+    + riceSourceLink(candidate) + '</div></section>'
+    + '<section class="block"><div class="step-head"><span class="step-n">1</span><h3 class="step-title">主食和配菜</h3></div><ul class="ing-list">' + majorIngredients + '</ul>'
+    + (controlledSeasonings ? '<h4 class="step-title" style="margin-top:18px">基础调味</h4><ul class="ing-list">' + controlledSeasonings + '</ul>' : '') + '</section>'
+    + '<section class="block" id="rice-cooking-steps"><div class="step-head"><span class="step-n">2</span><h3 class="step-title">按这几步做</h3></div><ol class="steps">' + steps + '</ol></section>'
+    + '<div class="dish-actions"><button class="btn btn-primary" data-act="start-rice-cooking">开始做</button><button class="btn btn-ghost" data-act="request-rice-swap">换一换</button><button class="btn btn-ghost" data-act="edit-safe-profile">修改配菜忌口</button></div></div>'
+    + '<div class="col-side"><section class="block nutri-block"><p class="nutri-src-note" style="font-size:10px;color:var(--muted);margin:8px 14px;line-height:1.5;">营养数据部分采自 台湾卫生福利部食品药物管理署「食品营养成分资料库」（依政府资料开放授权条款 OGDL-Taiwan-1.0）。未命中的项目会标「估」。</p></section></div>'
+    + '<div class="result-foot">这道菜饭的食材、克数、顺序和安全检查均已固定，不会临时替换。</div></div>';
+}
+function showRiceMealStatus(result) {
+  state.riceStatusResult = cloneJson(result || {});
+  const viewByStatus = {
+    needs_balance_input:'needs-balance',
+    no_reliable_rice_meal:'no-reliable',
+    no_alternative_rice_meal:'no-alternative',
+    unsafe_recipe:'unsafe',
+    stale_plan:'stale',
+  };
+  state.view = viewByStatus[state.riceStatusResult.status] || 'no-reliable';
+  window.scrollTo(0, 0);
+  render();
+}
+function validRiceCompiledResult(result, candidate) {
+  const meal = result && Array.isArray(result.meals) ? result.meals[0] : null;
+  return !!(result && result.schema_version === 3 && result.status === 'ready' && result.generation_allowed === true
+    && result.plan_id === candidate.plan_id && result.variant_id === candidate.variant_id
+    && result.recipe_id === candidate.recipe_id && meal && meal.dish_name === candidate.display_name
+    && meal.variant_id === candidate.variant_id && meal.recipe_id === candidate.recipe_id);
+}
+async function runRiceMealPlanning(options) {
+  const opts = options || {};
+  if (typeof location !== 'undefined' && location.protocol === 'file:') {
+    showGenerationFailure(genError('local_start_required', '请双击 start.command 启动本地版本。', false)); return;
+  }
+  const pantry = splitPlannerItems(state.profile.pantry);
+  if (!pantry.length) {
+    state.view = 'profile'; state.profileEditing = true;
+    state.rolloutNotice = '先选或填写至少一种想用的配菜。'; render(); return;
+  }
+  if (pantry.length > 20) {
+    showGenerationFailure(genError('pantry_too_many', '一次最多填写 20 种食材', false)); return;
+  }
+  state.rolloutNotice = '';
+  state.view = 'generating'; state.genStage = 0; render();
+  const request = buildRiceMealRequest(opts);
+  state.riceRequestSnapshot = cloneJson(request);
+  try {
+    const result = await postPlannerV2('/plan-meal', request);
+    state.riceSelection = cloneJson(result);
+    if (result.status === 'ready') {
+      const candidates = Array.isArray(result.candidates) ? result.candidates.filter(validRiceCandidate).slice(0, 3) : [];
+      if (!candidates.length) throw genError('bad_shape', '可用菜饭候选结构无效', false);
+      state.riceCandidates = cloneJson(candidates);
+      state.riceStatusResult = null;
+      state.view = 'rice-meal-candidates'; window.scrollTo(0, 0); render(); return;
+    }
+    if (result.status === 'no_alternative_rice_meal') {
+      state.riceStatusResult = cloneJson(result); state.view = 'no-alternative'; render(); return;
+    }
+    showRiceMealStatus(result);
+  } catch (error) { showGenerationFailure(error); }
+}
+async function chooseRiceMealPlan(planId) {
+  const candidate = (state.riceCandidates || []).find(item => item.plan_id === String(planId || ''));
+  if (!candidate || !validRiceCandidate(candidate)) return;
+  state.riceSelectedCandidate = cloneJson(candidate);
+  state.view = 'generating'; state.genStage = 1; render();
+  try {
+    const result = await postPlannerV2('/generate-plan', { plan_token:candidate.plan_token });
+    if (result && result.status === 'stale_plan') { showRiceMealStatus(result); return; }
+    if (!validRiceCompiledResult(result, candidate)) throw genError('plan_identity_mismatch', '生成结果与已选菜饭不一致', false);
+    state.riceGeneratedPlan = cloneJson(result);
+    state.riceRecentPlanIds = boundedTextList([...state.riceRecentPlanIds, candidate.plan_id], 20, 100);
+    state.view = 'rice-meal-result'; window.scrollTo(0, 0); render();
+  } catch (error) { showGenerationFailure(error); }
+}
+async function requestRiceMealSwap() {
+  const current = state.riceSelectedCandidate;
+  if (!current) return;
+  await runRiceMealPlanning({
+    currentPlanId:current.plan_id,
+    recentPlanIds:boundedTextList([...state.riceRecentPlanIds, current.plan_id], 20, 100),
+  });
+}
 // ============ 主渲染 ============
 function render() {
   let html;
-  if (state.view === 'profile') html = profileScreen();
+  if (state.view === 'source-rotation' || state.view === 'source-rotation-loading') html = sourceRotationScreen();
+  else if (state.view === 'profile') html = profileScreen();
   else if (state.view === 'generating') html = generatingScreen();
-  else if (state.view === 'fallback') html = resultScreen(true);
-  else html = resultScreen(false);
-  if (state.feedbackOpen) html += feedbackModal();
+  else if (state.view === 'rice-meal-candidates') html = riceMealCandidatesScreen();
+  else if (state.view === 'rice-meal-result') html = riceMealResultScreen();
+  else if (['needs-balance','no-reliable','unsafe','stale'].includes(state.view)) html = riceMealStatusScreen();
+  else if (state.view === 'no-alternative') html = riceNoAlternativeScreen();
+  else if (state.view === 'pantry-plan') html = pantryPlanScreen();
+  else if (state.view === 'v2-candidates') html = plannerCandidatesScreen();
+  else if (state.view === 'v2-plan' || state.view === 'v2-plan-preview') html = plannerStateScreen();
+  else if (state.view === 'v2-no-alternative') html = noAlternativePlanScreen();
+  else if (state.view === 'v2-result') html = generatedPlanScreen();
+  else if (state.view === 'safe-stop') html = safeStopScreen();
+  else if (state.view === 'pantry-stop') {
+    html = state.lastGenError && state.lastGenError.code === 'no_compatible_pantry_recipe'
+      ? (state.swapHistory.length ? swapExhaustedScreen() : pantryStopScreen())
+      : unsafePantryStopScreen();
+  }
+  else if (state.view === 'gen-failed') html = generationFailureScreen(state.lastGenError);
+  else html = resultScreen();
   document.getElementById('root').innerHTML = html;
 }
 
 // ============ 流程 ============
-// 后端代理地址：本地优先 localhost:8765；线上同源。若本地代理/异常来源不可达，再尝试线上 API。
-const PROD_ORIGIN = 'https://yiguochu.pages.dev';
+// 后端代理地址：每次生成只打一个端点。本地用 localhost:8765，线上严格同源；file: 不允许发请求。
 function cleanProxyBase(base) { return String(base || '').replace(/\/+$/, ''); }
 const PROXY_BASE = (typeof window !== 'undefined' && window.YIGUOCHU_PROXY)
   || ((typeof location !== 'undefined' && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) ? 'http://localhost:8765' : '');
@@ -935,10 +2252,10 @@ function apiCandidates(path) {
     if (!out.includes(url)) out.push(url);
   };
   const loc = (typeof location !== 'undefined') ? location : null;
+  if (loc && loc.protocol === 'file:') return out;
   if (typeof window !== 'undefined' && window.YIGUOCHU_PROXY) add(window.YIGUOCHU_PROXY);
-  else if (loc && loc.protocol === 'file:') add(PROD_ORIGIN);
-  else if (loc && (loc.hostname === 'localhost' || loc.hostname === '127.0.0.1')) { add(PROXY_BASE); add(PROD_ORIGIN); }
-  else { add(PROXY_BASE); if (loc && loc.origin && loc.origin !== PROD_ORIGIN) add(PROD_ORIGIN); }
+  else if (loc && (loc.hostname === 'localhost' || loc.hostname === '127.0.0.1')) add(PROXY_BASE);
+  else add(PROXY_BASE);
   return out;
 }
 // 换一换意图 → 给模型的方向（照搬设计 generate.js 的 SWAP_HINT）
@@ -949,14 +2266,10 @@ const SWAP_HINT = {
   easier:'用户想更省事：步骤≤3、食材≤8、时间≤25分钟，尽量用现成好处理的食材。',
   protein:'用户想换种主要蛋白：把主蛋白换成不同的一种（鸡↔牛↔虾↔鱼↔豆腐/蛋）。',
 };
-// 全天营养目标（Mifflin BMR；新表单没采集身高，用性别估值，够给 AI 当目标参考）
+// 一顿主餐的份量参考，只用于防止模型给出明显过少或过多的整锅用量。
 function computeTargets(p) {
-  const w = +p.weight || 58, a = +p.age || 31, isM = p.sex === 'male';
-  const bmr = isM ? 10*w + 6.25*170 - 5*a + 5 : 10*w + 6.25*160 - 5*a - 161;
-  let kcal = Math.round(bmr * 1.4), pr = Math.round(w * 1.0), fb = isM ? 30 : 25, ca = a < 50 ? 800 : 1000;
-  if (p.goal === 'cut') { kcal = Math.round(kcal * 0.8); pr = Math.round(w * 1.2); }
-  else if (p.goal === 'bulk') { kcal += 200; pr = Math.round(w * 1.6); }
-  return { kcal, p: pr, fb, ca, na: 2000, w3: isM ? 1.6 : 1.1, fe: isM ? 12 : 18, zn: isM ? 12 : 8.5, vc: 100 };
+  const servings = servingCount(p);
+  return { servings, kcal: 650 * servings, p: 25 * servings, fb: 8 * servings, ca: 250 * servings, na: 800 * servings };
 }
 const FISH_RE = /鱼|虾|蟹|贝|蛤|蚝|鱿|海鲜|三文|金枪|鲈|鳕|带鱼|黄花|沙丁|鲐|鲫|龙利|墨鱼/;
 // 把后端 proxy 的返回映射成 dish；#0: 每食材先查本地表，命中用权威值(est=false)、否则用 AI 值(est=true)
@@ -988,7 +2301,7 @@ function mapDish(res, targets) {
     hasFish, vegCount, kcal: Math.round(totals.kcal), protein: Math.round(totals.p),
     nutrients: totals,
     ingredients: ings, steps: (Array.isArray(res.steps) ? res.steps : []).map(String).map(s => s.trim()).filter(Boolean).slice(0, 6),
-    _targets: targets,
+    servings: targets.servings || servingCount(state.profile), purpose: state.profile.intent || state.profile.purpose || 'quick', _targets: targets,
     familyId: boundedText(res.family_id, 100), baseRecipeId: boundedText(res.base_recipe_id, 100),
     basisLevel: basisLevel === 'classic' || basisLevel === 'adapted' ? basisLevel : '',
     pairingBasis: boundedText(res.pairing_basis, 400),
@@ -996,130 +2309,122 @@ function mapDish(res, targets) {
     sourceRefs: normalizedSourceRefs(res.source_refs), validationFlags: boundedTextList(res.validation_flags, 20, 160),
   };
 }
-function syncDishFromItems() {
-  const KEYS = NUTRIENTS.map(n => n.key);
-  const totals = {}; KEYS.forEach(k => totals[k] = 0);
-  state.items.forEach(it => { const g = +it.grams || 0; const per = it.nut || {}; KEYS.forEach(k => totals[k] += (+per[k] || 0) * g / 100); });
-  KEYS.forEach(k => totals[k] = Math.round(totals[k] * 10) / 10);
-  const d = state.dish; d.ingredients = state.items.map(x => ({ ...x }));
-  d.nutrients = totals; d.kcal = Math.round(totals.kcal); d.protein = Math.round(totals.p);
-}
-const FIXABLE_LOW = { p:'蛋/瘦肉/鱼虾/豆制品', ca:'奶/酸奶/豆腐/黑芝麻/绿叶菜', fe:'瘦红肉/动物肝/蛤蜊/菠菜', zn:'牡蛎/瘦肉/坚果', fb:'全谷/豆类/菌菇/各种蔬菜', vc:'彩椒/西兰花/柑橘/猕猴桃' };
-function nutritionWindow(days) {
-  const cut = Date.now() - days * 86400000;
-  const log = STORE.getNutriLog().filter(e => (e.ts || 0) >= cut);
-  const sum = {}; NUTRIENTS.forEach(n => sum[n.key] = 0);
-  log.forEach(e => NUTRIENTS.forEach(n => sum[n.key] += (e.n && e.n[n.key]) || 0));
-  return { count: log.length, sum, fish: log.filter(e => e.fish).length };
-}
-function balancingHints(targets) {
-  const w = nutritionWindow(7);
-  if (w.count < 3) return null;
-  const low = [];
-  Object.keys(FIXABLE_LOW).forEach(k => { const exp = (targets[k] || 0) * w.count; if (exp > 0 && w.sum[k] < exp * 0.6) low.push({ k, ratio: w.sum[k] / exp }); });
-  low.sort((a, b) => a.ratio - b.ratio);
-  const pick = low.slice(0, 2).map(x => ({ name: NUTRIENTS.find(n => n.key === x.k).name, foods: FIXABLE_LOW[x.k] }));
-  const naExp = (targets.na || 0) * w.count;
-  const highNa = naExp > 0 && w.sum.na > naExp * 1.2;
-  if (!pick.length && !highNa) return null;
-  return { low: pick, highNa };
-}
-// 看一周：从本地选菜记录算真实节奏（七天点阵 / 吃鱼 / 食材种类）。无记录时为空，用几天自然长出来。
-function buildWeek() {
-  let choices = []; try { choices = (JSON.parse(localStorage.getItem('yiguochu_v1') || '{}').choices) || []; } catch (e) {}
-  const now = new Date(); now.setHours(0,0,0,0);
-  const mon = new Date(now); mon.setDate(now.getDate() - ((now.getDay() + 6) % 7));
-  const L = ['一','二','三','四','五','六','日'];
-  const key = d => d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
-  const days = []; const wk = new Set(); let fish = 0;
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(mon); d.setDate(mon.getDate() + i);
-    const c = choices.find(x => x.date === key(d));
-    let cooked = null; if (c) cooked = true; else if (d < now) cooked = false;
-    days.push({ d: L[i], cooked, dish: c ? c.name : '', fish: c ? !!c.hasFish : false });
-    if (c) { if (c.hasFish) fish++; (c.ings || []).forEach(n => wk.add(n)); }
-  }
-  const doneN = days.filter(x => x.cooked === true).length;
-  return { days, fishDone: Math.min(2, fish), fishTarget: 2, variety: { count: wk.size, sample: [...wk].slice(0, 6) },
-    takeaway: doneN ? ('这周做了 ' + doneN + ' 顿，吃到 ' + wk.size + ' 种食材，挺杂的，节奏不错。') : '这周还没开火——今天就从这一锅开始吧。' };
-}
-
 // 真实生成：POST 到 proxy /generate-meal，解析后映射
 function scoreDish(d) {
-  const t = d._targets || {}; let fails = 0;
-  if (Array.isArray(d.validationFlags) && d.validationFlags.length) fails += d.validationFlags.length;
-  if ((d.steps || []).length > 4) fails++;
-  if (d.minutes > 45) fails++;
-  if (t.kcal && d.kcal < t.kcal * 0.35) fails++; // 仅拦真垃圾输出: DeepSeek 系统性交付 43-67% 目标热量, 二次生成治不了系统性偏差, 只会双倍烧钱; 诚实文案(三档)负责向用户说明
+  const t = d._targets || {}; const issues = [];
+  if (Array.isArray(d.validationFlags) && d.validationFlags.length) issues.push('validation');
+  if ((d.steps || []).length > 4) issues.push('step_count');
+  if (d.minutes > 45) issues.push('duration');
+  if (t.kcal && d.kcal < t.kcal * 0.50) issues.push('portion_too_small');
+  if (d.purpose === 'quick' && ((d.steps || []).length > 3 || (d.ingredients || []).length > 8 || d.minutes > 25)) issues.push('quick_complexity');
+  const stepText = (d.steps || []).join('');
+  if (/另起锅|分别焯|提前一晚|提前过夜/.test(stepText)) issues.push('hidden_prep');
+  const title = (d.name || '') + ' ' + (d.form || '');
+  const names = (d.ingredients || []).map(x => x.name || '');
+  const hasNoodles = names.some(x => /面条|挂面|意面|荞麦面|乌冬|拉面|米粉|河粉|米线|粉丝|粉条|方便面/.test(x));
+  const hasRice = names.some(x => /米饭|大米|糙米|小米|藜麦|燕麦|杂粮/.test(x));
+  if (/汤面|拌面|炒面|汤粉|米线/.test(title) && !hasNoodles) issues.push('missing_staple');
+  if (/焖饭|炒饭|盖浇饭|丼饭|煲仔饭/.test(title) && !hasRice) issues.push('missing_staple');
+  const pantry = (state.profile.pantry || '').split(/[,，、\s]+/).map(normFoodName).filter(x => x.length >= 2);
+  const groundedPantry = boundedTextList(d.usedPantry, 16, 80).map(normFoodName).filter(x => x.length >= 2);
+  const hasPantryMatch = pantry.some(p => (
+    names.some(n => normFoodName(n).includes(p) || p.includes(normFoodName(n)))
+    || groundedPantry.some(item => item === p || item.includes(p) || p.includes(item))
+  ));
+  if (pantry.length && !hasPantryMatch) issues.push('no_pantry_match');
+  const avoided = (state.profile.dislikes || '').split(/[,，、\s]+/).map(x => normFoodName(x.replace(/过敏|不吃|忌口|不要/g,''))).filter(x => x.length >= 2);
+  if (avoided.some(a => names.some(n => matchAllergy(a, n)))) issues.push('allergen');
   const ratio = t.kcal ? Math.min(d.kcal / t.kcal, 1.1) : 1;
-  return { ok: fails === 0, score: (3 - fails) * 10 + ratio * 5 };
+  return { ok: issues.length === 0, issues, score: (9 - issues.length) * 10 + ratio * 5 };
 }
-function genError(code, message, retryable) {
+function genError(code, message, retryable, details) {
   const e = new Error(message || code || 'generate_failed');
   e.code = code || 'generate_failed';
   e.retryable = retryable !== false;
+  if (details && typeof details === 'object') Object.assign(e, details);
   return e;
+}
+function badJsonResponseError(response, endpoint) {
+  const contentType = response && response.headers && typeof response.headers.get === 'function'
+    ? String(response.headers.get('content-type') || '') : '';
+  const diagnostic = {
+    evt:'client_generate_error', code:'bad_json', endpoint:String((response && response.url) || endpoint || ''),
+    status:Number(response && response.status) || 0, content_type:contentType, at:new Date().toISOString(),
+  };
+  console.warn(JSON.stringify(diagnostic));
+  const code = [502, 503, 504].includes(diagnostic.status) ? 'service_unavailable' : 'bad_json';
+  return genError(code, code === 'service_unavailable' ? 'service unavailable' : 'bad json', diagnostic.status >= 500, {
+    causeCode:'bad_json',
+    endpoint:diagnostic.endpoint, httpStatus:diagnostic.status,
+    contentType:diagnostic.content_type, occurredAt:diagnostic.at,
+  });
 }
 function normalizeGenError(err) {
   if (!err) return { code:'generate_failed', message:'生成失败' };
-  return { code: err.code || err.name || 'generate_failed', message: err.message || String(err) };
+  return {
+    code: err.code || err.name || 'generate_failed', message: err.message || String(err),
+    retryable: err.retryable !== false,
+    pantryPlan: normalizePantryPlan(err.pantryPlan),
+    baseRecipeId: boundedText(err.baseRecipeId, 100),
+  };
 }
-function fallbackCopy(err) {
-  const code = err && err.code;
-  if (code === 'unsafe_recipe') return { title:'这版没有通过检查', text:'这版做法没有通过食材和熟制检查，下面先给一个应急参考。' };
-  if (code === 'rate_limited') return { title:'今天生成次数太多了', text:'刚才可能已经触发每日保护额度。下面先给一个应急搭配；晚点再试会更稳。' };
-  if (code === 'budget_exceeded') return { title:'今天大家用得有点多', text:'到了每日总量保护上限。下面先给一个应急搭配；明天再来会更稳。' };
-  if (code === 'timeout') return { title:'这次等太久了', text:'生成服务没有在限定时间内返回。下面先给一个应急搭配；点「再试一次」会重新生成。' };
-  if (code === 'network') return { title:'这次网络没接上', text:'手机到云端接口这一下没有连稳。下面先给一个应急搭配；点「再试一次」通常就好了。' };
-  if (code === 'bad_shape' || code === 'bad_json' || code === 'map_failed') return { title:'这次返回格式不稳', text:'AI 返回了菜谱，但格式没法安全读取。下面先给一个应急搭配；再试一次会换一版。' };
-  return { title:'这次没生成出来', text:'可能服务临时繁忙。下面先给一个应急搭配；点「再试一次」，通常就好了。' };
+function normalizePantryPlan(value) {
+  const plan = value && typeof value === 'object' ? value : {};
+  const original = boundedTextList(plan.original, 20, 80);
+  const kind = plan.kind === 'sequence' ? 'sequence' : 'alternatives';
+  const groups = (Array.isArray(plan.groups) ? plan.groups : []).slice(0, 3).map((group, index) => ({
+    recipeId: boundedText(group && (group.recipe_id || group.recipeId), 100),
+    recipeName: boundedText(group && (group.recipe_name || group.recipeName), 100) || '一锅方案',
+    cuisine: boundedText(group && group.cuisine, 60),
+    order: Math.max(1, Math.min(3, Math.round(+(group && group.order) || index + 1))),
+    usedItems: boundedTextList(group && (group.used_items || group.usedItems), 6, 80),
+    unusedItems: boundedTextList(group && (group.unused_items || group.unusedItems), 20, 80),
+    requiredExtraItems: boundedTextList(group && (group.required_extra_items || group.requiredExtraItems), 12, 80),
+    coverage: Math.max(0, Math.min(20, Math.round(+(group && group.coverage) || 0))),
+    total: original.length,
+  })).filter(group => group.usedItems.length);
+  return { kind, original, groups, unplanned: boundedTextList(plan.unplanned, 20, 80) };
 }
 async function fetchRealDish(opts) {
+  opts = opts || {};
   const p = state.profile, targets = computeTargets(p);
   const swapIntent = boundedText(opts.swap, 20);
   const swap = (swapIntent && swapIntent !== 'any') ? swapIntent : null;
   const splitC = s => (s || '').split(/[,，、]+/).map(x => x.trim()).filter(Boolean);
   const splitW = s => (s || '').split(/[,，、\s]+/).map(x => x.trim()).filter(Boolean);
-  let recent = boundedTextList(STORE.recentNames(8), 8, 80);
-  if (swap && state.dish && state.dish.name) recent.unshift(state.dish.name);
-  recent = boundedTextList(recent, 8, 80);
   const hasTrustedRecent = !!(state.dish && boundedText(state.dish.baseRecipeId, 100));
-  const recentBaseRecipes = boundedTextList(hasTrustedRecent ? [state.dish.baseRecipeId] : [], 8, 100);
-  const recentFamilies = boundedTextList(hasTrustedRecent ? [state.dish.familyId] : [], 8, 100);
-  const bh = balancingHints(targets);
-  // V10: 收集最近用过的主蛋白(当前菜 + 本地历史最近几道), 传后台让它轮换避开, 防止总是同一种(如三文鱼)
-  const PROTEIN_RE = /鱼|虾|蟹|贝|蛤|蚝|鱿|鸡|鸭|鹅|猪|牛|羊|蛋|豆腐|腐竹|豆干|豆皮|毛豆/;
-  const proteinSet = new Set();
-  const collectProteins = items => (items || []).forEach(it => {
-    const nm = (it && it.name) || ''; if (!nm) return;
-    const f = lookupFoodNutrition(nm); const cat = f && f.category;
-    if (cat === '肉禽' || cat === '水产' || cat === '蛋类' || PROTEIN_RE.test(nm)) proteinSet.add(nm);
-  });
-  if (state.dish && Array.isArray(state.dish.ingredients)) collectProteins(state.dish.ingredients);
-  try { ((JSON.parse(localStorage.getItem('yiguochu_v1') || '{}').choices) || []).slice(-4).forEach(c => collectProteins(c.snapshot && c.snapshot.ingredients)); } catch (e) {}
-  // pantry(想用掉)的食材绝不进"轮换排除"名单, 否则换一换会把你想用掉的食材也避开
-  const pantryNorm = new Set(splitC(p.pantry).map(x => normFoodName(x)));
-  const recentProteins = [...proteinSet].filter(x => !pantryNorm.has(normFoodName(x))).slice(0, 10);
-  const cookedAny = !!(state.week && state.week.days && state.week.days.some(d => d.cooked === true));
-  const body = { meal_name: '今日推荐 (一日量, 可分 1-2 顿吃)', targets, constraints: {
-    diet: 'omnivore', pantry: splitC(p.pantry), dislikes: splitW(p.dislikes),
-    recent_dishes: recent, recent_base_recipes: recentBaseRecipes, recent_families: recentFamilies, swap_intent: swapIntent,
-    week_fish_short: cookedAny && state.week.fishDone < state.week.fishTarget,
-    recent_ingredients: recentProteins.length ? { recent_proteins: recentProteins, window_size: recentProteins.length } : undefined,
+  // 换一换历史累计: 换掉或点过「开始做」的菜都发给后端；基础菜在冷却期硬排除，近期家族累进扣分。
+  const hist = Array.isArray(state.swapHistory) ? state.swapHistory : [];
+  const recent = boundedTextList(hist.map(h => h.name).concat(((swap || hasTrustedRecent) && state.dish) ? [state.dish.name] : []), 20, 80);
+  const recentBaseRecipes = boundedTextList([
+    ...hist.map(h => h.base),
+    ...(Array.isArray(state.sessionRejectedBaseRecipes) ? state.sessionRejectedBaseRecipes : []),
+    ...(hasTrustedRecent ? [state.dish.baseRecipeId] : []),
+  ], 20, 100);
+  const recentFamilies = boundedTextList(hist.map(h => h.fam).concat(hasTrustedRecent && state.dish.familyId ? [state.dish.familyId] : []), 20, 100);
+  const profilePantry = uniquePantryItems(splitC(p.pantry));
+  const requestedPantry = uniquePantryItems(Array.isArray(opts.pantryOverride) ? opts.pantryOverride : profilePantry);
+  const pantryOriginal = uniquePantryItems(Array.isArray(opts.pantryOriginal) ? opts.pantryOriginal : profilePantry);
+  const avoidBase = boundedText(opts.avoidBase, 100);
+  const selectedBaseRecipeId = boundedText(opts.selectedBaseRecipeId, 100);
+  const body = { meal_name: '这次的一锅主餐', targets, constraints: {
+    diet: 'omnivore', pantry: requestedPantry, dislikes: splitW(p.dislikes),
+    purpose: p.intent || p.purpose || 'quick', servings: targets.servings, recent_dishes: recent,
+    recent_base_recipes: boundedTextList(recentBaseRecipes.concat(avoidBase ? [avoidBase] : []), 20, 100),
+    selected_base_recipe_id: selectedBaseRecipeId,
+    recent_families: recentFamilies, swap_intent: swapIntent,
     swap_hint: swap ? SWAP_HINT[swap] : '',
-    feedback_hint: STORE.feedbackHint(),
-    balance_low: bh ? bh.low.map(x => x.name + '(可用' + x.foods + ')') : [],
-    balance_high_na: bh ? bh.highNa : false,
   } };
   let requestCount = 0;
   const once = async () => {
     const endpoints = apiCandidates('/generate-meal');
-    let r, fetchErr;
+    let r, fetchErr, responseEndpoint = '';
     for (let i = 0; i < endpoints.length && !r && requestCount < 2; i++) {
-      const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), 75000);
+      const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), GENERATION_REQUEST_TIMEOUT_MS); // 浏览器留 55s: worker 上游 45s, 为 V4 完整菜谱输出保留网络余量
       try {
         requestCount++;
         r = await fetch(endpoints[i], { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal: ctrl.signal, cache:'no-store' });
+        if (r) responseEndpoint = String(r.url || endpoints[i]);
       } catch (e) {
         fetchErr = e;
       } finally {
@@ -1128,88 +2433,48 @@ async function fetchRealDish(opts) {
     }
     if (!r) throw genError(fetchErr && fetchErr.name === 'AbortError' ? 'timeout' : 'network', fetchErr && fetchErr.name === 'AbortError' ? 'request timeout' : 'network error', true);
     let res;
-    try { res = await r.json(); } catch (e) { throw genError('bad_json', 'bad json', r.status >= 500); }
+    try { res = await r.json(); } catch (e) { throw badJsonResponseError(r, responseEndpoint); }
     if (!r.ok) {
       const code = res && res.code ? String(res.code) : ('http_' + r.status);
-      throw genError(code, (res && res.error) || ('http ' + r.status), r.status >= 500);
+      throw genError(code, (res && res.error) || ('http ' + r.status), r.status >= 500, {
+        pantryPlan: normalizePantryPlan(res && res.pantry_plan),
+      });
     }
     if (res._error || !Array.isArray(res.ingredients) || res.ingredients.length < 3) throw genError('bad_shape', res._error || 'bad shape', true);
-    try { return mapDish(res, targets); }
+    try {
+      const dish = mapDish(res, targets);
+      const usedNorm = new Set(uniquePantryItems(dish.usedPantry).map(pantryIdentity));
+      dish.pantryContext = {
+        original: pantryOriginal,
+        requested: requestedPantry,
+        remaining: pantryOriginal.filter(item => !usedNorm.has(pantryIdentity(item))),
+      };
+      return dish;
+    }
     catch (e) { throw genError('map_failed', e && e.message ? e.message : 'map failed', false); }
   };
-  // 生成和临时错误合计最多发出 2 个请求；任何不安全候选都不会被当作「较不差」结果返回。
-  let lastErr = null;
-  for (let attempt = 0; attempt < 2 && requestCount < 2; attempt++) {
-    let dish;
-    try { dish = await once(); }
-    catch (e) {
-      lastErr = e;
-      if (e && e.retryable === false) throw e;
-      if (requestCount >= 2) throw e;
-      continue;
-    }
-    if (scoreDish(dish).ok) return dish;
-    if (requestCount >= 2 || attempt === 1) throw genError('unsafe_recipe', 'recipe validation failed', false);
+  // 单轮定胜负(F4): 同一轮内 localhost→线上端点回退保留; 不再隐式重试, 是否重来由用户在失败屏点「重新生成」决定。
+  // 任何不安全候选都不会被当作「较不差」结果返回。
+  const dish = await once();
+  const assessment = scoreDish(dish);
+  if (assessment.ok) return dish;
+  const safetyIssues = new Set(['validation','hidden_prep','missing_staple','no_pantry_match','allergen']);
+  if (assessment.issues.includes('portion_too_small') && !assessment.issues.some(issue => safetyIssues.has(issue))) {
+    throw genError('portion_too_small', 'meal portion is too small', false, { baseRecipeId:dish.baseRecipeId });
   }
-  if (lastErr) throw lastErr;
-  throw genError('unsafe_recipe', 'recipe validation failed', false);
+  if (!assessment.issues.some(issue => safetyIssues.has(issue))) {
+    throw genError('recipe_not_suitable', 'recipe does not fit this request', false, { baseRecipeId:dish.baseRecipeId });
+  }
+  throw genError('unsafe_recipe', 'recipe validation failed', false, { baseRecipeId:dish.baseRecipeId });
 }
 
 let genTimers = [], genId = 0;
 const clearGen = () => { genTimers.forEach(clearTimeout); genTimers = []; };
 function showResult(d, notice) {
   state.dish = d; state.items = d.ingredients.map(x => ({ ...x }));
-  state.notice = notice || ''; state.lastGenError = null; state.chosen = false; state.editing = false;
-  state.swapOpen = false; state.weekOpen = false; state.nutriOpen = false; state.suppDone = {};
-  state.week = buildWeek();
+  state.notice = notice || ''; state.lastGenError = null;
+  state.swapOpen = false; state.noAlternativeSwap = false; state.nutriOpen = false;
   state.view = 'result'; window.scrollTo(0, 0); render();
-}
-function mockPick(swap) {
-  // 示意：按意图尽量挑一道不同的（真实生成在下一步接后端）
-  const others = DISHES.filter(d => d.id !== state.dish.id);
-  let pool = others;
-  if (swap === 'lighter') { const lo = Math.min(...others.map(d => d.kcal)); pool = others.filter(d => d.kcal <= lo + 40); }
-  else if (swap === 'easier') pool = others.filter(d => d.minutes <= 28 && d.difficulty === 1);
-  else if (swap === 'cuisine') pool = others.filter(d => d.form !== state.dish.form);
-  else if (swap === 'protein') pool = others.filter(d => d.hasFish !== state.dish.hasFish);
-  if (!pool.length) pool = others.length ? others : DISHES;
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-window.__yiguochuStats = function () { try { return STORE.getStats(); } catch (e) { return {}; } };
-async function runGenerate(opts) {
-  opts = opts || {};
-  clearGen();
-  STORE.bumpStat('gen'); if (opts.swap) STORE.bumpStat('swap');
-  const myId = ++genId;
-  state.notice = '';
-  state.lastGenError = null;
-  state.view = 'generating'; state.genStage = 0; render();
-  genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 1; render(); } }, 1100));
-  genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 2; render(); } }, 2400));
-  const started = Date.now();
-  try {
-    const dish = await fetchRealDish(opts);
-    if (myId !== genId) return;
-    STORE.bumpStat('gen_ok');
-    const wait = Math.max(0, 2000 - (Date.now() - started)); // 至少让动画走一会，不闪
-    genTimers.push(setTimeout(() => { if (myId === genId) showResult(dish); }, wait));
-  } catch (err) {
-    if (myId !== genId) return;
-    state.lastGenError = normalizeGenError(err);
-    genTimers.push(setTimeout(() => {
-      if (myId !== genId) return;
-      // 生成失败一律走兜底屏(无"就吃这个", 不会把假数据写进历史)；不再展示可点的示意菜
-      state.dish = DISHES[2]; state.items = DISHES[2].ingredients.map(x => ({ ...x })); // d3 照烧鸡腿杂粮拌饭: 季节中性, 无腊肠/春笋(d1 六月看到春笋很出戏)
-      state.notice = ''; state.view = 'fallback'; window.scrollTo(0, 0); render();
-    }, 400));
-  }
-}
-function choose() {
-  STORE.bumpStat('choose');
-  STORE.recordChoice(state.dish);
-  STORE.recordNutritionChoice(state.dish);
-  state.week = buildWeek(); // 重建周数据: 今天的点立刻亮、吃鱼计数同步(buildWeek 从刚写入的 choices 算, 不再手动++)
-  state.chosen = true; render();
 }
 // 语音输入：Web Speech API(zh-CN)。需 https 或 localhost + Chrome/Safari；file:// 或不支持时提示手打。
 let _rec = null;
@@ -1226,56 +2491,117 @@ function startVoice(id) {
   try { rec.start(); } catch (e) { if (btn) btn.classList.remove('rec'); }
 }
 function syncProfileInputs() {
-  ['age','weight','pantry','dislikes'].forEach(f => { const el = document.getElementById('pf-' + f); if (el) state.profile[f] = el.value; });
+  ['pantry','dislikes'].forEach(f => { const el = document.getElementById('pf-' + f); if (el) state.profile[f] = el.value; });
+}
+function pantrySelectionSet(value) {
+  return new Set(String(value || '').split(/[,，、\s]+/).map(item => item.trim()).filter(Boolean));
+}
+function syncPantryChipVisuals(value) {
+  const selected = pantrySelectionSet(value);
+  document.querySelectorAll('[data-pantry-chip]').forEach(button => {
+    const name = String(button.dataset.pantryChip || '');
+    const active = selected.has(name);
+    const wrapper = button.closest('.pantry-chip');
+    if (wrapper) wrapper.classList.toggle('on', active);
+    button.textContent = (active ? '✓ ' : '') + name;
+  });
+}
+function beginCooking() {
+  updateSwapHistory('started');
+  state.notice = '已选好这道菜，下面从第 1 步开始。';
+  render();
+  setTimeout(() => {
+    const steps = document.getElementById('cooking-steps') || document.querySelector('.steps');
+    if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 0);
 }
 
 // ============ 事件 ============
-document.getElementById('root').addEventListener('click', (e) => {
-  // 反馈弹窗：点遮罩背景 或「跳过」→ 关闭；点 sheet 内部空白不关
-  if (state.feedbackOpen) {
-    if ((e.target.classList && e.target.classList.contains('modal-scrim')) || e.target.closest('.fb-skip')) { state.feedbackOpen = false; render(); return; }
+document.getElementById('root').addEventListener('input', (e) => {
+  const target = e && e.target;
+  if (!target) return;
+  if (target.id === 'pf-pantry') {
+    state.profile.pantry = target.value;
+    syncPantryChipVisuals(target.value);
+  } else if (target.id === 'pf-dislikes') {
+    state.profile.dislikes = target.value;
   }
-  const t = e.target.closest('[data-act],[data-swap],[data-bump],[data-del],[data-supp],[data-seg],[data-fbreason],[data-mic],[data-pantry-chip],[data-del-myfood]');
+});
+document.getElementById('root').addEventListener('click', (e) => {
+  const t = e.target.closest('[data-act],[data-swap],[data-seg],[data-mic],[data-pantry-chip]');
   if (!t) return;
   if (t.dataset.mic) { startVoice(t.dataset.mic); return; }
   const act = t.dataset.act;
   if (t.dataset.seg) { syncProfileInputs(); state.profile[t.dataset.seg] = t.dataset.val; render(); return; }
   if (t.dataset.pantryChip) { syncProfileInputs(); const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); const f = t.dataset.pantryChip; set.has(f) ? set.delete(f) : set.add(f); state.profile.pantry = [...set].join(', '); render(); return; }
-  if (t.dataset.delMyfood) { syncProfileInputs(); const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods : COMMON_PANTRY; state.profile.myFoods = base.filter(x => x !== t.dataset.delMyfood); STORE.saveProfile(state.profile); render(); return; }
-  if (t.dataset.fbreason) { state.feedbackPicked = t.dataset.fbreason; STORE.recordFeedback(false, t.dataset.fbreason); render(); setTimeout(() => { state.feedbackOpen = false; state.fbThanks = '记下了，下次会避开这个问题。今天再试一锅？'; render(); }, 500); return; }
-  if (t.dataset.swap) { state.swapOpen = false; runGenerate({ swap: t.dataset.swap }); return; }
-  if (t.dataset.bump != null) { const i = +t.dataset.bump; state.items[i].grams = Math.max(0, state.items[i].grams + (+t.dataset.delta)); syncDishFromItems(); render(); return; }
-  if (t.dataset.del != null) { state.items.splice(+t.dataset.del, 1); syncDishFromItems(); render(); return; }
-  if (t.dataset.supp) { state.suppDone[t.dataset.supp] = !state.suppDone[t.dataset.supp]; render(); return; }
+  if (t.dataset.swap) {
+    state.swapOpen = false;
+    if (state.dish && !state.displayedPlan) runGenerate(legacySwapOptions(t.dataset.swap));
+    else requestAlternativePlan();
+    return;
+  }
   if (act === 'edit-profile') { state.profileEditing = true; render(); }
   else if (act === 'collapse-profile') { syncProfileInputs(); state.profileEditing = false; render(); }
-  else if (act === 'generate') { syncProfileInputs(); STORE.saveProfile(state.profile); runGenerate({ profile: state.profile }); }
+  else if (act === 'generate') { syncProfileInputs(); state.pantryPlan = null; STORE.saveProfile(state.profile); runPrimaryFlow(); }
+  else if (act === 'rotate-source-recipe') rotateSourceRecipe();
   else if (act === 'swap') { state.swapOpen = !state.swapOpen; state.swapPantryEdit = false; render(); }
   else if (act === 'edit-swap-pantry') { state.swapPantryEdit = true; render(); }
   else if (act === 'save-swap-pantry') { const el = document.getElementById('swap-pantry-input'); if (el) { state.profile.pantry = el.value; STORE.saveProfile(state.profile); } state.swapPantryEdit = false; render(); }
   else if (act === 'add-myfood') { syncProfileInputs(); state.addingFood = true; render(); setTimeout(() => { const el = document.getElementById('add-food-input'); if (el) el.focus(); }, 0); }
-  else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = (Array.isArray(state.profile.myFoods) && state.profile.myFoods.length) ? state.profile.myFoods.slice() : COMMON_PANTRY.slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
-  else if (act === 'choose') choose();
-  else if (act === 'toggle-edit') { state.editing = !state.editing; render(); }
+  else if (act === 'save-myfood') { syncProfileInputs(); const el = document.getElementById('add-food-input'); const v = el ? el.value.trim() : ''; if (v) { const base = profilePantryChoices(state.profile).slice(); if (!base.includes(v)) base.push(v); state.profile.myFoods = base; const set = new Set((state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean)); set.add(v); state.profile.pantry = [...set].join(', '); STORE.saveProfile(state.profile); } state.addingFood = false; render(); }
+  else if (act === 'start-cooking') beginCooking();
+  else if (act === 'start-v2-cooking') { recordDisplayedPlanHistory('started'); const steps = document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  else if (act === 'choose-rice-meal') chooseRiceMealPlan(t.dataset.planId);
+  else if (act === 'request-rice-swap') requestRiceMealSwap();
+  else if (act === 'continue-rice-meal') { state.view = 'rice-meal-result'; state.riceStatusResult = null; render(); }
+  else if (act === 'retry-rice-generate') chooseRiceMealPlan(state.riceSelectedCandidate && state.riceSelectedCandidate.plan_id);
+  else if (act === 'start-rice-cooking') { const steps = document.getElementById('rice-cooking-steps') || document.querySelector('.steps'); if (steps) steps.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  else if (act === 'request-plan-swap') requestAlternativePlan();
+  else if (act === 'choose-plan') choosePlan(t.dataset.planId);
+  else if (act === 'replan-v2') runPlannerFlow({ autoGenerate:true });
+  else if (act === 'generate-displayed-plan') generateDisplayedPlan();
+  else if (act === 'retry-generate-plan') generateDisplayedPlan();
+  else if (act === 'continue-current-plan') continueCurrentPlan();
+  else if (act === 'plan-decision') applyPlanDecision(t.dataset.decision, t.dataset.item);
   else if (act === 'toggle-nutri') { state.nutriOpen = !state.nutriOpen; render(); }
-  else if (act === 'toggle-week') { state.weekOpen = !state.weekOpen; render(); }
-  else if (act === 'retry') runGenerate({ profile: state.profile });
-  else if (act === 'fb-ate') { STORE.recordFeedback(true); state.feedbackOpen = false; state.fbThanks = '昨天那顿记下了，本周节奏没断。今天继续，一锅就好。'; render(); }
+  else if (act === 'choose-pantry-group') choosePantryGroup(+t.dataset.groupIndex);
+  else if (act === 'relax-pantry-time') relaxPantryTime();
+  else if (act === 'retry') runPrimaryFlow();
 });
 
 // ============ 初始化 ============
 (function init() {
   const saved = STORE.getProfile();
-  if (saved) { state.profile = Object.assign({}, DEFAULT_PROFILE, saved); state.firstTime = false; state.profileEditing = false; }
+  const savedProfile = saved ? (RICE_MEAL_PRODUCT
+    ? {
+        servings:['1','2','3','4'].includes(String(saved.servings)) ? String(saved.servings) : '2',
+        pantry:boundedText(saved.pantry, 1600),
+        dislikes:boundedText(saved.dislikes, 1600),
+      }
+    : migrateProfile(saved)) : null;
+  const savedPantryMode = savedProfile && savedProfile.mode === 'pantry';
+  if (saved) { state.profile = savedProfile; STORE.saveProfile(state.profile); state.firstTime = false; state.profileEditing = false; }
   else { state.firstTime = true; state.profileEditing = true; }
-  const pend = STORE.pendingFeedback();
-  if (pend) { state.feedbackOpen = true; state.feedbackDish = pend.name; }
-  state.week = buildWeek();
+  if (!RICE_MEAL_PRODUCT && !plannerLabEnabled()) {
+    state.profile.mode = 'recommend';
+    state.profile.intent = publicIntent(state.profile.intent);
+    if (plannerDirectRecommendEnabled() && savedPantryMode) {
+      state.rolloutNotice = '清库存正在做，先来解决今晚吃什么。';
+    }
+    STORE.saveProfile(state.profile);
+  }
+  state.swapHistory = pruneSwapHistory(STORE.getSwapHistory()); // 读回跨会话换一换历史: 7 天前的丢弃, 最多 20 条
+  STORE.saveSwapHistory(state.swapHistory); // 修剪结果写回, 别让过期条目一直留在本地
+  if (RICE_MEAL_PRODUCT) {
+    initSourceRotation();
+    return;
+  }
   render();
 })();
 </script>
 <script>
-// 米类过敏安全增强：无可信无米主餐时只显示停止页，不展示静态应急菜谱。
+// 安全停止页与失败屏：确认无安全菜谱(no_safe_recipe/unsafe_recipe)时只显示停止页；其余失败只给真实原因和重试入口。
+// 一律不展示静态应急菜谱(F2/F3): 兜底菜绕过敏检查、且无营养数据, 比没有更伤信任。
 const CONTROLLED_RICE_ALLERGY_INPUTS = new Set([
   '大米', '白米', '糙米', '糯米', '粳米', '籼米', '黑米', '紫米', '红米',
   '米饭', '白米饭', '糙米饭', '糯米饭', '黑米饭', '紫米饭',
@@ -1287,18 +2613,185 @@ function hasControlledRiceAllergyInput(value) {
     .filter(Boolean)
     .some(item => CONTROLLED_RICE_ALLERGY_INPUTS.has(item));
 }
-function shouldUseRiceSafeStop(error, dislikes) {
-  return (error && error.code === 'no_safe_recipe') || hasControlledRiceAllergyInput(dislikes);
+// 只在后端确认没有安全菜谱时走停止页(F3); 网络抖动等其他错误一律走失败屏, 可重试
+function shouldUseRiceSafeStop(error) {
+  return !!(error && (error.code === 'no_safe_recipe' || error.code === 'unsafe_recipe'));
 }
 function safeStopScreen() {
+  // 米类忌口沿用专属文案; 其他过敏也可能触发 no_safe_recipe(worker 类别匹配变严), 用通用文案
+  const rice = hasControlledRiceAllergyInput(state.profile.dislikes);
+  const title = rice ? '暂时没有安全的无米方案' : '暂时没有安全的一锅方案';
+  const text = rice
+    ? '为了不把不合适的主食硬塞进菜谱，这次没有展示应急菜谱。可以调整忌口或现有食材后再试。'
+    : '按现在的食材和忌口，暂时没有安全的一锅方案。可以调整忌口或现有食材后再试。';
   return '<div class="screen fallback-screen"><section class="fallback-banner">'
     + '<div class="fb-banner-row"><span class="fb-banner-icon">'
     + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
-    + '</span><div><div class="fb-banner-title">暂时没有安全的无米方案</div>'
-    + '<p class="fb-banner-text">为了不把不合适的主食硬塞进菜谱，这次没有展示应急菜谱。可以调整忌口或现有食材后再试。</p>'
+    + '</span><div><div class="fb-banner-title">' + esc(title) + '</div>'
+    + '<p class="fb-banner-text">' + esc(text) + '</p>'
+    + '</div></div><div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>重新生成</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>调整食材或忌口</span></button>'
+    + '</div></section></div>';
+}
+function pantryStopScreen() {
+  const pantry = (state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean);
+  const pantryText = pantry.length ? pantry.join('、') : '这些食材';
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">暂时没有搭配稳妥的菜谱</div>'
+    + '<p class="fb-banner-text">当前可靠菜谱还不能把“' + esc(pantryText) + '”稳妥地搭进同一锅。这次没有硬拼，也没有展示无关的应急菜。</p>'
     + '</div></div><button class="btn btn-primary" data-act="edit-safe-profile">'
-    + icon('edit',{size:18,sw:1.9}) + '<span>调整食材或忌口</span></button>'
+    + icon('edit',{size:18,sw:1.9}) + '<span>调整现有食材</span></button>'
     + '</section></div>';
+}
+function pantryPlanScreen() {
+  const plan = normalizePantryPlan(state.pantryPlan);
+  const total = plan.original.length;
+  const details = group => (
+    '<span class="pantry-plan-items"><strong>用上：</strong>' + esc(group.usedItems.join('、')) + '</span>'
+    + (group.unusedItems.length ? '<span class="pantry-plan-items"><strong>本锅不用：</strong>' + esc(group.unusedItems.join('、')) + '</span>' : '')
+    + (group.requiredExtraItems.length ? '<span class="pantry-plan-items"><strong>还需准备：</strong>' + esc(group.requiredExtraItems.join('、')) + '</span>' : '')
+  );
+  const sequenceLabels = ['第一锅', '第二锅', '第三锅'];
+  const maxCoverage = Math.max(0, ...plan.groups.map(group => group.usedItems.length));
+  const cards = plan.groups.map((group, index) => {
+    const coverageLabel = plan.kind === 'sequence' ? ''
+      : (index === 0
+        ? (group.usedItems.length === total ? '全部用上' : '优先方案')
+        : (group.usedItems.length === maxCoverage ? '同等覆盖' : '覆盖较少'));
+    const top = '<span class="pantry-plan-top"><span class="pantry-plan-name">'
+      + (plan.kind === 'sequence' ? sequenceLabels[index] + ' · ' : '') + esc(group.recipeName) + '</span>'
+      + (coverageLabel ? '<span class="pantry-plan-label">' + coverageLabel + '</span>' : '')
+      + '<span class="pantry-plan-count">用上 ' + group.usedItems.length + '/' + total + ' 种</span></span>';
+    if (plan.kind === 'sequence') return '<div class="pantry-plan-card">' + top + details(group) + '</div>';
+    return '<button class="pantry-plan-card" data-act="choose-pantry-group" data-group-index="' + index + '">'
+      + top + details(group) + '</button>';
+  }).join('');
+  const unplanned = plan.unplanned.length
+    ? '<p class="pantry-plan-note">暂时没有稳妥搭配：' + esc(plan.unplanned.join('、')) + '。它们会继续保留，不会被假装用掉。</p>'
+    : '<p class="pantry-plan-note">每张方案都按你这次填写的完整食材独立计算。</p>';
+  const title = plan.kind === 'sequence' ? '按顺序分成几锅' : '选一个本锅方案';
+  const text = plan.kind === 'sequence'
+    ? '你选了 ' + total + ' 种食材。下面是连续计划，不是互相替代的选项；先做第一锅，再处理后面的食材。'
+    : '下面每张卡都重新对照你填写的 ' + total + ' 种食材，分别说明本锅用上、暂时不用和还需准备什么。';
+  const sequenceAction = plan.kind === 'sequence' && plan.groups.length
+    ? '<button class="btn btn-primary" data-act="choose-pantry-group" data-group-index="0">先做第一锅</button>'
+    : '';
+  const quickRelaxation = plan.kind === 'alternatives' && state.profile.intent === 'quick' && maxCoverage < total
+    ? '<div class="pantry-plan-note">快手模式只看 30 分钟内的菜谱。想用上更多食材，可以放宽到正常时长。</div>'
+      + '<button class="btn btn-ghost" data-act="relax-pantry-time">放宽到正常时长</button>'
+    : '';
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('bowl',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">' + esc(title) + '</div>'
+    + '<p class="fb-banner-text">' + esc(text) + '</p>'
+    + '</div></div><div class="pantry-plan-list">' + cards + '</div>' + unplanned + quickRelaxation + sequenceAction
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">返回调整食材</button>'
+    + '</section></div>';
+}
+function choosePantryGroup(index) {
+  const plan = normalizePantryPlan(state.pantryPlan);
+  const group = plan.groups[index];
+  if (!group) return;
+  runGenerate({ pantryOverride:group.usedItems, pantryOriginal:plan.original, selectedBaseRecipeId:group.recipeId });
+}
+function samePantryIdentitySet(left, right) {
+  const keys = value => uniquePantryItems(value).map(pantryIdentity).filter(Boolean).sort();
+  const a = keys(left), b = keys(right);
+  return a.length === b.length && a.every((item, index) => item === b[index]);
+}
+function legacySwapOptions(swap) {
+  const result = { swap };
+  const context = state.dish && state.dish.pantryContext;
+  const currentPantry = uniquePantryItems(String(state.profile.pantry || '').split(/[,，、\s]+/));
+  const original = uniquePantryItems(context && context.original);
+  const requested = uniquePantryItems(context && context.requested);
+  if (requested.length && samePantryIdentitySet(currentPantry, original)) {
+    result.pantryOverride = requested;
+    result.pantryOriginal = original;
+  }
+  return result;
+}
+async function relaxPantryTime() {
+  state.profile.intent = 'normal';
+  state.pantryPlan = null;
+  STORE.saveProfile(state.profile);
+  return runPrimaryFlow();
+}
+// 换一换候选枯竭屏(F-B): 累计历史把可搭候选耗尽(422)时的显式出口——清记录从头轮, 或调整食材; 不自动重试
+function swapExhaustedScreen() {
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">能搭的菜都换过一遍了</div>'
+    + '<p class="fb-banner-text">最近换过的菜都会避开，能搭的候选已经用完。可以清掉最近的记录从头轮，或者调整食材。</p>'
+    + '</div></div><div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="clear-swap-history">' + icon('refresh',{size:18,sw:1.9}) + '<span>清掉记录继续换</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>调整食材</span></button>'
+    + '</div></section></div>';
+}
+// 「清掉记录继续换」: 用户主动清掉换一换历史(内存+持久层), 再按上次换一换意图重新生成。
+// runGenerate 会像普通换一换一样把当前菜重新记入历史——本就是要换掉它, 从头轮不代表再看一遍当前这道。
+function clearSwapHistoryAndRetry() {
+  state.swapHistory = [];
+  STORE.saveSwapHistory(state.swapHistory);
+  runGenerate({ swap: state.lastSwapIntent || 'any' });
+}
+function unsafePantryStopScreen() {
+  const pantry = (state.profile.pantry || '').split(/[,，、\s]+/).filter(Boolean);
+  const pantryText = pantry.length ? pantry.join('、') : '这些食材';
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">这次菜谱没有通过检查</div>'
+    + '<p class="fb-banner-text">围绕“' + esc(pantryText) + '”生成的做法没有通过食材或熟制检查，因此没有展示无关的应急菜。你的输入已经保留。</p>'
+    + '</div></div><div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="retry">' + icon('refresh',{size:18,sw:1.9}) + '<span>重新生成</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>调整现有食材</span></button>'
+    + '</div></section></div>';
+}
+// 失败屏文案(F2/F4 错误码契约): 按 error.code 给真实原因的人话, 不再承诺应急菜
+function genFailureCopy(err) {
+  const code = err && err.code;
+  if (code === 'local_start_required') return { title:'请先启动本地版本', text:'请双击 start.command 启动本地版本。' };
+  if (code === 'pantry_too_many') return { title:'食材有点多，先精简一下', text:'一次最多填写 20 种食材。你的输入已经完整保留，请删掉不打算这几顿使用的食材后再试。' };
+  if (code === 'portion_too_small') return { title:'这锅份量偏少', text:'按你选择的份数，这道做法不够一顿主餐。换一道更完整的会更合适。' };
+  if (code === 'recipe_not_suitable') return { title:'这道不太符合本次要求', text:'做法本身不一定不安全，但份量、时间或复杂度不适合你这次的选择。' };
+  if (code === 'timeout') return { title:'这次等太久了', text:'等太久了，可能是网络或服务器忙。' };
+  if (code === 'network') return { title:'这次网络没接上', text:'手机到云端接口这一下没有连稳。检查网络后点「重新生成」通常就好了。' };
+  if (code === 'rate_limited') return { title:'今天生成次数太多了', text:'刚才可能已经触发每日保护额度。晚点再试会更稳。' };
+  if (code === 'budget_exceeded') return { title:'今天大家用得有点多', text:'到了每日总量保护上限。明天再来会更稳。' };
+  if (code === 'budget_unavailable') return { title:'服务暂时不可用', text:'服务暂时不可用，请稍后再试。' };
+  if (code === 'service_unavailable' || code === 'upstream_error' || code === 'upstream_timeout') return { title:'服务现在有点忙', text:'这不是食材或菜谱的问题。服务暂时没有接住这次请求，请稍后再试；你的输入已经保留。' };
+  return { title:'这次没生成出来', text:'生成失败了，再试一次？' }; // 其他 5xx/上游错误(bad_json/bad_shape/http_5xx 等)
+}
+// 失败屏(F2): 只显示真实错误原因 + 重新生成/修改食材忌口, 不渲染任何菜品和营养区
+function generationFailureScreen(err) {
+  const copy = genFailureCopy(err);
+  const retryLabel = err && err.code === 'portion_too_small' ? '换一道更完整的' : '重新生成';
+  const keepsRiceChoice = RICE_MEAL_PRODUCT && state.riceSelectedCandidate;
+  const keepsPlannerChoice = plannerDirectRecommendEnabled()
+    && state.displayedPlan && state.displayedPlan.plan && state.planRequestSnapshot;
+  const selectedPlan = keepsRiceChoice
+    ? '<section class="pantry-plan-card"><span class="pantry-plan-name">' + esc(state.riceSelectedCandidate.display_name) + '</span>'
+      + '<p class="pantry-plan-note">已选的菜饭还在，只是这次没能打开已锁定的详细步骤。</p></section>'
+    : keepsPlannerChoice
+    ? plannerPotsHtml(state.displayedPlan)
+      + '<p class="pantry-plan-note">这套组合还在，只是详细步骤这次没有生成成功。</p>'
+    : '';
+  const retryAction = keepsRiceChoice ? 'retry-rice-generate' : keepsPlannerChoice ? 'retry-generate-plan' : 'retry';
+  return '<div class="screen fallback-screen"><section class="fallback-banner">'
+    + '<div class="fb-banner-row"><span class="fb-banner-icon">'
+    + icon('pin',{size:18,sw:1.7,stroke:'#c08a3e'})
+    + '</span><div><div class="fb-banner-title">' + esc(copy.title) + '</div>'
+    + '<p class="fb-banner-text">' + esc(copy.text) + '</p>'
+    + '</div></div>' + selectedPlan + '<div class="dish-actions">'
+    + '<button class="btn btn-primary" data-act="' + retryAction + '">' + icon('refresh',{size:18,sw:1.9}) + '<span>' + esc(retryLabel) + '</span></button>'
+    + '<button class="btn btn-ghost" data-act="edit-safe-profile">' + icon('edit',{size:18,sw:1.9}) + '<span>修改食材忌口</span></button>'
+    + '</div></section></div>';
 }
 function openEditableProfile() {
   state.profileEditing = true;
@@ -1308,25 +2801,81 @@ function openEditableProfile() {
 }
 function showGenerationFailure(err) {
   state.lastGenError = normalizeGenError(err);
+  if (state.lastGenError.code === 'portion_too_small') {
+    rememberSessionRejectedCandidate(state.lastGenError.baseRecipeId);
+  }
   state.notice = '';
-  if (shouldUseRiceSafeStop(state.lastGenError, state.profile.dislikes)) {
+  if (state.lastGenError.code === 'pantry_needs_grouping' && state.lastGenError.pantryPlan.groups.length) {
+    state.pantryPlan = state.lastGenError.pantryPlan;
+    state.view = 'pantry-plan';
+    window.scrollTo(0, 0);
+    document.getElementById('root').innerHTML = pantryPlanScreen();
+    return;
+  }
+  if (state.lastGenError.code === 'no_compatible_pantry_recipe') {
+    state.view = 'pantry-stop';
+    window.scrollTo(0, 0);
+    // 换过几轮后 422 多半是历史把候选耗尽了(F-B): 给专属屏和恢复路径; 无历史(初始生成)仍走原停止屏
+    document.getElementById('root').innerHTML = state.swapHistory.length ? swapExhaustedScreen() : pantryStopScreen();
+    return;
+  }
+  if (state.lastGenError.code === 'unsafe_recipe' && String(state.profile.pantry || '').trim()) {
+    state.view = 'pantry-stop';
+    window.scrollTo(0, 0);
+    document.getElementById('root').innerHTML = unsafePantryStopScreen();
+    return;
+  }
+  if (shouldUseRiceSafeStop(state.lastGenError)) {
     state.view = 'safe-stop';
     window.scrollTo(0, 0);
     document.getElementById('root').innerHTML = safeStopScreen();
     return;
   }
-  state.dish = DISHES[2];
-  state.items = DISHES[2].ingredients.map(x => ({ ...x }));
-  state.view = 'fallback';
+  // 其余错误一律走失败屏(F2): 真实原因 + 重新生成/修改食材忌口, 不再往 state 里塞静态兜底菜
+  state.view = 'gen-failed';
   window.scrollTo(0, 0);
-  render();
+  document.getElementById('root').innerHTML = generationFailureScreen(state.lastGenError);
 }
-runGenerate = async function(opts) {
+// 换一换历史维护(F-A): 点换一换时把当前菜(带 ts)累计进历史并落盘, 后端据此避开, 能换到第三、四道。
+// 全新生成不再清空——持久层跨会话冷却的意义就是"上次吃过的也避开", 这里只做修剪落盘;
+// session 内刚换掉的菜仍在 state.swapHistory 里, 照常参与当次避开。
+function updateSwapHistory(kind) {
+  if (kind !== 'swapped' && kind !== 'started') { persistSwapHistory(); return; }
+  if (!state.dish) return;
+  const cur = {
+    name: state.dish.name || '', base: state.dish.baseRecipeId || '', fam: state.dish.familyId || '',
+    kind, ts: Date.now(),
+  };
+  const duplicateIndex = state.swapHistory.findIndex(h => (cur.base && h.base === cur.base) || (!cur.base && h.name === cur.name));
+  if (duplicateIndex >= 0) state.swapHistory[duplicateIndex] = cur;
+  else state.swapHistory.push(cur);
+  persistSwapHistory();
+}
+function rememberSessionRejectedCandidate(baseRecipeId) {
+  const base = boundedText(baseRecipeId, 100);
+  if (!base) return;
+  state.sessionRejectedBaseRecipes = boundedTextList([
+    ...(Array.isArray(state.sessionRejectedBaseRecipes) ? state.sessionRejectedBaseRecipes : []), base,
+  ], 20, 100);
+}
+async function runGenerate(opts) {
   opts = opts || {};
   clearGen();
   const myId = ++genId;
+  const previousDish = opts.swap && state.dish ? state.dish : null;
   state.notice = '';
   state.lastGenError = null;
+  if (typeof location !== 'undefined' && location.protocol === 'file:') {
+    showGenerationFailure(genError('local_start_required', '请双击 start.command 启动本地版本。', false));
+    return;
+  }
+  const pantryCount = String(state.profile.pantry || '').split(/[,，、\s]+/).map(item => item.trim()).filter(Boolean).length;
+  if (pantryCount > 20) {
+    showGenerationFailure(genError('pantry_too_many', '一次最多填写 20 种食材', false));
+    return;
+  }
+  if (opts.swap) state.lastSwapIntent = opts.swap; // 记住最后一次换一换意图(F-B): 枯竭屏「清掉记录继续换」按它重发
+  updateSwapHistory(opts.swap ? 'swapped' : undefined);
   state.view = 'generating'; state.genStage = 0; render();
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 1; render(); } }, 1100));
   genTimers.push(setTimeout(() => { if (myId === genId) { state.genStage = 2; render(); } }, 2400));
@@ -1338,15 +2887,35 @@ runGenerate = async function(opts) {
     genTimers.push(setTimeout(() => { if (myId === genId) showResult(dish); }, wait));
   } catch (err) {
     if (myId !== genId) return;
+    clearGen(); // 防止旧动画计时器在失败屏显示后再次 render 把它覆盖
     genTimers.push(setTimeout(() => {
       if (myId !== genId) return;
+      const normalized = normalizeGenError(err);
+      if (previousDish) {
+        if (normalized.code === 'portion_too_small') rememberSessionRejectedCandidate(normalized.baseRecipeId);
+        const noAlternative = normalized.code === 'no_compatible_pantry_recipe' || normalized.code === 'no_alternative_recipe';
+        const serviceBusy = ['service_unavailable','upstream_error','upstream_timeout','budget_unavailable'].includes(normalized.code);
+        showResult(previousDish, normalized.code === 'portion_too_small'
+          ? '刚换到的方案份量不足，已保留当前这道。可以换个方向再试。'
+          : noAlternative
+            ? '当前组合只有一个可靠的一锅方案，已经保留在下面。'
+            : serviceBusy
+              ? '服务现在有点忙，当前这道还在。请稍后再换，不需要连续点击。'
+              : '这次没换成，当前这道还在。可以换个方向再试。');
+        state.noAlternativeSwap = noAlternative;
+        state.swapOpen = true;
+        render();
+        return;
+      }
       showGenerationFailure(err);
     }, 400));
   }
 };
 document.getElementById('root').addEventListener('click', (e) => {
   const target = e.target.closest('[data-act]');
-  if (target && target.dataset.act === 'edit-safe-profile') openEditableProfile();
+  if (!target) return;
+  if (target.dataset.act === 'edit-safe-profile') openEditableProfile();
+  else if (target.dataset.act === 'clear-swap-history') clearSwapHistoryAndRetry();
 });
 
 // 可信菜谱补充字段在独立兼容层处理，避免模型字段直接进入页面 HTML。
@@ -1358,19 +2927,27 @@ mapDish = function(res, targets) {
 };
 const recipeBasisBlockWithoutAdaptation = recipeBasisBlock;
 recipeBasisBlock = function(d) {
-  const rendered = recipeBasisBlockWithoutAdaptation(d);
-  const adaptation = boundedText(d && d.adaptationNote, 400);
-  if (!rendered || !adaptation) return rendered;
-  const line = '<p class="basis-line"><strong>单锅改编说明：</strong>' + esc(adaptation) + '</p>';
-  return rendered.replace('<details class="basis-sources">', line + '<details class="basis-sources">');
+  return recipeBasisBlockWithoutAdaptation(d);
 };
-const scoreDishBeforeThirtyMinuteQuick = scoreDish;
+const scoreDishBeforeQuickLimit = scoreDish;
 scoreDish = function(d) {
-  const scored = d && d.purpose === 'quick' && d.minutes <= 30 ? { ...d, minutes: 25 } : d;
-  return scoreDishBeforeThirtyMinuteQuick(scored);
+  const trustedPantryTradeoff = d
+    && d.purpose === 'quick'
+    && d.minutes <= 30
+    && boundedText(d.baseRecipeId, 100)
+    && boundedTextList(d.usedPantry, 16, 80).length > 0;
+  // 可信库存菜仍可使用后端允许的 4 步与动态食材行数，但 quick 的总时长绝不放宽到 30 分钟以上。
+  const scored = trustedPantryTradeoff
+    ? { ...d, purpose: 'pantry' }
+    : (d && d.purpose === 'quick' && d.minutes <= 30 ? { ...d, minutes: 25 } : d);
+  return scoreDishBeforeQuickLimit(scored);
 };
 </script>
-<script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过) */
-if ('serviceWorker' in navigator && location.protocol === 'https:') { navigator.serviceWorker.register('sw.js').catch(function(){}); }</script>
+<script>/* PWA: 仅在 https 注册 SW(本地 file:// 跳过)。更新在下次自然导航生效，不强制刷新正在做饭的页面。 */
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  navigator.serviceWorker.register('sw.js?v=__YIGUOCHU_BUILD_ID__', { updateViaCache:'none' })
+    .then(function(registration) { return registration.update(); })
+    .catch(function(){});
+}</script>
 </body>
 </html>

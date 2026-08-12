@@ -1,0 +1,2423 @@
+{
+  "schema_version": 1,
+  "assessment_version": "northwest-one-pot-research-v1-20260726",
+  "region_overview": {
+    "region_id": "northwest",
+    "name": "西北",
+    "province_codes": [
+      "CN-SN",
+      "CN-GS",
+      "CN-NX",
+      "CN-XJ"
+    ],
+    "research_focus": [
+      "抓饭",
+      "熬饭",
+      "面片锅与杂粮焖饭"
+    ],
+    "production_recipe_count": 3,
+    "candidate_count": 0,
+    "concrete_research_lead_count": 8
+  },
+  "province_coverage_audits": [
+    {
+      "province_code": "CN-SN",
+      "province_name": "陕西",
+      "atlas_status": "skeleton_only",
+      "research_question": "整理陕西陕北豆饭、杂粮焖饭和面片锅的地域技法。",
+      "production_recipe_ids": [
+        "shaanbei-red-date-cowpea-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "huayin-mashi-pao",
+        "xifu-jiaotuan-seasoned-bowl"
+      ]
+    },
+    {
+      "province_code": "CN-GS",
+      "province_name": "甘肃",
+      "atlas_status": "skeleton_only",
+      "research_question": "核实甘肃面片、熬饭和杂粮饭的一锅主餐原型。",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "gansu-heyan-jiumianpian-broth",
+        "huaining-mixed-grain-jiaotuan"
+      ]
+    },
+    {
+      "province_code": "CN-NX",
+      "province_name": "宁夏",
+      "atlas_status": "skeleton_only",
+      "research_question": "核实宁夏羊肉饭、回族主食锅与杂粮同锅结构。",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-rouzhanfan-steamed-rice",
+        "ningxia-shengcuan-jiumian-bowl"
+      ]
+    },
+    {
+      "province_code": "CN-XJ",
+      "province_name": "新疆",
+      "atlas_status": "skeleton_only",
+      "research_question": "整理新疆抓饭中羊肉与素抓饭的共享比例、技法和替换边界。",
+      "production_recipe_ids": [
+        "xinjiang-lamb-pilaf",
+        "xinjiang-vegetable-pilaf"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "turpan-soup-rice-technique",
+        "xinjiang-household-jupianzi-soup"
+      ]
+    }
+  ],
+  "production_recipe_audits": [
+    {
+      "recipe_id": "shaanbei-red-date-cowpea-rice",
+      "province_code": "CN-SN",
+      "audit_state": "needs_manual_review",
+      "source_ids": [
+        "sn-mizhi-laba-2017",
+        "sn-shaanxi-daily-laba-2020",
+        "sn-samr-broomcorn-millet-undated",
+        "sn-cdc-bean-safety-2018"
+      ],
+      "claims": {
+        "soft_grain_date_bean_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "sn-mizhi-laba-2017",
+            "sn-shaanxi-daily-laba-2020"
+          ],
+          "reason": "地方志材料支持传统身份与核心组合。"
+        },
+        "ordinary_rice_adaptation": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sn-mizhi-laba-2017",
+            "sn-shaanxi-daily-laba-2020",
+            "sn-samr-broomcorn-millet-undated"
+          ],
+          "reason": "普通大米不能被写成传统软谷物等价。"
+        },
+        "project_ratio_time_vessel": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sn-mizhi-laba-2017",
+            "sn-shaanxi-daily-laba-2020",
+            "sn-cdc-bean-safety-2018"
+          ],
+          "reason": "来源不证明项目液体、分钟或家用锅具。"
+        }
+      },
+      "ingredient_shapes": [
+        "soft_grain",
+        "date",
+        "cowpea"
+      ],
+      "forbidden_claims": [
+        "ordinary_rice_as_traditional_equivalence",
+        "pitted_date_as_source_fact",
+        "source_as_ratio_dsl"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "research_only"
+      ],
+      "decision_reason": "传统身份可审计，项目替换和数值待人工复核。",
+      "recipe_name": "陕北红枣豇豆焖饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "陕北菜",
+      "recipe_core_ingredients": [
+        "大米",
+        "去核红枣",
+        "豇豆"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "主粮",
+          "replaces": [
+            "大米"
+          ],
+          "allowed": [
+            "小米",
+            "大米与小米混合"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-SN"
+      ],
+      "atlas_primary_family_id": "raw-rice-braise",
+      "atlas_secondary_family_ids": []
+    },
+    {
+      "recipe_id": "xinjiang-lamb-pilaf",
+      "province_code": "CN-XJ",
+      "audit_state": "needs_manual_review",
+      "source_ids": [
+        "xj-pilaf-gov-undated",
+        "xj-tourism-flavor-2019"
+      ],
+      "claims": {
+        "staged_lamb_carrot_onion_rice_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "xj-pilaf-gov-undated",
+            "xj-tourism-flavor-2019"
+          ],
+          "reason": "官方资料支持分阶段抓饭结构。"
+        },
+        "named_lamb_cut_and_fruit_slots": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "xj-pilaf-gov-undated",
+            "xj-tourism-flavor-2019"
+          ],
+          "reason": "具名分支不等于自由替换槽。"
+        },
+        "project_ratio_time_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "xj-pilaf-gov-undated"
+          ],
+          "reason": "来源不提供项目比例、时间或熟制终点。"
+        }
+      },
+      "ingredient_shapes": [
+        "raw_rice",
+        "lamb",
+        "carrot",
+        "onion"
+      ],
+      "forbidden_claims": [
+        "lamb_shoulder_as_source_fact",
+        "free_fruit_nut_slot",
+        "source_as_ratio_dsl"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "可保留阶段结构，不能把具名分支抽象为自由槽。",
+      "recipe_name": "新疆羊肉抓饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "新疆菜",
+      "recipe_core_ingredients": [
+        "羊腿肉",
+        "洋葱",
+        "胡萝卜",
+        "大米"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "羊肉部位",
+          "replaces": [
+            "羊腿肉"
+          ],
+          "allowed": [
+            "羊肩肉"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-XJ"
+      ],
+      "atlas_primary_family_id": "raw-rice-braise",
+      "atlas_secondary_family_ids": []
+    },
+    {
+      "recipe_id": "xinjiang-vegetable-pilaf",
+      "province_code": "CN-XJ",
+      "audit_state": "needs_more_evidence",
+      "source_ids": [
+        "xj-ts-pilaf-2025"
+      ],
+      "claims": {
+        "vegetarian_pilaf_existence": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "xj-ts-pilaf-2025"
+          ],
+          "reason": "来源支持素抓饭分支存在。"
+        },
+        "current_formula_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "xj-ts-pilaf-2025"
+          ],
+          "reason": "现有洋葱、胡萝卜、鹰嘴豆配方是家庭适配，不是已证传统公式。"
+        }
+      },
+      "ingredient_shapes": [
+        "raw_rice",
+        "vegetable_pilaf_style"
+      ],
+      "forbidden_claims": [
+        "household_formula_as_traditional_formula",
+        "free_carrot_color_slot"
+      ],
+      "product_destinations": [
+        "recipe_evidence",
+        "research_only"
+      ],
+      "decision_reason": "只能诚实标注为素抓饭风格家庭适配。",
+      "recipe_name": "新疆素抓饭",
+      "recipe_status": "auto_approved",
+      "cuisine": "新疆菜",
+      "recipe_core_ingredients": [
+        "大米",
+        "洋葱",
+        "胡萝卜"
+      ],
+      "recipe_substitution_slots": [
+        {
+          "slot": "胡萝卜",
+          "replaces": [
+            "胡萝卜"
+          ],
+          "allowed": [
+            "黄胡萝卜",
+            "红萝卜"
+          ]
+        }
+      ],
+      "mapping_regional_scope": "province_specific",
+      "province_codes": [
+        "CN-XJ"
+      ],
+      "atlas_primary_family_id": "raw-rice-braise",
+      "atlas_secondary_family_ids": []
+    }
+  ],
+  "candidate_audits": [],
+  "concrete_research_leads": [
+    {
+      "lead_id": "gansu-heyan-jiumianpian-broth",
+      "name": "甘肃河沿揪面片汤",
+      "province_code": "CN-GS",
+      "family_id": "noodle-piece-broth-main-bowl",
+      "meal_structure": "noodle_pieces_in_saozi_broth",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "gs-kangle-noodle-2017",
+        "gs-linxia-ich-2024"
+      ],
+      "claims": {
+        "heyan_ich_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gs-linxia-ich-2024"
+          ],
+          "reason": "河沿面片烹制技艺有非遗名录身份。"
+        },
+        "noodle_piece_broth_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gs-kangle-noodle-2017"
+          ],
+          "reason": "康乐资料支持面片汤的相近家常结构。"
+        },
+        "heyan_exact_recipe": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gs-kangle-noodle-2017",
+            "gs-linxia-ich-2024"
+          ],
+          "reason": "非遗名录和相邻结构不等于河沿精确配方。"
+        },
+        "single_pot_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gs-kangle-noodle-2017"
+          ],
+          "reason": "资料不证明本项目单锅适配。"
+        }
+      },
+      "ingredient_shapes": [
+        "hand_pulled_noodle_piece",
+        "saozi_broth"
+      ],
+      "known_structure": [
+        "noodle_piece_into_boiling_liquid",
+        "savory_broth"
+      ],
+      "forbidden_shortcuts": [
+        "ich_listing_as_recipe",
+        "single_pot_equivalence"
+      ],
+      "open_questions": [
+        "河沿独特工艺",
+        "面片含水",
+        "家用锅比例"
+      ],
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "身份和同类结构分开记录。"
+    },
+    {
+      "lead_id": "huaining-mixed-grain-jiaotuan",
+      "name": "甘肃会宁杂粮搅团",
+      "province_code": "CN-GS",
+      "family_id": "stirred-grain-thick-main-bowl",
+      "meal_structure": "mixed_grain_flour_manually_stirred_thick_bowl",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "gs-huining-jiaotuan-2025"
+      ],
+      "claims": {
+        "manual_stirred_grain_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "gs-huining-jiaotuan-2025"
+          ],
+          "reason": "来源支持杂粮粉锅中搅制及多分支。"
+        },
+        "unattended_appliance_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "gs-huining-jiaotuan-2025"
+          ],
+          "reason": "手工搅制不证明无人看管电器等价。"
+        }
+      },
+      "ingredient_shapes": [
+        "mixed_grain_flour",
+        "stirred_thick_mass"
+      ],
+      "known_structure": [
+        "manual_stirring",
+        "dry_soup_cold_dressed_branches"
+      ],
+      "forbidden_shortcuts": [
+        "unattended_appliance_equivalence"
+      ],
+      "open_questions": [
+        "搅拌力度",
+        "分支选择",
+        "家庭份量"
+      ],
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "工艺负担必须显式保留。"
+    },
+    {
+      "lead_id": "huayin-mashi-pao",
+      "name": "陕西华阴麻食泡",
+      "province_code": "CN-SN",
+      "family_id": "noodle-piece-broth-main-bowl",
+      "meal_structure": "mashi_pao_local_presence_broth_process_unresolved",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "sn-huayin-mashi-undated",
+        "sn-lantian-mashi-2012"
+      ],
+      "claims": {
+        "huayin_local_presence": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "sn-huayin-mashi-undated"
+          ],
+          "reason": "来源支持华阴在地风味和可见配料。"
+        },
+        "cross_locality_shape_not_proven": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sn-huayin-mashi-undated",
+            "sn-lantian-mashi-2012"
+          ],
+          "reason": "蓝田形态不能直接迁移到华阴。"
+        },
+        "single_pot_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sn-huayin-mashi-undated"
+          ],
+          "reason": "展示配料不证明单锅过程。"
+        }
+      },
+      "ingredient_shapes": [
+        "mashi_body_unresolved",
+        "tofu",
+        "vermicelli",
+        "guokui_piece"
+      ],
+      "known_structure": [
+        "local_flavor_presence"
+      ],
+      "forbidden_shortcuts": [
+        "cross_locality_shape_equivalence",
+        "single_pot_equivalence"
+      ],
+      "open_questions": [
+        "麻食主体",
+        "高汤过程",
+        "肉类和比例"
+      ],
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "固定为跨地形态未证、单锅未证的研究线索。"
+    },
+    {
+      "lead_id": "ningxia-rouzhanfan-steamed-rice",
+      "name": "宁夏肉粘饭炒后同蒸",
+      "province_code": "CN-NX",
+      "family_id": "pre-saute-meat-vegetable-steamed-rice",
+      "meal_structure": "meat_vegetable_pre_saute_then_steam_with_rice",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "nx-rouzhanfan-2022"
+      ],
+      "claims": {
+        "pre_saute_then_steam_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nx-rouzhanfan-2022"
+          ],
+          "reason": "来源支持炒后同蒸的肉粘饭结构。"
+        },
+        "any_meat_rice_braise_equivalence": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nx-rouzhanfan-2022"
+          ],
+          "reason": "此结构不等于任意肉饭焖煮均可称肉粘饭。"
+        }
+      },
+      "ingredient_shapes": [
+        "beef_or_lamb",
+        "onion",
+        "carrot",
+        "rice"
+      ],
+      "known_structure": [
+        "pre_saute",
+        "steam_together"
+      ],
+      "forbidden_shortcuts": [
+        "any_meat_rice_braise_equivalence"
+      ],
+      "open_questions": [
+        "米水比例",
+        "肉类终点",
+        "器具适配"
+      ],
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "保留先炒后蒸结构。"
+    },
+    {
+      "lead_id": "ningxia-shengcuan-jiumian-bowl",
+      "name": "宁夏生汆揪面主食碗",
+      "province_code": "CN-NX",
+      "family_id": "noodle-piece-broth-main-bowl",
+      "meal_structure": "poached_lamb_meatball_and_noodle_pieces_in_broth",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "nx-shengcuan-2025",
+        "nx-lamb-safety-2025"
+      ],
+      "claims": {
+        "shengcuan_meatball_noodle_piece_structure": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "nx-shengcuan-2025"
+          ],
+          "reason": "来源直接支持汆羊肉丸、揪面片和汤菜结构。"
+        },
+        "all_noodle_piece_branches_one_recipe": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nx-shengcuan-2025"
+          ],
+          "reason": "多个面片分支不能合成一个固定配方。"
+        },
+        "meat_under_cooking": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "nx-shengcuan-2025",
+            "nx-lamb-safety-2025"
+          ],
+          "reason": "来源不允许借汆制主张羊肉未熟。"
+        }
+      },
+      "ingredient_shapes": [
+        "lamb_meatball",
+        "hand_pulled_noodle_piece",
+        "broth",
+        "spinach"
+      ],
+      "known_structure": [
+        "poach_meatball",
+        "noodle_piece_broth"
+      ],
+      "forbidden_shortcuts": [
+        "branch_collapse",
+        "undercooked_meat"
+      ],
+      "open_questions": [
+        "肉丸熟透终点",
+        "各面片分支",
+        "比例"
+      ],
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "先核实熟制和分支，不能直接上线。"
+    },
+    {
+      "lead_id": "turpan-soup-rice-technique",
+      "name": "新疆吐鲁番汤饭技艺",
+      "province_code": "CN-XJ",
+      "family_id": "noodle-piece-broth-main-bowl",
+      "meal_structure": "turpan_soup_rice_ich_identity_recipe_unresolved",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "xj-turpan-ich-2025",
+        "xj-turpan-protection-2025"
+      ],
+      "claims": {
+        "turpan_ich_identity": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "xj-turpan-ich-2025"
+          ],
+          "reason": "来源支持汤饭制作技艺非遗身份。"
+        },
+        "protection_unit": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "xj-turpan-protection-2025"
+          ],
+          "reason": "通知支持保护单位信息。"
+        },
+        "recipe_formula": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "xj-turpan-ich-2025",
+            "xj-turpan-protection-2025"
+          ],
+          "reason": "名录和保护单位不提供配方。"
+        }
+      },
+      "ingredient_shapes": [
+        "soup_rice_technique_unresolved"
+      ],
+      "known_structure": [
+        "ich_identity_only"
+      ],
+      "forbidden_shortcuts": [
+        "ich_listing_as_recipe"
+      ],
+      "open_questions": [
+        "食材",
+        "步骤",
+        "家用工艺"
+      ],
+      "product_destinations": [
+        "research_only"
+      ],
+      "decision_reason": "严格研究专用。"
+    },
+    {
+      "lead_id": "xifu-jiaotuan-seasoned-bowl",
+      "name": "陕西西府搅团配调味汤",
+      "province_code": "CN-SN",
+      "family_id": "stirred-grain-thick-main-bowl",
+      "meal_structure": "flour_stirred_into_boiling_water_then_seasoned_bowl",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "sn-xifu-jiaotuan-2025"
+      ],
+      "claims": {
+        "stirred_thick_mass_and_separate_seasoning": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "sn-xifu-jiaotuan-2025"
+          ],
+          "reason": "来源直接支持搅制稠团与另行调味汤。"
+        },
+        "single_vessel_complete_meal": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sn-xifu-jiaotuan-2025"
+          ],
+          "reason": "分开调味汤不证明完整单锅主餐。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "sn-xifu-jiaotuan-2025"
+          ],
+          "reason": "没有项目比例与安全终点。"
+        }
+      },
+      "ingredient_shapes": [
+        "grain_flour",
+        "thick_stirred_mass",
+        "separate_seasoning_soup"
+      ],
+      "known_structure": [
+        "boiling_water",
+        "continuous_stirring",
+        "separate_seasoning"
+      ],
+      "forbidden_shortcuts": [
+        "unattended_appliance_equivalence",
+        "single_vessel_equivalence"
+      ],
+      "open_questions": [
+        "搅拌负担",
+        "家庭份量",
+        "搭配完整性"
+      ],
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "保留技法线索，不升为生产菜谱。"
+    },
+    {
+      "lead_id": "xinjiang-household-jupianzi-soup",
+      "name": "新疆家常揪片子汤饭",
+      "province_code": "CN-XJ",
+      "family_id": "noodle-piece-broth-main-bowl",
+      "meal_structure": "dough_pieces_in_lamb_vegetable_soup",
+      "production_recipe_id": null,
+      "candidate_id": null,
+      "source_ids": [
+        "xj-jupianzi-household-2025"
+      ],
+      "claims": {
+        "household_soup_noodle_piece_description": {
+          "verdict": "supported",
+          "evidence_source_ids": [
+            "xj-jupianzi-household-2025"
+          ],
+          "reason": "来源描述家常面片入羊肉蔬菜汤。"
+        },
+        "exclusive_regional_identity": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "xj-jupianzi-household-2025"
+          ],
+          "reason": "描述不构成排他地域身份。"
+        },
+        "project_ratio_safety": {
+          "verdict": "not_proven",
+          "evidence_source_ids": [
+            "xj-jupianzi-household-2025"
+          ],
+          "reason": "无项目比例或安全终点。"
+        }
+      },
+      "ingredient_shapes": [
+        "dough_piece",
+        "lamb",
+        "vegetable",
+        "soup"
+      ],
+      "known_structure": [
+        "dough_piece_into_soup"
+      ],
+      "forbidden_shortcuts": [
+        "exclusive_identity_claim",
+        "source_as_ratio_dsl"
+      ],
+      "open_questions": [
+        "面片规格",
+        "肉类终点",
+        "汤量"
+      ],
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "家常描述不等于独立标准。"
+    }
+  ],
+  "family_model": [
+    {
+      "family_id": "festive-soft-grain-date-bean-braise",
+      "name": "节令软谷物红枣豆类焖饭",
+      "meal_structure": "soft_grain_date_bean_braise",
+      "evidence_status": "supported_with_boundaries"
+    },
+    {
+      "family_id": "staged-pilaf-raw-rice",
+      "name": "生米分阶段抓饭",
+      "meal_structure": "saute_base_then_raw_rice_braise",
+      "evidence_status": "supported_with_boundaries"
+    },
+    {
+      "family_id": "noodle-piece-broth-main-bowl",
+      "name": "面片汤主食碗",
+      "meal_structure": "dough_or_noodle_pieces_in_broth",
+      "evidence_status": "supported_with_boundaries"
+    },
+    {
+      "family_id": "stirred-grain-thick-main-bowl",
+      "name": "搅制杂粮稠主食碗",
+      "meal_structure": "grain_flour_stirred_into_thick_mass",
+      "evidence_status": "supported_with_boundaries"
+    },
+    {
+      "family_id": "pre-saute-meat-vegetable-steamed-rice",
+      "name": "肉菜预炒后同蒸饭",
+      "meal_structure": "pre_saute_then_steam_rice",
+      "evidence_status": "supported_with_boundaries"
+    }
+  ],
+  "claim_matrix": [
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "gansu-heyan-jiumianpian-broth",
+      "claim_id": "heyan_exact_recipe",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gs-kangle-noodle-2017",
+        "gs-linxia-ich-2024"
+      ],
+      "reason": "非遗名录和相邻结构不等于河沿精确配方。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "gansu-heyan-jiumianpian-broth",
+      "claim_id": "heyan_ich_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gs-linxia-ich-2024"
+      ],
+      "reason": "河沿面片烹制技艺有非遗名录身份。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "gansu-heyan-jiumianpian-broth",
+      "claim_id": "noodle_piece_broth_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gs-kangle-noodle-2017"
+      ],
+      "reason": "康乐资料支持面片汤的相近家常结构。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "gansu-heyan-jiumianpian-broth",
+      "claim_id": "single_pot_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gs-kangle-noodle-2017"
+      ],
+      "reason": "资料不证明本项目单锅适配。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "huaining-mixed-grain-jiaotuan",
+      "claim_id": "manual_stirred_grain_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "gs-huining-jiaotuan-2025"
+      ],
+      "reason": "来源支持杂粮粉锅中搅制及多分支。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "huaining-mixed-grain-jiaotuan",
+      "claim_id": "unattended_appliance_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "gs-huining-jiaotuan-2025"
+      ],
+      "reason": "手工搅制不证明无人看管电器等价。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "huayin-mashi-pao",
+      "claim_id": "cross_locality_shape_not_proven",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "sn-huayin-mashi-undated",
+        "sn-lantian-mashi-2012"
+      ],
+      "reason": "蓝田形态不能直接迁移到华阴。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "huayin-mashi-pao",
+      "claim_id": "huayin_local_presence",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "sn-huayin-mashi-undated"
+      ],
+      "reason": "来源支持华阴在地风味和可见配料。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "huayin-mashi-pao",
+      "claim_id": "single_pot_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "sn-huayin-mashi-undated"
+      ],
+      "reason": "展示配料不证明单锅过程。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "ningxia-rouzhanfan-steamed-rice",
+      "claim_id": "any_meat_rice_braise_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "nx-rouzhanfan-2022"
+      ],
+      "reason": "此结构不等于任意肉饭焖煮均可称肉粘饭。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "ningxia-rouzhanfan-steamed-rice",
+      "claim_id": "pre_saute_then_steam_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "nx-rouzhanfan-2022"
+      ],
+      "reason": "来源支持炒后同蒸的肉粘饭结构。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "ningxia-shengcuan-jiumian-bowl",
+      "claim_id": "all_noodle_piece_branches_one_recipe",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "nx-shengcuan-2025"
+      ],
+      "reason": "多个面片分支不能合成一个固定配方。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "ningxia-shengcuan-jiumian-bowl",
+      "claim_id": "meat_under_cooking",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "nx-shengcuan-2025",
+        "nx-lamb-safety-2025"
+      ],
+      "reason": "来源不允许借汆制主张羊肉未熟。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "ningxia-shengcuan-jiumian-bowl",
+      "claim_id": "shengcuan_meatball_noodle_piece_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "nx-shengcuan-2025"
+      ],
+      "reason": "来源直接支持汆羊肉丸、揪面片和汤菜结构。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "turpan-soup-rice-technique",
+      "claim_id": "protection_unit",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "xj-turpan-protection-2025"
+      ],
+      "reason": "通知支持保护单位信息。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "turpan-soup-rice-technique",
+      "claim_id": "recipe_formula",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "xj-turpan-ich-2025",
+        "xj-turpan-protection-2025"
+      ],
+      "reason": "名录和保护单位不提供配方。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "turpan-soup-rice-technique",
+      "claim_id": "turpan_ich_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "xj-turpan-ich-2025"
+      ],
+      "reason": "来源支持汤饭制作技艺非遗身份。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xifu-jiaotuan-seasoned-bowl",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "sn-xifu-jiaotuan-2025"
+      ],
+      "reason": "没有项目比例与安全终点。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xifu-jiaotuan-seasoned-bowl",
+      "claim_id": "single_vessel_complete_meal",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "sn-xifu-jiaotuan-2025"
+      ],
+      "reason": "分开调味汤不证明完整单锅主餐。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xifu-jiaotuan-seasoned-bowl",
+      "claim_id": "stirred_thick_mass_and_separate_seasoning",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "sn-xifu-jiaotuan-2025"
+      ],
+      "reason": "来源直接支持搅制稠团与另行调味汤。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xinjiang-household-jupianzi-soup",
+      "claim_id": "exclusive_regional_identity",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "xj-jupianzi-household-2025"
+      ],
+      "reason": "描述不构成排他地域身份。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xinjiang-household-jupianzi-soup",
+      "claim_id": "household_soup_noodle_piece_description",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "xj-jupianzi-household-2025"
+      ],
+      "reason": "来源描述家常面片入羊肉蔬菜汤。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xinjiang-household-jupianzi-soup",
+      "claim_id": "project_ratio_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "xj-jupianzi-household-2025"
+      ],
+      "reason": "无项目比例或安全终点。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "shaanbei-red-date-cowpea-rice",
+      "claim_id": "ordinary_rice_adaptation",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "sn-mizhi-laba-2017",
+        "sn-shaanxi-daily-laba-2020",
+        "sn-samr-broomcorn-millet-undated"
+      ],
+      "reason": "普通大米不能被写成传统软谷物等价。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "shaanbei-red-date-cowpea-rice",
+      "claim_id": "project_ratio_time_vessel",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "sn-mizhi-laba-2017",
+        "sn-shaanxi-daily-laba-2020",
+        "sn-cdc-bean-safety-2018"
+      ],
+      "reason": "来源不证明项目液体、分钟或家用锅具。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "shaanbei-red-date-cowpea-rice",
+      "claim_id": "soft_grain_date_bean_identity",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "sn-mizhi-laba-2017",
+        "sn-shaanxi-daily-laba-2020"
+      ],
+      "reason": "地方志材料支持传统身份与核心组合。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "xinjiang-lamb-pilaf",
+      "claim_id": "named_lamb_cut_and_fruit_slots",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "xj-pilaf-gov-undated",
+        "xj-tourism-flavor-2019"
+      ],
+      "reason": "具名分支不等于自由替换槽。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "xinjiang-lamb-pilaf",
+      "claim_id": "project_ratio_time_safety",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "xj-pilaf-gov-undated"
+      ],
+      "reason": "来源不提供项目比例、时间或熟制终点。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "xinjiang-lamb-pilaf",
+      "claim_id": "staged_lamb_carrot_onion_rice_structure",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "xj-pilaf-gov-undated",
+        "xj-tourism-flavor-2019"
+      ],
+      "reason": "官方资料支持分阶段抓饭结构。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "xinjiang-vegetable-pilaf",
+      "claim_id": "current_formula_equivalence",
+      "verdict": "not_proven",
+      "evidence_direction": "does_not_prove",
+      "evidence_source_ids": [
+        "xj-ts-pilaf-2025"
+      ],
+      "reason": "现有洋葱、胡萝卜、鹰嘴豆配方是家庭适配，不是已证传统公式。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "xinjiang-vegetable-pilaf",
+      "claim_id": "vegetarian_pilaf_existence",
+      "verdict": "supported",
+      "evidence_direction": "proves",
+      "evidence_source_ids": [
+        "xj-ts-pilaf-2025"
+      ],
+      "reason": "来源支持素抓饭分支存在。"
+    }
+  ],
+  "ingredient_shape_matrix": [
+    {
+      "shape": "beef_or_lamb",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-rouzhanfan-steamed-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "broth",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-shengcuan-jiumian-bowl"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "carrot",
+      "production_recipe_ids": [
+        "xinjiang-lamb-pilaf"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-rouzhanfan-steamed-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "cowpea",
+      "production_recipe_ids": [
+        "shaanbei-red-date-cowpea-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "date",
+      "production_recipe_ids": [
+        "shaanbei-red-date-cowpea-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "dough_piece",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "xinjiang-household-jupianzi-soup"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "grain_flour",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "xifu-jiaotuan-seasoned-bowl"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "guokui_piece",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "huayin-mashi-pao"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "hand_pulled_noodle_piece",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "gansu-heyan-jiumianpian-broth",
+        "ningxia-shengcuan-jiumian-bowl"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "lamb",
+      "production_recipe_ids": [
+        "xinjiang-lamb-pilaf"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "xinjiang-household-jupianzi-soup"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "lamb_meatball",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-shengcuan-jiumian-bowl"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "mashi_body_unresolved",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "huayin-mashi-pao"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "mixed_grain_flour",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "huaining-mixed-grain-jiaotuan"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "onion",
+      "production_recipe_ids": [
+        "xinjiang-lamb-pilaf"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-rouzhanfan-steamed-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead",
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "raw_rice",
+      "production_recipe_ids": [
+        "xinjiang-lamb-pilaf",
+        "xinjiang-vegetable-pilaf"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "rice",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-rouzhanfan-steamed-rice"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "saozi_broth",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "gansu-heyan-jiumianpian-broth"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "separate_seasoning_soup",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "xifu-jiaotuan-seasoned-bowl"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "soft_grain",
+      "production_recipe_ids": [
+        "shaanbei-red-date-cowpea-rice"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "soup",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "xinjiang-household-jupianzi-soup"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "soup_rice_technique_unresolved",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "turpan-soup-rice-technique"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "spinach",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "ningxia-shengcuan-jiumian-bowl"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "stirred_thick_mass",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "huaining-mixed-grain-jiaotuan"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "thick_stirred_mass",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "xifu-jiaotuan-seasoned-bowl"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "tofu",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "huayin-mashi-pao"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "vegetable",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "xinjiang-household-jupianzi-soup"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    },
+    {
+      "shape": "vegetable_pilaf_style",
+      "production_recipe_ids": [
+        "xinjiang-vegetable-pilaf"
+      ],
+      "candidate_ids": [],
+      "lead_ids": [],
+      "source_types": [
+        "production_recipe"
+      ]
+    },
+    {
+      "shape": "vermicelli",
+      "production_recipe_ids": [],
+      "candidate_ids": [],
+      "lead_ids": [
+        "huayin-mashi-pao"
+      ],
+      "source_types": [
+        "concrete_research_lead"
+      ]
+    }
+  ],
+  "adaptation_boundaries": [
+    {
+      "boundary_id": "soft_grain_not_ordinary_rice",
+      "evidence_status": "not_proven",
+      "notes": "软米、软谷米、软黄米不自动等于普通大米。",
+      "source_ids": [
+        "sn-mizhi-laba-2017",
+        "sn-samr-broomcorn-millet-undated"
+      ]
+    },
+    {
+      "boundary_id": "jiaotuan_not_unattended_appliance",
+      "evidence_status": "not_proven",
+      "notes": "手工持续搅制不能写成无人看管电器等价。",
+      "source_ids": [
+        "sn-xifu-jiaotuan-2025",
+        "gs-huining-jiaotuan-2025"
+      ]
+    },
+    {
+      "boundary_id": "huayin_cross_locality_and_single_pot_unproven",
+      "evidence_status": "not_proven",
+      "notes": "蓝田麻食子形态不证明华阴麻食泡，展示配料不证明单锅。",
+      "source_ids": [
+        "sn-huayin-mashi-undated",
+        "sn-lantian-mashi-2012"
+      ]
+    },
+    {
+      "boundary_id": "heyan_ich_not_recipe",
+      "evidence_status": "not_proven",
+      "notes": "河沿非遗名录不构成可执行配方。",
+      "source_ids": [
+        "gs-linxia-ich-2024"
+      ]
+    },
+    {
+      "boundary_id": "sanfan_dispute_not_family",
+      "evidence_status": "not_proven",
+      "notes": "糁饭或馓饭的命名争议不新建熬饭家族。",
+      "source_ids": [
+        "gs-sanfan-dispute-2019"
+      ]
+    },
+    {
+      "boundary_id": "shengcuan_branches_not_one_recipe",
+      "evidence_status": "not_proven",
+      "notes": "生汆面的多种面片分支不合并为一个固定公式。",
+      "source_ids": [
+        "nx-shengcuan-2025"
+      ]
+    },
+    {
+      "boundary_id": "rouzhanfan_not_any_meat_rice_braise",
+      "evidence_status": "not_proven",
+      "notes": "肉粘饭炒后同蒸不等于任意肉饭焖煮。",
+      "source_ids": [
+        "nx-rouzhanfan-2022"
+      ]
+    },
+    {
+      "boundary_id": "pilaf_named_branches_not_free_slots",
+      "evidence_status": "not_proven",
+      "notes": "抓饭具名羊肉、果干和素食分支不产生自由替换槽。",
+      "source_ids": [
+        "xj-pilaf-gov-undated",
+        "xj-tourism-flavor-2019",
+        "xj-ts-pilaf-2025"
+      ]
+    },
+    {
+      "boundary_id": "turpan_ich_not_recipe",
+      "evidence_status": "not_proven",
+      "notes": "吐鲁番汤饭非遗身份与保护单位不提供配方。",
+      "source_ids": [
+        "xj-turpan-ich-2025",
+        "xj-turpan-protection-2025"
+      ]
+    }
+  ],
+  "safety_boundaries": [
+    {
+      "safety_id": "fresh_bean_cook_through",
+      "source_ids": [
+        "sn-cdc-bean-safety-2018"
+      ],
+      "evidence_status": "principle_only",
+      "required_controls": [
+        "易中毒鲜豆类充分熟制"
+      ],
+      "endpoint_note": "不从来源发明分钟数。"
+    },
+    {
+      "safety_id": "animal_food_cook_through_and_separate",
+      "source_ids": [
+        "nx-lamb-safety-2025"
+      ],
+      "evidence_status": "principle_only",
+      "required_controls": [
+        "牛羊肉彻底熟制",
+        "防止生熟交叉污染"
+      ],
+      "endpoint_note": "不从来源发明统一温度或分钟。"
+    }
+  ],
+  "source_evidence": [
+    {
+      "source_id": "sn-mizhi-laba-2017",
+      "title": "米脂饮食文化",
+      "url": "https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201704/t20170421_2620781.html",
+      "publisher": "陕西省地方志办公室",
+      "published_at": "2017-04-21",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "米脂腊八软米、红枣、豇豆焖饭线索。",
+      "proves": [
+        "production:shaanbei-red-date-cowpea-rice:soft_grain_date_bean_identity"
+      ],
+      "does_not_prove": [
+        "production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation",
+        "production:shaanbei-red-date-cowpea-rice:project_ratio_time_vessel"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "sn-shaanxi-daily-laba-2020",
+      "title": "腊八饭里的陕西年味",
+      "url": "https://dfz.shaanxi.gov.cn/zslm/zjyd/fzsy/202001/t20200106_2623780.html",
+      "publisher": "陕西省地方志办公室（转载陕西日报）",
+      "published_at": "2020-01-06",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "榆林腊八焖饭支持豆类浸泡、七成熟加软谷米与低火焖制的地方序列。",
+      "proves": [
+        "production:shaanbei-red-date-cowpea-rice:soft_grain_date_bean_identity"
+      ],
+      "does_not_prove": [
+        "production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation",
+        "production:shaanbei-red-date-cowpea-rice:project_ratio_time_vessel"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "sn-samr-broomcorn-millet-undated",
+      "title": "黍米",
+      "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=8DD7C7A454B45AF7E05397BE0A0A58C1",
+      "publisher": "国家标准信息公共服务平台",
+      "published_at": "undated",
+      "date_note": "项目公示日期为2019-11-08，页面未提供本研究可用的稳定发布日期。",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "软黄米商品身份线索，不等同于所有软米或软谷米用法。",
+      "proves": [],
+      "does_not_prove": [
+        "production:shaanbei-red-date-cowpea-rice:ordinary_rice_adaptation"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "sn-xifu-jiaotuan-2025",
+      "title": "搅团",
+      "url": "https://dfz.shaanxi.gov.cn/zslm/sxsq/sxms/202505/t20250522_3521494.html",
+      "publisher": "陕西省地方志办公室",
+      "published_at": "2025-05-22",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "西府农家搅团为面粉入沸水搅成稠团，再配另行调味汤。",
+      "proves": [
+        "lead:xifu-jiaotuan-seasoned-bowl:stirred_thick_mass_and_separate_seasoning"
+      ],
+      "does_not_prove": [
+        "lead:xifu-jiaotuan-seasoned-bowl:single_vessel_complete_meal",
+        "lead:xifu-jiaotuan-seasoned-bowl:project_ratio_safety"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "sn-huayin-mashi-undated",
+      "title": "华山简介",
+      "url": "https://weinan.qinfeng.gov.cn/info/1095/36343.htm",
+      "publisher": "中共渭南市纪委监委网站",
+      "published_at": "undated",
+      "date_note": "页面没有稳定发布日期。",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "华阴麻食泡的在地风味与可见配料线索。",
+      "proves": [
+        "lead:huayin-mashi-pao:huayin_local_presence"
+      ],
+      "does_not_prove": [
+        "lead:huayin-mashi-pao:cross_locality_shape_not_proven",
+        "lead:huayin-mashi-pao:single_pot_equivalence"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "sn-lantian-mashi-2012",
+      "title": "蓝田方言",
+      "url": "https://dfz.shaanxi.gov.cn/zslm/sxsq/msfq/201210/t20121029_2620433.html",
+      "publisher": "陕西省地方志办公室",
+      "published_at": "2012-10-29",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "蓝田麻食子为蚕豆大小面团，不能跨地直接证明华阴形态。",
+      "proves": [],
+      "does_not_prove": [
+        "lead:huayin-mashi-pao:cross_locality_shape_not_proven"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "sn-cdc-bean-safety-2018",
+      "title": "豆类蔬菜中哪些豆豆易中毒",
+      "url": "https://niohp.chinacdc.cn/kpdw/zdkz/201806/t20180601_172888.htm",
+      "publisher": "中国疾控中心职业卫生与中毒控制所",
+      "published_at": "2018-06-01",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "易中毒鲜豆类应充分熟制的原则。",
+      "proves": [
+        "safety:fresh_bean_cook_through:principle"
+      ],
+      "does_not_prove": [
+        "production:shaanbei-red-date-cowpea-rice:project_ratio_time_vessel"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "gs-kangle-noodle-2017",
+      "title": "康乐传统美食",
+      "url": "https://www.gskanglexian.gov.cn/klx/klly/tsms/KLCTMS/art/2022/art_015d1891273e4070a60b68001ef2109a.html",
+      "publisher": "康乐县人民政府",
+      "published_at": "2017-12-10",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "揪面片入沸水和肉丁、土豆、豆腐、粉条、菠菜臊子汤的结构。",
+      "proves": [
+        "lead:gansu-heyan-jiumianpian-broth:noodle_piece_broth_structure"
+      ],
+      "does_not_prove": [
+        "lead:gansu-heyan-jiumianpian-broth:heyan_exact_recipe",
+        "lead:gansu-heyan-jiumianpian-broth:single_pot_equivalence"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "gs-linxia-ich-2024",
+      "title": "临夏州公布第六批州级非物质文化遗产代表性项目名录",
+      "url": "https://xgs.newgscloud.com/pages/2024/08/02/97af560785214aca940ee806f0509fbb.html",
+      "publisher": "新甘肃/甘肃日报",
+      "published_at": "2024-08-02",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "河沿面片烹制技艺列入临夏州级非遗，不含配方。",
+      "proves": [
+        "lead:gansu-heyan-jiumianpian-broth:heyan_ich_identity"
+      ],
+      "does_not_prove": [
+        "lead:gansu-heyan-jiumianpian-broth:heyan_exact_recipe"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "gs-huining-jiaotuan-2025",
+      "title": "这碗会宁搅团，藏着黄土高原千年的饮食记忆",
+      "url": "https://www.huining.gov.cn/xxgk/xzxxgk/gcyz/fdzdgknr/cwgk/xcsq/cwgk/art/2025/art_13edb2bf82d54c5185daca9c3fe0b60c.html",
+      "publisher": "会宁县融媒体中心/会宁电视台",
+      "published_at": "2025-12-11",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "会宁搅团的杂粮粉、锅中搅制与干拌、汤、凉拌分支。",
+      "proves": [
+        "lead:huaining-mixed-grain-jiaotuan:manual_stirred_grain_structure"
+      ],
+      "does_not_prove": [
+        "lead:huaining-mixed-grain-jiaotuan:unattended_appliance_equivalence"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "gs-sanfan-dispute-2019",
+      "title": "“糁饭”还是“馓饭”？看天水学者怎么辩！",
+      "url": "https://gansu.gscn.com.cn/system/2019/03/15/012129101.shtml",
+      "publisher": "中国甘肃网",
+      "published_at": "2019-03-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "C",
+      "evidence_summary": "只支持名称与身份争议。",
+      "proves": [
+        "boundary:sanfan_dispute_not_family:naming_dispute"
+      ],
+      "does_not_prove": [],
+      "contradicts": []
+    },
+    {
+      "source_id": "nx-shengcuan-2025",
+      "title": "宁夏的生汆面，有一些专属浪漫。",
+      "url": "https://nynct.nx.gov.cn/rdzt/ppny/202504/t20250423_4889376.html",
+      "publisher": "宁夏回族自治区农业宣传教育展览中心",
+      "published_at": "2025-04-23",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "固原三营生汆面有汆羊肉丸、揪面片、鸡汤、菠菜及多个面片分支。",
+      "proves": [
+        "lead:ningxia-shengcuan-jiumian-bowl:shengcuan_meatball_noodle_piece_structure"
+      ],
+      "does_not_prove": [
+        "lead:ningxia-shengcuan-jiumian-bowl:all_noodle_piece_branches_one_recipe",
+        "lead:ningxia-shengcuan-jiumian-bowl:meat_under_cooking"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "nx-rouzhanfan-2022",
+      "title": "不尝一次宁夏大米，难以给胃一个交代！",
+      "url": "https://nynct.nx.gov.cn/rdzt/ppny/202211/t20221103_3829781.html",
+      "publisher": "宁夏农业农村厅农宣中心",
+      "published_at": "2022-11-03",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "肉粘饭为牛羊肉、洋葱、胡萝卜和米，炒后同蒸。",
+      "proves": [
+        "lead:ningxia-rouzhanfan-steamed-rice:pre_saute_then_steam_structure"
+      ],
+      "does_not_prove": [
+        "lead:ningxia-rouzhanfan-steamed-rice:any_meat_rice_braise_equivalence"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "nx-lamb-safety-2025",
+      "title": "食品安全消费提示",
+      "url": "https://www.xiongan.gov.cn/20250429/7cbd00ffe7bd45668510b7f9fecbdd5d/c.html",
+      "publisher": "雄安新区综合执法局",
+      "published_at": "2025-04-29",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "牛羊肉应彻底熟制并防止生熟交叉污染。",
+      "proves": [
+        "safety:animal_food_cook_through_and_separate:principle"
+      ],
+      "does_not_prove": [
+        "lead:ningxia-shengcuan-jiumian-bowl:meat_under_cooking"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "xj-pilaf-gov-undated",
+      "title": "新疆抓饭",
+      "url": "https://www.xinjiang.gov.cn/xinjiang/tsxj/201111/358fd2c0b97841bba6513661c11d770c.shtml",
+      "publisher": "新疆维吾尔自治区人民政府",
+      "published_at": "undated",
+      "date_note": "页面元数据和检索记录指向归档页面，未见稳定可核验发布日期。",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "抓饭羊肉、胡萝卜、洋葱、炒制、加水、加米和加盖焖制结构。",
+      "proves": [
+        "production:xinjiang-lamb-pilaf:staged_lamb_carrot_onion_rice_structure"
+      ],
+      "does_not_prove": [
+        "production:xinjiang-lamb-pilaf:named_lamb_cut_and_fruit_slots",
+        "production:xinjiang-lamb-pilaf:project_ratio_time_safety"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "xj-tourism-flavor-2019",
+      "title": "新疆味道",
+      "url": "https://wlt.xinjiang.gov.cn/wlt/wlgl/201911/d45cbf5fae3241bfa10544b276418ba7.shtml",
+      "publisher": "新疆维吾尔自治区文化和旅游厅（转载新疆日报）",
+      "published_at": "2019-11-08",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "抓饭常见结构、具名肉类果干变体及喀什鸽子汤面，仅支持存在。",
+      "proves": [
+        "production:xinjiang-lamb-pilaf:staged_lamb_carrot_onion_rice_structure"
+      ],
+      "does_not_prove": [
+        "production:xinjiang-lamb-pilaf:named_lamb_cut_and_fruit_slots"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "xj-ts-pilaf-2025",
+      "title": "“新”上好物｜抓饭：粒粒飘香",
+      "url": "https://www.ts.cn/xwzx/shxw/202409/t20240923_23975204.shtml",
+      "publisher": "天山网",
+      "published_at": "2025-01-12",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "抓饭的胡萝卜、洋葱、米饭上层和具名荤素甜分支。",
+      "proves": [
+        "production:xinjiang-vegetable-pilaf:vegetarian_pilaf_existence"
+      ],
+      "does_not_prove": [
+        "production:xinjiang-vegetable-pilaf:current_formula_equivalence"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "xj-turpan-ich-2025",
+      "title": "第六批自治区级非遗代表性项目名录",
+      "url": "https://www.xinjiang.gov.cn/xinjiang/zfgbml/202512/6e77e41eec4e487da460e81d7017c9f0.shtml",
+      "publisher": "新疆维吾尔自治区人民政府",
+      "published_at": "2025-11-15",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "吐鲁番传统面食制作技艺（汤饭制作技艺）为自治区级非遗扩展项目。",
+      "proves": [
+        "lead:turpan-soup-rice-technique:turpan_ich_identity"
+      ],
+      "does_not_prove": [
+        "lead:turpan-soup-rice-technique:recipe_formula"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "xj-turpan-protection-2025",
+      "title": "保护单位通知",
+      "url": "https://wlt.xinjiang.gov.cn/wlt/tzgg/202510/48022b058ad94f8da334a2c6ffaa0c79.shtml",
+      "publisher": "新疆维吾尔自治区文化和旅游厅",
+      "published_at": "2025-10-14",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "A",
+      "evidence_summary": "吐鲁番市文化和非遗中心为汤饭制作技艺保护单位。",
+      "proves": [
+        "lead:turpan-soup-rice-technique:protection_unit"
+      ],
+      "does_not_prove": [
+        "lead:turpan-soup-rice-technique:recipe_formula"
+      ],
+      "contradicts": []
+    },
+    {
+      "source_id": "xj-jupianzi-household-2025",
+      "title": "从新疆美食探源到味觉文化基因认同",
+      "url": "https://www.ts.cn/xwzx/whxw/202512/t20251202_31829236.shtml",
+      "publisher": "天山网/新疆日报",
+      "published_at": "2025-12-02",
+      "retrieved_at": "2026-07-26",
+      "source_grade": "B",
+      "evidence_summary": "家常揪片子汤饭为面片入羊肉蔬菜汤，不构成独立工艺标准。",
+      "proves": [
+        "lead:xinjiang-household-jupianzi-soup:household_soup_noodle_piece_description"
+      ],
+      "does_not_prove": [
+        "lead:xinjiang-household-jupianzi-soup:exclusive_regional_identity",
+        "lead:xinjiang-household-jupianzi-soup:project_ratio_safety"
+      ],
+      "contradicts": []
+    }
+  ],
+  "product_decisions": [
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "gansu-heyan-jiumianpian-broth",
+      "state": "research_only",
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "身份和同类结构分开记录。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "huaining-mixed-grain-jiaotuan",
+      "state": "research_only",
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "工艺负担必须显式保留。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "huayin-mashi-pao",
+      "state": "research_only",
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "固定为跨地形态未证、单锅未证的研究线索。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "ningxia-rouzhanfan-steamed-rice",
+      "state": "research_only",
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "保留先炒后蒸结构。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "ningxia-shengcuan-jiumian-bowl",
+      "state": "research_only",
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "先核实熟制和分支，不能直接上线。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "turpan-soup-rice-technique",
+      "state": "research_only",
+      "product_destinations": [
+        "research_only"
+      ],
+      "decision_reason": "严格研究专用。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xifu-jiaotuan-seasoned-bowl",
+      "state": "research_only",
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "保留技法线索，不升为生产菜谱。"
+    },
+    {
+      "subject_type": "concrete_research_lead",
+      "subject_id": "xinjiang-household-jupianzi-soup",
+      "state": "research_only",
+      "product_destinations": [
+        "new_family_research",
+        "research_only"
+      ],
+      "decision_reason": "家常描述不等于独立标准。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "shaanbei-red-date-cowpea-rice",
+      "state": "needs_manual_review",
+      "product_destinations": [
+        "recipe_evidence",
+        "research_only"
+      ],
+      "decision_reason": "传统身份可审计，项目替换和数值待人工复核。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "xinjiang-lamb-pilaf",
+      "state": "needs_manual_review",
+      "product_destinations": [
+        "recipe_evidence",
+        "template_evidence",
+        "ratio_rule"
+      ],
+      "decision_reason": "可保留阶段结构，不能把具名分支抽象为自由槽。"
+    },
+    {
+      "subject_type": "production_recipe",
+      "subject_id": "xinjiang-vegetable-pilaf",
+      "state": "needs_more_evidence",
+      "product_destinations": [
+        "recipe_evidence",
+        "research_only"
+      ],
+      "decision_reason": "只能诚实标注为素抓饭风格家庭适配。"
+    }
+  ],
+  "household_journeys": [
+    {
+      "journey_id": "sn-01",
+      "province_code": "CN-SN",
+      "mode": "research",
+      "intent": "identity",
+      "input_items": [
+        "软谷物",
+        "红枣",
+        "豇豆"
+      ],
+      "expected_family_ids": [
+        "festive-soft-grain-date-bean-braise"
+      ],
+      "expected_structure": "核对软谷物和豆类状态",
+      "expected_outcome": "human_review_required",
+      "forbidden_claims": [
+        "ordinary_rice_as_traditional_equivalence"
+      ],
+      "reason": "核实传统核心和状态。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "sn-02",
+      "province_code": "CN-SN",
+      "mode": "research",
+      "intent": "adaptation",
+      "input_items": [
+        "普通大米",
+        "红枣",
+        "豇豆"
+      ],
+      "expected_family_ids": [
+        "festive-soft-grain-date-bean-braise"
+      ],
+      "expected_structure": "普通米家庭适配",
+      "expected_outcome": "adaptation_not_traditional_equivalence",
+      "forbidden_claims": [
+        "ordinary_rice_as_traditional_equivalence"
+      ],
+      "reason": "普通米必须诚实标适配。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "sn-03",
+      "province_code": "CN-SN",
+      "mode": "research",
+      "intent": "technique",
+      "input_items": [
+        "面粉",
+        "调味汤"
+      ],
+      "expected_family_ids": [
+        "stirred-grain-thick-main-bowl"
+      ],
+      "expected_structure": "手工搅团",
+      "expected_outcome": "human_review_required",
+      "forbidden_claims": [
+        "unattended_appliance_equivalence"
+      ],
+      "reason": "复核搅拌负担。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "sn-04",
+      "province_code": "CN-SN",
+      "mode": "research",
+      "intent": "boundary",
+      "input_items": [
+        "麻食",
+        "豆腐",
+        "粉条"
+      ],
+      "expected_family_ids": [
+        "noodle-piece-broth-main-bowl"
+      ],
+      "expected_structure": "华阴麻食泡边界",
+      "expected_outcome": "research_only",
+      "forbidden_claims": [
+        "cross_locality_shape_equivalence",
+        "single_pot_equivalence"
+      ],
+      "reason": "跨地形态与单锅均待证。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "gs-01",
+      "province_code": "CN-GS",
+      "mode": "research",
+      "intent": "identity",
+      "input_items": [
+        "面片",
+        "臊子汤"
+      ],
+      "expected_family_ids": [
+        "noodle-piece-broth-main-bowl"
+      ],
+      "expected_structure": "河沿身份与配方分离",
+      "expected_outcome": "research_only",
+      "forbidden_claims": [
+        "ich_listing_as_recipe"
+      ],
+      "reason": "非遗名录非配方。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "gs-02",
+      "province_code": "CN-GS",
+      "mode": "research",
+      "intent": "structure",
+      "input_items": [
+        "面片",
+        "肉丁",
+        "土豆",
+        "豆腐"
+      ],
+      "expected_family_ids": [
+        "noodle-piece-broth-main-bowl"
+      ],
+      "expected_structure": "家常面片汤",
+      "expected_outcome": "human_review_required",
+      "forbidden_claims": [
+        "single_pot_equivalence"
+      ],
+      "reason": "核实家庭锅结构。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "gs-03",
+      "province_code": "CN-GS",
+      "mode": "research",
+      "intent": "technique",
+      "input_items": [
+        "杂粮粉"
+      ],
+      "expected_family_ids": [
+        "stirred-grain-thick-main-bowl"
+      ],
+      "expected_structure": "会宁手工搅团",
+      "expected_outcome": "human_review_required",
+      "forbidden_claims": [
+        "unattended_appliance_equivalence"
+      ],
+      "reason": "手工搅制不可省略。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "gs-04",
+      "province_code": "CN-GS",
+      "mode": "research",
+      "intent": "exclusion",
+      "input_items": [
+        "糁饭"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "命名争议排除",
+      "expected_outcome": "research_only",
+      "forbidden_claims": [
+        "new_ao_fan_family"
+      ],
+      "reason": "不以争议命名建家族。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "nx-01",
+      "province_code": "CN-NX",
+      "mode": "research",
+      "intent": "safety",
+      "input_items": [
+        "羊肉丸",
+        "揪面片"
+      ],
+      "expected_family_ids": [
+        "noodle-piece-broth-main-bowl"
+      ],
+      "expected_structure": "生汆肉丸熟透",
+      "expected_outcome": "human_review_required",
+      "forbidden_claims": [
+        "undercooked_meat"
+      ],
+      "reason": "先复核羊肉熟透。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "nx-02",
+      "province_code": "CN-NX",
+      "mode": "research",
+      "intent": "boundary",
+      "input_items": [
+        "生汆面"
+      ],
+      "expected_family_ids": [
+        "noodle-piece-broth-main-bowl"
+      ],
+      "expected_structure": "面片分支不合并",
+      "expected_outcome": "research_only",
+      "forbidden_claims": [
+        "branch_collapse"
+      ],
+      "reason": "区分多个面片分支。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "nx-03",
+      "province_code": "CN-NX",
+      "mode": "research",
+      "intent": "structure",
+      "input_items": [
+        "牛羊肉",
+        "洋葱",
+        "胡萝卜",
+        "米"
+      ],
+      "expected_family_ids": [
+        "pre-saute-meat-vegetable-steamed-rice"
+      ],
+      "expected_structure": "先炒后蒸",
+      "expected_outcome": "human_review_required",
+      "forbidden_claims": [
+        "any_meat_rice_braise_equivalence"
+      ],
+      "reason": "保留阶段结构。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "nx-04",
+      "province_code": "CN-NX",
+      "mode": "research",
+      "intent": "exclusion",
+      "input_items": [
+        "烩小吃",
+        "茶"
+      ],
+      "expected_family_ids": [],
+      "expected_structure": "预制组件与茶排除",
+      "expected_outcome": "research_only",
+      "forbidden_claims": [
+        "hui_xiaochi_as_low_friction_home_pot"
+      ],
+      "reason": "不纳入本轮固定线索。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "xj-01",
+      "province_code": "CN-XJ",
+      "mode": "research",
+      "intent": "structure",
+      "input_items": [
+        "羊肉",
+        "胡萝卜",
+        "洋葱",
+        "生米"
+      ],
+      "expected_family_ids": [
+        "staged-pilaf-raw-rice"
+      ],
+      "expected_structure": "抓饭分阶段",
+      "expected_outcome": "human_review_required",
+      "forbidden_claims": [
+        "source_as_ratio_dsl"
+      ],
+      "reason": "核对抓饭阶段结构。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "xj-02",
+      "province_code": "CN-XJ",
+      "mode": "research",
+      "intent": "boundary",
+      "input_items": [
+        "羊肉",
+        "果干"
+      ],
+      "expected_family_ids": [
+        "staged-pilaf-raw-rice"
+      ],
+      "expected_structure": "具名肉切与果干分支",
+      "expected_outcome": "research_only",
+      "forbidden_claims": [
+        "free_fruit_nut_slot"
+      ],
+      "reason": "具名分支不是自由槽。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "xj-03",
+      "province_code": "CN-XJ",
+      "mode": "research",
+      "intent": "adaptation",
+      "input_items": [
+        "米",
+        "洋葱",
+        "胡萝卜",
+        "鹰嘴豆"
+      ],
+      "expected_family_ids": [
+        "staged-pilaf-raw-rice"
+      ],
+      "expected_structure": "素抓饭风格适配",
+      "expected_outcome": "adaptation_not_traditional_equivalence",
+      "forbidden_claims": [
+        "household_formula_as_traditional_formula"
+      ],
+      "reason": "素食存在不证明项目公式。",
+      "human_review": {
+        "status": "pending"
+      }
+    },
+    {
+      "journey_id": "xj-04",
+      "province_code": "CN-XJ",
+      "mode": "research",
+      "intent": "boundary",
+      "input_items": [
+        "汤饭",
+        "揪片子"
+      ],
+      "expected_family_ids": [
+        "noodle-piece-broth-main-bowl"
+      ],
+      "expected_structure": "吐鲁番与家常揪片子研究边界",
+      "expected_outcome": "research_only",
+      "forbidden_claims": [
+        "ich_listing_as_recipe",
+        "exclusive_identity_claim"
+      ],
+      "reason": "仅作研究线索。",
+      "human_review": {
+        "status": "pending"
+      }
+    }
+  ],
+  "completion": {
+    "status": "research_in_progress",
+    "blockers": [
+      "production_evidence_gaps",
+      "ratio_dsl_unresolved",
+      "household_vessel_adaptation_unresolved",
+      "safety_endpoint_incomplete",
+      "human_journey_review_incomplete"
+    ],
+    "baseline_facts": [
+      "zero_candidate_baseline"
+    ]
+  },
+  "summary": {
+    "province_coverage_count": 4,
+    "production_audit_count": 3,
+    "candidate_audit_count": 0,
+    "concrete_research_lead_count": 8,
+    "source_count": 20,
+    "source_count_by_grade": {
+      "A": 16,
+      "B": 3,
+      "C": 1
+    },
+    "family_count": 5,
+    "household_journey_count": 16,
+    "human_journey_reviewed_count": 0,
+    "production_recipe_changes": 0,
+    "regional_candidate_changes": 0,
+    "scope_note": "本轮仅新增研究审计与报告：不新增 recipe 或 candidate。"
+  }
+}

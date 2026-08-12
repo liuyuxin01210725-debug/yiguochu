@@ -1,0 +1,400 @@
+const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const ISO_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
+const REASON_TYPES = new Set(['taste', 'texture_water', 'timing', 'safety']);
+// approved = 人工批准（要求外部溯源五要素齐全）；auto_approved = 自动闸门通过、待人工评审。
+const RECIPE_STATUSES = new Set(['approved', 'auto_approved']);
+const RELAXED_SOURCE_FIELDS = ['url', 'title', 'license', 'attribution'];
+const CONSTRAINT_PROFILE_IDS = new Set(['rice-allergy-complete-main']);
+// protein_class 受控词表：鸡蛋/鸭蛋归「蛋」，鸡肉和鸭肉分开；整粒豆类与豆制品分开。
+// 「无」只能用于固定核心中没有可识别主蛋白的菜谱，不能和其他类别并存。
+const PROTEIN_CLASS_VALUES = ['鸡', '鸭', '牛', '猪', '羊', '鱼', '虾', '蟹', '贝', '蛋', '豆类', '豆制品', '无'];
+const PROTEIN_CLASSES = new Set(PROTEIN_CLASS_VALUES);
+// light_level 受控词表：汤/粥/蒸/白灼/拌类偏「清淡」，咖喱/辣炖/重酱/椰浆类偏「浓重」，其余「一般」。
+const LIGHT_LEVELS = new Set(['清淡', '一般', '浓重']);
+const CONSTRAINT_PROFILE_FIELDS = new Set(['id', 'basis']);
+const PROJECT_RECIPE_ORIGIN = 'https://yiguochu.pages.dev';
+const IDENTITY_PLACEHOLDER_RE = /经核验|身份不明|未知野菜|地方植物/u;
+const STRING_ARRAY_FIELDS = [
+  'purposes',
+  'core_ingredients',
+  'optional_ingredients',
+  'generation_optional_ingredients',
+  'technique',
+  'ratio_rules',
+  'safety_rules',
+];
+const OBJECT_ARRAY_FIELDS = ['substitution_slots', 'discouraged', 'source_refs'];
+
+function isPlainObject(value) {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
+function isNonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function proteinClassesFromCore(coreIngredients) {
+  const detected = new Set();
+  for (const value of Array.isArray(coreIngredients) ? coreIngredients : []) {
+    const item = String(value || '').replace(/[\s（）()_-]+/g, '');
+    if (!item) continue;
+    if (/(?:鸡蛋|鸭蛋|鹌鹑蛋|皮蛋|咸蛋|全蛋液|鸡蛋液|鸭蛋液)/.test(item)) detected.add('蛋');
+    if (/(?:鸡肉|鸡腿|鸡胸|鸡翅|仔鸡|整鸡)/.test(item)) detected.add('鸡');
+    if (/(?:鸭肉|板鸭|鸭腿|鸭胸|烤鸭)/.test(item)) detected.add('鸭');
+    if (/(?:牛肉|牛腩|牛里脊|肥牛)/.test(item)) detected.add('牛');
+    if (/(?:猪肉|猪肋排|排骨|咸肉|腊肉|咸五花肉|腊五花肉|腊肠|香肠|猪肉末)/.test(item)) detected.add('猪');
+    if (/(?:羊肉|羊排|羊腿)/.test(item)) detected.add('羊');
+    if (/(?:鱼|鳕|鲈|鲤|鲫|鳕|鳗)/.test(item)) detected.add('鱼');
+    if (/虾/.test(item)) detected.add('虾');
+    if (/(?:蟹|螃蟹)/.test(item)) detected.add('蟹');
+    if (/(?:贝|蛤蜊|牡蛎|生蚝|干贝|瑶柱)/.test(item)) detected.add('贝');
+
+    const soyProduct = /(?:豆腐|豆干|腐竹|豆浆|大豆蛋白|素鸡)/.test(item);
+    if (soyProduct) detected.add('豆制品');
+    if (!soyProduct && /(?:红扁豆|绿扁豆|黑眼豆|鹰嘴豆|豇豆|黄豆|大豆|白豆|芸豆|红豆|绿豆|扁豆)/.test(item)) {
+      detected.add('豆类');
+    }
+  }
+  if (!detected.size) return ['无'];
+  return PROTEIN_CLASS_VALUES.filter(value => value !== '无' && detected.has(value));
+}
+
+function validateRequiredArray(value, label, errors) {
+  if (!Array.isArray(value) || value.length === 0) {
+    errors.push(`${label} must be non-empty`);
+    return false;
+  }
+  return true;
+}
+
+function validateStringArray(value, label, errors) {
+  if (!validateRequiredArray(value, label, errors)) return false;
+  for (let index = 0; index < value.length; index += 1) {
+    if (!isNonEmptyString(value[index])) {
+      errors.push(`${label} must contain non-empty strings`);
+      return false;
+    }
+  }
+  return true;
+}
+
+function isHttpsUrl(value) {
+  if (typeof value !== 'string') return false;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === 'https:' && parsed.hostname.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+function isValidIsoDate(value) {
+  if (typeof value !== 'string') return false;
+  const match = ISO_DATE_RE.exec(value);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (month < 1 || month > 12 || day < 1) return false;
+  const leapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return day <= daysInMonth[month - 1];
+}
+
+function safeId(value, fallback) {
+  return isNonEmptyString(value) ? value : fallback;
+}
+
+function canonicalIngredient(name, aliases) {
+  let current = typeof name === 'string' ? name.trim() : '';
+  const seen = new Set();
+  while (current && isNonEmptyString(aliases?.[current]) && !seen.has(current)) {
+    seen.add(current);
+    current = aliases[current].trim();
+  }
+  return current;
+}
+
+function findIdentityPlaceholder(value) {
+  const match = JSON.stringify(value).match(IDENTITY_PLACEHOLDER_RE);
+  return match?.[0];
+}
+
+function isProjectRecipeSource(source) {
+  return typeof source?.url === 'string' && source.url.startsWith(PROJECT_RECIPE_ORIGIN);
+}
+
+export function validateRecipeLibrary(lib) {
+  const errors = [];
+  if (lib?.schema_version !== 1) errors.push('schema_version must be 1');
+  if (!isPlainObject(lib?.ingredient_aliases)) {
+    errors.push('ingredient_aliases must be an object');
+  }
+  if (!Array.isArray(lib?.families)) errors.push('families must be an array');
+  if (!Array.isArray(lib?.recipes)) errors.push('recipes must be an array');
+  if (errors.length) return errors;
+
+  for (const [alias, canonical] of Object.entries(lib.ingredient_aliases)) {
+    if (!isNonEmptyString(alias) || !isNonEmptyString(canonical)) {
+      errors.push('ingredient_aliases must map non-empty strings to non-empty strings');
+      break;
+    }
+  }
+
+  const familyIds = new Set();
+  for (const [index, family] of lib.families.entries()) {
+    if (!isPlainObject(family)) {
+      errors.push(`family at index ${index} must be an object`);
+      continue;
+    }
+    const id = typeof family.id === 'string' ? family.id : '';
+    if (!ID_RE.test(id)) errors.push(`invalid family id: ${id || '<empty>'}`);
+    if (id && familyIds.has(id)) errors.push(`duplicate family id: ${id}`);
+    if (id) familyIds.add(id);
+    const label = safeId(id, `family at index ${index}`);
+    for (const key of ['name', 'form']) {
+      if (!isNonEmptyString(family[key])) errors.push(`${label} missing ${key}`);
+    }
+  }
+
+  const recipeIds = new Set();
+  for (const [index, recipe] of lib.recipes.entries()) {
+    if (!isPlainObject(recipe)) {
+      errors.push(`recipe at index ${index} must be an object`);
+      continue;
+    }
+    const id = typeof recipe.id === 'string' ? recipe.id : '';
+    const label = safeId(id, `recipe at index ${index}`);
+    if (!ID_RE.test(id)) errors.push(`invalid recipe id: ${id || '<empty>'}`);
+    if (id && recipeIds.has(id)) errors.push(`duplicate recipe id: ${id}`);
+    if (id) recipeIds.add(id);
+    if (typeof recipe.family_id !== 'string' || !familyIds.has(recipe.family_id)) {
+      const familyId = isNonEmptyString(recipe.family_id) ? recipe.family_id : '<invalid>';
+      errors.push(`${label} missing family ${familyId}`);
+    }
+    if (!RECIPE_STATUSES.has(recipe.status)) {
+      errors.push(`${label} status must be approved (human-approved) or auto_approved (auto-gate passed, pending human review)`);
+    }
+    if (recipe.origin_candidate_id !== undefined
+      && (!isNonEmptyString(recipe.origin_candidate_id) || !ID_RE.test(recipe.origin_candidate_id))) {
+      errors.push(`${label} origin_candidate_id must be a non-empty ID`);
+    }
+    for (const key of ['name', 'cuisine', 'form']) {
+      if (!isNonEmptyString(recipe[key])) errors.push(`${label} missing ${key}`);
+    }
+    if (!Array.isArray(recipe.protein_class) || recipe.protein_class.length === 0) {
+      errors.push(`${label} protein_class must be a non-empty array`);
+    } else {
+      let vocabularyValid = true;
+      for (const value of recipe.protein_class) {
+        if (!PROTEIN_CLASSES.has(value)) {
+          vocabularyValid = false;
+          errors.push(`${label} protein_class value must be one of ${[...PROTEIN_CLASSES].join('/')}: ${String(value)}`);
+        }
+      }
+      if (vocabularyValid) {
+        const expectedProteinClasses = proteinClassesFromCore(recipe.core_ingredients);
+        if (JSON.stringify(recipe.protein_class) !== JSON.stringify(expectedProteinClasses)) {
+          errors.push(`${label} protein_class must match core ingredients: expected ${expectedProteinClasses.join('+')}, got ${recipe.protein_class.join('+')}`);
+        }
+      }
+    }
+    if (!LIGHT_LEVELS.has(recipe.light_level)) {
+      errors.push(`${label} light_level must be one of ${[...LIGHT_LEVELS].join('/')}`);
+    }
+    if (recipe.total_time_minutes === undefined) {
+      errors.push(`${label} missing total_time_minutes`);
+    } else if (!Number.isInteger(recipe.total_time_minutes)
+      || recipe.total_time_minutes < 5
+      || recipe.total_time_minutes > 120) {
+      errors.push(`${label} total_time_minutes must be an integer from 5 to 120`);
+    }
+    if (recipe.adaptation_note !== undefined
+      && (typeof recipe.adaptation_note !== 'string'
+        || recipe.adaptation_note.trim().length < 1
+        || recipe.adaptation_note.trim().length > 400)) {
+      errors.push(`${label} adaptation_note must contain 1 to 400 characters`);
+    }
+    for (const key of STRING_ARRAY_FIELDS) {
+      validateStringArray(recipe[key], `${label} ${key}`, errors);
+    }
+    for (const key of OBJECT_ARRAY_FIELDS) {
+      validateRequiredArray(recipe[key], `${label} ${key}`, errors);
+    }
+    if (Array.isArray(recipe.generation_optional_ingredients)) {
+      if (recipe.generation_optional_ingredients.length < 1
+        || recipe.generation_optional_ingredients.length > 4) {
+        errors.push(`${label} generation_optional_ingredients must contain 1 to 4 items`);
+      }
+      const approvedGenerationIngredients = new Set([
+        ...(Array.isArray(recipe.optional_ingredients) ? recipe.optional_ingredients : []),
+        ...(Array.isArray(recipe.substitution_slots)
+          ? recipe.substitution_slots.flatMap(slot => (
+            isPlainObject(slot) && Array.isArray(slot.allowed) ? slot.allowed : []
+          ))
+          : []),
+      ]);
+      for (const name of recipe.generation_optional_ingredients) {
+        if (isNonEmptyString(name) && !approvedGenerationIngredients.has(name)) {
+          errors.push(`${label} generation optional ingredient is not approved: ${name}`);
+        }
+      }
+    }
+    if (!Array.isArray(recipe.generation_liquid_ingredients)) {
+      errors.push(`${label} generation_liquid_ingredients must be an array`);
+    } else {
+      if (recipe.generation_liquid_ingredients.length > 1) {
+        errors.push(`${label} generation_liquid_ingredients must contain at most 1 item`);
+      }
+      const generatedBoundary = new Set([
+        '水',
+        ...(Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : []),
+        ...(Array.isArray(recipe.generation_optional_ingredients)
+          ? recipe.generation_optional_ingredients
+          : []),
+      ]);
+      for (const name of recipe.generation_liquid_ingredients) {
+        if (!isNonEmptyString(name)) {
+          errors.push(`${label} generation_liquid_ingredients must contain non-empty strings`);
+        } else if (!generatedBoundary.has(name)) {
+          errors.push(`${label} generation liquid ingredient is not in the generation boundary: ${name}`);
+        }
+      }
+    }
+
+    if (recipe.constraint_profiles !== undefined) {
+      if (!Array.isArray(recipe.constraint_profiles) || recipe.constraint_profiles.length === 0) {
+        errors.push(`${label} constraint_profiles must be a non-empty array`);
+      } else {
+        const profileIds = new Set();
+        for (const [profileIndex, profile] of recipe.constraint_profiles.entries()) {
+          if (!isPlainObject(profile)) {
+            errors.push(`${label} constraint profile at index ${profileIndex} must be an object`);
+            continue;
+          }
+          const profileId = isNonEmptyString(profile.id) ? profile.id : '<invalid>';
+          if (!CONSTRAINT_PROFILE_IDS.has(profileId)) {
+            errors.push(`${label} constraint profile at index ${profileIndex} has unknown id ${profileId}`);
+          }
+          if (profileIds.has(profileId)) {
+            errors.push(`${label} duplicate constraint profile ${profileId}`);
+          }
+          profileIds.add(profileId);
+          if (!isNonEmptyString(profile.basis)) {
+            errors.push(`${label} constraint profile at index ${profileIndex} missing basis`);
+          }
+          if (Object.keys(profile).some(key => !CONSTRAINT_PROFILE_FIELDS.has(key))) {
+            errors.push(`${label} constraint profile at index ${profileIndex} has unexpected fields`);
+          }
+        }
+      }
+    }
+
+    if (Array.isArray(recipe.substitution_slots)) {
+      const coreIngredients = new Set((Array.isArray(recipe.core_ingredients) ? recipe.core_ingredients : [])
+        .map(name => canonicalIngredient(name, lib.ingredient_aliases))
+        .filter(Boolean));
+      for (const [slotIndex, slot] of recipe.substitution_slots.entries()) {
+        if (!isPlainObject(slot)) {
+          errors.push(`${label} substitution slot at index ${slotIndex} must be an object`);
+          continue;
+        }
+        let invalidSlot = false;
+        if (!isNonEmptyString(slot.slot)) {
+          errors.push(`${label} substitution slot at index ${slotIndex} missing slot`);
+          invalidSlot = true;
+        }
+        if (!validateStringArray(slot.replaces, `${label} substitution slot at index ${slotIndex} replaces`, errors)) {
+          invalidSlot = true;
+        }
+        if (!validateStringArray(slot.allowed, `${label} substitution slot at index ${slotIndex} allowed`, errors)) {
+          invalidSlot = true;
+        }
+        if (Array.isArray(slot.replaces) && Array.isArray(slot.allowed)) {
+          const replaced = new Set(slot.replaces
+            .map(name => canonicalIngredient(name, lib.ingredient_aliases))
+            .filter(Boolean));
+          for (const name of slot.allowed) {
+            if (/^不(?:放|加|用)/.test(String(name || '').trim())) continue;
+            const canonical = canonicalIngredient(name, lib.ingredient_aliases);
+            if (canonical && coreIngredients.has(canonical) && !replaced.has(canonical)) {
+              errors.push(`${label} substitution slot at index ${slotIndex} allowed ingredient duplicates another core ingredient: ${name}`);
+            }
+          }
+        }
+        if (invalidSlot) errors.push(`${label} invalid substitution slot`);
+      }
+    }
+
+    if (Array.isArray(recipe.discouraged)) {
+      for (const [ruleIndex, item] of recipe.discouraged.entries()) {
+        if (!isPlainObject(item)) {
+          errors.push(`${label} discouraged rule at index ${ruleIndex} must be an object`);
+          continue;
+        }
+        if (!REASON_TYPES.has(item.reason_type)) {
+          const reasonType = typeof item.reason_type === 'string' ? item.reason_type : '<invalid>';
+          errors.push(`${label} invalid reason_type ${reasonType}`);
+        }
+        let invalidRule = false;
+        if (!validateStringArray(item.ingredients, `${label} discouraged rule at index ${ruleIndex} ingredients`, errors)) {
+          invalidRule = true;
+        }
+        if (!isNonEmptyString(item.reason)) {
+          errors.push(`${label} discouraged rule at index ${ruleIndex} missing reason`);
+          invalidRule = true;
+        }
+        if (invalidRule) errors.push(`${label} invalid discouraged rule`);
+      }
+    }
+
+    if (Array.isArray(recipe.source_refs)) {
+      const hasProjectSource = recipe.source_refs.some(isProjectRecipeSource);
+      if (hasProjectSource && (!isNonEmptyString(recipe.origin_candidate_id) || !ID_RE.test(recipe.origin_candidate_id))) {
+        errors.push(`${label} canonical project source requires origin_candidate_id`);
+      }
+      for (const [sourceIndex, source] of recipe.source_refs.entries()) {
+        if (!isPlainObject(source)) {
+          errors.push(`${label} source at index ${sourceIndex} must be an object`);
+          continue;
+        }
+        if (source.usage !== 'approved') errors.push(`${label} source usage must be approved`);
+        if (recipe.status === 'auto_approved') {
+          // auto_approved 档：自动闸门通过、待人工评审，不要求外部溯源五要素齐全；
+          // 但每条 source_ref 至少保留 url/title/license/attribution 中一项非空。
+          if (!RELAXED_SOURCE_FIELDS.some(key => isNonEmptyString(source[key]))) {
+            errors.push(`${label} auto_approved source must keep at least one of url/title/license/attribution non-empty (full five-element provenance is required only for approved)`);
+          }
+          if (isNonEmptyString(source.url) && !isHttpsUrl(source.url)) {
+            errors.push(`${label} source URL must be HTTPS`);
+          }
+        } else {
+          // approved 档：人工批准，外部溯源五要素（HTTPS url/title/license/attribution/retrieved_at）缺一不可。
+          if (!isHttpsUrl(source.url)) errors.push(`${label} source URL must be HTTPS`);
+          for (const key of ['title', 'license', 'attribution']) {
+            if (!isNonEmptyString(source[key])) errors.push(`${label} source missing ${key}`);
+          }
+          if (!isValidIsoDate(source.retrieved_at)) {
+            errors.push(`${label} source retrieved_at must be a valid ISO YYYY-MM-DD date`);
+          }
+        }
+        if (typeof source.url === 'string' && /recipedb/i.test(source.url)) {
+          errors.push(`${label} RecipeDB cannot be approved`);
+        }
+      }
+    }
+    if (isNonEmptyString(recipe.origin_candidate_id)) {
+      const placeholder = findIdentityPlaceholder([
+        recipe.core_ingredients,
+        recipe.optional_ingredients,
+        recipe.generation_optional_ingredients,
+        recipe.generation_liquid_ingredients,
+        recipe.substitution_slots,
+      ]);
+      if (placeholder) errors.push(`${label} promoted recipe contains identity placeholder ${placeholder}`);
+    }
+  }
+  return errors;
+}
