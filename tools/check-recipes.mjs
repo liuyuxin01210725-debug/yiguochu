@@ -111,6 +111,8 @@ import { validateSourceBackedExecutionLibrary } from './lib/source-backed-execut
 import { validateSourceBackedFormalCandidateReview } from './lib/source-backed-formal-candidate-review.mjs';
 import { validateSourceBackedFormalStaging } from './lib/source-backed-formal-staging.mjs';
 import { validateSourceBackedFormalRatioEvidence } from './lib/source-backed-formal-ratio-evidence.mjs';
+import { validateSourceBackedRuntimeCatalog } from './lib/source-backed-runtime-catalog.mjs';
+import { validateSourceBackedCoverageMatrix } from './lib/source-backed-coverage-matrix.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
 const lib = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -125,6 +127,8 @@ let sourceBackedExecutionLibrary = { counts: {}, entries: [] };
 let sourceBackedFormalCandidateReview = { counts: {}, records: [] };
 let sourceBackedFormalStaging = { counts: {}, records: [] };
 let sourceBackedFormalRatioEvidence = { counts: {}, entries: [] };
+let sourceBackedRuntimeCatalog = { entries: [] };
+let sourceBackedCoverageMatrix = { records: [] };
 for (const [relativePath, assign] of [
   ['tools/data/source-backed-one-pot-recipes.v1.json', value => { sourceBackedCatalog = value; }],
   ['tools/data/source-backed-catalog-migration.v1.json', value => { sourceBackedMigration = value; }],
@@ -134,6 +138,8 @@ for (const [relativePath, assign] of [
   ['tools/data/source-backed-formal-candidate-review.v1.json', value => { sourceBackedFormalCandidateReview = value; }],
   ['tools/data/source-backed-formal-staging.v1.json', value => { sourceBackedFormalStaging = value; }],
   ['tools/data/source-backed-formal-ratio-evidence.v1.json', value => { sourceBackedFormalRatioEvidence = value; }],
+  ['tools/data/source-backed-runtime-catalog.v1.json', value => { sourceBackedRuntimeCatalog = value; }],
+  ['tools/data/source-backed-coverage-matrix.v1.json', value => { sourceBackedCoverageMatrix = value; }],
 ]) {
   try {
     assign(readSourceBackedJson(relativePath));
@@ -225,6 +231,32 @@ const sourceBackedFormalStagingErrors = validateSourceBackedFormalStaging(
   sourceBackedFormalCandidateReview,
 );
 errors.push(...sourceBackedFormalStagingErrors.map(error => `source-backed formal staging: ${error}`));
+const sourceBackedRuntimeCatalogErrors = validateSourceBackedRuntimeCatalog(
+  sourceBackedRuntimeCatalog,
+  {
+    sourceCatalog: sourceBackedCatalog,
+    executionLibrary: sourceBackedExecutionLibrary,
+    formalizationLedger: sourceBackedFormalizationLedger,
+  },
+);
+errors.push(...sourceBackedRuntimeCatalogErrors.map(error => `source-backed runtime catalog: ${error}`));
+const sourceBackedCoverageMatrixInputs = {
+  sourceCatalog: sourceBackedCatalog,
+  executionLibrary: sourceBackedExecutionLibrary,
+  formalizationLedger: sourceBackedFormalizationLedger,
+  formalReview: sourceBackedFormalCandidateReview,
+  formalStaging: sourceBackedFormalStaging,
+  formalRecipeLibrary: lib,
+  runtimeJourneys: readReviewLedger('./data/recipe-runtime-journeys.v1.json', 'recipe runtime journeys'),
+  riceMealJourneys: readReviewLedger('./data/rice-meal-journeys.v1.json', 'rice meal journeys'),
+  directRecommendShadow: readReviewLedger('./data/direct-recommend-shadow-v1.json', 'direct recommend shadow'),
+  ratioEvidence: sourceBackedFormalRatioEvidence,
+};
+const sourceBackedCoverageMatrixErrors = validateSourceBackedCoverageMatrix(
+  sourceBackedCoverageMatrix,
+  sourceBackedCoverageMatrixInputs,
+);
+errors.push(...sourceBackedCoverageMatrixErrors.map(error => `source-backed coverage matrix: ${error}`));
 const riceMealCatalog = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-catalog.v1.json', import.meta.url), 'utf8'));
 const riceMealCollection = JSON.parse(fs.readFileSync(new URL('./data/rice-meal-collection.v1.json', import.meta.url), 'utf8'));
 const riceCookerSourceEvidence = readReviewLedger(
@@ -908,6 +940,8 @@ console.log(`source-backed execution ${sourceBackedExecutionLibrary?.counts?.tot
 console.log(`source-backed execution completeness ${sourceBackedExecutionCompleteness.fully_usable}/${sourceBackedExecutionEntries.length} complete research fields · ${sourceBackedExecutionCompleteness.unblocked}/${sourceBackedExecutionEntries.length} unblocked complete · ${sourceBackedExecutionCompleteness.blocked} safety-blocked · ${sourceBackedExecutionCompleteness.quantities}/${sourceBackedExecutionEntries.length} quantities · ${sourceBackedExecutionCompleteness.liquid}/${sourceBackedExecutionEntries.length} liquid · ${sourceBackedExecutionCompleteness.steps}/${sourceBackedExecutionEntries.length} steps · ${sourceBackedExecutionCompleteness.time}/${sourceBackedExecutionEntries.length} time`);
 console.log(`source-backed formal candidate review ${sourceBackedFormalCandidateReview?.counts?.total ?? 0} rows · ${sourceBackedFormalCandidateReview?.counts?.source_complete ?? 0} source-complete · ratio evidence ${sourceBackedFormalCandidateReview?.counts?.ratio_dsl?.candidate_evidence_only ?? 0} · ${sourceBackedFormalCandidateReview?.counts?.formal_ready ?? 0} formal-ready${sourceBackedFormalCandidateReviewErrors.length ? ` · invalid (${sourceBackedFormalCandidateReviewErrors.length})` : ' · review ok'}`);
 console.log(`source-backed formal staging ${sourceBackedFormalStaging?.counts?.total ?? 0} queued · ${sourceBackedFormalStaging?.counts?.source_complete ?? 0} source-complete · ${sourceBackedFormalStaging?.counts?.formal_ready ?? 0} formal-ready · ${sourceBackedFormalStaging?.counts?.kitchen_pending ?? 0} kitchen pending${sourceBackedFormalStagingErrors.length ? ` · invalid (${sourceBackedFormalStagingErrors.length})` : ' · staging ok'}`);
+console.log(`source-backed runtime catalog ${sourceBackedRuntimeCatalog?.counts?.total ?? 0} entries · ${sourceBackedRuntimeCatalog?.counts?.preview_only ?? 0} preview-only · ${sourceBackedRuntimeCatalog?.counts?.research_only ?? 0} research-only · ${sourceBackedRuntimeCatalog?.counts?.blocked ?? 0} blocked${sourceBackedRuntimeCatalogErrors.length ? ` · invalid (${sourceBackedRuntimeCatalogErrors.length})` : ' · runtime catalog ok'}`);
+console.log(`source-backed coverage matrix ${sourceBackedCoverageMatrix?.counts?.total ?? 0} rows · P0 ${sourceBackedCoverageMatrix?.counts?.priority?.P0 ?? 0} · P1 ${sourceBackedCoverageMatrix?.counts?.priority?.P1 ?? 0} · P2 ${sourceBackedCoverageMatrix?.counts?.priority?.P2 ?? 0} · P3 ${sourceBackedCoverageMatrix?.counts?.priority?.P3 ?? 0}${sourceBackedCoverageMatrixErrors.length ? ` · invalid (${sourceBackedCoverageMatrixErrors.length})` : ' · matrix ok'}`);
 console.log([
   `${recipeCount} recipes`,
   `${activeTemplateCount} active templates`,

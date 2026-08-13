@@ -67,6 +67,8 @@ const REQUIRED_ASSETS = [
   'source-backed-one-pot-preview.v1.json',
   'source-backed-formalization-ledger.v1.json',
   'source-backed-execution-library.v1.json',
+  'source-backed-runtime-catalog.v1.json',
+  'source-backed-coverage-matrix.v1.json',
   'source-backed-formal-candidate-review.v1.json',
   'source-backed-formal-ratio-evidence.v1.json',
   'source-backed-formal-staging.v1.json',
@@ -265,7 +267,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 51);
+    assert.equal(buildRecord.files, 53);
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),

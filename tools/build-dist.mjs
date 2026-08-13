@@ -39,6 +39,8 @@ const GENERATED_ASSETS = [
   ['tools/data/source-backed-formal-candidate-review.v1.json', 'source-backed-formal-candidate-review.v1.json'],
   ['tools/data/source-backed-formal-ratio-evidence.v1.json', 'source-backed-formal-ratio-evidence.v1.json'],
   ['tools/data/source-backed-formal-staging.v1.json', 'source-backed-formal-staging.v1.json'],
+  ['tools/data/source-backed-runtime-catalog.v1.json', 'source-backed-runtime-catalog.v1.json'],
+  ['tools/data/source-backed-coverage-matrix.v1.json', 'source-backed-coverage-matrix.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],

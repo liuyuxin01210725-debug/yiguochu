@@ -18,6 +18,8 @@ const SOURCE_ASSETS = Object.freeze({
   '/recipe-runtime.v1.json': readAsset('recipe-runtime.v1.json'),
   '/recipe-action-profiles.v1.json': readAsset('recipe-action-profiles.v1.json'),
   '/source-backed-execution-library.v1.json': readAsset('source-backed-execution-library.v1.json'),
+  '/source-backed-runtime-catalog.v1.json': readAsset('source-backed-runtime-catalog.v1.json'),
+  '/source-backed-coverage-matrix.v1.json': readAsset('source-backed-coverage-matrix.v1.json'),
   '/build-meta.json': JSON.stringify({
     buildId: 'preview-test-build',
     plannerRollout: 'direct-recommend',
@@ -314,6 +316,22 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.sourceExecutionComplete, 923);
   assert.equal(result.body.sourceExecutionUnblockedComplete, 922);
   assert.equal(result.body.sourceExecutionSafetyBlocked, 1);
+  assert.equal(result.body.sourceRuntimeCatalog, 'ok');
+  assert.equal(result.body.sourceRuntimeCatalogVersion, 'source-backed-runtime-v1-20260813-m1');
+  assert.equal(result.body.sourceRuntimeCatalogEntries, 923);
+  assert.equal(result.body.sourceRuntimeCatalogPreviewOnly, 34);
+  assert.equal(result.body.sourceRuntimeCatalogResearchOnly, 888);
+  assert.equal(result.body.sourceRuntimeCatalogBlocked, 1);
+  assert.equal(result.body.sourceRuntimeCatalogFormalActive, 0);
+  assert.equal(result.body.sourceRuntimeCatalogKitchenObserved, 0);
+  assert.equal(result.body.sourceCoverageMatrix, 'ok');
+  assert.equal(result.body.sourceCoverageMatrixVersion, 'source-backed-coverage-matrix-v1-20260813-m1');
+  assert.equal(result.body.sourceCoverageMatrixEntries, 923);
+  assert.equal(result.body.sourceCoverageMatrixP0, 138);
+  assert.equal(result.body.sourceCoverageMatrixP1, 738);
+  assert.equal(result.body.sourceCoverageMatrixP2, 36);
+  assert.equal(result.body.sourceCoverageMatrixP3, 11);
+  assert.equal(result.body.sourceCoverageMatrixSafetyBlocked, 1);
   assert.equal(result.body.buildId, 'preview-test-build');
   assert.equal(result.body.plannerRollout, 'direct-recommend');
   assert.equal(result.body.generationMode, 'deterministic');
