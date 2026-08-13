@@ -50,6 +50,59 @@ const NON_BROWSER_EVIDENCE_KINDS = new Set([
 ]);
 const VALID_DISPOSITIONS = new Set(['pending_review', 'repeat_required', 'fail_quality', 'blocked', 'kitchen_observed']);
 
+const LEDGER_TOP_LEVEL_REQUIRED = Object.freeze([
+  'schema_version',
+  'ledger_version',
+  'scope',
+  'policy',
+  'observations',
+]);
+const LEDGER_TOP_LEVEL_ALLOWED = new Set(LEDGER_TOP_LEVEL_REQUIRED);
+const LEDGER_SCOPE = 'private-kitchen-observation-ledger';
+const LEDGER_POLICY_KEYS = Object.freeze([
+  'public_runtime_must_not_include_observations',
+  'kitchen_observed_requires_independent_promotion_gate',
+  'household_identity_and_quotes_are_private',
+]);
+
+const SCHEMA_REQUIRED_BY_DEF = Object.freeze({
+  observer: ['operator_id', 'household_id', 'role'],
+  recipe: ['recipe_id', 'variant_id', 'canonical_name', 'catalog_version', 'runtime_catalog_ref', 'execution_card_ref', 'source_status_at_attempt', 'formalization_status_at_attempt'],
+  claimScope: ['servings_claimed', 'servings_observed', 'supported_batch_only'],
+  ingredient: ['canonical_id', 'raw_label', 'state', 'source_amount', 'observed_amount', 'measurement_method', 'deviation_reason', 'used', 'substitution'],
+  liquid: ['source_contract', 'observed_added_amount', 'observed_retained_liquid', 'observed_absorbed_or_remaining', 'waterline', 'liquid_phase_split', 'liquid_deviation'],
+  equipment: ['brand', 'model', 'capacity', 'vessel_type', 'program', 'pressure_or_heat_mode', 'accessories', 'voltage_or_region_if_relevant', 'max_fill_or_waterline_limit'],
+  timeline: ['prep_started_at', 'cook_started_at', 'program_elapsed_minutes', 'pressure_release_or_jump_at', 'rest_minutes', 'finish_at', 'manual_intervention_at'],
+  process: ['steps'],
+  safety: ['ingredient_or_hazard', 'required_endpoint', 'observed', 'result', 'evidence_ref'],
+  sensory: ['rice_texture', 'protein_texture', 'vegetable_texture', 'liquid_or_bottom', 'taste', 'portion_complete', 'yield_observed', 'photos_or_notes'],
+  feedback: ['instruction_clarity', 'missing_ingredient_or_tool', 'effort_level', 'would_repeat', 'quote', 'photo_refs', 'reported_safety_or_discomfort'],
+  journey: ['journey_id', 'mode', 'intent', 'servings', 'input_items', 'dislikes_or_allergens', 'expected_plan_status', 'actual_plan_status', 'used_items', 'unused_items_and_reason', 'substitution_result', 'failure_code', 'browser_evidence_ref'],
+  disposition: ['status', 'reviewer_id', 'reviewed_at', 'approve_for_production', 'notes'],
+  evidence: ['kind', 'id', 'ref'],
+});
+
+const SCHEMA_ENUMS_BY_DEF = Object.freeze({
+  'observer.role': ['cook', 'reviewer'],
+  'ingredient.state': ['raw', 'soaked', 'cooked', 'canned', 'drained', 'other'],
+  'ingredient.measurement_method': ['scale', 'count', 'volume', 'waterline'],
+  'safety.result': ['pass', 'fail', 'not_applicable'],
+  'disposition.status': ['pending_review', 'repeat_required', 'fail_quality', 'blocked', 'kitchen_observed'],
+});
+
+const SCHEMA_NESTED_REQUIRED = Object.freeze({
+  'liquid.source_contract': ['type', 'amount', 'expression'],
+  'liquid.waterline': ['appliance_model', 'scale', 'mark'],
+  'liquid.liquid_phase_split.items': ['phase', 'amount'],
+  'liquid.liquid_deviation': ['occurred', 'details'],
+  'equipment.capacity': ['value', 'unit'],
+  'process.steps.items': ['step', 'completed', 'observed_at', 'deviation', 'deviation_reason', 'external_vessel_action'],
+  'safety.required_endpoint': ['kind', 'minimum'],
+  'safety.observed': ['value', 'unit', 'instrument_id', 'location', 'measured_at'],
+  'sensory.yield_observed': ['servings', 'amount'],
+  'journey.substitution_result': ['attempted', 'status', 'details'],
+});
+
 function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -88,6 +141,20 @@ function requiredDateTime(value, path, errors) {
   } else if (!isIsoDateTime(value)) {
     errors.push(`${path} must be an ISO date-time`);
   }
+}
+
+function numericUnit(unit) {
+  const normalized = String(unit || '').trim().toLowerCase().replace(/[°\s]/g, '');
+  if (normalized === 'c' || normalized === 'celsius') return 'c';
+  if (normalized === 'f' || normalized === 'fahrenheit') return 'f';
+  return normalized;
+}
+
+function convertTemperature(value, unit) {
+  const normalized = numericUnit(unit);
+  if (normalized === 'c') return value;
+  if (normalized === 'f') return (value - 32) * (5 / 9);
+  return null;
 }
 
 function requiredNumber(value, path, errors, { min = null } = {}) {
@@ -210,6 +277,21 @@ function validateTimeline(timeline, errors) {
   requiredNumber(timeline.program_elapsed_minutes, 'timeline.program_elapsed_minutes', errors, { min: 0 });
   requiredNumber(timeline.rest_minutes, 'timeline.rest_minutes', errors, { min: 0 });
   if (!Array.isArray(timeline.manual_intervention_at)) errors.push('timeline.manual_intervention_at must be an array');
+  const dates = ['prep_started_at', 'cook_started_at', 'pressure_release_or_jump_at', 'finish_at']
+    .map(field => Date.parse(timeline[field]));
+  if (dates.every(Number.isFinite)) {
+    if (!(dates[0] <= dates[1] && dates[1] <= dates[2] && dates[2] <= dates[3])) {
+      errors.push('timeline must be chronological');
+    }
+    const elapsedMinutes = (dates[2] - dates[1]) / 60000;
+    if (Math.abs(elapsedMinutes - timeline.program_elapsed_minutes) > 1) {
+      errors.push('timeline.program_elapsed_minutes is inconsistent with timestamp interval');
+    }
+    const restMinutes = (dates[3] - dates[2]) / 60000;
+    if (Math.abs(restMinutes - timeline.rest_minutes) > 1) {
+      errors.push('timeline.rest_minutes is inconsistent with timestamp interval');
+    }
+  }
 }
 
 function validateProcessAdherence(process, errors) {
@@ -248,7 +330,26 @@ function validateSafetyEndpoints(endpoints, errors) {
     requiredDateTime(endpoint.observed.measured_at, `${path}.observed.measured_at`, errors);
     if (!SAFETY_RESULTS.has(endpoint.result)) errors.push(`${path}.result is invalid`);
     if (endpoint.result === 'fail') errors.push(`${path} must pass`);
+    if (endpoint.result === 'pass') {
+      const observedC = convertTemperature(endpoint.observed.value, endpoint.observed.unit);
+      const requiredKind = String(endpoint.required_endpoint.kind || '').toLowerCase();
+      const requiredMinimum = endpoint.required_endpoint.minimum;
+      if (requiredKind.includes('temperature') && observedC === null) {
+        errors.push(`${path} has an incompatible safety unit`);
+      } else if (requiredKind.includes('temperature') && observedC < requiredMinimum) {
+        errors.push(`${path} observed value is below required minimum`);
+      }
+    }
     requiredString(endpoint.evidence_ref, `${path}.evidence_ref`, errors);
+  });
+}
+
+function validateEvidenceResolution(endpoints, refs, errors) {
+  const ids = new Set((Array.isArray(refs) ? refs : []).map(ref => ref?.id).filter(isNonEmptyString));
+  (Array.isArray(endpoints) ? endpoints : []).forEach((endpoint, index) => {
+    if (isNonEmptyString(endpoint?.evidence_ref) && !ids.has(endpoint.evidence_ref)) {
+      errors.push(`safety_endpoints[${index}].evidence_ref does not resolve to evidence_refs`);
+    }
   });
 }
 
@@ -353,11 +454,162 @@ export function validateKitchenObservation(observation) {
   validateJourney(observation.journey_regression, errors);
   validateDisposition(observation.disposition, errors);
   validateEvidenceRefs(observation.evidence_refs, errors);
+  validateEvidenceResolution(observation.safety_endpoints, observation.evidence_refs, errors);
   return [...new Set(errors)];
 }
 
 export function isKitchenObservationReady(observation) {
   return validateKitchenObservation(observation).length === 0;
+}
+
+export function isKitchenObservedReady(observation) {
+  if (!isKitchenObservationReady(observation)) return false;
+  if (observation.disposition?.status !== 'kitchen_observed') return false;
+  if (!isIsoDateTime(observation.disposition?.reviewed_at)) return false;
+  if (!observation.sensory_result?.portion_complete) return false;
+  if (!observation.process_adherence?.steps?.every(step => step.completed === true)) return false;
+  if (!observation.safety_endpoints?.every(endpoint => endpoint.result === 'pass' || endpoint.result === 'not_applicable')) return false;
+  return true;
+}
+
+export function validateKitchenObservationReferences(observation, { runtimeCatalog, executionLibrary } = {}) {
+  const errors = [];
+  const recipeId = observation?.recipe?.recipe_id;
+  if (!recipeId) return errors;
+  const runtimeEntries = new Map((Array.isArray(runtimeCatalog?.entries) ? runtimeCatalog.entries : []).map(entry => [entry?.recipe_id, entry]));
+  const executionEntries = new Map((Array.isArray(executionLibrary?.entries) ? executionLibrary.entries : []).map(entry => [entry?.recipe_id, entry]));
+  const runtimeVersion = runtimeCatalog?.runtime_catalog_version || runtimeCatalog?.recipe_runtime_catalog_version || null;
+  const executionVersion = executionLibrary?.execution_library_version || null;
+  const runtimeRef = observation?.recipe?.runtime_catalog_ref;
+  const executionRef = observation?.recipe?.execution_card_ref;
+  const runtimePattern = runtimeVersion ? new RegExp(`^${escapeRegExp(runtimeVersion)}#([^#]+)$`, 'u') : null;
+  const executionPattern = executionVersion ? new RegExp(`^${escapeRegExp(executionVersion)}#([^#]+)$`, 'u') : null;
+  const runtimeMatch = runtimePattern?.exec(runtimeRef || '');
+  const executionMatch = executionPattern?.exec(executionRef || '');
+  if (!runtimeMatch) {
+    errors.push('recipe.runtime_catalog_ref must use versioned runtime catalog ref');
+  } else if (runtimeMatch[1] !== recipeId || !runtimeEntries.has(runtimeMatch[1])) {
+    errors.push('recipe.runtime_catalog_ref does not resolve to recipe');
+  }
+  if (!executionMatch) {
+    errors.push('recipe.execution_card_ref must use versioned execution ref');
+  } else if (executionMatch[1] !== recipeId || !executionEntries.has(executionMatch[1])) {
+    errors.push('recipe.execution_card_ref does not resolve to recipe');
+  }
+  return errors;
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function validateRequiredFields(value, required, path, errors) {
+  if (!isObject(value)) {
+    errors.push(`${path} must be an object`);
+    return;
+  }
+  if (!Array.isArray(value.required)) {
+    errors.push(`${path}.required is missing`);
+    return;
+  }
+  for (const field of required) {
+    if (!value.required.includes(field)) errors.push(`${path}.${field} is required`);
+  }
+}
+
+function validateEnumParity(schema, path, expected, errors) {
+  const properties = path.split('.');
+  const defName = properties.shift();
+  let current = schema?.$defs?.[defName];
+  for (const segment of properties) current = current?.properties?.[segment];
+  const actual = Array.isArray(current?.enum) ? current.enum : null;
+  if (!actual || JSON.stringify([...actual].sort()) !== JSON.stringify([...expected].sort())) {
+    errors.push(`${path} enum does not match validator`);
+  }
+}
+
+function schemaNode(schema, path) {
+  const segments = path.split('.');
+  const defName = segments.shift();
+  let current = schema?.$defs?.[defName];
+  for (const segment of segments) {
+    if (segment === 'items') current = current?.items;
+    else current = current?.properties?.[segment];
+  }
+  if (current?.$ref?.startsWith('#/$defs/')) {
+    return schema?.$defs?.[current.$ref.slice('#/$defs/'.length)] || current;
+  }
+  return current;
+}
+
+export function validateKitchenObservationSchemaParity(schema) {
+  const errors = [];
+  if (!isObject(schema)) return ['kitchen observation schema must be an object'];
+  if (schema.$id !== 'https://yiguochu.pages.dev/schemas/kitchen-observation.v1.json') errors.push('schema $id is stale');
+  if (schema.type !== 'object') errors.push('schema root type must be object');
+  if (schema.additionalProperties !== false) errors.push('schema root additionalProperties must be false');
+  if (JSON.stringify([...(schema.required || [])].sort()) !== JSON.stringify([...TOP_LEVEL_REQUIRED].sort())) {
+    errors.push('schema top-level required fields do not match validator');
+  }
+  for (const [defName, required] of Object.entries(SCHEMA_REQUIRED_BY_DEF)) {
+    validateRequiredFields(schema?.$defs?.[defName], required, `$defs.${defName}`, errors);
+  }
+  for (const [path, required] of Object.entries(SCHEMA_NESTED_REQUIRED)) {
+    validateRequiredFields(schemaNode(schema, path), required, `$defs.${path}`, errors);
+  }
+  for (const [path, expected] of Object.entries(SCHEMA_ENUMS_BY_DEF)) {
+    validateEnumParity(schema, path, expected, errors);
+  }
+  const dispositionEnum = schema?.$defs?.disposition?.properties?.status?.enum;
+  if (Array.isArray(dispositionEnum) && dispositionEnum.includes('production_approved')) {
+    errors.push('disposition.status must not include production_approved');
+  }
+  return [...new Set(errors)];
+}
+
+export function validateKitchenObservationLedger(ledger) {
+  const errors = [];
+  if (!isObject(ledger)) return ['kitchen observation ledger must be an object'];
+  for (const field of Object.keys(ledger)) {
+    if (!LEDGER_TOP_LEVEL_ALLOWED.has(field)) errors.push(`unknown ledger field: ${field}`);
+  }
+  for (const field of LEDGER_TOP_LEVEL_REQUIRED) {
+    if (!Object.prototype.hasOwnProperty.call(ledger, field)) errors.push(`ledger.${field} is required`);
+  }
+  if (ledger.schema_version !== 'kitchen-observations.v1') errors.push('ledger.schema_version must equal kitchen-observations.v1');
+  requiredString(ledger.ledger_version, 'ledger.ledger_version', errors);
+  if (ledger.scope !== LEDGER_SCOPE) errors.push('ledger.scope is invalid');
+  if (!isObject(ledger.policy)) errors.push('ledger.policy is required');
+  else {
+    for (const field of LEDGER_POLICY_KEYS) {
+      if (ledger.policy[field] !== true) errors.push(`ledger.policy.${field} must be true`);
+    }
+  }
+  if (!Array.isArray(ledger.observations)) {
+    errors.push('ledger.observations must be an array');
+    return [...new Set(errors)];
+  }
+  const seen = new Set();
+  ledger.observations.forEach((observation, index) => {
+    const path = `observations[${index}]`;
+    if (!isObject(observation)) {
+      errors.push(`${path} must be an object`);
+      return;
+    }
+    const observationErrors = validateKitchenObservation(observation);
+    errors.push(...observationErrors.map(error => `${path}.${error}`));
+    if (isNonEmptyString(observation.observation_id)) {
+      if (seen.has(observation.observation_id)) errors.push(`duplicate observation_id ${observation.observation_id}`);
+      seen.add(observation.observation_id);
+    }
+  });
+  return [...new Set(errors)];
+}
+
+export function assertKitchenObservationLedger(ledger) {
+  const errors = validateKitchenObservationLedger(ledger);
+  if (errors.length > 0) throw new Error(`invalid kitchen observation ledger:\n${errors.join('\n')}`);
+  return ledger;
 }
 
 export function assertKitchenObservation(observation) {
