@@ -18,7 +18,7 @@ const inputs = {
 test('runtime coverage matrix is scenario keyed and records contract expectations separately from observations', () => {
   const matrix = buildRuntimeCoverageMatrix(inputs);
   assert.equal(matrix.scope, 'runtime-coverage-matrix');
-  assert.equal(matrix.runtime_coverage_matrix_version, 'runtime-coverage-matrix-v1-20260813-c5');
+  assert.equal(matrix.runtime_coverage_matrix_version, 'runtime-coverage-matrix-v1-20260813-c6');
   assert.equal(matrix.counts.total, 101);
   assert.deepEqual(matrix.counts.by_source, {
     recipe_runtime: 17,
@@ -32,6 +32,8 @@ test('runtime coverage matrix is scenario keyed and records contract expectation
   const tiger = matrix.scenarios.find(row => row.scenario_id === 'rice_meal:RM-344-source-tiger-pork-bamboo-rice');
   assert.deepEqual(tiger.request.pantry, ['五花肉', '竹笋']);
   assert.deepEqual(tiger.expected.candidate_refs.variant_ids, ['source-tiger-pork-bamboo-rice']);
+  assert.equal(tiger.joins.candidate_refs.status, 'ok');
+  assert.deepEqual(tiger.joins.candidate_refs.resolved_ids, ['source-tiger-pork-bamboo-rice']);
   assert.equal(tiger.observation.hit.recipe_ids.length, 0);
   assert.equal(tiger.quantity.status, 'not_observed');
   assert.equal(tiger.liquid.status, 'not_observed');
@@ -47,6 +49,23 @@ test('runtime coverage matrix is scenario keyed and records contract expectation
   }).scenarios[0];
   assert.deepEqual(titleMention.expected.candidate_refs.recipe_ids, []);
   assert.equal(titleMention.joins.candidate_refs.status, 'none');
+
+  const unknown = buildRuntimeCoverageMatrix({
+    ...inputs,
+    runtimeJourneys: {
+      journeys: [{
+        id: 'RR-unknown',
+        expected_title: 'Unknown candidate',
+        candidate_recipe_ids: ['does-not-exist'],
+      }],
+    },
+    riceMealJourneys: { journeys: [] },
+    directRecommendShadow: { journeys: [] },
+  }).scenarios[0];
+  assert.deepEqual(unknown.expected.candidate_refs.recipe_ids, []);
+  assert.equal(unknown.joins.candidate_refs.status, 'invalid');
+  assert.deepEqual(unknown.joins.candidate_refs.unknown_ids, ['does-not-exist']);
+  assert.deepEqual(unknown.joins.candidate_refs.blocker_codes, ['unknown_candidate_id', 'candidate_join_invalid']);
 });
 
 test('runtime coverage matrix rejects duplicate or missing scenario joins', () => {

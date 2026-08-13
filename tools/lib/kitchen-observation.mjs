@@ -190,6 +190,10 @@ function validateRecipe(recipe, errors) {
     'source_status_at_attempt',
     'formalization_status_at_attempt',
   ]) requiredString(recipe[field], `recipe.${field}`, errors);
+  if (Object.prototype.hasOwnProperty.call(recipe, 'required_safety_endpoint_codes')) {
+    if (!Array.isArray(recipe.required_safety_endpoint_codes)) errors.push('recipe.required_safety_endpoint_codes must be an array');
+    else recipe.required_safety_endpoint_codes.forEach((code, index) => requiredString(code, `recipe.required_safety_endpoint_codes[${index}]`, errors));
+  }
 }
 
 function validateClaimScope(scope, errors) {
@@ -311,8 +315,8 @@ function validateProcessAdherence(process, errors) {
 }
 
 function validateSafetyEndpoints(endpoints, errors) {
-  if (!Array.isArray(endpoints) || endpoints.length === 0) {
-    errors.push('safety_endpoints must contain at least one endpoint');
+  if (!Array.isArray(endpoints)) {
+    errors.push('safety_endpoints must be an array');
     return;
   }
   endpoints.forEach((endpoint, index) => {
@@ -462,34 +466,61 @@ export function isKitchenObservationReady(observation) {
   return validateKitchenObservation(observation).length === 0;
 }
 
-export function isKitchenObservedReady(observation) {
+export function isKitchenObservedReady(observation, { requiredSafetyEndpointCodes = null } = {}) {
   if (!isKitchenObservationReady(observation)) return false;
   if (observation.disposition?.status !== 'kitchen_observed') return false;
   if (!isIsoDateTime(observation.disposition?.reviewed_at)) return false;
   if (!observation.sensory_result?.portion_complete) return false;
   if (!observation.process_adherence?.steps?.every(step => step.completed === true)) return false;
-  if (!observation.safety_endpoints?.every(endpoint => endpoint.result === 'pass' || endpoint.result === 'not_applicable')) return false;
+  const requiredCodes = Array.isArray(requiredSafetyEndpointCodes)
+    ? requiredSafetyEndpointCodes
+    : (Array.isArray(observation.recipe?.required_safety_endpoint_codes)
+    ? observation.recipe.required_safety_endpoint_codes
+    : []);
+  if (!Array.isArray(observation.safety_endpoints)) return false;
+  if (requiredCodes.length === 0 && observation.safety_endpoints.length === 0) return true;
+  const seenRequired = new Set();
+  for (const endpoint of observation.safety_endpoints) {
+    const code = endpoint?.required_endpoint?.code;
+    const required = code && requiredCodes.includes(code);
+    if (required) {
+      seenRequired.add(code);
+      if (endpoint.result !== 'pass') return false;
+    }
+    if (!required && endpoint.result === 'not_applicable') continue;
+    if (endpoint.result !== 'pass') return false;
+  }
+  if (requiredCodes.some(code => !seenRequired.has(code))) return false;
   return true;
 }
 
-export function validateKitchenObservationReferences(observation, { runtimeCatalog, executionLibrary } = {}) {
+export function validateKitchenObservationReferences(observation, { runtimeCatalog, trialCatalog, executionLibrary } = {}) {
   const errors = [];
   const recipeId = observation?.recipe?.recipe_id;
   if (!recipeId) return errors;
   const runtimeEntries = new Map((Array.isArray(runtimeCatalog?.entries) ? runtimeCatalog.entries : []).map(entry => [entry?.recipe_id, entry]));
+  const trialEntries = new Map((Array.isArray(trialCatalog?.entries) ? trialCatalog.entries : []).map(entry => [entry?.recipe_id, entry]));
   const executionEntries = new Map((Array.isArray(executionLibrary?.entries) ? executionLibrary.entries : []).map(entry => [entry?.recipe_id, entry]));
   const runtimeVersion = runtimeCatalog?.runtime_catalog_version || runtimeCatalog?.recipe_runtime_catalog_version || null;
+  const trialVersion = trialCatalog?.kitchen_trial_catalog_version || null;
   const executionVersion = executionLibrary?.execution_library_version || null;
   const runtimeRef = observation?.recipe?.runtime_catalog_ref;
   const executionRef = observation?.recipe?.execution_card_ref;
   const runtimePattern = runtimeVersion ? new RegExp(`^${escapeRegExp(runtimeVersion)}#([^#]+)$`, 'u') : null;
+  const trialPattern = trialVersion ? new RegExp(`^${escapeRegExp(trialVersion)}#([^#]+)$`, 'u') : null;
   const executionPattern = executionVersion ? new RegExp(`^${escapeRegExp(executionVersion)}#([^#]+)$`, 'u') : null;
   const runtimeMatch = runtimePattern?.exec(runtimeRef || '');
+  const trialMatch = trialPattern?.exec(runtimeRef || '');
   const executionMatch = executionPattern?.exec(executionRef || '');
-  if (!runtimeMatch) {
-    errors.push('recipe.runtime_catalog_ref must use versioned runtime catalog ref');
-  } else if (runtimeMatch[1] !== recipeId || !runtimeEntries.has(runtimeMatch[1])) {
-    errors.push('recipe.runtime_catalog_ref does not resolve to recipe');
+  if (runtimeMatch) {
+    if (runtimeMatch[1] !== recipeId || !runtimeEntries.has(runtimeMatch[1])) errors.push('recipe.runtime_catalog_ref does not resolve to recipe');
+  } else if (trialMatch) {
+    const trialEntry = trialEntries.get(trialMatch[1]);
+    if (trialMatch[1] !== recipeId || !trialEntry || trialEntry.trial_eligible !== true || trialEntry.planner_runtime_eligible !== false || trialEntry.production_approved !== false) {
+      errors.push('recipe.runtime_catalog_ref does not resolve to eligible trial recipe');
+    }
+  } else {
+    errors.push('recipe.runtime_catalog_ref must use versioned runtime catalog ref or trial catalog ref');
   }
   if (!executionMatch) {
     errors.push('recipe.execution_card_ref must use versioned execution ref');

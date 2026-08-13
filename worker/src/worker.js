@@ -2142,14 +2142,14 @@ async function readSourceRuntimeCatalogHealth(env, request) {
   const catalog = await readOptionalPlannerJsonAsset(
     env.ASSETS,
     request,
-    '/source-backed-runtime-catalog.v1.json',
+    '/source-backed-release-ledger.v1.json',
   );
   if (!catalog || !Array.isArray(catalog.entries) || !catalog.counts) return null;
   return {
     status: 'ok',
-    version: typeof catalog.runtime_catalog_version === 'string'
-      ? catalog.runtime_catalog_version
-      : null,
+    version: typeof catalog.release_ledger_version === 'string'
+      ? catalog.release_ledger_version
+      : (typeof catalog.runtime_catalog_version === 'string' ? catalog.runtime_catalog_version : null),
     entries: catalog.entries.length,
     previewOnly: Number(catalog.counts.preview_only) || 0,
     researchOnly: Number(catalog.counts.research_only) || 0,

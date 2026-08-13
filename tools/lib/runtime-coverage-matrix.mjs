@@ -1,4 +1,4 @@
-const RUNTIME_COVERAGE_MATRIX_VERSION = 'runtime-coverage-matrix-v1-20260813-c5';
+const RUNTIME_COVERAGE_MATRIX_VERSION = 'runtime-coverage-matrix-v1-20260813-c6';
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];
@@ -98,6 +98,12 @@ function expectedFor(sourceKind, journey, formalIds, variantIds) {
   };
 }
 
+function rawCandidateIds(sourceKind, journey) {
+  if (sourceKind === 'recipe_runtime') return structuredRecipeIds(journey);
+  if (sourceKind === 'rice_meal') return expectedVariantIds(journey);
+  return [];
+}
+
 function contractStatus() {
   return {
     status: 'not_observed',
@@ -110,8 +116,17 @@ function scenarioRow(sourceKind, journey, formalIds, variantIds) {
   const sourceId = journey.id;
   const expected = expectedFor(sourceKind, journey, formalIds, variantIds);
   const candidateRefs = expected.candidate_refs;
-  const allCandidateIds = [...candidateRefs.recipe_ids, ...candidateRefs.template_ids];
-  const candidateJoinStatus = allCandidateIds.length ? 'ok' : 'none';
+  const knownIds = new Set([...formalIds, ...variantIds]);
+  const rawIds = rawCandidateIds(sourceKind, journey);
+  const resolvedIds = [...new Set([
+    ...candidateRefs.recipe_ids,
+    ...candidateRefs.template_ids,
+    ...candidateRefs.variant_ids,
+  ])];
+  const unknownIds = [...new Set(rawIds.filter(id => !knownIds.has(id)))];
+  const candidateJoinStatus = unknownIds.length > 0
+    ? 'invalid'
+    : (resolvedIds.length ? 'ok' : 'none');
   return {
     scenario_id: `${sourceKind}:${sourceId}`,
     source_kind: sourceKind,
@@ -120,7 +135,14 @@ function scenarioRow(sourceKind, journey, formalIds, variantIds) {
     expected,
     joins: {
       source: { status: 'ok', source_id: sourceId },
-      candidate_refs: { status: candidateJoinStatus },
+      candidate_refs: {
+        status: candidateJoinStatus,
+        resolved_ids: resolvedIds,
+        unknown_ids: unknownIds,
+        blocker_codes: unknownIds.length > 0
+          ? ['unknown_candidate_id', 'candidate_join_invalid']
+          : [],
+      },
     },
     observation: {
       observed: false,
@@ -169,13 +191,16 @@ export function buildRuntimeCoverageMatrix({
       observations_are_separate_from_expectations: true,
       missing_contracts_fail_closed: true,
       production_requires_observed_and_promoted: true,
+      candidate_join_preserves_unknown_ids: true,
+      candidate_join_includes_variant_ids: true,
     },
     counts: {
       total: scenarios.length,
       by_source: bySource,
       observed: scenarios.filter(row => row.observation.observed).length,
       production_eligible: scenarios.filter(row => row.production_eligible).length,
-      candidate_joined: scenarios.filter(row => row.joins.candidate_refs.status === 'ok').length,
+    candidate_joined: scenarios.filter(row => row.joins.candidate_refs.status === 'ok').length,
+    candidate_join_invalid: scenarios.filter(row => row.joins.candidate_refs.status === 'invalid').length,
     },
     scenarios,
   };

@@ -10,10 +10,9 @@ import { canonicalJson } from '../worker/src/rice-meal-selector.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST_ROOT = path.join(ROOT, 'dist');
-const STATIC_ASSETS = [
+const BASE_STATIC_ASSETS = [
   'index.html',
   'recipes.html',
-  'source-recipes.html',
   'cook.html',
   'manifest.json',
   'sw.js',
@@ -22,6 +21,7 @@ const STATIC_ASSETS = [
   'icon-192.png',
   'icon-512.png',
 ];
+const RESEARCH_STATIC_ASSETS = ['source-recipes.html'];
 const GENERATED_ASSETS = [
   ['tools/data/foods-tw.json', 'foods-tw.json'],
   ['tools/data/recipe-library.json', 'recipe-library.json'],
@@ -41,8 +41,11 @@ const GENERATED_ASSETS = [
   ['tools/data/source-backed-formal-candidate-review.v1.json', 'source-backed-formal-candidate-review.v1.json'],
   ['tools/data/source-backed-formal-ratio-evidence.v1.json', 'source-backed-formal-ratio-evidence.v1.json'],
   ['tools/data/source-backed-formal-staging.v1.json', 'source-backed-formal-staging.v1.json'],
-  ['tools/data/source-backed-runtime-catalog.v1.json', 'source-backed-runtime-catalog.v1.json'],
   ['tools/data/source-backed-coverage-matrix.v1.json', 'source-backed-coverage-matrix.v1.json'],
+  ['tools/data/source-backed-formalization-matrix.v1.json', 'source-backed-formalization-matrix.v1.json'],
+  ['tools/data/runtime-coverage-matrix.v1.json', 'runtime-coverage-matrix.v1.json'],
+  ['tools/data/kitchen-trial-catalog.v1.json', 'kitchen-trial-catalog.v1.json'],
+  ['tools/data/kitchen-observations.v1.json', 'kitchen-observations.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],
@@ -187,11 +190,18 @@ function build({ outputDir, buildId, artifactScope, plannerRollout, generationMo
   fs.rmSync(outputDir, { recursive: true, force: true });
   fs.mkdirSync(outputDir, { recursive: true });
 
-  for (const asset of STATIC_ASSETS) copy(asset, path.join(outputDir, asset));
-  // Cloudflare Pages can resolve `source-recipes.html` as `/source-recipes`,
-  // but some browsers fail that extensionless preview route. Keep a real
-  // directory index so the share URL has a stable trailing slash.
-  copy('source-recipes.html', path.join(outputDir, 'source-recipes', 'index.html'));
+  const includeResearch = artifactScope === 'research' || artifactScope === 'calibration';
+  for (const asset of [...BASE_STATIC_ASSETS, ...(includeResearch ? RESEARCH_STATIC_ASSETS : [])]) {
+    copy(asset, path.join(outputDir, asset));
+  }
+  // Research/calibration pages are deliberately outside the default runtime
+  // package.  A runtime build must not expose the 923-card research browser.
+  if (includeResearch) {
+    // Cloudflare Pages can resolve `source-recipes.html` as `/source-recipes`,
+    // but some browsers fail that extensionless preview route. Keep a real
+    // directory index so the share URL has a stable trailing slash.
+    copy('source-recipes.html', path.join(outputDir, 'source-recipes', 'index.html'));
+  }
   // Keep the two execution/detail journeys on the same stable directory-route
   // contract. Cloudflare may redirect the `.html` aliases, which is fragile in
   // embedded browsers and breaks a few-step user journey.
@@ -202,32 +212,39 @@ function build({ outputDir, buildId, artifactScope, plannerRollout, generationMo
     'meal-templates.v2.json', 'ratio-rules.v1.json', 'recipe-runtime.v1.json',
     'recipe-action-profiles.v1.json', 'rice-meal-catalog.v1.json',
     'rice-meal-collection.v1.json', 'rice-cooker-source-evidence.v1.json',
-    'source-backed-one-pot-preview.v1.json', 'runtime-one-pot-catalog.v1.json',
-    'source-backed-release-ledger.v1.json',
+    'runtime-one-pot-catalog.v1.json',
   ]);
-  const internalResearchTargets = new Set([
+  const researchTargets = new Set([
+    'source-backed-one-pot-preview.v1.json',
+    'source-backed-release-ledger.v1.json',
     'source-backed-formalization-ledger.v1.json',
+    'source-backed-execution-library.v1.json',
     'source-backed-formal-candidate-review.v1.json',
     'source-backed-formal-ratio-evidence.v1.json',
     'source-backed-formal-staging.v1.json',
-    'source-backed-runtime-catalog.v1.json',
     'source-backed-coverage-matrix.v1.json',
+    'source-backed-formalization-matrix.v1.json',
+    'runtime-coverage-matrix.v1.json',
+    'kitchen-trial-catalog.v1.json',
+    'kitchen-observations.v1.json',
   ]);
   for (const [source, target] of GENERATED_ASSETS) {
-    const isInternalResearch = internalResearchTargets.has(target);
-    const include = artifactScope === 'research'
-      || artifactScope === 'calibration'
-      || !isInternalResearch;
+    const include = publicRuntimeTargets.has(target)
+      || (includeResearch && researchTargets.has(target))
+      || target === '_worker.js'
+      || target.endsWith('.js');
     if (include) copy(source, path.join(outputDir, target));
   }
 
-  const sourceBackedCatalog = readCanonicalJson('tools/data/source-backed-one-pot-recipes.v1.json');
-  const shelfCatalog = buildShelfCatalog(sourceBackedCatalog);
-  fs.writeFileSync(
-    path.join(outputDir, 'source-backed-one-pot-shelf.v1.json'),
-    `${JSON.stringify(shelfCatalog)}\n`,
-    'utf8',
-  );
+  if (includeResearch) {
+    const sourceBackedCatalog = readCanonicalJson('tools/data/source-backed-one-pot-recipes.v1.json');
+    const shelfCatalog = buildShelfCatalog(sourceBackedCatalog);
+    fs.writeFileSync(
+      path.join(outputDir, 'source-backed-one-pot-shelf.v1.json'),
+      `${JSON.stringify(shelfCatalog)}\n`,
+      'utf8',
+    );
+  }
 
   const riceCookerSourceEvidence = readCanonicalJson('tools/data/rice-cooker-source-evidence.v1.json');
   const sourceEvidenceErrors = validateRiceCookerSourceEvidence(riceCookerSourceEvidence);
@@ -296,7 +313,9 @@ function build({ outputDir, buildId, artifactScope, plannerRollout, generationMo
     .replaceAll('__YIGUOCHU_PLANNER_ROLLOUT__', plannerRollout)
     .replaceAll('__YIGUOCHU_GENERATION_MODE__', generationMode)
     .replaceAll('__YIGUOCHU_PRODUCT_FOCUS__', productFocus);
-  const scopedIndex = generatedIndex.replaceAll('__YIGUOCHU_RICE_CATALOG_SCOPE__', riceCatalogScope);
+  const scopedIndex = generatedIndex
+    .replaceAll('__YIGUOCHU_RICE_CATALOG_SCOPE__', riceCatalogScope)
+    .replaceAll('__YIGUOCHU_ARTIFACT_SCOPE__', artifactScope);
   if (generatedIndex === sourceIndex) {
     throw new Error('Cannot inject the frontend build id; update tools/build-dist.mjs for the current index.html format.');
   }
@@ -316,7 +335,7 @@ function build({ outputDir, buildId, artifactScope, plannerRollout, generationMo
     productFocus,
     riceCatalogScope,
     artifactScope,
-    files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 5,
+    files: fs.readdirSync(outputDir, { recursive: true }).filter(entry => typeof entry === 'string' && fs.statSync(path.join(outputDir, entry)).isFile()).length,
   }));
 }
 

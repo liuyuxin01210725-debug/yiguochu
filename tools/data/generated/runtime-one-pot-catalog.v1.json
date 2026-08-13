@@ -1,9 +1,10 @@
 {
   "schema_version": 1,
-  "runtime_catalog_version": "runtime-one-pot-catalog-v1-20260813-correction",
+  "runtime_catalog_version": "runtime-one-pot-catalog-v1-20260813-c11",
   "scope": "runtime-one-pot-catalog",
   "policy": {
     "only_trusted_formal_recipes": true,
+    "eligibility_requires_complete_contracts": true,
     "source_cards_are_not_runtime_entries": true,
     "research_assets_have_no_planner_authority": true,
     "kitchen_observed_does_not_grant_production_approval": true,
@@ -21,7 +22,7 @@
   },
   "counts": {
     "total": 72,
-    "planner_runtime_eligible": 72,
+    "planner_runtime_eligible": 0,
     "production_approved": 0,
     "kitchen_observed": 0
   },
@@ -35,16 +36,13 @@
       "canonical_name": "中式基础粥",
       "family_id": "family-rice-porridge",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "大米与液体约为1:11（克与毫升）",
-          "液体减少过快时少量补热水"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -66,23 +64,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "068411b40f98ae5ebaf0a55be5a971b01de8d15841a05f476aadeb3877fca99c"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "simple-chicken-biryani",
       "canonical_name": "简化一锅鸡肉香料饭",
       "family_id": "family-spiced-rice",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "原始300克:600克:850毫升的大米、鸡肉、高汤比例等比例缩放；每1份使用大米100克、鸡肉200克、鸡高汤280克，按份数同比缩放",
-          "焖好后离火静置再翻松"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -105,23 +105,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "a72d5296e6a1efb77114671223308dce45d82f6c6769d32078b377bf82e1d9af"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "jollof-rice",
       "canonical_name": "西非番茄香料饭",
       "family_id": "family-tomato-rice",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "大米与高汤体积约1:1，换算为每1份使用大米100克、鸡高汤130克，按份数同比缩放",
-          "番茄酱底先收浓再加米"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -145,23 +147,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "6e9d4a09db0d7011bc664d6e765d567fec457dfb4a37c664eed682b1ef524ef3"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "creole-jambalaya",
       "canonical_name": "克里奥尔番茄鸡肉什锦饭",
       "family_id": "family-tomato-rice",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "大米与高汤体积约为1:2.25",
-          "番茄汁计入总液体"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -185,23 +189,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "3a3a0ccb7176f09bb05d066f062f90c7925990d693e7f2f05104ed3bcaf1940b"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "soy-lentil-vegetable-stew",
       "canonical_name": "大豆扁豆西兰花炖锅",
       "family_id": "family-legume-vegetable-stew",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "1大份使用大豆蛋白块40克、红扁豆80克、西兰花250克、沸水500克",
-          "所有留在成品中的液体按份数等比例缩放并列入食材表"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -225,23 +231,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "e1f51f9bc3fabd9c206db3c11d89c19333d15f3674991ba9e8b3b9477683aa00"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "chicken-black-eyed-pea-stew",
       "canonical_name": "鸡肉黑眼豆番茄饭锅",
       "family_id": "family-rice-legume-pot",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "原始来源一杯大米配约两杯罐头黑眼豆",
-          "一杯大米配约四杯高汤与番茄液体"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -266,23 +275,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "ddf9a29d9db6f2bc20f5b88c72056580db0f0aa780dceac1e2fa4a6d6d1209b3"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "lentil-potato-tomato-curry",
       "canonical_name": "扁豆土豆番茄咖喱",
       "family_id": "family-legume-vegetable-stew",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "红扁豆与水体积约为1:4，生成时水必须换算成数字克数",
-          "土豆切小块以便与红扁豆同步熟成"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -305,23 +317,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "49b17f0f9ebbe40e641dcc58e101790dae01a2020c7aaa3c698e9c78e26ecd3c"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "shakshuka-tomato-egg",
       "canonical_name": "番茄甜椒炖蛋",
       "family_id": "family-tomato-egg-pot",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "原始来源使用六个番茄、一个大甜椒和六个鸡蛋；生产版每1份使用3个中等鸡蛋，去壳约150克，番茄300克、甜椒100克，按份数同比缩放",
-          "窝数必须等于鸡蛋数，每个鸡蛋单独挖窝；酱底先收浓再放鸡蛋"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -344,23 +359,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "85b9f7da37dc64d6fac4f8393a2f4ca778e85245ca668ba3ef4da4ce517e6616"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "texas-beef-chili",
       "canonical_name": "德州风味牛肉辣炖锅",
       "family_id": "family-legume-vegetable-stew",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "原始来源约1.3千克牛肉配4个干辣椒并供6至8份；40分钟生产版每1份使用粗绞牛肉200克、干辣椒3克、玉米粉5克、水50克，按份数同比缩放",
-          "总水和预留水同时缩放：1份水50克、留10克；2份水100克、留20克；4份水200克、留40克；剩余水用于炖煮，不得另加水"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -382,23 +399,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "89e2a4e75cddb3352f58e94ac9695d8c8e2f1d69280310e2c5f7131c0ea40a9a"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "kari-ayam-coconut-chicken",
       "canonical_name": "印尼椰香鸡肉咖喱",
       "family_id": "family-coconut-curry",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "约450克鸡肉配240毫升椰奶",
-          "椰奶加入后保持轻沸而非猛烈翻滚"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -421,23 +441,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "e689b5e6acff3d2b834c2464b94ae82f14c069dfd57cd64538892ffe88061e60"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "basic-risotto",
       "canonical_name": "基础意式烩饭",
       "family_id": "family-risotto",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "原始来源约400克米准备至少1升热高汤；生产版每1份使用意式烩饭米100克、高汤250克，按份数同比缩放",
-          "每次只添少量高汤，吸收后再续；不得把1升原量直接套到2份"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -461,23 +484,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "b1498ad4f260f3c2372f473abc275af6152a15e71bf1e93eed9dad73c63dcbc3"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "rice-cabbage-minestrone",
       "canonical_name": "米粒卷心菜杂蔬汤",
       "family_id": "family-minestrone",
       "status": "approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "高汤应能没过卷心菜并满足生米吸水",
-          "生米只作少量增稠，不占汤体主体"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -500,14 +526,19 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "e4d75d614739e162d22a4fefbcd7338ba53798192858d80b1231189a671601b5"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "shanghai-salted-pork-vegetable-rice",
       "canonical_name": "上海奉贤咸肉菜饭",
       "family_id": "family-jiangnan-vegetable-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": {
@@ -552,10 +583,7 @@
       },
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克精白米使用125至140克可用总液体。",
-          "咸肉先试味，再决定是否补盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -620,23 +648,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "5f7fc5a1955366f24e11c3aaef694697ba2139ed07ceb0a4719d2e82c56fbd4b",
         "safety": "79f4ae564474b75f314da071827af5998206e847e22bfeda11de49af380d22e2"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "suzhou-salted-pork-vegetable-rice",
       "canonical_name": "苏州青菜咸肉饭",
       "family_id": "family-jiangnan-vegetable-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "米与可用液体以本轮试做记录校准，不预设公开标准配比。",
-          "咸肉经加热和尝味后才决定是否补盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -659,23 +689,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "502a8dbbf4bb6a568ecea5421dcf748367ad4d359fd9f4990dcd05b73d02250d"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "nanjing-cured-pork-greens-rice",
       "canonical_name": "南京矮脚黄腊肉菜饭",
       "family_id": "family-jiangnan-vegetable-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "液体只以本轮米和青菜含水记录校准。",
-          "腊肉尝味后才决定是否补盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -698,23 +730,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "b04b7f92e5f23e8e5b396a2ef16a3f7ac30063b1bcda5c95db54970400b0def1"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "nanjing-sausage-greens-rice",
       "canonical_name": "南京矮脚黄香肠菜饭",
       "family_id": "family-jiangnan-vegetable-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克精白米使用125至140克可用总液体。",
-          "除非香肠明显偏瘦，否则不另加食用油。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -737,23 +771,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "a2ea67bb1e1e3b2cb32720843032d9c6365a9de9c7826c3c591ac3544a2f45a8"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "nanjing-duck-greens-rice",
       "canonical_name": "南京矮脚黄板鸭菜饭",
       "family_id": "family-jiangnan-vegetable-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "液体以米、鸭肉附带汁液和青菜出水的实际记录确定。",
-          "鸭肉尝味后才决定是否补盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -776,22 +813,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "660f6b5a1d07a3c357ae3eb856508a186f64d0162e8d22e9effcb50d5ce98f2f"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "jinshan-clay-oven-vegetable-rice",
       "canonical_name": "金山土灶菜饭",
       "family_id": "family-jiangnan-vegetable-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米先预留120至140克可用总液体，并按叶菜出水情况记录调整。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -813,14 +854,19 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "0308e954375ce82728b26abb6af3f60d201c1690045440e2d787425eae2e6d7e"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "taiwan-cabbage-mushroom-rice",
       "canonical_name": "高丽菜香菇炊饭",
       "family_id": "family-southern-savory-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": {
@@ -861,10 +907,7 @@
       },
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "不使用番茄时，每100克大米的总液体以120至145克为记录起点，必须在评估叶菜和鲜菇含水后才最终确定。",
-          "使用番茄虾仁杂蔬版本时，每100克大米配番茄100克、白菜60克、玉米50克、虾仁80克和水80克，按份数同比缩放，不得再加其他汤水。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -887,14 +930,20 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "6f2702745abf7c59052fc9f5a85675ac10b6800e75dc791bb451641f37efa51d"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "quanzhou-oil-rice",
       "canonical_name": "泉州浥饭（油饭）",
       "family_id": "family-southern-savory-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": {
@@ -933,10 +982,7 @@
       },
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克泡发糯米使用90至110克高汤或清水。",
-          "首轮试做排除干制海产，待过敏原审核后再单独评估。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -959,23 +1005,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "03453a9d378f0d00a02677855801a7c03d5c6b0a4fec49a0e2760d3fc647e6ef"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "fujian-gai-cai-minced-pork-rice",
       "canonical_name": "福建盖菜肉末咸饭",
       "family_id": "family-southern-savory-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用125至145克可用总液体。",
-          "芥菜尝味前不设定额外加盐量。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -998,22 +1047,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "72531ef304b97781c0add8cab895af5a5bb75061c0e90b682f2e11360de4c2fb"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "fujian-hyacinth-bean-rice",
       "canonical_name": "福建扁豆饭",
       "family_id": "family-southern-savory-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用125至145克可用总液体，并把豆类预处理产生的水分单独记录。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1035,22 +1087,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "618b537c6b4a7d0a240fe89e85c03cc611728548196802db2755e7919a803d69"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "hainan-cai-bao-rice",
       "canonical_name": "海南定安菜包饭",
       "family_id": "family-southern-savory-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克生米使用125至145克可用总液体，叶片只作包材且不计入焖煮液体。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1073,23 +1129,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d005605fa24a416355f5337352a8cc984f8c05ace53186022c4d4b8f8e067a5f"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "daxi-lotus-leaf-oil-rice",
       "canonical_name": "大溪荷叶油饭",
       "family_id": "family-southern-savory-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "糯米吸水和蒸煮湿度只依据本轮记录校准。",
-          "猪肉和油脂的盐度须经尝味后再决定是否补盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1112,14 +1171,20 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "e9ce1319dace2c7c2d9d6e35cb78df807e65c8449dc64f9e4fd1e0b724be0e2f"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "cantonese-cured-meat-claypot-rice",
       "canonical_name": "广式腊味煲仔饭",
       "family_id": "family-covered-pot-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": {
@@ -1162,10 +1227,7 @@
       },
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "以普通带盖锅的实际蒸发和食材含水记录校准液体。",
-          "腊味尝味后才决定是否补盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1272,23 +1334,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "9a8e11b16f60eaa7b1e4dcb98bac61b7eb8ba8e23652124a7992343bf094d8fa",
         "safety": "a65131de2c842a1ac70ed7c54578a21226c1fa5912dedbdee64cc3b5b02cc904"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "cantonese-mushroom-chicken-claypot-rice",
       "canonical_name": "广式香菇滑鸡煲仔饭",
       "family_id": "family-covered-pot-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "液体只根据本轮米、鸡肉和食用菌含水记录校准。",
-          "未完成鸡肉与食用菌记录时不得将该轮作为标准。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1395,23 +1460,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "1a570eaed862449ad4cd6bb34fafba71c0b3160339e38db67fbbf7d45104b4ca",
         "safety": "0bbfd8fdffdcec35b3d22f8b97b9cc3e54851d6be7cb7e8723e667e61eb8c466"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "cantonese-black-bean-pork-rib-claypot-rice",
       "canonical_name": "广式豆豉排骨煲仔饭",
       "family_id": "family-covered-pot-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "豆豉先尝味并记录盐度，再决定是否加入其他咸味配料。",
-          "液体只按本轮排骨、米和配料含水记录调整。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1483,14 +1551,20 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "976e585aa90bf7cb9adf295a04c764c4e6dab548cec4a19e7d3d777bffed5cdc",
         "safety": "e6aae526ae0bffa918967d95e4356abee0d01f673955c3031b341cde11f5653a"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "xinjiang-lamb-pilaf",
       "canonical_name": "新疆羊肉抓饭",
       "family_id": "family-northwest-grain-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": {
@@ -1536,10 +1610,7 @@
       },
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "羊肉熟制后，每100克大米使用135至150克可用焖煮液体。",
-          "水果或坚果仅可在完成过敏原审核后作为可选项加入。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1563,22 +1634,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "9ee212cb30a9eb22700498d38f330099fc683ae6204a58b3b56a706775b52ac4"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "xinjiang-vegetable-pilaf",
       "canonical_name": "新疆素抓饭",
       "family_id": "family-northwest-grain-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用120至145克可用总液体，必须记录洋葱与胡萝卜的实际出水。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1601,22 +1675,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "a942256730ec4cde999b19c0530dd989ef32cad1e24ecbeb8e78eb9bdc1dbf0d"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "shaanbei-red-date-cowpea-rice",
       "canonical_name": "陕北红枣豇豆焖饭",
       "family_id": "family-northwest-grain-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克主粮使用130至155克可用总液体，红枣的浸润水分须计入记录。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1639,23 +1716,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "587529aea2cc99a76a215224bcbf3c6779b7ad427c25aed793d8d5f7ce688f1b"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "qinghai-hao-fan",
       "canonical_name": "青海熬饭风味家庭适配版",
       "family_id": "family-northwest-grain-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "稠度只以本轮谷物、土豆和豆类吸水记录调整。",
-          "首轮不加入任何未经身份与可食性核验的区域植物。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1678,22 +1758,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "a20e2e857133e8d2327ec23022388de7989d9028ab30dfc20fb243cbab562ae7"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "shanxi-potato-rice",
       "canonical_name": "山西岚县土豆饭",
       "family_id": "family-northwest-grain-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克主粮使用130至160克可用总液体，土豆的切块大小须与熟透检查一并记录。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1715,22 +1798,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "bccbec59c143e95fdec31d6bedd997df29fab297150849ab0352c265f77cfa48"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "shanxi-nitun-millet-rice",
       "canonical_name": "山西泥屯小米饭",
       "family_id": "family-northwest-grain-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克小米使用160至200克可用总液体，每轮必须原样记录小米与液体重量。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1752,23 +1838,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "2ae44f9e07b2018aa1c1fb4cffb732c6e24f1f6f6315c33b01a12a3d91844acd"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "tibetan-savory-congee",
       "canonical_name": "藏式咸稀饭风味家庭适配版",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "稠度和咸味只依据本轮试做记录调整。",
-          "乳制品或替代品未完成过敏原范围声明时不得加入。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1790,23 +1878,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "148db8469bf553c9d7b8bec90acffb1da4aa392b66e047d0804083632084d4d4"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "tibetan-gutu",
       "canonical_name": "古突风味家庭适配版",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "面团状态和汤体稠度只按本轮记录调整。",
-          "不加入节庆象征物、隐藏物或任何仪式性替代物。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1829,23 +1920,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "f18febf16cd0723a495546ee7222268743e3c7b91cb9bf15c8396b89f1a9da7a"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "tibetan-ginseng-fruit-rice",
       "canonical_name": "西藏人参果饭",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "蕨麻吸水和谷物熟制只以本轮记录调整。",
-          "食品级蕨麻身份未核实前不得试做。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1867,23 +1960,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "2732699d38d21ebaf83b9724d4f55b705efd522f75f1ce69d8fc25b4b032cf42"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "guangxi-five-color-glutinous-rice",
       "canonical_name": "广西壮族五色糯米饭",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每种颜色的浸润和蒸煮条件只按试做记录校准，不公布或假定传统标准。",
-          "不得用装饰染料替代食品级色源。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1908,23 +2004,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "1fd0c08601343ee5ae4b96a9d5ab06e2f15deaa902c661869036784714845128"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "she-people-black-rice",
       "canonical_name": "畲族乌饭风味家庭适配版",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "浸润、漂洗和蒸煮状态只按本轮记录调整。",
-          "不得用装饰染料、身份不明叶片或未核验色源。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1946,23 +2045,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "edfad9b019e09864275d70fbb17d0b6ab6057989a80af78078a52b51180f9954"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "banshan-wild-rice",
       "canonical_name": "半山野米饭风味平菇焖饭",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "标准版使用平菇；只可按替代槽整体改用鲜香菇。",
-          "大米与食用菌的含水只以本轮记录校准。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -1984,23 +2086,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "bf833624987e36f6be481e157e86445955332fd0c41fa6fc8a19c17090e9c2ad"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "dai-pineapple-purple-rice",
       "canonical_name": "傣族菠萝紫米饭",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "液体以紫米预处理和菠萝出水的实际记录校准。",
-          "如使用椰浆或椰子制品，必须先完成过敏原声明。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2022,23 +2126,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d84d5e5fdef7c0db22fecce6bbd5daf1ef6d76361494a1bb6088179e763daca6"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "guizhou-dong-community-rice",
       "canonical_name": "侗家社饭风味家庭适配版",
       "family_id": "family-regional-grain-specialties",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用125至140克可用总液体。",
-          "首轮只使用普通叶菜，已核验可食用的地方叶菜才可进入后续试做。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2062,14 +2169,20 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "749f1fb324a6d6aab077e42ea7190db62c164b8d4c1dfb504def27d30dfd7701"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "north-china-green-bean-braised-noodles",
       "canonical_name": "北方豆角焖面",
       "family_id": "family-northern-braised-noodles",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": {
@@ -2112,10 +2225,7 @@
       },
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "焖煮液体必须先量取，再分段加入。",
-          "面条入锅前保留少量可见液体，避免干锅或面条泡烂。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2138,23 +2248,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "96600c63ea0183121c1b4b9bb4141d0b9cf0c7e573731ccbec4dccbd7a98e5f4"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "home-egg-fried-leftover-rice",
       "canonical_name": "家常鸡蛋炒剩饭",
       "family_id": "family-home-fried-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭配30至40克蛋液。",
-          "每300克熟米饭使用不超过15克食用油。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2176,23 +2288,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d3d8f90ba6c1c68140b5dcfb0bc6d76246996ff05a81ff41d1760dd638a73feb"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "tomato-egg-stewed-leftover-rice",
       "canonical_name": "番茄鸡蛋烩剩饭",
       "family_id": "family-home-stewed-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用60至80克番茄汤汁。",
-          "每100克熟米饭配25至35克蛋液。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2215,23 +2329,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d3d8f90ba6c1c68140b5dcfb0bc6d76246996ff05a81ff41d1760dd638a73feb"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "greens-egg-braised-leftover-rice",
       "canonical_name": "青菜鸡蛋焖剩饭",
       "family_id": "family-home-braised-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用35至50克青菜。",
-          "每100克熟米饭补入约20克水形成短时蒸汽。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2254,23 +2370,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d3d8f90ba6c1c68140b5dcfb0bc6d76246996ff05a81ff41d1760dd638a73feb"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "mushroom-egg-covered-leftover-rice",
       "canonical_name": "香菇鸡蛋焖剩饭",
       "family_id": "family-home-covered-pot",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约35克鲜食用菌。",
-          "每100克熟米饭补入约20克水形成短时蒸汽。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2293,23 +2411,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d3d8f90ba6c1c68140b5dcfb0bc6d76246996ff05a81ff41d1760dd638a73feb"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "shrimp-egg-fried-leftover-rice",
       "canonical_name": "虾仁鸡蛋炒剩饭",
       "family_id": "family-home-fried-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭配约25克虾仁和30克蛋液。",
-          "每300克熟米饭使用不超过15克食用油。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2332,23 +2453,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "32b991a91064961f84eba56d2244cb4a45be577668d7ebcbabb7c3f43d62220e"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "broccoli-beef-fried-rice",
       "canonical_name": "西兰花牛肉炒饭",
       "family_id": "family-home-fried-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭配约30克牛肉和40克西兰花。",
-          "每300克熟米饭使用不超过15克食用油。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2371,24 +2494,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "82b705efbcce926fc7ff802617f09904ee3ee06a3713f441ff5b55d8733d2af0"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "broccoli-beef-braised-rice",
       "canonical_name": "西兰花牛肉焖饭",
       "family_id": "family-home-braised-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米另加约135克清水。",
-          "每100克大米配约35克牛肉和45克西兰花。",
-          "每份使用1克盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2411,23 +2535,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "cd7d9501f189c3941c67d9550c500ed2d65aef7fd386016ff80c3c7c3e4427fe"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "tomato-broccoli-beef-stewed-rice",
       "canonical_name": "番茄西兰花牛肉烩饭",
       "family_id": "family-home-stewed-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约70克番茄汤汁。",
-          "每100克熟米饭配约30克牛肉和35克西兰花。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2451,23 +2577,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "9f19324bf1bfb9467a43fcc2f431586976fb148349dd4c2d44ca358f3d0b3c94"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "broccoli-beef-soup-noodles",
       "canonical_name": "西兰花牛肉汤面",
       "family_id": "family-home-soup-staple",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克干面条使用约550克汤水。",
-          "每100克干面条配约60克牛肉和80克西兰花。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2490,23 +2618,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "e1b94144a527525d4569c3792e94ca3fa26edcfc97421fe2b6cc03bd32715ba5"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "potato-broccoli-beef-covered-rice",
       "canonical_name": "土豆西兰花牛肉饭锅",
       "family_id": "family-home-covered-pot",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用约140克可用总液体。",
-          "土豆切小块并控制在每100克大米约50克。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2530,23 +2660,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "80dbbeece13616010f2596608a8c50338cf276418ccafd8368f80015b9afc1de"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "greens-tofu-fried-rice",
       "canonical_name": "青菜豆腐炒饭",
       "family_id": "family-home-fried-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭配约45克老豆腐和35克青菜。",
-          "每300克熟米饭使用不超过15克食用油。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2569,24 +2701,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "305c2d8d41f578b4dadfe7029a38ba5da18f63cbd3521342f72b86c920866748"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "cabbage-tofu-braised-rice",
       "canonical_name": "白菜豆腐焖饭",
       "family_id": "family-home-braised-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米另加约130克清水。",
-          "每100克大米配约60克老豆腐和50克白菜或替代叶菜。",
-          "每份使用1克盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2609,23 +2742,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "e2c5c2c4d787d233c61f818125e7361a87a30604b7569b845a045f4ee3c30364"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "tomato-tofu-stewed-rice",
       "canonical_name": "番茄青菜豆腐烩饭",
       "family_id": "family-home-stewed-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约70克番茄汤汁。",
-          "每100克熟米饭配约50克老豆腐；使用青菜时控制在30至40克。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2648,23 +2783,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d4b75806d288b35e8aa1469caa48d6d4b1d03b551c371a297475f0afb3d73314"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "greens-tofu-soup-noodles",
       "canonical_name": "青菜豆腐汤面",
       "family_id": "family-home-soup-staple",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克干面条使用约550克汤水。",
-          "每100克干面条配约70克老豆腐和60克青菜。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2687,23 +2824,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "bda8155511151295b8ac3fb81dfaeb0566f67b8b15e87c406d23005dd034443a"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "mushroom-greens-tofu-covered-rice",
       "canonical_name": "香菇青菜豆腐饭锅",
       "family_id": "family-home-covered-pot",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用约135克可用总液体。",
-          "每100克大米配约45克老豆腐和30克鲜香菇。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2727,23 +2866,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "9e8e1f09618dd1e2f70f293b2ec08b37c07ca26983309c88ff123a09268761c1"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "chicken-leg-potato-braised-rice",
       "canonical_name": "鸡腿土豆焖饭",
       "family_id": "family-home-braised-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用约140克可用总液体。",
-          "每100克大米配约60克鸡腿肉和50克土豆。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2766,23 +2908,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "eea0f8cf9cdcdb48fca5e0bda876c12c620650b549f531d0cf77eceb8311444c"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "chicken-leg-mushroom-stewed-rice",
       "canonical_name": "鸡腿香菇土豆烩饭",
       "family_id": "family-home-stewed-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约70克汤汁。",
-          "每100克熟米饭配约50克鸡腿肉和30克鲜食用菌；使用土豆时控制在40至50克。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2805,23 +2949,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "44d615618b3235b0432ed91d332a8e332a6164350aa31e21a3600d918267bd29"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "tomato-chicken-leg-soup-rice",
       "canonical_name": "番茄鸡腿土豆汤饭",
       "family_id": "family-home-soup-staple",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约180克汤水。",
-          "每100克熟米饭配约50克鸡腿肉和60克番茄；使用土豆时控制在40至50克。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2844,23 +2991,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "c8ee9267e8a9ae29e976ecf05914e2180712aef8de379c5853f4ee587af55906"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "corn-carrot-chicken-leg-covered-rice",
       "canonical_name": "玉米土豆鸡腿饭锅",
       "family_id": "family-home-covered-pot",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用约140克可用总液体。",
-          "每100克大米配约55克鸡腿肉和合计45克玉米与胡萝卜或土豆。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2884,23 +3033,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "ddd8d28011be8626db7c56fd660c06d92becdd47691553dfb4f62cd1732e612e"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "cabbage-potato-chicken-leg-braised-noodles",
       "canonical_name": "白菜土豆鸡腿焖面",
       "family_id": "family-northern-braised-noodles",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克干面条使用约180克焖煮液体。",
-          "每100克干面条配约60克鸡腿肉和合计90克白菜土豆。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2924,23 +3075,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "949c8d2d84542556aa41b28b4e7881ef86248190e48ac7a3569080007297885f"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "greens-sausage-fried-rice",
       "canonical_name": "青菜香肠炒饭",
       "family_id": "family-home-fried-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭配约25克香肠和35克青菜。",
-          "先核对香肠标签咸度，再决定调味用量。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -2963,23 +3116,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "52e953d51e8b6c009401ff7fc8b069bdce27a6422726d93fb7430c9d55bf33fd"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "greens-minced-pork-braised-rice",
       "canonical_name": "青菜肉末焖饭",
       "family_id": "family-home-braised-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用约135克可用总液体。",
-          "每100克大米配约45克猪肉末和40克青菜。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3002,23 +3158,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d74da63b4e131bb463430f58b0d8e2f5337ef8db6a40a306623f6ce58ffe884a"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "cabbage-egg-soup-rice",
       "canonical_name": "青菜鸡蛋汤饭",
       "family_id": "family-home-soup-staple",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约180克汤水。",
-          "每100克熟米饭配约35克蛋液和60克白菜或替代青菜。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3041,23 +3199,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "497ddfd94b42d84bddf41d2d233417bfd4205b7d5aff5d51b6912eab10e945d6"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "greens-tofu-vermicelli-pot",
       "canonical_name": "青菜豆腐粉丝煲",
       "family_id": "family-home-vermicelli-pot",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每50克干粉丝使用约450克汤水。",
-          "每50克干粉丝配约100克老豆腐和80克青菜。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3080,23 +3240,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "b28d5f2026d21591d6610bca66fc9489bba442daf0ec1d57c0ad62aadd033f00"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "greens-chicken-leg-soup-noodles",
       "canonical_name": "青菜鸡腿汤面",
       "family_id": "family-home-soup-staple",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克干面条使用约550克汤水。",
-          "每100克干面条配约70克鸡腿肉和70克青菜。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3119,24 +3282,25 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "f6ea272b2593c73b30c48ef7e522be2b63d7258204ef6d01256aaca0384e2c7d"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped"
+      ]
     },
     {
       "recipe_id": "green-bean-pork-rib-braised-rice",
       "canonical_name": "豆角排骨焖饭",
       "family_id": "family-home-braised-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米另加约145克清水。",
-          "每100克大米配约70克猪肋排和55克豆角或土豆。",
-          "每份使用1克盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3159,23 +3323,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d0dfac66a2a5b46d6e251acb7889fbbb7bbed9d16eefbabc83b8819176906b2b"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "potato-pork-rib-stewed-rice",
       "canonical_name": "土豆排骨烩饭",
       "family_id": "family-home-stewed-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约90克排骨汤汁。",
-          "每100克熟米饭配约60克猪肋排和50克土豆或豆角。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3198,23 +3365,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d0dfac66a2a5b46d6e251acb7889fbbb7bbed9d16eefbabc83b8819176906b2b"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "tomato-potato-pork-rib-covered-rice",
       "canonical_name": "番茄土豆排骨饭锅",
       "family_id": "family-home-covered-pot",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米使用包含番茄汁在内约145克可用总液体。",
-          "每100克大米配约70克猪肋排和50克土豆或豆角。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3238,24 +3408,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d0dfac66a2a5b46d6e251acb7889fbbb7bbed9d16eefbabc83b8819176906b2b"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "mushroom-green-bean-pork-rib-braised-rice",
       "canonical_name": "香菇豆角排骨焖饭",
       "family_id": "family-home-braised-rice",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克大米另加约145克清水。",
-          "每100克大米配约70克猪肋排和合计65克鲜香菇与豆角或土豆。",
-          "每份使用1克盐。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3279,23 +3451,26 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d0dfac66a2a5b46d6e251acb7889fbbb7bbed9d16eefbabc83b8819176906b2b"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     },
     {
       "recipe_id": "cabbage-potato-pork-rib-soup-rice",
       "canonical_name": "白菜土豆排骨汤饭",
       "family_id": "family-home-soup-staple",
       "status": "auto_approved",
-      "planner_runtime_eligible": true,
+      "planner_runtime_eligible": false,
       "production_approved": false,
       "kitchen_observed": false,
       "runtime_contract": null,
       "action_profile": null,
       "ratio_contract": {
-        "rule_ids": [
-          "每100克熟米饭使用约200克排骨汤水。",
-          "每100克熟米饭配约60克猪肋排和合计80克白菜与土豆或豆角。"
-        ],
+        "rule_ids": [],
         "catalog_version": "ratio-rules-v1-20260802-r14"
       },
       "taxonomy_contract": {
@@ -3319,7 +3494,13 @@
         "taxonomy": "f27c4aff4cc3e1898f8dc2d54d4808c7e91b03cc2bf738983db836c42fd9d6bc",
         "source_summary": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
         "safety": "d0dfac66a2a5b46d6e251acb7889fbbb7bbed9d16eefbabc83b8819176906b2b"
-      }
+      },
+      "eligibility_reasons": [
+        "runtime_contract_missing",
+        "action_profile_missing",
+        "ratio_contract_missing_or_unmapped",
+        "taxonomy_contract_missing"
+      ]
     }
   ]
 }

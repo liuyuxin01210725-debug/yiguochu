@@ -12,6 +12,7 @@ const build = spawnSync(process.execPath, [
   path.join(ROOT, 'tools', 'build-dist.mjs'),
   '--out-dir', OUTPUT,
   '--build-id', 'frontend-rice-meal-test',
+  '--artifact-scope', 'research',
   '--planner-rollout', 'direct-recommend',
   '--generation-mode', 'deterministic',
   '--product-focus', 'rice-meal-v1',

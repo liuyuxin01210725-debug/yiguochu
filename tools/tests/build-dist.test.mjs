@@ -23,8 +23,6 @@ const REQUIRED_ASSETS = [
   'index.html',
   'recipes.html',
   'recipes/index.html',
-  'source-recipes.html',
-  'source-recipes/index.html',
   'cook.html',
   'cook/index.html',
   'manifest.json',
@@ -63,11 +61,7 @@ const REQUIRED_ASSETS = [
   'rice-meal-compiler.js',
   'rice-meal-catalog-validator.js',
   'rice-cooker-source-evidence-validator.js',
-  'source-backed-one-pot-shelf.v1.json',
-  'source-backed-one-pot-preview.v1.json',
-  'source-backed-execution-library.v1.json',
   'runtime-one-pot-catalog.v1.json',
-  'source-backed-release-ledger.v1.json',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
@@ -265,7 +259,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 55);
+    assert.equal(buildRecord.files, REQUIRED_ASSETS.length);
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
@@ -276,6 +270,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
     assert.match(builtIndex, /const BUILD_ID = 'canonical-test';/);
     assert.match(builtIndex, /const PLANNER_ROLLOUT = 'direct-recommend';/);
     assert.match(builtIndex, /const GENERATION_MODE = 'deterministic';/);
+    assert.match(builtIndex, /const ARTIFACT_SCOPE = 'runtime';/);
     assert.match(builtIndex, /serviceWorker\.register\('sw\.js\?v=canonical-test', \{ updateViaCache:'none' \}\)/);
     assert.doesNotMatch(
       builtIndex,
@@ -403,6 +398,44 @@ test('distribution build excludes research-only and planner coverage audit artif
     assert.equal(templates.templates.filter(row => row.activation_status === 'planned').length, 5);
   } finally {
     fs.rmSync(outputDir, { recursive:true, force:true });
+  }
+});
+
+test('runtime scope excludes research pages, source execution data, shelves and ledgers', () => {
+  const outputDir = makeOutputDir();
+  try {
+    build(outputDir);
+    for (const forbidden of [
+      'source-recipes.html',
+      'source-recipes/index.html',
+      'source-backed-one-pot-shelf.v1.json',
+      'source-backed-one-pot-preview.v1.json',
+      'source-backed-execution-library.v1.json',
+      'source-backed-release-ledger.v1.json',
+      'kitchen-trial-catalog.v1.json',
+      'source-backed-coverage-matrix.v1.json',
+    ]) assert.equal(fs.existsSync(path.join(outputDir, forbidden)), false, `${forbidden} leaked into runtime scope`);
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test('research scope explicitly includes source browser and research ledgers', () => {
+  const outputDir = makeOutputDir();
+  try {
+    const result = runBuild(outputDir, { artifactScope: 'research' });
+    assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+    for (const required of [
+      'source-recipes.html',
+      'source-recipes/index.html',
+      'source-backed-one-pot-shelf.v1.json',
+      'source-backed-one-pot-preview.v1.json',
+      'source-backed-execution-library.v1.json',
+      'source-backed-release-ledger.v1.json',
+      'kitchen-trial-catalog.v1.json',
+    ]) assert.equal(fs.existsSync(path.join(outputDir, required)), true, `${required} missing from research scope`);
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true });
   }
 });
 

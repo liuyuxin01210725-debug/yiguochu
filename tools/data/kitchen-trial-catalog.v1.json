@@ -1,0 +1,584 @@
+{
+  "schema_version": 1,
+  "kitchen_trial_catalog_version": "kitchen-trial-catalog-v1-20260813-c13",
+  "source_catalog_version": "source-backed-one-pot-v1-20260812-global-r297",
+  "execution_library_version": "source-backed-execution-v1-20260811-r1",
+  "formalization_ledger_version": "source-backed-formalization-v1-20260811-r2",
+  "scope": "kitchen-trial-catalog",
+  "policy": {
+    "trial_only": true,
+    "planner_authority": false,
+    "production_authority": false,
+    "source_contract_is_fixed_batch_only": true,
+    "required_safety_codes_come_from_formal_review": true
+  },
+  "counts": {
+    "total": 34,
+    "trial_eligible": 34
+  },
+  "entries": [
+    {
+      "recipe_id": "philips-cantonese-cured-rice",
+      "canonical_name": "广东腊味饭",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#philips-cantonese-cured-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#philips-cantonese-cured-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#philips-cantonese-cured-rice",
+      "required_safety_endpoint_codes": [
+        "cured_meat_fully_heated"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "toshiba-mixed-chicken-bamboo-rice-rc-dr18t",
+      "canonical_name": "东芝什锦饭",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#toshiba-mixed-chicken-bamboo-rice-rc-dr18t",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#toshiba-mixed-chicken-bamboo-rice-rc-dr18t",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#toshiba-mixed-chicken-bamboo-rice-rc-dr18t",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "taiwan-tatung-cabbage-rice",
+      "canonical_name": "大同電鍋高麗菜飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#taiwan-tatung-cabbage-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#taiwan-tatung-cabbage-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#taiwan-tatung-cabbage-rice",
+      "required_safety_endpoint_codes": [
+        "pork_fully_cooked",
+        "shellfish_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "zojirushi-pork-vegetable-rice-el-ns23",
+      "canonical_name": "豚肉と野菜のおかずごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#zojirushi-pork-vegetable-rice-el-ns23",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#zojirushi-pork-vegetable-rice-el-ns23",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#zojirushi-pork-vegetable-rice-el-ns23",
+      "required_safety_endpoint_codes": [
+        "pork_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "panasonic-nf-pc400-takikomi-rice",
+      "canonical_name": "炊き込みごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#panasonic-nf-pc400-takikomi-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#panasonic-nf-pc400-takikomi-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#panasonic-nf-pc400-takikomi-rice",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "panasonic-khao-man-gai-nf-ac1000",
+      "canonical_name": "カオマンガイ",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#panasonic-khao-man-gai-nf-ac1000",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#panasonic-khao-man-gai-nf-ac1000",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#panasonic-khao-man-gai-nf-ac1000",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tatung-beef-burdock-takikomi-rice",
+      "canonical_name": "牛肉とごぼうの炊き込みご飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tatung-beef-burdock-takikomi-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tatung-beef-burdock-takikomi-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tatung-beef-burdock-takikomi-rice",
+      "required_safety_endpoint_codes": [
+        "beef_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tatung-oyster-mountain-vegetable-rice",
+      "canonical_name": "牡蠣と山菜の炊き込みご飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tatung-oyster-mountain-vegetable-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tatung-oyster-mountain-vegetable-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tatung-oyster-mountain-vegetable-rice",
+      "required_safety_endpoint_codes": [
+        "shellfish_fully_cooked"
+      ],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tatung-paella-style-seafood-rice",
+      "canonical_name": "パエリア風魚介の炊き込みご飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tatung-paella-style-seafood-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tatung-paella-style-seafood-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tatung-paella-style-seafood-rice",
+      "required_safety_endpoint_codes": [
+        "shellfish_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tiger-chicken-bamboo-rice",
+      "canonical_name": "鶏肉たけのこごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tiger-chicken-bamboo-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tiger-chicken-bamboo-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tiger-chicken-bamboo-rice",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tiger-whitefish-mixed-rice",
+      "canonical_name": "白身魚の炊込みごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tiger-whitefish-mixed-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tiger-whitefish-mixed-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tiger-whitefish-mixed-rice",
+      "required_safety_endpoint_codes": [
+        "seafood_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tiger-shirasu-tomato-multigrain-rice",
+      "canonical_name": "釜揚げしらすとトマトの雑穀ごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tiger-shirasu-tomato-multigrain-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tiger-shirasu-tomato-multigrain-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tiger-shirasu-tomato-multigrain-rice",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tiger-mackerel-aromatic-barley-rice",
+      "canonical_name": "さばの香味麦炊込みごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tiger-mackerel-aromatic-barley-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tiger-mackerel-aromatic-barley-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tiger-mackerel-aromatic-barley-rice",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tiger-hamo-rice",
+      "canonical_name": "はもごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tiger-hamo-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tiger-hamo-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tiger-hamo-rice",
+      "required_safety_endpoint_codes": [
+        "seafood_fully_cooked"
+      ],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "sichuan-rice-cooker-pork-ribs-rice",
+      "canonical_name": "排骨焖饭",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#sichuan-rice-cooker-pork-ribs-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#sichuan-rice-cooker-pork-ribs-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#sichuan-rice-cooker-pork-ribs-rice",
+      "required_safety_endpoint_codes": [
+        "pork_fully_cooked"
+      ],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "panasonic-claypot-style-chicken-rice",
+      "canonical_name": "Claypot Style Chicken Rice",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#panasonic-claypot-style-chicken-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#panasonic-claypot-style-chicken-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#panasonic-claypot-style-chicken-rice",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "cookpot-beef-wild-mushroom-rice",
+      "canonical_name": "牛肉野菇炊飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#cookpot-beef-wild-mushroom-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#cookpot-beef-wild-mushroom-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#cookpot-beef-wild-mushroom-rice",
+      "required_safety_endpoint_codes": [
+        "beef_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tiger-pork-bamboo-rice",
+      "canonical_name": "豚肉とたけのこごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tiger-pork-bamboo-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tiger-pork-bamboo-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tiger-pork-bamboo-rice",
+      "required_safety_endpoint_codes": [
+        "pork_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tiger-steak-mushroom-barley-rice",
+      "canonical_name": "ステーキときのこの麦バターライス",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tiger-steak-mushroom-barley-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tiger-steak-mushroom-barley-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tiger-steak-mushroom-barley-rice",
+      "required_safety_endpoint_codes": [
+        "beef_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "toshiba-mixed-mushroom-ume-rice",
+      "canonical_name": "たっぷりきのこの炊込みご飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#toshiba-mixed-mushroom-ume-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#toshiba-mixed-mushroom-ume-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#toshiba-mixed-mushroom-ume-rice",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "toshiba-bibimbap-mixed-rice",
+      "canonical_name": "石焼ビビンバ風炊込みご飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#toshiba-bibimbap-mixed-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#toshiba-bibimbap-mixed-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#toshiba-bibimbap-mixed-rice",
+      "required_safety_endpoint_codes": [
+        "beef_fully_cooked"
+      ],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tatung-pork-daikon-rice",
+      "canonical_name": "豚バラ大根ご飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tatung-pork-daikon-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tatung-pork-daikon-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tatung-pork-daikon-rice",
+      "required_safety_endpoint_codes": [
+        "pork_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tatung-wakayama-ginger-rice",
+      "canonical_name": "しょうが飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tatung-wakayama-ginger-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tatung-wakayama-ginger-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tatung-wakayama-ginger-rice",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tatung-salmon-pumpkin-milk-risotto",
+      "canonical_name": "サーモンとかぼちゃのミルクリゾット",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tatung-salmon-pumpkin-milk-risotto",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tatung-salmon-pumpkin-milk-risotto",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tatung-salmon-pumpkin-milk-risotto",
+      "required_safety_endpoint_codes": [
+        "seafood_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tatung-tuna-garlic-butter-rice",
+      "canonical_name": "背徳のガリバタ飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tatung-tuna-garlic-butter-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tatung-tuna-garlic-butter-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tatung-tuna-garlic-butter-rice",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "r61-tiger-red-can-curry-pilaf",
+      "canonical_name": "赤缶カレーの炊込みピラフ",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#r61-tiger-red-can-curry-pilaf",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#r61-tiger-red-can-curry-pilaf",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#r61-tiger-red-can-curry-pilaf",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "r61-tiger-easy-khao-man-gai",
+      "canonical_name": "簡単カオマンガイ",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#r61-tiger-easy-khao-man-gai",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#r61-tiger-easy-khao-man-gai",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#r61-tiger-easy-khao-man-gai",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "zojirushi-nonokomeshi-el-mb30",
+      "canonical_name": "ののこ飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#zojirushi-nonokomeshi-el-mb30",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#zojirushi-nonokomeshi-el-mb30",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#zojirushi-nonokomeshi-el-mb30",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked"
+      ],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tefal-paella-r106320",
+      "canonical_name": "Paella（Tefal锅内温控版）",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tefal-paella-r106320",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tefal-paella-r106320",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tefal-paella-r106320",
+      "required_safety_endpoint_codes": [
+        "poultry_fully_cooked",
+        "seafood_fully_cooked",
+        "shellfish_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "panasonic-bamboo-brown-rice-nf-pc400",
+      "canonical_name": "たけのこ入り玄米ごはん",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#panasonic-bamboo-brown-rice-nf-pc400",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#panasonic-bamboo-brown-rice-nf-pc400",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#panasonic-bamboo-brown-rice-nf-pc400",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tefal-risotto-with-peas-r106322",
+      "canonical_name": "Risotto with peas",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tefal-risotto-with-peas-r106322",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tefal-risotto-with-peas-r106322",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tefal-risotto-with-peas-r106322",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "tefal-risotto-with-shrimps-r106225",
+      "canonical_name": "Risotto with shrimps",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#tefal-risotto-with-shrimps-r106225",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#tefal-risotto-with-shrimps-r106225",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#tefal-risotto-with-shrimps-r106225",
+      "required_safety_endpoint_codes": [
+        "shellfish_fully_cooked"
+      ],
+      "source_status": "executable",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "philips-corn-quinoa-vegetable-rice",
+      "canonical_name": "粟米藜麥菜飯",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#philips-corn-quinoa-vegetable-rice",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#philips-corn-quinoa-vegetable-rice",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#philips-corn-quinoa-vegetable-rice",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    },
+    {
+      "recipe_id": "global-greece-mushroom-mageiritsa",
+      "canonical_name": "Mushroom Mageiritsa",
+      "trial_eligible": true,
+      "planner_runtime_eligible": false,
+      "production_approved": false,
+      "source_catalog_ref": "source-backed-one-pot-v1-20260812-global-r297#global-greece-mushroom-mageiritsa",
+      "execution_card_ref": "source-backed-execution-v1-20260811-r1#global-greece-mushroom-mageiritsa",
+      "formalization_ref": "source-backed-formalization-v1-20260811-r2#global-greece-mushroom-mageiritsa",
+      "required_safety_endpoint_codes": [],
+      "source_status": "recipe_fact_checked",
+      "formalization_status": "preview_candidate",
+      "cooker_boundary_preserved": true,
+      "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
+    }
+  ]
+}
