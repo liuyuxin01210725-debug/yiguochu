@@ -4,6 +4,9 @@ import { readFileSync } from 'node:fs';
 import {
   assertKitchenObservation,
   isKitchenObservationReady,
+  validateKitchenObservationReferences,
+  validateKitchenObservationLedger,
+  validateKitchenObservationSchemaParity,
   validateKitchenObservation,
 } from '../lib/kitchen-observation.mjs';
 
@@ -240,3 +243,113 @@ test('production approval is not granted by an observation record alone', () => 
   assert.match(errors.join('\n'), /production_approved is not a valid kitchen observation disposition/u);
 });
 
+test('timeline ordering and program duration are validated semantically', () => {
+  const outOfOrder = validObservation();
+  outOfOrder.timeline.finish_at = '2026-08-13T11:00:00+08:00';
+  let errors = validateKitchenObservation(outOfOrder);
+  assert.match(errors.join('\n'), /timeline.*chronological/u);
+
+  const tooLong = validObservation();
+  tooLong.timeline.program_elapsed_minutes = 70;
+  errors = validateKitchenObservation(tooLong);
+  assert.match(errors.join('\n'), /program_elapsed_minutes.*timestamp/u);
+});
+
+test('safety pass is checked against a compatible numeric endpoint and evidence refs resolve', () => {
+  const unsafe = validObservation();
+  unsafe.safety_endpoints[0].observed.value = 70;
+  let errors = validateKitchenObservation(unsafe);
+  assert.match(errors.join('\n'), /safety_endpoints\[0\].*minimum/u);
+
+  const missingEvidence = validObservation();
+  missingEvidence.safety_endpoints[0].evidence_ref = 'ev-missing';
+  errors = validateKitchenObservation(missingEvidence);
+  assert.match(errors.join('\n'), /evidence_ref.*does not resolve/u);
+});
+
+test('kitchen observed readiness and promotion are separate gates', async () => {
+  const observation = validObservation();
+  assert.equal(isKitchenObservationReady(observation), true);
+  const { isKitchenObservedReady } = await import('../lib/kitchen-observation.mjs');
+  assert.equal(isKitchenObservedReady(observation), false);
+  observation.disposition.status = 'kitchen_observed';
+  observation.disposition.reviewed_at = '2026-08-13T12:00:00+08:00';
+  observation.process_adherence.steps.forEach(step => { step.completed = true; });
+  assert.equal(isKitchenObservedReady(observation), true);
+});
+
+test('runtime and execution refs resolve against versioned catalog entries', () => {
+  const observation = validObservation();
+  const runtimeCatalog = {
+    runtime_catalog_version: 'runtime-one-pot-catalog-v1-test',
+    entries: [{ recipe_id: observation.recipe.recipe_id }],
+  };
+  const executionLibrary = {
+    execution_library_version: 'source-backed-execution-v1-test',
+    entries: [{ recipe_id: observation.recipe.recipe_id }],
+  };
+  let errors = validateKitchenObservationReferences(observation, { runtimeCatalog, executionLibrary });
+  assert.match(errors.join('\n'), /runtime_catalog_ref.*versioned/u);
+  assert.match(errors.join('\n'), /execution_card_ref.*versioned/u);
+
+  observation.recipe.runtime_catalog_ref = `${runtimeCatalog.runtime_catalog_version}#${observation.recipe.recipe_id}`;
+  observation.recipe.execution_card_ref = `${executionLibrary.execution_library_version}#${observation.recipe.recipe_id}`;
+  errors = validateKitchenObservationReferences(observation, { runtimeCatalog, executionLibrary });
+  assert.deepEqual(errors, []);
+
+  observation.recipe.runtime_catalog_ref = `${runtimeCatalog.runtime_catalog_version}#other-recipe`;
+  assert.match(validateKitchenObservationReferences(observation, { runtimeCatalog, executionLibrary }).join('\n'), /runtime_catalog_ref.*recipe/u);
+});
+
+test('reference validation fails closed when catalogs or versions are absent', () => {
+  const observation = validObservation();
+  const errors = validateKitchenObservationReferences(observation, {
+    runtimeCatalog: { entries: [{ recipe_id: observation.recipe.recipe_id }] },
+    executionLibrary: { entries: [{ recipe_id: observation.recipe.recipe_id }] },
+  });
+  assert.match(errors.join('\n'), /versioned runtime catalog ref/u);
+  assert.match(errors.join('\n'), /versioned execution ref/u);
+});
+
+test('empty observation ledger is valid, but malformed or duplicate records are blocked', () => {
+  const emptyLedger = {
+    schema_version: 'kitchen-observations.v1',
+    ledger_version: 'kitchen-observations-v1-20260813-empty',
+    scope: 'private-kitchen-observation-ledger',
+    policy: {
+      public_runtime_must_not_include_observations: true,
+      kitchen_observed_requires_independent_promotion_gate: true,
+      household_identity_and_quotes_are_private: true,
+    },
+    observations: [],
+  };
+  assert.deepEqual(validateKitchenObservationLedger(emptyLedger), []);
+
+  const malformed = structuredClone(emptyLedger);
+  malformed.observations = [{}];
+  assert.match(validateKitchenObservationLedger(malformed).join('\n'), /observations\[0\].*schema_version/u);
+
+  const duplicate = structuredClone(emptyLedger);
+  duplicate.observations = [validObservation(), validObservation()];
+  assert.match(validateKitchenObservationLedger(duplicate).join('\n'), /duplicate observation_id/u);
+});
+
+test('JSON Schema parity covers nested required fields and safety/disposition enums', () => {
+  assert.deepEqual(validateKitchenObservationSchemaParity(schema), []);
+
+  const broken = structuredClone(schema);
+  broken.$defs.safety.properties.result.enum = ['pass'];
+  assert.match(validateKitchenObservationSchemaParity(broken).join('\n'), /safety.*result.*enum/u);
+
+  const brokenDisposition = structuredClone(schema);
+  brokenDisposition.$defs.disposition.properties.status.enum.push('production_approved');
+  assert.match(validateKitchenObservationSchemaParity(brokenDisposition).join('\n'), /production_approved/u);
+
+  const brokenSubstitution = structuredClone(schema);
+  delete brokenSubstitution.$defs.ingredient.properties.substitution.required;
+  assert.match(validateKitchenObservationSchemaParity(brokenSubstitution).join('\n'), /ingredient\.substitution/u);
+
+  const brokenApproval = structuredClone(schema);
+  delete brokenApproval.$defs.disposition.properties.approve_for_production.const;
+  assert.match(validateKitchenObservationSchemaParity(brokenApproval).join('\n'), /approve_for_production/u);
+});
