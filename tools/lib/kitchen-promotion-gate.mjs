@@ -1,6 +1,9 @@
-import { isKitchenObservedReady } from './kitchen-observation.mjs';
+import {
+  isKitchenObservedReady,
+  validateKitchenObservationReferences,
+} from './kitchen-observation.mjs';
 
-export function evaluateKitchenPromotion({ runtimeCatalog, observations, formalReview, validatedObservationIds = [] } = {}, recipeId) {
+export function evaluateKitchenPromotion({ runtimeCatalog, executionLibrary, observations, formalReview, validatedObservationIds = [] } = {}, recipeId) {
   const reasons = [];
   const runtimeEntry = Array.isArray(runtimeCatalog?.entries)
     ? runtimeCatalog.entries.find(entry => entry?.recipe_id === recipeId)
@@ -13,7 +16,11 @@ export function evaluateKitchenPromotion({ runtimeCatalog, observations, formalR
     ? observations.find(item => item?.recipe?.recipe_id === recipeId && item?.disposition?.status === 'kitchen_observed')
     : null;
   if (!observation) reasons.push('kitchen_observation_missing');
-  else if (!isKitchenObservedReady(observation)) reasons.push('kitchen_observation_incomplete');
+  else {
+    const referenceErrors = validateKitchenObservationReferences(observation, { runtimeCatalog, executionLibrary });
+    if (referenceErrors.length > 0) reasons.push('kitchen_observation_reference_invalid');
+    if (!isKitchenObservedReady(observation)) reasons.push('kitchen_observation_incomplete');
+  }
 
   const reviewDateValid = typeof formalReview?.reviewed_at === 'string' && !Number.isNaN(Date.parse(formalReview.reviewed_at));
   if (formalReview?.approved !== true || formalReview.recipe_id !== recipeId || !formalReview.reviewer_id || !reviewDateValid) {
