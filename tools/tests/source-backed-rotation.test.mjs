@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 import {
   nextSourceRecipe,
@@ -13,7 +16,20 @@ import {
   sourceRotationLabel,
 } from '../lib/source-backed-rotation.mjs';
 
-const shelf = JSON.parse(fs.readFileSync(new URL('../../dist/source-backed-one-pot-shelf.v1.json', import.meta.url), 'utf8'));
+const ROOT = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
+const OUTPUT = fs.mkdtempSync(path.join(ROOT, 'dist', '.source-backed-rotation-'));
+const build = spawnSync(process.execPath, [
+  path.join(ROOT, 'tools', 'build-dist.mjs'),
+  '--out-dir', OUTPUT,
+  '--build-id', 'source-backed-rotation-test',
+  '--artifact-scope', 'research',
+  '--planner-rollout', 'direct-recommend',
+  '--generation-mode', 'deterministic',
+  '--product-focus', 'rice-meal-v1',
+], { cwd: ROOT, encoding: 'utf8' });
+assert.equal(build.status, 0, `${build.stdout}\n${build.stderr}`);
+const shelf = JSON.parse(fs.readFileSync(path.join(OUTPUT, 'source-backed-one-pot-shelf.v1.json'), 'utf8'));
+test.after(() => fs.rmSync(OUTPUT, { recursive: true, force: true }));
 
 test('rotation uses recipe records with fixed quantities and steps, not archive-only records', () => {
   const records = rotatableSourceRecipes(shelf);

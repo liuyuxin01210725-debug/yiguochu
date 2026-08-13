@@ -18,7 +18,7 @@ const SOURCE_ASSETS = Object.freeze({
   '/recipe-runtime.v1.json': readAsset('recipe-runtime.v1.json'),
   '/recipe-action-profiles.v1.json': readAsset('recipe-action-profiles.v1.json'),
   '/source-backed-execution-library.v1.json': readAsset('source-backed-execution-library.v1.json'),
-  '/source-backed-runtime-catalog.v1.json': readAsset('source-backed-runtime-catalog.v1.json'),
+  '/source-backed-release-ledger.v1.json': readAsset('source-backed-release-ledger.v1.json'),
   '/source-backed-coverage-matrix.v1.json': readAsset('source-backed-coverage-matrix.v1.json'),
   '/build-meta.json': JSON.stringify({
     buildId: 'preview-test-build',
@@ -317,7 +317,7 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.sourceExecutionUnblockedComplete, 922);
   assert.equal(result.body.sourceExecutionSafetyBlocked, 1);
   assert.equal(result.body.sourceRuntimeCatalog, 'ok');
-  assert.equal(result.body.sourceRuntimeCatalogVersion, 'source-backed-runtime-v1-20260813-m1');
+  assert.equal(result.body.sourceRuntimeCatalogVersion, 'source-backed-release-ledger-v1-20260813-c11');
   assert.equal(result.body.sourceRuntimeCatalogEntries, 923);
   assert.equal(result.body.sourceRuntimeCatalogPreviewOnly, 34);
   assert.equal(result.body.sourceRuntimeCatalogResearchOnly, 888);

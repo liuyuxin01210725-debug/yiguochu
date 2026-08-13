@@ -46,7 +46,7 @@ const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作�
 const CHECKER_DATA_FILES = [
   'recipe-library.json',
   'source-backed-one-pot-recipes.v1.json',
-  'source-backed-runtime-catalog.v1.json',
+  'source-backed-release-ledger.v1.json',
   'source-backed-coverage-matrix.v1.json',
   'source-backed-catalog-migration.v1.json',
   'source-backed-one-pot-preview.v1.json',

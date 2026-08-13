@@ -27,10 +27,11 @@ test('runtime catalog contains only trusted formal Planner recipes and retains r
   const catalog = buildRuntimeOnePotCatalog(inputs);
   assert.equal(catalog.scope, 'runtime-one-pot-catalog');
   assert.equal(catalog.entries.length, 72);
-  assert.equal(catalog.counts.planner_runtime_eligible, 72);
+  assert.equal(catalog.counts.planner_runtime_eligible, 0);
   assert.equal(catalog.counts.production_approved, 0);
   assert.equal(catalog.counts.kitchen_observed, 0);
-  assert.ok(catalog.entries.every(entry => entry.planner_runtime_eligible === true));
+  assert.ok(catalog.entries.every(entry => entry.planner_runtime_eligible === false));
+  assert.ok(catalog.entries.every(entry => entry.eligibility_reasons.length > 0));
   assert.ok(catalog.entries.every(entry => entry.source_summary?.source_recipe_id === entry.recipe_id || !entry.source_summary));
   assert.ok(catalog.entries.every(entry => entry.contract_hashes?.recipe_library));
 });

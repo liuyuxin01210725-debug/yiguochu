@@ -27,7 +27,7 @@ const formalReview = readJson('source-backed-formal-candidate-review.v1.json');
 const formalStaging = readJson('source-backed-formal-staging.v1.json');
 const ratioEvidence = readJson('source-backed-formal-ratio-evidence.v1.json');
 const coverageMatrix = readJson('source-backed-coverage-matrix.v1.json');
-const runtimeCatalog = readJson('source-backed-runtime-catalog.v1.json');
+const runtimeCatalog = readJson('source-backed-release-ledger.v1.json');
 const formalRecipeLibrary = readJson('recipe-library.json');
 
 const sourceByRecipe = indexByRecipe(sourceCatalog.recipes);
