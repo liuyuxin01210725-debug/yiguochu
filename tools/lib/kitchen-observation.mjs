@@ -564,6 +564,10 @@ export function validateKitchenObservationSchemaParity(schema) {
   if (Array.isArray(dispositionEnum) && dispositionEnum.includes('production_approved')) {
     errors.push('disposition.status must not include production_approved');
   }
+  const substitutionRequired = schema?.$defs?.ingredient?.properties?.substitution?.required;
+  if (!Array.isArray(substitutionRequired)) errors.push('ingredient.substitution required fields are missing');
+  const approvalConst = schema?.$defs?.disposition?.properties?.approve_for_production?.const;
+  if (approvalConst !== false) errors.push('disposition.approve_for_production must be const false');
   return [...new Set(errors)];
 }
 

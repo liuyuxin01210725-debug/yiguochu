@@ -344,4 +344,12 @@ test('JSON Schema parity covers nested required fields and safety/disposition en
   const brokenDisposition = structuredClone(schema);
   brokenDisposition.$defs.disposition.properties.status.enum.push('production_approved');
   assert.match(validateKitchenObservationSchemaParity(brokenDisposition).join('\n'), /production_approved/u);
+
+  const brokenSubstitution = structuredClone(schema);
+  delete brokenSubstitution.$defs.ingredient.properties.substitution.required;
+  assert.match(validateKitchenObservationSchemaParity(brokenSubstitution).join('\n'), /ingredient\.substitution/u);
+
+  const brokenApproval = structuredClone(schema);
+  delete brokenApproval.$defs.disposition.properties.approve_for_production.const;
+  assert.match(validateKitchenObservationSchemaParity(brokenApproval).join('\n'), /approve_for_production/u);
 });
