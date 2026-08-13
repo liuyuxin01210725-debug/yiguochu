@@ -46,7 +46,15 @@ const RICE_SAFE_BASIS = '红扁豆提供蛋白，土豆作为主食，番茄作�
 const CHECKER_DATA_FILES = [
   'recipe-library.json',
   'source-backed-one-pot-recipes.v1.json',
+  'source-backed-runtime-catalog.v1.json',
+  'source-backed-coverage-matrix.v1.json',
   'source-backed-catalog-migration.v1.json',
+  'source-backed-one-pot-preview.v1.json',
+  'source-backed-formalization-ledger.v1.json',
+  'source-backed-execution-library.v1.json',
+  'source-backed-formal-candidate-review.v1.json',
+  'source-backed-formal-staging.v1.json',
+  'source-backed-formal-ratio-evidence.v1.json',
   'recipe-candidates.json',
   'coverage-recipe-candidates.json',
   'coverage-recipe-drafts.json',
@@ -165,7 +173,7 @@ test('aggregate recipe checker rejects a deleted Phase Zero baseline recipe befo
     fs.writeFileSync(recipePath, JSON.stringify(library));
   });
   assert.equal(result.status, 1, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stderr, /versioned Phase Zero baseline/);
+  assert.match(result.stderr, /(?:versioned Phase Zero baseline|recipe library (?:baseline )?must remain 72)/);
   assert.doesNotMatch(result.stdout, /menu master ok/);
 });
 
