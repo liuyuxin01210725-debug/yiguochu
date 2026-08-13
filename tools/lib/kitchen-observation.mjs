@@ -25,6 +25,7 @@ const TOP_LEVEL_REQUIRED = Object.freeze([
   'disposition',
   'evidence_refs',
 ]);
+const TOP_LEVEL_ALLOWED = new Set(TOP_LEVEL_REQUIRED);
 
 const INGREDIENT_STATES = new Set(['raw', 'soaked', 'cooked', 'canned', 'drained', 'other']);
 const MEASUREMENT_METHODS = new Set(['scale', 'count', 'volume', 'waterline']);
@@ -246,7 +247,7 @@ function validateSafetyEndpoints(endpoints, errors) {
     requiredString(endpoint.observed.location, `${path}.observed.location`, errors);
     requiredDateTime(endpoint.observed.measured_at, `${path}.observed.measured_at`, errors);
     if (!SAFETY_RESULTS.has(endpoint.result)) errors.push(`${path}.result is invalid`);
-    if (endpoint.result !== 'pass') errors.push(`${path} must pass`);
+    if (endpoint.result === 'fail') errors.push(`${path} must pass`);
     requiredString(endpoint.evidence_ref, `${path}.evidence_ref`, errors);
   });
 }
@@ -264,12 +265,13 @@ function validateSensoryResult(result, errors) {
 
 function validateFeedback(feedback, errors) {
   if (!requiredObject(feedback, 'feedback', errors)) return;
-  for (const field of ['instruction_clarity', 'effort_level', 'quote']) {
+  for (const field of ['instruction_clarity', 'effort_level']) {
     requiredString(feedback[field], `feedback.${field}`, errors);
   }
   for (const field of ['missing_ingredient_or_tool', 'reported_safety_or_discomfort']) {
     requiredText(feedback[field], `feedback.${field}`, errors);
   }
+  requiredString(feedback.quote, 'feedback.quote', errors);
   if (typeof feedback.would_repeat !== 'boolean') errors.push('feedback.would_repeat must be boolean');
   if (!Array.isArray(feedback.photo_refs)) errors.push('feedback.photo_refs must be an array');
 }
@@ -328,6 +330,9 @@ function validateEvidenceRefs(refs, errors) {
 export function validateKitchenObservation(observation) {
   const errors = [];
   if (!isObject(observation)) return ['kitchen observation must be an object'];
+  for (const field of Object.keys(observation)) {
+    if (!TOP_LEVEL_ALLOWED.has(field)) errors.push(`unknown top-level field: ${field}`);
+  }
   for (const field of TOP_LEVEL_REQUIRED) {
     if (!Object.prototype.hasOwnProperty.call(observation, field)) errors.push(`${field} is required`);
   }
