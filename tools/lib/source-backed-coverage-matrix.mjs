@@ -55,6 +55,7 @@ function countBy(rows, selector) {
 }
 
 function sourceContractStatus(reviewRecord) {
+  if (!reviewRecord) return 'incomplete';
   const missing = asArray(reviewRecord?.source_contract?.missing_fields);
   return missing.length === 0 ? 'complete' : 'incomplete';
 }
@@ -67,15 +68,42 @@ function mapById(rows) {
   return new Map(asArray(rows).map(row => [row?.recipe_id, row]));
 }
 
+const STRUCTURED_RECIPE_ID_FIELDS = Object.freeze([
+  'recipe_id',
+  'selected_recipe_id',
+  'candidate_recipe_ids',
+  'runtime_recipe_refs',
+  'evidence_recipe_ids',
+]);
+
+export function structuredRecipeIds(journey) {
+  const ids = [];
+  for (const field of STRUCTURED_RECIPE_ID_FIELDS) {
+    const value = journey?.[field];
+    if (typeof value === 'string' && value) {
+      ids.push(value);
+      continue;
+    }
+    if (!Array.isArray(value)) continue;
+    for (const item of value) {
+      if (typeof item === 'string' && item) ids.push(item);
+      else if (item && typeof item === 'object' && typeof item.recipe_id === 'string' && item.recipe_id) {
+        ids.push(item.recipe_id);
+      }
+    }
+  }
+  return ids;
+}
+
 function journeyEvidenceFor(recipeId, runtimeJourneys, riceMealJourneys) {
   const evidence = [];
   for (const journey of asArray(runtimeJourneys?.journeys)) {
-    if (JSON.stringify(journey).includes(recipeId)) {
+    if (structuredRecipeIds(journey).includes(recipeId)) {
       evidence.push(`runtime:${journey.id}`);
     }
   }
   for (const journey of asArray(riceMealJourneys?.journeys)) {
-    if (JSON.stringify(journey).includes(recipeId)) {
+    if (structuredRecipeIds(journey).includes(recipeId)) {
       evidence.push(`rice_meal:${journey.id}`);
     }
   }
@@ -93,12 +121,23 @@ function sourceRecord(recipe, reviewRecord) {
 }
 
 function executionRecord(executionEntry, ledgerRecord) {
+  if (!executionEntry) {
+    return {
+      status: 'invalid',
+      run_scope: null,
+      readiness_status: 'invalid',
+      unblocked: false,
+      source_complete: false,
+      ingredient_count: 0,
+      step_count: 0,
+    };
+  }
   const readiness = ledgerRecord?.execution_readiness || {};
   return {
     status: executionEntry?.method_card_status || null,
     run_scope: executionEntry?.run_scope || null,
-    readiness_status: readiness.status || null,
-    unblocked: readiness.unblocked !== false,
+    readiness_status: ledgerRecord ? (readiness.status || null) : 'invalid',
+    unblocked: Boolean(ledgerRecord) && readiness.unblocked !== false,
     source_complete: executionEntry?.method_card_status === 'source_complete',
     ingredient_count: asArray(executionEntry?.execution_card?.ingredients).length,
     step_count: asArray(executionEntry?.execution_card?.steps).length,
@@ -106,17 +145,31 @@ function executionRecord(executionEntry, ledgerRecord) {
 }
 
 function formalRecord(ledgerRecord, reviewRecord, formalRecipe) {
+  if (!ledgerRecord) {
+    return {
+      status: 'invalid',
+      planner_status: null,
+      library_match: Boolean(formalRecipe),
+      library_status: formalRecipe?.status || 'not_in_formal_library',
+      blocker_codes: ['formalization_join_missing'],
+      ratio_status: null,
+      taxonomy_status: null,
+      nutrition_status: null,
+      safety_status: null,
+      cooker_boundary_status: null,
+    };
+  }
   const formalBlockers = [
     ...asArray(reviewRecord?.blocker_codes),
     ...asArray(ledgerRecord?.formal_planner_blocker_codes),
   ];
   return {
-    status: ledgerRecord?.formalization_status || null,
+    status: reviewRecord ? (ledgerRecord?.formalization_status || null) : 'incomplete',
     planner_status: ledgerRecord?.formal_planner_status || null,
     library_match: Boolean(formalRecipe),
     library_status: formalRecipe?.status || 'not_in_formal_library',
     blocker_codes: [...new Set(formalBlockers)],
-    ratio_status: reviewRecord?.ratio_dsl?.status || null,
+    ratio_status: reviewRecord ? (reviewRecord?.ratio_dsl?.status || null) : null,
     taxonomy_status: reviewRecord?.taxonomy_mapping?.status || null,
     nutrition_status: reviewRecord?.nutrition?.status || null,
     safety_status: reviewRecord?.safety?.status || null,
@@ -129,15 +182,32 @@ function blockedBySafety(executionEntry, ledgerRecord) {
     || ledgerRecord?.execution_readiness?.unblocked === false;
 }
 
-function gateRecord(status, evidenceIds, safetyBlocked) {
+function gateRecord(status, shadowEvidenceIds, safetyBlocked, observedEvidenceIds = []) {
   if (safetyBlocked) {
     return { status: 'blocked', evidence_ids: [], evidence_status: 'blocked', evidence_count: 0 };
   }
+  const shadowIds = asArray(shadowEvidenceIds);
+  const observedIds = asArray(observedEvidenceIds);
+  const evidenceIds = [...new Set([...shadowIds, ...observedIds])];
+  const requestedStatus = status || 'pending';
+  const effectiveStatus = requestedStatus === 'complete' && observedIds.length === 0
+    ? 'pending'
+    : requestedStatus;
   return {
-    status: status || 'pending',
-    evidence_ids: [...evidenceIds],
-    evidence_status: evidenceIds.length ? 'shadow_evidence' : 'none',
+    status: effectiveStatus,
+    evidence_ids: evidenceIds,
+    evidence_status: observedIds.length ? 'observed' : shadowIds.length ? 'shadow_evidence' : 'none',
     evidence_count: evidenceIds.length,
+  };
+}
+
+function joinRecord(recipe, execution, ledger, review, staging) {
+  return {
+    source: recipe ? { status: 'ok' } : { status: 'invalid' },
+    execution: execution ? { status: 'ok' } : { status: 'invalid' },
+    formalization: ledger ? { status: 'ok' } : { status: 'invalid' },
+    formal_review: review ? { status: 'ok' } : { status: 'incomplete' },
+    staging: staging ? { status: 'ok' } : { status: 'pending' },
   };
 }
 
@@ -158,17 +228,32 @@ function rowFor(recipe, {
   const safetyBlocked = Boolean(blockedBySafety(execution, ledger));
   const priority = PRIORITY_BY_METHOD_STATUS[execution?.method_card_status] || 'P3';
   const journeyEvidenceIds = journeyEvidenceFor(recipe.recipe_id, runtimeJourneys, riceMealJourneys);
+  const observedKitchenEvidenceIds = [
+    ...asArray(review?.kitchen_observed?.evidence_ids),
+    ...asArray(staging?.kitchen_observed?.evidence_ids),
+  ];
+  const observedJourneyEvidenceIds = [
+    ...asArray(review?.journey_coverage?.evidence_ids),
+    ...asArray(staging?.journey_coverage?.evidence_ids),
+  ];
   const kitchenStatus = staging?.kitchen_observed?.status || review?.kitchen_observed?.status || 'pending';
   const journeyStatus = staging?.journey_coverage?.status || review?.journey_coverage?.status || 'pending';
   const source = sourceRecord(recipe, review);
   const executionState = executionRecord(execution, ledger);
   const formal = formalRecord(ledger, review, formalRecipe);
-  const kitchen = gateRecord(kitchenStatus, [], safetyBlocked);
-  const journey = gateRecord(journeyStatus, journeyEvidenceIds, safetyBlocked);
+  const joins = joinRecord(recipe, execution, ledger, review, staging);
+  const kitchen = gateRecord(kitchenStatus, [], safetyBlocked, observedKitchenEvidenceIds);
+  const journey = gateRecord(journeyStatus, journeyEvidenceIds, safetyBlocked, observedJourneyEvidenceIds);
   const gaps = new Set([
     ...asArray(review?.blocker_codes),
     ...asArray(formal?.blocker_codes),
   ]);
+
+  if (joins.source.status === 'invalid') gaps.add('source_join_missing');
+  if (joins.execution.status === 'invalid') gaps.add('execution_join_missing');
+  if (joins.formalization.status === 'invalid') gaps.add('formalization_join_missing');
+  if (joins.formal_review.status === 'incomplete') gaps.add('formal_review_join_missing');
+  if (joins.staging.status === 'pending') gaps.add('staging_join_missing');
 
   if (source.contract_status !== 'complete') gaps.add('source_contract');
   if (executionState.readiness_status !== 'complete') gaps.add('execution_incomplete');
@@ -186,6 +271,7 @@ function rowFor(recipe, {
     source,
     execution: executionState,
     formal,
+    joins,
     kitchen,
     journey,
     product_paths: {

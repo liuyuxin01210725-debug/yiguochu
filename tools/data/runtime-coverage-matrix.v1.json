@@ -1,0 +1,7163 @@
+{
+  "schema_version": 1,
+  "runtime_coverage_matrix_version": "runtime-coverage-matrix-v1-20260813-c5",
+  "scope": "runtime-coverage-matrix",
+  "policy": {
+    "scenario_is_primary_key": true,
+    "structured_candidate_ids_only": true,
+    "text_mentions_are_not_evidence": true,
+    "observations_are_separate_from_expectations": true,
+    "missing_contracts_fail_closed": true,
+    "production_requires_observed_and_promoted": true
+  },
+  "counts": {
+    "total": 101,
+    "by_source": {
+      "recipe_runtime": 17,
+      "rice_meal": 54,
+      "direct_recommend_shadow": 30
+    },
+    "observed": 0,
+    "production_eligible": 0,
+    "candidate_joined": 16
+  },
+  "scenarios": [
+    {
+      "scenario_id": "recipe_runtime:RR01",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR01",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉",
+          "小白菜"
+        ],
+        "dislikes": [],
+        "intent": "canonical_chain"
+      },
+      "expected": {
+        "status": "ready_candidate",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR01"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR02",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR02",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "小白菜"
+        ],
+        "dislikes": [],
+        "intent": "named_absent"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR02"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR03",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR03",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉"
+        ],
+        "dislikes": [],
+        "intent": "named_absent"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR03"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR04",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR04",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉",
+          "菜心"
+        ],
+        "dislikes": [],
+        "intent": "variant_matcher_blocked"
+      },
+      "expected": {
+        "status": "ready_candidate",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR04"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR05",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR05",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "羊腿肉",
+          "洋葱",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "canonical_chain"
+      },
+      "expected": {
+        "status": "ready_candidate",
+        "candidate_refs": {
+          "recipe_ids": [
+            "xinjiang-lamb-pilaf"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR05"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR06",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR06",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "羊腿肉",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "named_absent"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "xinjiang-lamb-pilaf"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR06"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR07",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR07",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "羊腿肉",
+          "洋葱"
+        ],
+        "dislikes": [],
+        "intent": "named_absent"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "xinjiang-lamb-pilaf"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR07"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR08",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR08",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "高丽菜",
+          "鲜香菇"
+        ],
+        "dislikes": [],
+        "intent": "taiwan_base_blocked"
+      },
+      "expected": {
+        "status": "ready_candidate",
+        "candidate_refs": {
+          "recipe_ids": [
+            "taiwan-cabbage-mushroom-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR08"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR09",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR09",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "番茄",
+          "白菜",
+          "玉米",
+          "虾仁"
+        ],
+        "dislikes": [],
+        "intent": "taiwan_variant_blocked"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "taiwan-cabbage-mushroom-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR09"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR10",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR10",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "泡发糯米",
+          "猪肉末",
+          "香菇"
+        ],
+        "dislikes": [],
+        "intent": "quanzhou_shape_blocked"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "quanzhou-oil-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR10"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR11",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR11",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "鲜小麦面条",
+          "豆角",
+          "猪肉末"
+        ],
+        "dislikes": [],
+        "intent": "ground_pork_chain"
+      },
+      "expected": {
+        "status": "ready_candidate",
+        "candidate_refs": {
+          "recipe_ids": [
+            "north-china-green-bean-braised-noodles"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR11"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR12",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR12",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉",
+          "小白菜",
+          "香菇"
+        ],
+        "dislikes": [],
+        "intent": "named_over_custom"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR12"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR13",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR13",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "番茄",
+          "鸡蛋"
+        ],
+        "dislikes": [],
+        "intent": "two_of_two"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR13"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR14",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR14",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉",
+          "小白菜"
+        ],
+        "dislikes": [
+          "咸五花肉"
+        ],
+        "intent": "allergy_blocks_named"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR14"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR15",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR15",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉",
+          "小白菜"
+        ],
+        "dislikes": [],
+        "intent": "swap"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR15"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR16",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR16",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉",
+          "小白菜"
+        ],
+        "dislikes": [],
+        "intent": "card_to_result"
+      },
+      "expected": {
+        "status": "ready_candidate",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR16"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "recipe_runtime:RR17",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR17",
+      "request": {
+        "servings": null,
+        "pantry": [
+          "大米",
+          "咸五花肉",
+          "小白菜"
+        ],
+        "dislikes": [],
+        "intent": "production_shadow_only"
+      },
+      "expected": {
+        "status": "boundary_case",
+        "candidate_refs": {
+          "recipe_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_observed"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RR17"
+        },
+        "candidate_refs": {
+          "status": "ok"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-01-jiangnan-planned-only",
+      "source_kind": "rice_meal",
+      "source_id": "RM-01-jiangnan-planned-only",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "青菜",
+          "咸肉"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "no_reliable_rice_meal",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-01-jiangnan-planned-only"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-02-xinjiang-planned-only",
+      "source_kind": "rice_meal",
+      "source_id": "RM-02-xinjiang-planned-only",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "羊肉",
+          "胡萝卜",
+          "洋葱"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "no_reliable_rice_meal",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-02-xinjiang-planned-only"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-03-potato-only",
+      "source_kind": "rice_meal",
+      "source_id": "RM-03-potato-only",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "土豆"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "needs_balance_input",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "needs_protein_or_fiber"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-03-potato-only"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-04-chicken-potato-b",
+      "source_kind": "rice_meal",
+      "source_id": "RM-04-chicken-potato-b",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "土豆",
+          "鸡腿"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-chicken-leg-potato-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-04-chicken-potato-b"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-05-chicken-potato-greens-no-fabricated-a",
+      "source_kind": "rice_meal",
+      "source_id": "RM-05-chicken-potato-greens-no-fabricated-a",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "土豆",
+          "鸡腿",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-chicken-leg-potato-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-05-chicken-potato-greens-no-fabricated-a"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-06-tofu-cabbage-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-06-tofu-cabbage-ready",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "豆腐",
+          "白菜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-cabbage-tofu-rice"
+          ]
+        },
+        "used_raw": [
+          "豆腐",
+          "白菜"
+        ],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-06-tofu-cabbage-ready"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-07-tofu-mushroom-greens-planned-gap",
+      "source_kind": "rice_meal",
+      "source_id": "RM-07-tofu-mushroom-greens-planned-gap",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "豆腐",
+          "香菇",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "no_reliable_rice_meal",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-07-tofu-mushroom-greens-planned-gap"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-08-beef-broccoli-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-08-beef-broccoli-ready",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "牛里脊",
+          "西兰花"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-broccoli-beef-rice"
+          ]
+        },
+        "used_raw": [
+          "牛里脊",
+          "西兰花"
+        ],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-08-beef-broccoli-ready"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-09-four-vegetable-protein-mix-no-single-card",
+      "source_kind": "rice_meal",
+      "source_id": "RM-09-four-vegetable-protein-mix-no-single-card",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "番茄",
+          "金针菇",
+          "鸡蛋",
+          "西兰花"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "no_reliable_rice_meal",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-09-four-vegetable-protein-mix-no-single-card"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-10-six-mixed-best-honest-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-10-six-mixed-best-honest-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆",
+          "排骨",
+          "豆角",
+          "香菇",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-mushroom-green-bean-pork-rib-rice"
+          ]
+        },
+        "used_raw": [
+          "排骨",
+          "香菇",
+          "豆角"
+        ],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-10-six-mixed-best-honest-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-11-ten-mixed-best-honest-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-11-ten-mixed-best-honest-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆",
+          "排骨",
+          "豆角",
+          "香菇",
+          "青菜",
+          "白菜",
+          "番茄",
+          "鸡蛋",
+          "西兰花"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-mushroom-green-bean-pork-rib-rice"
+          ]
+        },
+        "used_raw": [
+          "排骨",
+          "香菇",
+          "豆角"
+        ],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-11-ten-mixed-best-honest-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-12a-egg-dislike-preflight",
+      "source_kind": "rice_meal",
+      "source_id": "RM-12a-egg-dislike-preflight",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡蛋",
+          "鸡腿",
+          "土豆"
+        ],
+        "dislikes": [
+          "鸡蛋"
+        ],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "unsafe_recipe",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "allergen_conflict"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-12a-egg-dislike-preflight"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-12b-seafood-dislike-preflight",
+      "source_kind": "rice_meal",
+      "source_id": "RM-12b-seafood-dislike-preflight",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "虾仁",
+          "鸡腿",
+          "土豆"
+        ],
+        "dislikes": [
+          "海鲜"
+        ],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "unsafe_recipe",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "allergen_conflict"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-12b-seafood-dislike-preflight"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-12c-rice-dislike-preflight",
+      "source_kind": "rice_meal",
+      "source_id": "RM-12c-rice-dislike-preflight",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆"
+        ],
+        "dislikes": [
+          "大米"
+        ],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "unsafe_recipe",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "allergen_conflict"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-12c-rice-dislike-preflight"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-13-green-bean-rib-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-13-green-bean-rib-ready",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "排骨",
+          "豆角"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-green-bean-pork-rib-rice"
+          ]
+        },
+        "used_raw": [
+          "排骨",
+          "豆角"
+        ],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-13-green-bean-rib-ready"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-14-no-second-reliable-alternative",
+      "source_kind": "rice_meal",
+      "source_id": "RM-14-no-second-reliable-alternative",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "no_alternative_rice_meal",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-14-no-second-reliable-alternative"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-16-greens-ground-pork-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-16-greens-ground-pork-ready",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "猪肉末",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-greens-minced-pork-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-16-greens-ground-pork-ready"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-15-selector-facts-for-compiler",
+      "source_kind": "rice_meal",
+      "source_id": "RM-15-selector-facts-for-compiler",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-chicken-leg-potato-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-15-selector-facts-for-compiler"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-17-corn-carrot-chicken-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-17-corn-carrot-chicken-ready",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "玉米",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-corn-carrot-chicken-leg-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-17-corn-carrot-chicken-ready"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-18-mushroom-bean-rib-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-18-mushroom-bean-rib-ready",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "排骨",
+          "香菇",
+          "豆角"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-mushroom-green-bean-pork-rib-rice"
+          ]
+        },
+        "used_raw": [
+          "排骨",
+          "香菇",
+          "豆角"
+        ],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-18-mushroom-bean-rib-ready"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-21-shanghai-salted-pork-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-21-shanghai-salted-pork-ready",
+      "request": {
+        "servings": 3,
+        "pantry": [
+          "咸五花肉",
+          "小白菜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "shanghai-salted-pork-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-21-shanghai-salted-pork-ready"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-22-chicken-corn-carrot-potato-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-22-chicken-corn-carrot-potato-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "玉米",
+          "胡萝卜",
+          "土豆"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-corn-carrot-chicken-leg-rice"
+          ]
+        },
+        "used_raw": [
+          "鸡腿",
+          "玉米",
+          "胡萝卜"
+        ],
+        "unused_raw": [
+          "土豆"
+        ],
+        "reason_codes": [
+          "not_selected_for_this_variant"
+        ],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-22-chicken-corn-carrot-potato-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-23-five-items-ceil-sixty-percent",
+      "source_kind": "rice_meal",
+      "source_id": "RM-23-five-items-ceil-sixty-percent",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "白菜",
+          "豆腐",
+          "鸡腿",
+          "玉米",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-corn-carrot-chicken-leg-rice"
+          ]
+        },
+        "used_raw": [
+          "鸡腿",
+          "玉米",
+          "胡萝卜"
+        ],
+        "unused_raw": [
+          "白菜",
+          "豆腐"
+        ],
+        "reason_codes": [
+          "not_selected_for_this_variant"
+        ],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-23-five-items-ceil-sixty-percent"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-24-tofu-ribs-no-forced-combination",
+      "source_kind": "rice_meal",
+      "source_id": "RM-24-tofu-ribs-no-forced-combination",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "豆腐",
+          "排骨"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "no_reliable_rice_meal",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-24-tofu-ribs-no-forced-combination"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-25-tenderloin-and-brisket-one-generic-slot",
+      "source_kind": "rice_meal",
+      "source_id": "RM-25-tenderloin-and-brisket-one-generic-slot",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "西兰花",
+          "牛里脊",
+          "牛腩"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-broccoli-beef-rice"
+          ]
+        },
+        "used_raw": [
+          "牛里脊",
+          "西兰花"
+        ],
+        "unused_raw": [
+          "牛腩"
+        ],
+        "reason_codes": [
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-25-tenderloin-and-brisket-one-generic-slot"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-26-explicit-rice-does-not-pad-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-26-explicit-rice-does-not-pad-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "大米",
+          "豆角",
+          "排骨"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-green-bean-pork-rib-rice"
+          ]
+        },
+        "used_raw": [
+          "排骨",
+          "豆角"
+        ],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-26-explicit-rice-does-not-pad-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-27-calibration-cabbage-rice-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-27-calibration-cabbage-rice-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "卷心菜",
+          "香菇",
+          "虾米"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-taiwan-cabbage-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-27-calibration-cabbage-rice-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-28-calibration-pumpkin-rice-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-28-calibration-pumpkin-rice-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "南瓜",
+          "猪肉末",
+          "香菇",
+          "虾米"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-taiwan-pumpkin-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-28-calibration-pumpkin-rice-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-29-calibration-curry-chicken-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-29-calibration-curry-chicken-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡胸肉",
+          "胡萝卜",
+          "土豆",
+          "洋葱"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-curry-chicken-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-29-calibration-curry-chicken-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-30-calibration-sausage-mixed-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-30-calibration-sausage-mixed-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "腊肠",
+          "青豌豆",
+          "香菇",
+          "玉米",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-sausage-mixed-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-30-calibration-sausage-mixed-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-31-calibration-beef-mixed-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-31-calibration-beef-mixed-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "牛肉末",
+          "胡萝卜",
+          "洋葱"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-beef-mixed-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-31-calibration-beef-mixed-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-32-calibration-bamboo-vegetable-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-32-calibration-bamboo-vegetable-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "猪肉末",
+          "竹笋",
+          "洋葱",
+          "胡萝卜",
+          "干木耳"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-bamboo-vegetable-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-32-calibration-bamboo-vegetable-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-33-calibration-mixed-chicken-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-33-calibration-mixed-chicken-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡胸肉",
+          "油炸豆腐",
+          "牛蒡",
+          "胡萝卜",
+          "香菇"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-mixed-chicken-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-33-calibration-mixed-chicken-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-34-calibration-fresh-shiitake-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-34-calibration-fresh-shiitake-full-coverage",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡胸肉",
+          "香菇",
+          "芹菜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-fresh-shiitake-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-34-calibration-fresh-shiitake-full-coverage"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-35-screenshot-five-item-honest-two-item-options",
+      "source_kind": "rice_meal",
+      "source_id": "RM-35-screenshot-five-item-honest-two-item-options",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆",
+          "豆腐",
+          "白菜",
+          "排骨"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-cabbage-tofu-rice",
+            "home-chicken-leg-potato-rice"
+          ]
+        },
+        "used_raw": [
+          "豆腐",
+          "白菜"
+        ],
+        "unused_raw": [],
+        "reason_codes": [
+          "not_selected_for_this_variant",
+          "not_in_active_catalog"
+        ],
+        "nutrition_grades": [
+          "A",
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-35-screenshot-five-item-honest-two-item-options"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-36-screenshot-ribs-with-explicit-green-beans",
+      "source_kind": "rice_meal",
+      "source_id": "RM-36-screenshot-ribs-with-explicit-green-beans",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "排骨"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "home-green-bean-pork-rib-rice"
+          ]
+        },
+        "used_raw": [
+          "排骨"
+        ],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-36-screenshot-ribs-with-explicit-green-beans"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-37-source-sichuan-pork-ribs-calibration",
+      "source_kind": "rice_meal",
+      "source_id": "RM-37-source-sichuan-pork-ribs-calibration",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "排骨",
+          "玉米",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-sichuan-pork-ribs-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-37-source-sichuan-pork-ribs-calibration"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-343-source-tatung-beef-burdock-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-343-source-tatung-beef-burdock-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "牛肉",
+          "牛蒡"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tatung-beef-burdock-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-343-source-tatung-beef-burdock-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-344-source-tiger-pork-bamboo-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-344-source-tiger-pork-bamboo-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "五花肉",
+          "竹笋"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tiger-pork-bamboo-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-344-source-tiger-pork-bamboo-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-345-source-tatung-pork-daikon-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-345-source-tatung-pork-daikon-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "五花肉",
+          "白萝卜",
+          "胡萝卜",
+          "油炸豆腐"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tatung-pork-daikon-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-345-source-tatung-pork-daikon-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-346-source-tatung-wakayama-ginger-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-346-source-tatung-wakayama-ginger-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡胸肉",
+          "生姜",
+          "胡萝卜",
+          "油炸豆腐"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tatung-wakayama-ginger-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-346-source-tatung-wakayama-ginger-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-347-source-taiwan-tatung-cabbage-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-347-source-taiwan-tatung-cabbage-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "猪肉",
+          "高丽菜",
+          "干香菇",
+          "虾米",
+          "红葱头"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-taiwan-tatung-cabbage-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-347-source-taiwan-tatung-cabbage-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-348-source-zojirushi-pork-vegetable-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-348-source-zojirushi-pork-vegetable-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "猪肉",
+          "卷心菜",
+          "青椒",
+          "生姜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-zojirushi-pork-vegetable-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-348-source-zojirushi-pork-vegetable-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-349-source-panasonic-nf-pc400-takikomi-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-349-source-panasonic-nf-pc400-takikomi-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿肉",
+          "牛蒡",
+          "蒟蒻",
+          "干香菇",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-panasonic-nf-pc400-takikomi-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-349-source-panasonic-nf-pc400-takikomi-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-350-source-panasonic-khao-man-gai",
+      "source_kind": "rice_meal",
+      "source_id": "RM-350-source-panasonic-khao-man-gai",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿肉",
+          "生姜",
+          "蒜",
+          "白葱"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-panasonic-khao-man-gai",
+            "source-tatung-hainan-chicken-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-350-source-panasonic-khao-man-gai"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-351-source-zojirushi-okayama-ebimeshi",
+      "source_kind": "rice_meal",
+      "source_id": "RM-351-source-zojirushi-okayama-ebimeshi",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "虾仁",
+          "洋葱",
+          "鸡蛋",
+          "青葱"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-zojirushi-okayama-ebimeshi"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-351-source-zojirushi-okayama-ebimeshi"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-352-source-cookpot-beef-wild-mushroom-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-352-source-cookpot-beef-wild-mushroom-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "牛肉",
+          "洋葱",
+          "平菇",
+          "干香菇"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-cookpot-beef-wild-mushroom-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-352-source-cookpot-beef-wild-mushroom-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-353-source-tatung-hainan-chicken-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-353-source-tatung-hainan-chicken-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿肉",
+          "生姜",
+          "蒜",
+          "葱"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-panasonic-khao-man-gai",
+            "source-tatung-hainan-chicken-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-353-source-tatung-hainan-chicken-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-354-source-tatung-pork-jowl-sesame-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-354-source-tatung-pork-jowl-sesame-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "五花肉",
+          "干香菇",
+          "虾米",
+          "生姜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tatung-pork-jowl-sesame-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-354-source-tatung-pork-jowl-sesame-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-355-source-tiger-chinese-sticky-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-355-source-tiger-chinese-sticky-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "五花肉",
+          "干香菇",
+          "虾米",
+          "竹笋",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tiger-chinese-sticky-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-355-source-tiger-chinese-sticky-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-356-source-panasonic-claypot-style-chicken-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-356-source-panasonic-claypot-style-chicken-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿肉",
+          "香菇"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-panasonic-claypot-style-chicken-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-356-source-panasonic-claypot-style-chicken-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-357-source-tatung-tomato-pumpkin-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-357-source-tatung-tomato-pumpkin-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "番茄",
+          "南瓜",
+          "培根"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tatung-tomato-pumpkin-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-357-source-tatung-tomato-pumpkin-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-358-source-nih-medlineplus-chicken-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-358-source-nih-medlineplus-chicken-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡肉",
+          "番茄",
+          "青椒",
+          "芹菜",
+          "胡萝卜",
+          "玉米"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-nih-medlineplus-chicken-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "B"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-358-source-nih-medlineplus-chicken-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "rice_meal:RM-359-source-tiger-chicken-bamboo-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-359-source-tiger-chicken-bamboo-rice",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡胸",
+          "竹笋",
+          "油豆腐皮"
+        ],
+        "dislikes": [],
+        "intent": "rice_meal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": [
+            "source-tiger-chicken-bamboo-rice"
+          ]
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": [
+          "A"
+        ]
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "RM-359-source-tiger-chicken-bamboo-rice"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-01",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-01",
+      "request": {
+        "servings": 2,
+        "pantry": [],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready|no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-01"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-02",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-02",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡蛋"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-02"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-03",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-03",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "螺丝钉"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-03"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-04",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-04",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-04"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-05",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-05",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "虾仁",
+          "玉米"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-05"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-06",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-06",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "面条",
+          "猪里脊",
+          "白菜",
+          "香菇",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-06"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-07",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-07",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "大米",
+          "牛里脊",
+          "番茄",
+          "鸡蛋",
+          "西兰花"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-07"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-08",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-08",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "番茄",
+          "金针菇",
+          "鸡蛋",
+          "西兰花"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-08"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-09",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-09",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "豆腐",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-09"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-10",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-10",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "剩米饭",
+          "鸡蛋"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-10"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-11",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-11",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "大米",
+          "虾仁",
+          "白菜",
+          "玉米",
+          "番茄"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-11"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-12",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-12",
+      "request": {
+        "servings": 4,
+        "pantry": [
+          "鸡胸肉",
+          "土豆",
+          "洋葱",
+          "胡萝卜",
+          "西兰花",
+          "玉米",
+          "豆腐",
+          "鸡蛋"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready|no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-12"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-13",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-13",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "番茄",
+          "鸡蛋",
+          "豆腐",
+          "青菜",
+          "剩米饭"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-13"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-14",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-14",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "牛里脊",
+          "豆腐",
+          "番茄",
+          "鸡蛋",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-14"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-15",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-15",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "大米",
+          "胡萝卜",
+          "香菇",
+          "土豆"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-15"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-16",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-16",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "虾仁",
+          "白菜",
+          "玉米",
+          "大米"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-16"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-17",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-17",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "番茄",
+          "鸡蛋"
+        ],
+        "dislikes": [
+          "鸡蛋"
+        ],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-17"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-18",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-18",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "大米",
+          "鸡肉"
+        ],
+        "dislikes": [
+          "大米"
+        ],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-18"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-19",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-19",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "鸡腿",
+          "土豆"
+        ],
+        "dislikes": [],
+        "intent": "quick"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-19"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-20",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-20",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "豆腐",
+          "青菜",
+          "金针菇"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-20"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-21",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-21",
+      "request": {
+        "servings": 4,
+        "pantry": [
+          "大米",
+          "鸡胸肉",
+          "洋葱"
+        ],
+        "dislikes": [],
+        "intent": "batch"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-21"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-22",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-22",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "牛腩",
+          "熟米饭"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-22"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-23",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-23",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "牛肉末",
+          "面条"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-23"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-24",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-24",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "大米",
+          "剩米饭",
+          "鸡蛋"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-24"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-25",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-25",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "神秘叶子",
+          "番茄"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-25"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-26",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-26",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "番茄",
+          "鸡蛋",
+          "豆腐",
+          "西兰花",
+          "白菜",
+          "香菇",
+          "胡萝卜"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready|no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-26"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-27",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-27",
+      "request": {
+        "servings": 4,
+        "pantry": [
+          "鸡蛋",
+          "西红柿",
+          "土豆",
+          "鸡胸肉",
+          "西兰花",
+          "豆腐",
+          "胡萝卜",
+          "洋葱",
+          "虾仁",
+          "香菇",
+          "白菜",
+          "青椒",
+          "茄子",
+          "菠菜",
+          "玉米",
+          "金针菇",
+          "大米",
+          "面条",
+          "剩米饭",
+          "牛里脊"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready|no_valid_plan",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-27"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-28",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-28",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "豆腐",
+          "老豆腐",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-28"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-29",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-29",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "豆腐",
+          "青菜"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-29"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-30",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-30",
+      "request": {
+        "servings": 2,
+        "pantry": [
+          "番茄",
+          "大米"
+        ],
+        "dislikes": [],
+        "intent": "normal"
+      },
+      "expected": {
+        "status": "ready",
+        "candidate_refs": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "variant_ids": []
+        },
+        "used_raw": [],
+        "unused_raw": [],
+        "reason_codes": [],
+        "nutrition_grades": []
+      },
+      "joins": {
+        "source": {
+          "status": "ok",
+          "source_id": "dr-shadow-30"
+        },
+        "candidate_refs": {
+          "status": "none"
+        }
+      },
+      "observation": {
+        "observed": false,
+        "status": "not_observed",
+        "recipe_ids": [],
+        "template_ids": [],
+        "used_raw": [],
+        "unused_raw": [],
+        "hit": {
+          "recipe_ids": [],
+          "template_ids": [],
+          "reason_codes": [
+            "not_observed"
+          ]
+        }
+      },
+      "quantity": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "liquid": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "safety": {
+        "status": "not_observed",
+        "value": null,
+        "source": null
+      },
+      "production_eligible": false
+    }
+  ]
+}

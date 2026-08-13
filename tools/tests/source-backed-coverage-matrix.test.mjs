@@ -125,7 +125,8 @@ test('coverage matrix reports source/execution/formal/kitchen/journey aggregatio
   });
   assert.deepEqual(matrix.aggregates.kitchen_status, { pending: 922, blocked: 1 });
   assert.deepEqual(matrix.aggregates.journey_status, { pending: 922, blocked: 1 });
-  assert.equal(matrix.aggregates.journey_evidence_recipe_count, 16);
+  assert.equal(matrix.aggregates.journey_evidence_recipe_count, 1);
+  assert.equal(matrix.aggregates.journey_evidence_count, 9);
   assert.equal(matrix.aggregates.ratio_evidence_count, 132);
   assert.deepEqual(validateSourceBackedCoverageMatrix(matrix, inputs), []);
 
@@ -134,3 +135,53 @@ test('coverage matrix reports source/execution/formal/kitchen/journey aggregatio
   assert.match(validateSourceBackedCoverageMatrix(broken, inputs).join('\n'), /records must cover every source recipe/u);
 });
 
+test('journey joins only accept structured recipe IDs, never text found in titles or notes', () => {
+  const synthetic = structuredClone(inputs);
+  synthetic.runtimeJourneys = {
+    journeys: [
+      {
+        id: 'RR-text-only',
+        title: 'debug text mentions shanghai-salted-pork-vegetable-rice',
+        notes: 'recipe_id=shanghai-salted-pork-vegetable-rice',
+      },
+      {
+        id: 'RR-structured',
+        title: 'safe structured join',
+        recipe_id: 'shanghai-salted-pork-vegetable-rice',
+      },
+    ],
+  };
+  synthetic.riceMealJourneys = { journeys: [] };
+
+  const matrix = buildSourceBackedCoverageMatrix(synthetic);
+  const row = matrix.records.find(record => record.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  assert.deepEqual(row.journey.evidence_ids, ['runtime:RR-structured']);
+  assert.equal(row.journey.evidence_count, 1);
+});
+
+test('coverage joins fail closed when execution, formal review, or staging rows are absent', () => {
+  const synthetic = structuredClone(inputs);
+  synthetic.executionLibrary.entries = synthetic.executionLibrary.entries.filter(
+    entry => entry.recipe_id !== 'shanghai-salted-pork-vegetable-rice',
+  );
+  synthetic.formalReview.records = synthetic.formalReview.records.filter(
+    record => record.recipe_id !== 'shanghai-salted-pork-vegetable-rice',
+  );
+  synthetic.formalStaging.records = synthetic.formalStaging.records.filter(
+    record => record.recipe_id !== 'shanghai-salted-pork-vegetable-rice',
+  );
+
+  const matrix = buildSourceBackedCoverageMatrix(synthetic);
+  const row = matrix.records.find(record => record.recipe_id === 'shanghai-salted-pork-vegetable-rice');
+  assert.equal(row.joins.execution.status, 'invalid');
+  assert.equal(row.joins.formal_review.status, 'incomplete');
+  assert.equal(row.joins.staging.status, 'pending');
+  assert.equal(row.execution.status, 'invalid');
+  assert.equal(row.formal.status, 'incomplete');
+  assert.equal(row.kitchen.status, 'pending');
+  assert.equal(row.journey.status, 'pending');
+  assert.ok(row.gap_codes.includes('execution_join_missing'));
+  assert.ok(row.gap_codes.includes('formal_review_join_missing'));
+  assert.ok(row.gap_codes.includes('staging_join_missing'));
+  assert.equal(row.execution.unblocked, false);
+});
