@@ -55,6 +55,7 @@ const CHECKER_DATA_FILES = [
   'source-backed-formal-candidate-review.v1.json',
   'source-backed-formal-staging.v1.json',
   'source-backed-formal-ratio-evidence.v1.json',
+  'kitchen-observation.schema.v1.json',
   'recipe-candidates.json',
   'coverage-recipe-candidates.json',
   'coverage-recipe-drafts.json',

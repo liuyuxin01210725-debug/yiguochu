@@ -45,11 +45,16 @@ git diff --check
 
 ## 当前基线（构建版本 `source-backed-coverage-matrix-v1-20260813-m1`）
 
+> C3–C5 后，923 行正式化状态的主语义由同构派生资产
+> `source-backed-formalization-matrix.v1.json` 承载；本文件名和
+> `source-backed-coverage-matrix.v1.json` 保留为兼容别名。真实用户场景另见
+> `runtime-coverage-matrix.v1.json`，不再把场景数量或文本提及当作 source recipe 覆盖。
+
 - Source：923 条；`executable` 36、`recipe_fact_checked` 788、`identity_verified` 93、`discovered` 6。
 - Execution：`source_complete` 138、`source_partial_with_draft` 738、`draft_estimated` 36、`identity_only_draft` 11。
 - Formal：34 条进入 `preview_candidate`，889 条仍被正式化门禁阻断。
 - Kitchen：922 条待厨房观察，1 条安全阻断。
-- Journey：922 条待真实旅程回归，1 条安全阻断；目前有 16 条 source recipe 被现有旅程资产引用，共 25 个引用。
+- Journey：922 条待真实旅程回归，1 条安全阻断；结构化字段当前只关联 1 条 source recipe、9 个 runtime journey 引用。rice-meal 的标题、备注和 `catalog_gap` 文本不构成 source recipe evidence。
 - 现有正式基础库仍是 72 道：12 道 `approved`、60 道 `auto_approved`。其中 4 个 recipe id 与 source catalog 有历史重叠，但矩阵明确标记为 `library_overlap_not_promoted`，不视为 923 条 source card 已上线。
 
 ## 四条产品路径
@@ -82,4 +87,3 @@ git diff --check
 ## 解释边界
 
 这张表不回答“这 923 道是否已经全部上线”。它明确显示：923 条 source card 可以有执行字段，但绝大多数仍然缺少正式 Planner 映射、同器具厨房观察或真实旅程回归；72 道正式基础库也不等于 923 条 source card 的批量晋升。后续 M1 工作应按 P0 → P1 顺序选择小批次做实厨和门禁，而不是按卡片数量直接改状态。
-

@@ -2159,6 +2159,26 @@ async function readSourceRuntimeCatalogHealth(env, request) {
   };
 }
 
+async function readRuntimeOnePotCatalogHealth(env, request) {
+  if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
+  const catalog = await readOptionalPlannerJsonAsset(
+    env.ASSETS,
+    request,
+    '/runtime-one-pot-catalog.v1.json',
+  );
+  if (!catalog || !Array.isArray(catalog.entries) || !catalog.counts) return null;
+  return {
+    status: 'ok',
+    version: typeof catalog.runtime_catalog_version === 'string'
+      ? catalog.runtime_catalog_version
+      : null,
+    entries: catalog.entries.length,
+    plannerRuntimeEligible: Number(catalog.counts.planner_runtime_eligible) || 0,
+    productionApproved: Number(catalog.counts.production_approved) || 0,
+    kitchenObserved: Number(catalog.counts.kitchen_observed) || 0,
+  };
+}
+
 async function readSourceCoverageMatrixHealth(env, request) {
   if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
   const matrix = await readOptionalPlannerJsonAsset(
@@ -3968,6 +3988,12 @@ export default {
       let sourceRuntimeCatalogBlocked = 0;
       let sourceRuntimeCatalogFormalActive = 0;
       let sourceRuntimeCatalogKitchenObserved = 0;
+      let runtimeOnePotCatalog = 'unavailable';
+      let runtimeOnePotCatalogVersion = null;
+      let runtimeOnePotCatalogEntries = 0;
+      let runtimeOnePotCatalogPlannerRuntimeEligible = 0;
+      let runtimeOnePotCatalogProductionApproved = 0;
+      let runtimeOnePotCatalogKitchenObserved = 0;
       let sourceCoverageMatrix = 'unavailable';
       let sourceCoverageMatrixVersion = null;
       let sourceCoverageMatrixEntries = 0;
@@ -4053,6 +4079,19 @@ export default {
         }
       } catch (_error) {
         sourceExecutionLibrary = 'unavailable';
+      }
+      try {
+        const runtimeCatalog = await readRuntimeOnePotCatalogHealth(env, request);
+        if (runtimeCatalog) {
+          runtimeOnePotCatalog = runtimeCatalog.status;
+          runtimeOnePotCatalogVersion = runtimeCatalog.version;
+          runtimeOnePotCatalogEntries = runtimeCatalog.entries;
+          runtimeOnePotCatalogPlannerRuntimeEligible = runtimeCatalog.plannerRuntimeEligible;
+          runtimeOnePotCatalogProductionApproved = runtimeCatalog.productionApproved;
+          runtimeOnePotCatalogKitchenObserved = runtimeCatalog.kitchenObserved;
+        }
+      } catch (_error) {
+        runtimeOnePotCatalog = 'unavailable';
       }
       try {
         const runtimeCatalog = await readSourceRuntimeCatalogHealth(env, request);
@@ -4154,6 +4193,12 @@ export default {
         sourceRuntimeCatalogBlocked,
         sourceRuntimeCatalogFormalActive,
         sourceRuntimeCatalogKitchenObserved,
+        runtimeOnePotCatalog,
+        runtimeOnePotCatalogVersion,
+        runtimeOnePotCatalogEntries,
+        runtimeOnePotCatalogPlannerRuntimeEligible,
+        runtimeOnePotCatalogProductionApproved,
+        runtimeOnePotCatalogKitchenObserved,
         sourceCoverageMatrix,
         sourceCoverageMatrixVersion,
         sourceCoverageMatrixEntries,

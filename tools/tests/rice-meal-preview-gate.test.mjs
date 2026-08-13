@@ -145,6 +145,7 @@ test('runtime audit proves exact build metadata, truthful health and zero model 
     buildId: 'rice-meal-gate-test',
     plannerRollout: 'direct-recommend',
     generationMode: 'deterministic',
+    artifactScope: 'runtime',
     productFocus: 'rice-meal-v1',
     riceCatalogScope: 'ready',
     riceCookerSourceEvidenceVersion: assets.sourceEvidence.ledger_version,
