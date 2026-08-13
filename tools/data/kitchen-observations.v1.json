@@ -1,0 +1,11 @@
+{
+  "schema_version": "kitchen-observations.v1",
+  "ledger_version": "kitchen-observations-v1-20260813-empty",
+  "scope": "private-kitchen-observation-ledger",
+  "policy": {
+    "public_runtime_must_not_include_observations": true,
+    "kitchen_observed_requires_independent_promotion_gate": true,
+    "household_identity_and_quotes_are_private": true
+  },
+  "observations": []
+}

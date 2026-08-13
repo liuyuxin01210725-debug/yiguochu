@@ -48,6 +48,7 @@ const BUILD_METADATA = buildId => Object.freeze({
   generationMode: 'deterministic',
   productFocus: 'rice-meal-v1',
   riceCatalogScope: 'ready',
+  artifactScope: 'runtime',
   riceCookerSourceEvidenceVersion: SOURCE_EVIDENCE.ledger_version,
   riceCookerSourceEvidenceSha256: SOURCE_EVIDENCE_SHA256,
 });

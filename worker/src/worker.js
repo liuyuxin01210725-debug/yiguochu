@@ -2137,6 +2137,70 @@ async function readSourceExecutionHealth(env, request) {
   };
 }
 
+async function readSourceRuntimeCatalogHealth(env, request) {
+  if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
+  const catalog = await readOptionalPlannerJsonAsset(
+    env.ASSETS,
+    request,
+    '/source-backed-runtime-catalog.v1.json',
+  );
+  if (!catalog || !Array.isArray(catalog.entries) || !catalog.counts) return null;
+  return {
+    status: 'ok',
+    version: typeof catalog.runtime_catalog_version === 'string'
+      ? catalog.runtime_catalog_version
+      : null,
+    entries: catalog.entries.length,
+    previewOnly: Number(catalog.counts.preview_only) || 0,
+    researchOnly: Number(catalog.counts.research_only) || 0,
+    blocked: Number(catalog.counts.blocked) || 0,
+    formalActive: Number(catalog.counts.formal_active) || 0,
+    kitchenObserved: Number(catalog.counts.kitchen_observed) || 0,
+  };
+}
+
+async function readRuntimeOnePotCatalogHealth(env, request) {
+  if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
+  const catalog = await readOptionalPlannerJsonAsset(
+    env.ASSETS,
+    request,
+    '/runtime-one-pot-catalog.v1.json',
+  );
+  if (!catalog || !Array.isArray(catalog.entries) || !catalog.counts) return null;
+  return {
+    status: 'ok',
+    version: typeof catalog.runtime_catalog_version === 'string'
+      ? catalog.runtime_catalog_version
+      : null,
+    entries: catalog.entries.length,
+    plannerRuntimeEligible: Number(catalog.counts.planner_runtime_eligible) || 0,
+    productionApproved: Number(catalog.counts.production_approved) || 0,
+    kitchenObserved: Number(catalog.counts.kitchen_observed) || 0,
+  };
+}
+
+async function readSourceCoverageMatrixHealth(env, request) {
+  if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
+  const matrix = await readOptionalPlannerJsonAsset(
+    env.ASSETS,
+    request,
+    '/source-backed-coverage-matrix.v1.json',
+  );
+  if (!matrix || !Array.isArray(matrix.records) || !matrix.counts?.priority) return null;
+  return {
+    status: 'ok',
+    version: typeof matrix.coverage_matrix_version === 'string'
+      ? matrix.coverage_matrix_version
+      : null,
+    entries: matrix.records.length,
+    p0: Number(matrix.counts.priority.P0) || 0,
+    p1: Number(matrix.counts.priority.P1) || 0,
+    p2: Number(matrix.counts.priority.P2) || 0,
+    p3: Number(matrix.counts.priority.P3) || 0,
+    safetyBlocked: Number(matrix.counts.safety_blocked) || 0,
+  };
+}
+
 function canonicalJsonSha256(value) {
   return sha256Hex(canonicalJson(value));
 }
@@ -3916,6 +3980,28 @@ export default {
       let sourceExecutionComplete = 0;
       let sourceExecutionUnblockedComplete = 0;
       let sourceExecutionSafetyBlocked = 0;
+      let sourceRuntimeCatalog = 'unavailable';
+      let sourceRuntimeCatalogVersion = null;
+      let sourceRuntimeCatalogEntries = 0;
+      let sourceRuntimeCatalogPreviewOnly = 0;
+      let sourceRuntimeCatalogResearchOnly = 0;
+      let sourceRuntimeCatalogBlocked = 0;
+      let sourceRuntimeCatalogFormalActive = 0;
+      let sourceRuntimeCatalogKitchenObserved = 0;
+      let runtimeOnePotCatalog = 'unavailable';
+      let runtimeOnePotCatalogVersion = null;
+      let runtimeOnePotCatalogEntries = 0;
+      let runtimeOnePotCatalogPlannerRuntimeEligible = 0;
+      let runtimeOnePotCatalogProductionApproved = 0;
+      let runtimeOnePotCatalogKitchenObserved = 0;
+      let sourceCoverageMatrix = 'unavailable';
+      let sourceCoverageMatrixVersion = null;
+      let sourceCoverageMatrixEntries = 0;
+      let sourceCoverageMatrixP0 = 0;
+      let sourceCoverageMatrixP1 = 0;
+      let sourceCoverageMatrixP2 = 0;
+      let sourceCoverageMatrixP3 = 0;
+      let sourceCoverageMatrixSafetyBlocked = 0;
       let plannerAssets = 'unavailable';
       let plannerVersion = null;
       let templateCatalogVersion = null;
@@ -3994,6 +4080,49 @@ export default {
       } catch (_error) {
         sourceExecutionLibrary = 'unavailable';
       }
+      try {
+        const runtimeCatalog = await readRuntimeOnePotCatalogHealth(env, request);
+        if (runtimeCatalog) {
+          runtimeOnePotCatalog = runtimeCatalog.status;
+          runtimeOnePotCatalogVersion = runtimeCatalog.version;
+          runtimeOnePotCatalogEntries = runtimeCatalog.entries;
+          runtimeOnePotCatalogPlannerRuntimeEligible = runtimeCatalog.plannerRuntimeEligible;
+          runtimeOnePotCatalogProductionApproved = runtimeCatalog.productionApproved;
+          runtimeOnePotCatalogKitchenObserved = runtimeCatalog.kitchenObserved;
+        }
+      } catch (_error) {
+        runtimeOnePotCatalog = 'unavailable';
+      }
+      try {
+        const runtimeCatalog = await readSourceRuntimeCatalogHealth(env, request);
+        if (runtimeCatalog) {
+          sourceRuntimeCatalog = runtimeCatalog.status;
+          sourceRuntimeCatalogVersion = runtimeCatalog.version;
+          sourceRuntimeCatalogEntries = runtimeCatalog.entries;
+          sourceRuntimeCatalogPreviewOnly = runtimeCatalog.previewOnly;
+          sourceRuntimeCatalogResearchOnly = runtimeCatalog.researchOnly;
+          sourceRuntimeCatalogBlocked = runtimeCatalog.blocked;
+          sourceRuntimeCatalogFormalActive = runtimeCatalog.formalActive;
+          sourceRuntimeCatalogKitchenObserved = runtimeCatalog.kitchenObserved;
+        }
+      } catch (_error) {
+        sourceRuntimeCatalog = 'unavailable';
+      }
+      try {
+        const coverageMatrix = await readSourceCoverageMatrixHealth(env, request);
+        if (coverageMatrix) {
+          sourceCoverageMatrix = coverageMatrix.status;
+          sourceCoverageMatrixVersion = coverageMatrix.version;
+          sourceCoverageMatrixEntries = coverageMatrix.entries;
+          sourceCoverageMatrixP0 = coverageMatrix.p0;
+          sourceCoverageMatrixP1 = coverageMatrix.p1;
+          sourceCoverageMatrixP2 = coverageMatrix.p2;
+          sourceCoverageMatrixP3 = coverageMatrix.p3;
+          sourceCoverageMatrixSafetyBlocked = coverageMatrix.safetyBlocked;
+        }
+      } catch (_error) {
+        sourceCoverageMatrix = 'unavailable';
+      }
       if (buildMetadata?.productFocus === 'rice-meal-v1') {
         try {
           riceMealPlanSecret(env);
@@ -4056,6 +4185,28 @@ export default {
         sourceExecutionComplete,
         sourceExecutionUnblockedComplete,
         sourceExecutionSafetyBlocked,
+        sourceRuntimeCatalog,
+        sourceRuntimeCatalogVersion,
+        sourceRuntimeCatalogEntries,
+        sourceRuntimeCatalogPreviewOnly,
+        sourceRuntimeCatalogResearchOnly,
+        sourceRuntimeCatalogBlocked,
+        sourceRuntimeCatalogFormalActive,
+        sourceRuntimeCatalogKitchenObserved,
+        runtimeOnePotCatalog,
+        runtimeOnePotCatalogVersion,
+        runtimeOnePotCatalogEntries,
+        runtimeOnePotCatalogPlannerRuntimeEligible,
+        runtimeOnePotCatalogProductionApproved,
+        runtimeOnePotCatalogKitchenObserved,
+        sourceCoverageMatrix,
+        sourceCoverageMatrixVersion,
+        sourceCoverageMatrixEntries,
+        sourceCoverageMatrixP0,
+        sourceCoverageMatrixP1,
+        sourceCoverageMatrixP2,
+        sourceCoverageMatrixP3,
+        sourceCoverageMatrixSafetyBlocked,
         plannerAssets,
         plannerVersion,
         templateCatalogVersion,

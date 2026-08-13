@@ -34,11 +34,15 @@ const GENERATED_ASSETS = [
   ['tools/data/rice-meal-collection.v1.json', 'rice-meal-collection.v1.json'],
   ['tools/data/rice-cooker-source-evidence.v1.json', 'rice-cooker-source-evidence.v1.json'],
   ['tools/data/source-backed-one-pot-preview.v1.json', 'source-backed-one-pot-preview.v1.json'],
+  ['tools/data/generated/runtime-one-pot-catalog.v1.json', 'runtime-one-pot-catalog.v1.json'],
+  ['tools/data/source-backed-release-ledger.v1.json', 'source-backed-release-ledger.v1.json'],
   ['tools/data/source-backed-formalization-ledger.v1.json', 'source-backed-formalization-ledger.v1.json'],
   ['tools/data/source-backed-execution-library.v1.json', 'source-backed-execution-library.v1.json'],
   ['tools/data/source-backed-formal-candidate-review.v1.json', 'source-backed-formal-candidate-review.v1.json'],
   ['tools/data/source-backed-formal-ratio-evidence.v1.json', 'source-backed-formal-ratio-evidence.v1.json'],
   ['tools/data/source-backed-formal-staging.v1.json', 'source-backed-formal-staging.v1.json'],
+  ['tools/data/source-backed-runtime-catalog.v1.json', 'source-backed-runtime-catalog.v1.json'],
+  ['tools/data/source-backed-coverage-matrix.v1.json', 'source-backed-coverage-matrix.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],
@@ -65,13 +69,14 @@ const COMPILED_PLANNER_ASSETS_SENTINEL = "'__YIGUOCHU_COMPILED_PLANNER_ASSETS_JS
 
 function usage(message) {
   if (message) console.error(message);
-  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>] [--planner-rollout off|direct-recommend] [--generation-mode deterministic|llm] [--product-focus legacy|rice-meal-v1] [--rice-catalog-scope ready|calibration]');
+  console.error('Usage: node tools/build-dist.mjs [--out-dir <directory>] [--build-id <id>] [--artifact-scope runtime|research|calibration] [--planner-rollout off|direct-recommend] [--generation-mode deterministic|llm] [--product-focus legacy|rice-meal-v1] [--rice-catalog-scope ready|calibration]');
   process.exitCode = 1;
 }
 
 function parseArgs(argumentsList) {
   const options = {
     outputDir: path.join(ROOT, 'dist'),
+    artifactScope: 'runtime',
     buildId: new Date().toISOString().replace(/[^0-9A-Za-z]+/g, '-'),
     // The current product is the source-backed rice-meal rotation. Legacy
     // Planner builds remain available only when explicitly requested.
@@ -83,7 +88,7 @@ function parseArgs(argumentsList) {
 
   for (let index = 0; index < argumentsList.length; index += 1) {
     const argument = argumentsList[index];
-    if (argument === '--out-dir' || argument === '--build-id'
+    if (argument === '--out-dir' || argument === '--build-id' || argument === '--artifact-scope'
         || argument === '--planner-rollout' || argument === '--generation-mode'
         || argument === '--product-focus' || argument === '--rice-catalog-scope') {
       const value = argumentsList[index + 1];
@@ -93,6 +98,7 @@ function parseArgs(argumentsList) {
       }
       if (argument === '--out-dir') options.outputDir = path.resolve(value);
       if (argument === '--build-id') options.buildId = value;
+      if (argument === '--artifact-scope') options.artifactScope = value;
       if (argument === '--planner-rollout') options.plannerRollout = value;
       if (argument === '--generation-mode') options.generationMode = value;
       if (argument === '--product-focus') options.productFocus = value;
@@ -133,6 +139,10 @@ function parseArgs(argumentsList) {
     usage('Rice catalog scope must be ready or calibration.');
     return null;
   }
+  if (!['runtime', 'research', 'calibration'].includes(options.artifactScope)) {
+    usage('Artifact scope must be runtime, research, or calibration.');
+    return null;
+  }
   if (options.productFocus === 'rice-meal-v1'
       && (options.plannerRollout !== 'direct-recommend' || options.generationMode !== 'deterministic')) {
     usage('rice-meal-v1 requires direct-recommend and deterministic build metadata.');
@@ -169,7 +179,7 @@ function readCanonicalJson(sourceRelativePath) {
   }
 }
 
-function build({ outputDir, buildId, plannerRollout, generationMode, productFocus, riceCatalogScope }) {
+function build({ outputDir, buildId, artifactScope, plannerRollout, generationMode, productFocus, riceCatalogScope }) {
   assertNoSymlinkInOutputPath(outputDir);
   if (fs.existsSync(outputDir) && !fs.lstatSync(outputDir).isDirectory()) {
     throw new Error(`Output path must be a directory: ${outputDir}`);
@@ -187,7 +197,29 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
   // embedded browsers and breaks a few-step user journey.
   copy('recipes.html', path.join(outputDir, 'recipes', 'index.html'));
   copy('cook.html', path.join(outputDir, 'cook', 'index.html'));
-  for (const [source, target] of GENERATED_ASSETS) copy(source, path.join(outputDir, target));
+  const publicRuntimeTargets = new Set([
+    'foods-tw.json', 'recipe-library.json', 'ingredient-taxonomy.v1.json',
+    'meal-templates.v2.json', 'ratio-rules.v1.json', 'recipe-runtime.v1.json',
+    'recipe-action-profiles.v1.json', 'rice-meal-catalog.v1.json',
+    'rice-meal-collection.v1.json', 'rice-cooker-source-evidence.v1.json',
+    'source-backed-one-pot-preview.v1.json', 'runtime-one-pot-catalog.v1.json',
+    'source-backed-release-ledger.v1.json',
+  ]);
+  const internalResearchTargets = new Set([
+    'source-backed-formalization-ledger.v1.json',
+    'source-backed-formal-candidate-review.v1.json',
+    'source-backed-formal-ratio-evidence.v1.json',
+    'source-backed-formal-staging.v1.json',
+    'source-backed-runtime-catalog.v1.json',
+    'source-backed-coverage-matrix.v1.json',
+  ]);
+  for (const [source, target] of GENERATED_ASSETS) {
+    const isInternalResearch = internalResearchTargets.has(target);
+    const include = artifactScope === 'research'
+      || artifactScope === 'calibration'
+      || !isInternalResearch;
+    if (include) copy(source, path.join(outputDir, target));
+  }
 
   const sourceBackedCatalog = readCanonicalJson('tools/data/source-backed-one-pot-recipes.v1.json');
   const shelfCatalog = buildShelfCatalog(sourceBackedCatalog);
@@ -214,6 +246,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     generationMode,
     productFocus,
     riceCatalogScope,
+    artifactScope,
     riceCookerSourceEvidenceVersion: riceCookerSourceEvidence.ledger_version,
     riceCookerSourceEvidenceSha256,
   };
@@ -282,6 +315,7 @@ function build({ outputDir, buildId, plannerRollout, generationMode, productFocu
     generationMode,
     productFocus,
     riceCatalogScope,
+    artifactScope,
     files: STATIC_ASSETS.length + GENERATED_ASSETS.length + 5,
   }));
 }

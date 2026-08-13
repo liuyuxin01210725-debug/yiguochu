@@ -1,0 +1,40 @@
+name: yiguochu-ci
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: yiguochu-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check recipe and generated contracts
+        run: node tools/check-recipes.mjs
+      - name: Check source-backed catalog artifacts
+        run: node tools/check-source-backed-one-pot-catalog.mjs --check
+      - name: Build runtime distribution for integration tests
+        run: node tools/build-dist.mjs --out-dir dist --build-id ci-contracts --artifact-scope runtime
+      - name: Run correction-focused tests
+        run: >-
+          node --test --test-concurrency=1
+          tools/tests/runtime-one-pot-catalog.test.mjs
+          tools/tests/kitchen-observation.test.mjs
+          tools/tests/kitchen-promotion-gate.test.mjs
+          tools/tests/kitchen-schema-parity.test.mjs
+          tools/tests/source-backed-coverage-matrix.test.mjs
+      - name: Run full Node test suite
+        run: node --test --test-force-exit --test-concurrency=1 tools/tests/*.test.mjs

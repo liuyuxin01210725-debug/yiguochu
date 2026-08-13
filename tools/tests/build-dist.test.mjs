@@ -65,11 +65,9 @@ const REQUIRED_ASSETS = [
   'rice-cooker-source-evidence-validator.js',
   'source-backed-one-pot-shelf.v1.json',
   'source-backed-one-pot-preview.v1.json',
-  'source-backed-formalization-ledger.v1.json',
   'source-backed-execution-library.v1.json',
-  'source-backed-formal-candidate-review.v1.json',
-  'source-backed-formal-ratio-evidence.v1.json',
-  'source-backed-formal-staging.v1.json',
+  'runtime-one-pot-catalog.v1.json',
+  'source-backed-release-ledger.v1.json',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
@@ -110,7 +108,8 @@ function runBuild(outputDir, {
   plannerRollout = 'direct-recommend',
   generationMode = 'deterministic',
   productFocus = 'legacy',
-  riceCatalogScope = 'ready',
+    riceCatalogScope = 'ready',
+    artifactScope = 'runtime',
 } = {}) {
   const args = [
     BUILD_SCRIPT,
@@ -121,6 +120,7 @@ function runBuild(outputDir, {
   if (generationMode != null) args.push('--generation-mode', generationMode);
   if (productFocus != null) args.push('--product-focus', productFocus);
   if (riceCatalogScope != null) args.push('--rice-catalog-scope', riceCatalogScope);
+  if (artifactScope != null) args.push('--artifact-scope', artifactScope);
   return spawnSync(process.execPath, args, { cwd: ROOT, encoding: 'utf8' });
 }
 
@@ -265,7 +265,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
       assert.deepEqual(fs.readFileSync(path.join(outputDir, target)), fs.readFileSync(source), `${target} must be byte-identical`);
     }
     const buildRecord = JSON.parse(buildResult.stdout.trim());
-    assert.equal(buildRecord.files, 51);
+    assert.equal(buildRecord.files, 55);
     assert.equal(buildRecord.productFocus, 'legacy');
     assert.match(
       fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8'),
@@ -290,6 +290,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
         generationMode:'deterministic',
         productFocus:'legacy',
         riceCatalogScope:'ready',
+        artifactScope:'runtime',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -317,6 +318,7 @@ test('distribution build defaults to the source-backed rice rotation and rejects
         generationMode:'deterministic',
         productFocus:'rice-meal-v1',
         riceCatalogScope:'ready',
+        artifactScope:'runtime',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -480,6 +482,7 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
         generationMode:'deterministic',
         productFocus:'rice-meal-v1',
         riceCatalogScope:'calibration',
+        artifactScope:'runtime',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -588,7 +591,12 @@ test('distribution build refuses an output path outside its safe dist directory'
   }
 });
 
-test('generated canonical page executes and renders approved title and provenance in Chrome', async () => {
+test('generated canonical page executes and renders approved title and provenance in Chrome', {
+  // The full suite also runs on Linux CI runners where the local macOS Chrome
+  // executable is intentionally unavailable. Keep the browser proof active on
+  // developer machines and skip only when that external executable is absent.
+  skip: !fs.existsSync(CHROME),
+}, async () => {
   const outputDir = makeOutputDir();
   let server;
   let browserProfile;
