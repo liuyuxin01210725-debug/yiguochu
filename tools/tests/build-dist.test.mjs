@@ -591,7 +591,12 @@ test('distribution build refuses an output path outside its safe dist directory'
   }
 });
 
-test('generated canonical page executes and renders approved title and provenance in Chrome', async () => {
+test('generated canonical page executes and renders approved title and provenance in Chrome', {
+  // The full suite also runs on Linux CI runners where the local macOS Chrome
+  // executable is intentionally unavailable. Keep the browser proof active on
+  // developer machines and skip only when that external executable is absent.
+  skip: !fs.existsSync(CHROME),
+}, async () => {
   const outputDir = makeOutputDir();
   let server;
   let browserProfile;

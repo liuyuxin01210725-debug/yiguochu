@@ -26,6 +26,8 @@ jobs:
         run: node tools/check-recipes.mjs
       - name: Check source-backed catalog artifacts
         run: node tools/check-source-backed-one-pot-catalog.mjs --check
+      - name: Build runtime distribution for integration tests
+        run: node tools/build-dist.mjs --out-dir dist --build-id ci-contracts --artifact-scope runtime
       - name: Run correction-focused tests
         run: >-
           node --test --test-concurrency=1
