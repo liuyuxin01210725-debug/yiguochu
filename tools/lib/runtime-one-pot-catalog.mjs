@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { inspectRuntimeContract } from './runtime-contract-gate.mjs';
 
 const RUNTIME_CATALOG_VERSION = 'runtime-one-pot-catalog-v1-20260813-c11';
 const TRUSTED_STATUSES = new Set(['approved', 'auto_approved']);
@@ -55,13 +56,13 @@ function projectRecipe(recipe, inputs) {
     && asArray(inputs.ratios?.rules).some(rule => ratioRuleIds.includes(rule?.rule_id) && rule?.execution_mode === 'executable');
   const hasTaxonomy = asArray(recipe.core_ingredients).length > 0
     && asArray(recipe.core_ingredients).every(name => asArray(inputs.taxonomy?.items).some(item => item?.display_name === name || item?.canonical_id === name));
-  const hasSafetyContract = Array.isArray(recipe.safety_rules);
+  const runtimeContract = inspectRuntimeContract({ recipe: source || recipe, runtime, actionProfile });
   const plannerRuntimeEligible = TRUSTED_STATUSES.has(recipe.status)
     && hasRuntimeContract
     && hasActionProfile
     && hasExecutableRatio
     && hasTaxonomy
-    && hasSafetyContract;
+    && runtimeContract.complete;
   return {
     recipe_id: recipeId,
     canonical_name: recipe.name,
@@ -93,6 +94,7 @@ function projectRecipe(recipe, inputs) {
       blocker_codes: asArray(formal.formal_planner_blocker_codes),
     } : null,
     kitchen_observation_ids: kitchen.observation_ids,
+    runtime_contract_status: runtimeContract,
     contract_hashes: {
       recipe_library: stableHash(recipe),
       recipe_runtime: stableHash(runtime),
@@ -108,7 +110,7 @@ function projectRecipe(recipe, inputs) {
       ...(!hasActionProfile ? ['action_profile_missing'] : []),
       ...(!hasExecutableRatio ? ['ratio_contract_missing_or_unmapped'] : []),
       ...(!hasTaxonomy ? ['taxonomy_contract_missing'] : []),
-      ...(!hasSafetyContract ? ['safety_contract_missing'] : []),
+      ...runtimeContract.reasons,
     ],
   };
 }

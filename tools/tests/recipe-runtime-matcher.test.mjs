@@ -239,6 +239,14 @@ test('complete canonical Shanghai identity yields its real name and exact honest
   assert.equal(candidate.recipe_runtime_catalog_version, assets.recipeRuntime.recipe_runtime_catalog_version);
   assert.equal(candidate.recipe_id, 'shanghai-salted-pork-vegetable-rice');
   assert.equal(candidate.variant_id, null);
+  assert.deepEqual(candidate.runtime_candidate_authority, {
+    candidate_id: 'shanghai-salted-pork-vegetable-rice',
+    recipe_id: 'shanghai-salted-pork-vegetable-rice',
+    variant_id: null,
+    catalog_version: assets.recipeRuntime.recipe_runtime_catalog_version,
+    contract_hash: candidate.runtime_candidate_authority.contract_hash,
+  });
+  assert.match(candidate.runtime_candidate_authority.contract_hash, /^[a-f0-9]{64}$/u);
   assert.equal(candidate.identity_level, 'canonical');
   assert.deepEqual(candidate.presentation, {
     badge: '依据菜谱',
@@ -262,6 +270,9 @@ test('an explicit choy-sum substitution produces a named variant rather than can
 
   assert.equal(candidate.recipe_id, 'shanghai-salted-pork-vegetable-rice');
   assert.equal(candidate.variant_id, 'shanghai-choy-sum-variant');
+  assert.equal(candidate.runtime_candidate_authority.candidate_id, 'shanghai-salted-pork-vegetable-rice#shanghai-choy-sum-variant');
+  assert.equal(candidate.runtime_candidate_authority.catalog_version, assets.recipeRuntime.recipe_runtime_catalog_version);
+  assert.match(candidate.runtime_candidate_authority.contract_hash, /^[a-f0-9]{64}$/u);
   assert.equal(candidate.identity_level, 'approved_variant');
   assert.deepEqual(candidate.presentation, {
     badge: '菜谱替换版',

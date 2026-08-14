@@ -3,6 +3,7 @@ import {
   isIsoDateTime,
   validateKitchenObservationReferences,
 } from './kitchen-observation.mjs';
+import { isKitchenTrialEntryStrictlyEligible } from './kitchen-trial-catalog.mjs';
 
 export function evaluateKitchenPromotion({ runtimeCatalog, trialCatalog, executionLibrary, observations, formalReview, validatedObservationIds = [] } = {}, recipeId) {
   const reasons = [];
@@ -16,7 +17,7 @@ export function evaluateKitchenPromotion({ runtimeCatalog, trialCatalog, executi
   if (runtimeEntry) {
     if (runtimeEntry.planner_runtime_eligible !== true) reasons.push('runtime_recipe_not_eligible');
     if (runtimeEntry.production_approved === true) reasons.push('runtime_recipe_already_approved');
-  } else if (trialEntry && (trialEntry.trial_eligible !== true || trialEntry.planner_runtime_eligible !== false || trialEntry.production_approved !== false)) {
+  } else if (trialEntry && !isKitchenTrialEntryStrictlyEligible(trialEntry)) {
     reasons.push('trial_recipe_not_eligible');
   }
 

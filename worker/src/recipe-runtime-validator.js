@@ -19,6 +19,7 @@ const ENTRY_FIELDS = new Set([
   'recipe_id', 'activation_status', 'identity_level', 'identity_evidence', 'identity_signature',
   'approved_variants', 'template_id', 'slot_assignment', 'ratio_rule_ids', 'ratio_default_rule_id',
   'action_profile_ref', 'technique_graph', 'seasoning_actions', 'safety_endpoints', 'naming', 'source_claims', 'household_trial',
+  'equipment_contract', 'quantity_contract', 'liquid_contract', 'time_contract', 'step_contract',
 ]);
 const IDENTITY_EVIDENCE_FIELDS = new Set(['title', 'url']);
 const IDENTITY_SIGNATURE_FIELDS = new Set([

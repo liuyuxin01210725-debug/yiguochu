@@ -69,6 +69,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "bc691f98601963a3a880bb6486513f1dd7485187455d7f0a4deb41dc8f0717d9",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -81,7 +93,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -123,6 +142,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "2fa42c59a96c93b18b54fa4c1d37188f465e415decce0e5f942d6f44b20a6af9",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -135,7 +166,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -178,6 +216,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "439a472a5b2d3106ce8b86520008974ec474a3f12f77fcf0eb08661ce12dbb0a",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -190,7 +240,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -233,6 +290,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "3c9d61af26f45edec86f3a37c8d067e4e5583b648705d530d015db18d4a96635",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -245,7 +314,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -288,6 +364,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "995c0949040d4088e3427650adea462f03d2f7d1356bdcd9be9862e30b91246e",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -301,7 +389,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -345,6 +440,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "4f184ef195459b5074136c630c3ad68263170a55bd71b681e66deefaf080074b",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -358,7 +465,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -400,6 +514,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "15e99176a73a78ce1dca7c1c63cec6885ec42ff25041e8d3a838a67d207d0d89",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -413,7 +539,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -455,6 +588,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "67d417a1d88207d6d5edce1bd884fc204d378f981b7099be1ae00ffc2494e65d",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -467,7 +612,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -508,6 +660,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "e2cd1c008624fadaf6298498c488847429bc875d63911400242a7bd8636dd157",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -521,7 +685,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -563,6 +734,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "720f64f0e9112c46e76076486f22ded35cfb4edaddf1ebba8c2956f7cf1d7b0f",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -576,7 +759,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -619,6 +809,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "476a42146b76f4347e9e7cd65d7b65f6559b65b22e23b97d2a88f4370e974a4d",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -632,7 +834,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -674,6 +883,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "6100fd3e81d870bb8629b92a2e09976ada077793ea2827f931fe95d3c8155da3",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -686,7 +907,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -796,6 +1024,18 @@
         ]
       },
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "e4a0adaeda7c00b1ac1ba3084ce47195e9c61c7001db07f501aed2040e926c25",
         "recipe_runtime": "fc5857babbe21e002f04a854fefe24831bbe0e10d0273866d5a6a5e3ad1a6246",
@@ -808,7 +1048,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -850,6 +1097,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "4f523571c54f26ff7d4193574221b312ace2476c845a5a0d17aaeca64de04c4f",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -862,7 +1121,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -904,6 +1170,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "0b801420e2312db18934858f7077a8a57176a7a2c16d12b1088dbf4d2b193e4b",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -916,7 +1194,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -958,6 +1243,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "1a584daccc26fd4da70bc6b246ff64ca5e150e64329d64076497901442312671",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -971,7 +1268,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1013,6 +1317,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "983fddde8797985bfe2b2974b300563489da05f95392846565474a196b96a32f",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1026,7 +1342,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1067,6 +1390,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "6bb7b948b5b61d97b64aa37fe11d13950369179c04422088f057faf5d6ba418f",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1079,7 +1414,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1156,6 +1498,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "9e0247cd132cee14f73aa1604cd9675ac87ac3f5380552f73cd415f365ec62fd",
         "recipe_runtime": "5b525bcbe11c486bfb8a328c328b3713a4a0e972a2ac73545dfa5a77e19c2efa",
@@ -1169,7 +1523,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1244,6 +1605,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "a88a315f598f54e4364116dfcd6baadfc46a729bdeedc615614ca096ccd38422",
         "recipe_runtime": "f39910eda111570b94ab434f012c882775cb396d378a0aaf5b62cc56fb5ed744",
@@ -1257,7 +1630,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1299,6 +1679,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "a8fda4e8ca8b75e9435ac2b5b407d0e0e59f1e2a34b32f672dba56b84563f606",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1311,7 +1703,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1352,6 +1751,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "88ce9b8c8cc7c2028f6a334ab9eedcfbc1dec7547eafa2045be63fddb96b3303",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1365,7 +1776,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1407,6 +1825,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "6e3d81763f3c7226a2bb329c7c255ced4de507445e8da2b1f072a2e84460598b",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1420,7 +1850,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1462,6 +1899,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "b5b382b1f483f177026a4195f7173bd10d0100ea4d3f48803a548b38dabf742c",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1475,7 +1924,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1625,6 +2081,18 @@
         ]
       },
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "840b877d247718aace912a4514b3e883d8e65d5278ca5edd262a585328e4f1c2",
         "recipe_runtime": "414811a36d322f9ab9aa894a10cec7f86ae7e00a6c43d182fde7f3562fa36acc",
@@ -1638,7 +2106,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1751,6 +2226,18 @@
         ]
       },
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "7805d2f6c4c3a2269a02fd252d52d0a0b34c86b21b2072041ef1f01a104a118b",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1764,7 +2251,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1842,6 +2336,18 @@
         ]
       },
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "a62e0c3e6aece2ee1737f14f20b28427136fc0ff2ba7f6ac841744740c4fb1de",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -1855,7 +2361,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1938,6 +2451,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "739061ac436a8f74a8327839d60a743a8994143af8acf7974fb6b219cdd5e34a",
         "recipe_runtime": "b8bd3f82d129497688d2d1672a96b790e3becdc1bf151e6b54ea448ee181d7b4",
@@ -1950,7 +2475,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -1992,6 +2524,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "01efb71ab63b7631542b5242904af09332d9de189d1dedab72a72b5f403bd56a",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2004,7 +2548,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2046,6 +2597,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "e93141a411c919097e0c1e58d5892701a848a18bd2c4b492c12a0ec2ae2cd572",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2059,7 +2622,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2101,6 +2671,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "60cadb678a33cbc50012a9910f86edf4d25a6dd28dd52668e5f6662d707b5e87",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2113,7 +2695,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2154,6 +2743,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "9d7a187ff5121501405931d47a44db117fbff86e6ceb977305f949ed859987f3",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2166,7 +2767,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2207,6 +2815,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "26978406c3b052918b8149592b692b461e07555e1de66d1ab4006673effc8214",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2219,7 +2839,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2260,6 +2887,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "7704c2606dfd1b8eee97317321d1b282007c17f908d9cc9a907c5f03fd967e26",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2273,7 +2912,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2315,6 +2961,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "67676843b46a632d38ed92b4c7293adf22e552ebd6e688af33d0c403ef1db80d",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2327,7 +2985,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2368,6 +3033,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "cfabd176c6b83c4aa33aa100718d5a2ec7dd927b750d2b7a22485cb3b2f1ab65",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2381,7 +3058,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2425,6 +3109,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "ae31636de9cb92e8288bf02cbfc7fcb23d6b3b29c450f5084f51005194547bc1",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2438,7 +3134,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2479,6 +3182,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "f3dc6a05b11f99d0d7cedcd30df5701d273bdf7c8af54cf9219d1d65ad0a3724",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2492,7 +3207,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2533,6 +3255,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "3b5bb8f10a6891b02a7f2986c7df7dc98eeeb23b8cad904aa23da7d8811779b5",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2545,7 +3279,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2586,6 +3327,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "495567d41c96a722ef561420a5a95f52a1a61500849bf311c142741c6da6ae0a",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2599,7 +3352,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2642,6 +3402,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "f5f0f3043f5e62fca40e4b95a826529623e10e071d839b9a86c7a6177ea3577a",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2655,7 +3427,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2734,6 +3513,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "2b8671f0ddec1add9d40a7292f6135a718fe29999c8b8669c3bc2479944c34cd",
         "recipe_runtime": "5d9d3c20f9bbdb5afd6122ead1262a7588c9f55e0c30b601a3a57e17d6986f62",
@@ -2746,7 +3537,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2787,6 +3585,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "0efc771b19082725ce8910e292799d56859b79c0dcee461300c007bb99a9fcfd",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2799,7 +3609,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2841,6 +3658,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "e5f366502286aced1c730723ce57d809bb0e39ae295397fb074afcf676da2bd1",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2853,7 +3682,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2895,6 +3731,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "2292b1e6d9fe9a92c559a7afcd548c304be1254bbdb37cb9fbd35c6ea2156b13",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2907,7 +3755,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -2949,6 +3804,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "d91f330141a918340d9f2238e1dc4a7cf778adce430e0ec1161ac7332b824c7e",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -2962,7 +3829,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3004,6 +3878,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "074f85e1b54f5c47f7c42812cf14947ab05039e16f4fe3ad83a138303f984f5d",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3016,7 +3902,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3058,6 +3951,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "4f90b994941385279844f9a5d3b8f07fda375bde757daf931493b064ef9b2b6c",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3070,7 +3975,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3112,6 +4024,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "e3a9c507ddf7acd1a1735f3a487418ceabf660da75cf01d070ad8358510b1549",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3124,7 +4048,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3167,6 +4098,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "be1fddfa631f483262486d1b3b63f03b527ea1dc99b0889897b42675001a7fdd",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3179,7 +4122,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3221,6 +4171,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "25a909c8f9d6b147b49900e1d8639058a34a140f0b97d9e9639b037997543bcf",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3233,7 +4195,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3276,6 +4245,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "36274b697ec3bdc5a75bc38c125df1b8fe8f3a9ce60760c49042e689477e697d",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3288,7 +4269,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3330,6 +4318,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "7ec2eeb3a30c9f49debc3457fce28747af03dc45390e551abebf7df7f4274fe4",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3342,7 +4342,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3384,6 +4391,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "fde8b7271b2d9ad746930049296953165e0a84eaf831e3f42984f5c596b5e197",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3396,7 +4415,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3438,6 +4464,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "d74af4e9eadc82770d96e44e4be3da54d268311dc74412a964f4fc367dcd6dbf",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3450,7 +4488,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3492,6 +4537,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "b536585adbf8eca238baa94ce58975c14670993cb90aa1a21af820539e7bd808",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3504,7 +4561,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3547,6 +4611,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "6ddf82cc2305c4b610baa12db792ea245bf3356000c09834d39ac71d78ec8caf",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3560,7 +4636,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3602,6 +4685,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "5c655599487a403dc1d9118e5095968e5e6a0da33ed54c2759528009a8e0c139",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3614,7 +4709,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3656,6 +4758,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "4a3baa5d5df496eb72919d43b6d2190c1e829b0e88b89f199c16fae7a985f388",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3669,7 +4783,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3711,6 +4832,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "3c878e41088d43e97b10d431565c87f6825df088619c197e69a160a051223559",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3723,7 +4856,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3766,6 +4906,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "deec6cab096e34119198e4575110c1c547fbb147f40dc467c04ccedcd6c64877",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3778,7 +4930,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3821,6 +4980,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "a5deb754b6b0ccec24a4707bf6825309b9fcb5cef47a57960361db659e5712dd",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3833,7 +5004,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3875,6 +5053,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "c1a3e20c3fce9065b2a0d5b8ca259cad67a098e6522567f584cacada8ceec67f",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3888,7 +5078,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3930,6 +5127,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "6f1c38c62b0fb977d500c45843aefa7dc794942077d9a738046dde4d59c7dac5",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3942,7 +5151,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -3984,6 +5200,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "d88e2581697d42c2062a5a1fd73cb00b551f6923b137920ff6febac91a4a54a8",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -3996,7 +5224,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -4038,6 +5273,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "b732acfd8a516fc9cf5124aaff0b4c4d7769a74725d31b27496381c442f75edb",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -4051,7 +5298,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -4093,6 +5347,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "18998598728cf23d4cfa510e8bea6acf777f18e9e7a2bfa216c5069ffa6b2130",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -4105,7 +5371,14 @@
       "eligibility_reasons": [
         "runtime_contract_missing",
         "action_profile_missing",
-        "ratio_contract_missing_or_unmapped"
+        "ratio_contract_missing_or_unmapped",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -4147,6 +5420,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "174ab8f0127a440e88e042b1f708e192b3af7bd6d1ebd62b06536fa3100a6b27",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -4160,7 +5445,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -4202,6 +5494,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "21ddb0bde1b97fc2a5372b38fabb8b73b8872ebc5cf0a1bfb41952793e3d0534",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -4215,7 +5519,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -4258,6 +5569,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "4e3309d45deae206da5eadcb5f181119cc77d942eac7068a8eb2349f82efa176",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -4271,7 +5594,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -4314,6 +5644,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "a09292f24f48fd4acb050b78380820e0f09243d3392b1483bd77bfe8b2fcb7de",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -4327,7 +5669,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     },
     {
@@ -4370,6 +5719,18 @@
       "execution_summary": null,
       "formalization_summary": null,
       "kitchen_observation_ids": [],
+      "runtime_contract_status": {
+        "complete": false,
+        "reasons": [
+          "safety_endpoints_missing",
+          "equipment_contract_missing",
+          "quantity_contract_missing",
+          "liquid_contract_missing",
+          "time_contract_missing",
+          "step_contract_missing",
+          "action_profile_ref_missing"
+        ]
+      },
       "contract_hashes": {
         "recipe_library": "a83ce0c72ceef8c28c7823c440adf40e72f30e25ad1056c4b09dec9d32e4e1dc",
         "recipe_runtime": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
@@ -4383,7 +5744,14 @@
         "runtime_contract_missing",
         "action_profile_missing",
         "ratio_contract_missing_or_unmapped",
-        "taxonomy_contract_missing"
+        "taxonomy_contract_missing",
+        "safety_endpoints_missing",
+        "equipment_contract_missing",
+        "quantity_contract_missing",
+        "liquid_contract_missing",
+        "time_contract_missing",
+        "step_contract_missing",
+        "action_profile_ref_missing"
       ]
     }
   ]

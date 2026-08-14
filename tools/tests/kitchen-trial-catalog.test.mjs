@@ -14,12 +14,14 @@ const inputs = {
   formalReview: readJson('source-backed-formal-candidate-review.v1.json'),
 };
 
-test('trial catalog contains only unblocked preview candidates and never grants runtime authority', () => {
+test('trial catalog keeps source candidates shadow-only until every runtime contract is closed', () => {
   const catalog = buildKitchenTrialCatalog(inputs);
   assert.equal(catalog.scope, 'kitchen-trial-catalog');
   assert.equal(catalog.kitchen_trial_catalog_version, 'kitchen-trial-catalog-v1-20260813-c13');
   assert.equal(catalog.counts.total, 34);
-  assert.ok(catalog.entries.every(entry => entry.trial_eligible === true));
+  assert.equal(catalog.counts.trial_eligible, 0);
+  assert.ok(catalog.entries.every(entry => entry.trial_eligible === false));
+  assert.ok(catalog.entries.every(entry => entry.eligibility_reasons.includes('equipment_contract_missing')));
   assert.ok(catalog.entries.every(entry => entry.planner_runtime_eligible === false));
   assert.ok(catalog.entries.every(entry => entry.production_approved === false));
   const tiger = catalog.entries.find(entry => entry.recipe_id === 'tiger-chicken-bamboo-rice');
@@ -28,6 +30,8 @@ test('trial catalog contains only unblocked preview candidates and never grants 
   assert.match(tiger.execution_card_ref, /^source-backed-execution-/u);
   assert.match(tiger.formalization_ref, /^source-backed-formalization-/u);
   assert.deepEqual(tiger.required_safety_endpoint_codes, ['poultry_fully_cooked']);
+  assert.equal(tiger.candidate_id, tiger.recipe_id);
+  assert.equal(tiger.variant_id, null);
   assert.ok(Object.values(tiger.contract_hashes).every(value => /^[a-f0-9]{64}$/u.test(value)));
 });
 

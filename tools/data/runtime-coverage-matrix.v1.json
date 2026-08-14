@@ -21,8 +21,8 @@
     },
     "observed": 0,
     "production_eligible": 0,
-    "candidate_joined": 60,
-    "candidate_join_invalid": 0
+    "candidate_joined": 59,
+    "candidate_join_invalid": 1
   },
   "scenarios": [
     {
@@ -283,12 +283,17 @@
           "source_id": "RR04"
         },
         "candidate_refs": {
-          "status": "ok",
+          "status": "invalid",
           "resolved_ids": [
             "shanghai-salted-pork-vegetable-rice"
           ],
-          "unknown_ids": [],
-          "blocker_codes": []
+          "unknown_ids": [
+            "shanghai-choy-sum-variant"
+          ],
+          "blocker_codes": [
+            "unknown_candidate_id",
+            "candidate_join_invalid"
+          ]
         }
       },
       "observation": {

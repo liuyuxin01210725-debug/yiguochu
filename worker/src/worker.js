@@ -38,7 +38,12 @@ import {
   validateDeterministicTextProfiles,
   validateGeneratedPlan,
 } from './generated-plan-contract.js';
-import { decideRuntimeAuthority, normalizeRuntimeAuthority } from './runtime-authority.js';
+import {
+  decideRuntimeAuthority,
+  normalizeRuntimeAuthority,
+  validateRuntimeCandidateAuthority,
+  validateRuntimeVariantCandidateAuthority,
+} from './runtime-authority.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
 const DEFAULT_DEEPSEEK_MODEL = 'deepseek-v4-flash';
@@ -1871,6 +1876,7 @@ async function namedPlanCandidates(plannerAssets, normalizedResult, customCandid
       const draft = structuredClone(custom);
       Object.assign(draft, {
         recipe_runtime_catalog_version: named.recipe_runtime_catalog_version,
+        runtime_candidate_authority: structuredClone(named.runtime_candidate_authority),
         plan_source: named.plan_source,
         recipe_id: named.recipe_id,
         variant_id: named.variant_id,
@@ -1894,6 +1900,16 @@ async function namedPlanCandidates(plannerAssets, normalizedResult, customCandid
         // ingredients. Only a fully materializable server candidate is eligible.
       }
     }
+  }
+  return candidates;
+}
+
+function assertPlannerCandidateAuthorities(plannerAssets, candidates) {
+  const runtimeCatalog = plannerAssets?.recipeRuntime;
+  for (const candidate of Array.isArray(candidates) ? candidates : []) {
+    if (!candidate || (candidate.plan_source !== 'named_recipe' && candidate.plan_source !== 'recipe_variant')) continue;
+    const errors = validateRuntimeCandidateAuthority(candidate, runtimeCatalog);
+    if (errors.length) throw Object.assign(new Error(errors.join('; ')), { code: 'runtime_candidate_authority_invalid' });
   }
   return candidates;
 }
@@ -1973,7 +1989,9 @@ async function enumerateAuthoritativeHybridRecommendState(
     customState.authoritative,
     customState.candidates,
   );
+  assertPlannerCandidateAuthorities(plannerAssets, named);
   const navigationMembers = uniqueHybridMembers([...named, ...customState.candidates]);
+  assertPlannerCandidateAuthorities(plannerAssets, navigationMembers);
   const displayed = selectHybridCandidates([...named, ...customState.displayed], {
     limit,
     recentPlanIds: plannerRequest.recent_plan_ids,
@@ -1984,6 +2002,7 @@ async function enumerateAuthoritativeHybridRecommendState(
     preserveInputOrder: named.length === 0,
   })
     .map(detachedHybridCandidate);
+  assertPlannerCandidateAuthorities(plannerAssets, displayed);
   const initialResponse = displayed.length
     ? {
         ...structuredClone(displayed[0]),
@@ -2060,7 +2079,9 @@ export async function getCachedInitialRecommendBundle(
   const cacheableOwner = cacheOwner
     && (typeof cacheOwner === 'object' || typeof cacheOwner === 'function');
   if (!cacheableOwner) {
-    return compute(plannerAssets, plannerRequest, { limit: 3 });
+    const planned = await compute(plannerAssets, plannerRequest, { limit: 3 });
+    assertPlannerCandidateAuthorities(plannerAssets, [planned, ...(Array.isArray(planned?.candidate_plans) ? planned.candidate_plans : [])]);
+    return planned;
   }
   let cache = INITIAL_RECOMMEND_BUNDLE_CACHE.get(cacheOwner);
   if (!cache) {
@@ -2068,8 +2089,13 @@ export async function getCachedInitialRecommendBundle(
     INITIAL_RECOMMEND_BUNDLE_CACHE.set(cacheOwner, cache);
   }
   const key = JSON.stringify(plannerRequest);
-  if (cache.has(key)) return structuredClone(cache.get(key));
+  if (cache.has(key)) {
+    const cached = cache.get(key);
+    assertPlannerCandidateAuthorities(plannerAssets, [cached, ...(Array.isArray(cached?.candidate_plans) ? cached.candidate_plans : [])]);
+    return structuredClone(cached);
+  }
   const planned = await compute(plannerAssets, plannerRequest, { limit: 3 });
+  assertPlannerCandidateAuthorities(plannerAssets, [planned, ...(Array.isArray(planned?.candidate_plans) ? planned.candidate_plans : [])]);
   if (cache.size >= INITIAL_RECOMMEND_BUNDLE_CACHE_LIMIT) {
     cache.delete(cache.keys().next().value);
   }
@@ -3489,6 +3515,9 @@ async function handlePlanMeal(request, env) {
     if (error?.code === 'invalid_planner_request') {
       return errorResponse('invalid_planner_request', '规划请求格式无效', 400, env, {}, request);
     }
+    if (error?.code === 'runtime_candidate_authority_invalid') {
+      return errorResponse('runtime_candidate_authority_invalid', '运行候选合同已变化，请重新规划', 503, env, {}, request);
+    }
     throw error;
   }
   let plannerAssets;
@@ -3592,6 +3621,33 @@ function withRiceMealPlanTokens(selection, secret) {
   return response;
 }
 
+function assertRiceMealCandidateAuthorities(selection, catalog) {
+  const variantById = new Map((catalog?.families || []).flatMap(family => (
+    (family?.variants || []).map(variant => [variant?.variant_id, { variant, familyId: family?.family_id || null }])
+  )));
+  const candidates = [
+    ...(Array.isArray(selection?.candidates) ? selection.candidates : []),
+    selection?.best_available_candidate,
+    selection?.current_candidate,
+  ].filter(Boolean);
+  const seen = new Set();
+  for (const candidate of candidates) {
+    const key = `${candidate.variant_id || ''}\u0000${candidate.plan_id || ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const binding = variantById.get(candidate.variant_id);
+    if (!binding) throw Object.assign(new Error('runtime candidate variant is not present in the rice catalog'), { code: 'runtime_candidate_authority_invalid' });
+    const errors = validateRuntimeVariantCandidateAuthority(
+      candidate,
+      binding.variant,
+      catalog.catalog_version,
+      binding.familyId,
+    );
+    if (errors.length) throw Object.assign(new Error(errors.join('; ')), { code: 'runtime_candidate_authority_invalid' });
+  }
+  return selection;
+}
+
 async function enrichRiceMealNutrition(compiled, env, request) {
   const inputs = compiled?.plan?.nutrition_inputs;
   if (!Array.isArray(inputs)) return compiled;
@@ -3642,11 +3698,15 @@ async function handleRiceMealPlan(request, env, authorityDecision = { mode: 'sha
       recentPlanIds: selectorRequest.recent_plan_ids || [],
       riceCatalogScope: riceMealAssets.riceCatalogScope,
     });
+    assertRiceMealCandidateAuthorities(selection, riceMealAssets.catalog);
     return jsonResponse({
       ...withRiceMealPlanTokens(selection, secret),
       runtime_authority: authorityDecision,
     }, 200, env, request);
   } catch (_error) {
+    if (_error?.code === 'runtime_candidate_authority_invalid') {
+      return errorResponse('runtime_candidate_authority_invalid', '菜饭候选合同已变化，请重新规划', 503, env, {}, request);
+    }
     return errorResponse('invalid_rice_meal_request', '菜饭规划请求格式无效', 400, env, {}, request);
   }
 }
@@ -3867,6 +3927,9 @@ async function handleGeneratePlan(request, env) {
       plannerAssets.actionProfiles,
     );
   } catch (error) {
+    if (/named_recipe_runtime_candidate_authority_invalid/u.test(String(error?.message || ''))) {
+      return errorResponse('runtime_candidate_authority_invalid', '运行候选合同已变化，请重新规划', 503, env, {}, request);
+    }
     console.error('locked plan contract failed', String(error?.message || 'contract_error').slice(0, 80));
     return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
   }

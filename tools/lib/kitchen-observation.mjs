@@ -257,6 +257,21 @@ function validateRecipe(recipe, errors) {
     if (!Array.isArray(recipe.required_safety_endpoint_codes)) errors.push('recipe.required_safety_endpoint_codes must be an array');
     else recipe.required_safety_endpoint_codes.forEach((code, index) => requiredString(code, `recipe.required_safety_endpoint_codes[${index}]`, errors));
   }
+  const trialFields = ['trial_catalog_version', 'trial_candidate_id', 'trial_variant_id', 'trial_contract_hashes'];
+  if (trialFields.some(field => Object.prototype.hasOwnProperty.call(recipe, field))) {
+    for (const field of ['trial_catalog_version', 'trial_candidate_id']) requiredString(recipe[field], `recipe.${field}`, errors);
+    if (recipe.trial_variant_id !== null && !isNonEmptyString(recipe.trial_variant_id)) errors.push('recipe.trial_variant_id must be a string or null');
+    if (!isObject(recipe.trial_contract_hashes)) {
+      errors.push('recipe.trial_contract_hashes must be an object');
+    } else {
+      for (const key of ['source', 'execution', 'formalization', 'formal_review']) {
+        if (!/^[a-f0-9]{64}$/u.test(recipe.trial_contract_hashes[key] || '')) errors.push(`recipe.trial_contract_hashes.${key} must be a SHA-256 hex digest`);
+      }
+      for (const key of Object.keys(recipe.trial_contract_hashes)) {
+        if (!['source', 'execution', 'formalization', 'formal_review'].includes(key)) errors.push(`recipe.trial_contract_hashes.${key} is not allowed`);
+      }
+    }
+  }
 }
 
 function validateClaimScope(scope, errors) {
@@ -581,6 +596,16 @@ export function validateKitchenObservationReferences(observation, { runtimeCatal
     const trialEntry = trialEntries.get(trialMatch[1]);
     if (trialMatch[1] !== recipeId || !trialEntry || trialEntry.trial_eligible !== true || trialEntry.planner_runtime_eligible !== false || trialEntry.production_approved !== false) {
       errors.push('recipe.runtime_catalog_ref does not resolve to eligible trial recipe');
+    } else {
+      if (trialEntry.candidate_id !== recipeId) errors.push('trial candidate_id does not match recipe');
+      if (trialEntry.variant_id !== null) errors.push('trial variant_id must remain null for the canonical trial candidate');
+      if (!Array.isArray(trialEntry.eligibility_reasons) || trialEntry.eligibility_reasons.length !== 0) errors.push('trial candidate eligibility was not strictly recomputed');
+      if (trialEntry.cooker_boundary_preserved !== true) errors.push('trial candidate cooker boundary is not preserved');
+      const recipeTrial = observation?.recipe || {};
+      if (recipeTrial.trial_catalog_version !== trialVersion) errors.push('recipe.trial_catalog_version does not match trial catalog');
+      if (recipeTrial.trial_candidate_id !== (trialEntry.candidate_id || recipeId)) errors.push('recipe.trial_candidate_id does not match trial catalog candidate');
+      if (recipeTrial.trial_variant_id !== (trialEntry.variant_id ?? null)) errors.push('recipe.trial_variant_id does not match trial catalog variant');
+      if (JSON.stringify(recipeTrial.trial_contract_hashes || null) !== JSON.stringify(trialEntry.contract_hashes || null)) errors.push('recipe.trial_contract_hashes do not match trial contract hashes');
     }
   } else {
     errors.push('recipe.runtime_catalog_ref must use versioned runtime catalog ref or trial catalog ref');

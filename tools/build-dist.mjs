@@ -34,6 +34,7 @@ const GENERATED_ASSETS = [
   ['tools/data/source-backed-one-pot-preview.v1.json', 'source-backed-one-pot-preview.v1.json'],
   ['tools/data/generated/runtime-one-pot-catalog.v1.json', 'runtime-one-pot-catalog.v1.json'],
   ['tools/data/runtime-authority.v1.json', 'runtime-authority.v1.json'],
+  ['tools/data/runtime-contract.schema.v1.json', 'runtime-contract.schema.v1.json'],
   ['tools/data/source-backed-release-ledger.v1.json', 'source-backed-release-ledger.v1.json'],
   ['tools/data/source-backed-formalization-ledger.v1.json', 'source-backed-formalization-ledger.v1.json'],
   ['tools/data/source-backed-execution-library.v1.json', 'source-backed-execution-library.v1.json'],
@@ -45,7 +46,6 @@ const GENERATED_ASSETS = [
   ['tools/data/runtime-coverage-matrix.v1.json', 'runtime-coverage-matrix.v1.json'],
   ['tools/data/runtime-coverage-results.v1.json', 'runtime-coverage-results.v1.json'],
   ['tools/data/kitchen-trial-catalog.v1.json', 'kitchen-trial-catalog.v1.json'],
-  ['tools/data/kitchen-observations.v1.json', 'kitchen-observations.v1.json'],
   ['worker/src/worker.js', '_worker.js'],
   ['worker/src/planner-v2.js', 'planner-v2.js'],
   ['worker/src/planner-coverage.js', 'planner-coverage.js'],
@@ -245,6 +245,7 @@ function build({ outputDir, buildId, artifactScope, plannerRollout, generationMo
     'recipe-action-profiles.v1.json', 'rice-meal-catalog.v1.json',
     'rice-meal-collection.v1.json', 'rice-cooker-source-evidence.v1.json',
     'runtime-one-pot-catalog.v1.json', 'runtime-authority.v1.json',
+    'runtime-contract.schema.v1.json',
   ]);
   const researchTargets = new Set([
     'source-backed-one-pot-preview.v1.json',
@@ -259,7 +260,6 @@ function build({ outputDir, buildId, artifactScope, plannerRollout, generationMo
     'runtime-coverage-matrix.v1.json',
     'runtime-coverage-results.v1.json',
     'kitchen-trial-catalog.v1.json',
-    'kitchen-observations.v1.json',
   ]);
   for (const [source, target] of GENERATED_ASSETS) {
     const include = publicRuntimeTargets.has(target)

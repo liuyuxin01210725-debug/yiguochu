@@ -935,6 +935,21 @@ function buildCandidate({
       allergen_tags: clone(item?.allergen_tags || []),
     };
   });
+  const runtimeCandidateAuthority = {
+    candidate_id: variant.recipe_id && variant.variant_id
+      ? `${variant.recipe_id}#${variant.variant_id}`
+      : (variant.variant_id || variant.recipe_id || null),
+    recipe_id: typeof variant.recipe_id === 'string' ? variant.recipe_id : null,
+    variant_id: typeof variant.variant_id === 'string' ? variant.variant_id : null,
+    catalog_version: catalog.catalog_version,
+    contract_hash: sha256Hex(canonicalJson({
+      catalog_version: catalog.catalog_version,
+      family_id: familyId || null,
+      recipe_id: variant.recipe_id || null,
+      variant_id: variant.variant_id || null,
+      variant,
+    })),
+  };
   return {
     plan_id: `sha256:${sha256Hex(canonicalJson(identity))}`,
     rice_catalog_scope: riceCatalogScope,
@@ -990,6 +1005,7 @@ function buildCandidate({
     identity_level: variant.identity_level,
     protein_variant_id: protein?.canonical_ingredient_id || null,
     user_notices: controlledUserNotices(variant, normalized.servings),
+    runtime_candidate_authority: runtimeCandidateAuthority,
   };
 }
 

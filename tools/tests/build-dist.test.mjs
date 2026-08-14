@@ -61,6 +61,7 @@ const REQUIRED_ASSETS = [
   'rice-cooker-source-evidence-validator.js',
   'runtime-one-pot-catalog.v1.json',
   'runtime-authority.v1.json',
+  'runtime-contract.schema.v1.json',
   'runtime-authority.js',
   'build-meta.json',
 ];
@@ -489,6 +490,23 @@ test('research scope explicitly includes source browser and research ledgers', (
     ]) assert.equal(fs.existsSync(path.join(outputDir, required)), true, `${required} missing from research scope`);
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true });
+  }
+});
+
+test('runtime, research, and calibration scopes never ship the private kitchen observation ledger', () => {
+  for (const artifactScope of ['runtime', 'research', 'calibration']) {
+    const outputDir = makeOutputDir();
+    try {
+      const result = runBuild(outputDir, { artifactScope });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      assert.equal(
+        fs.existsSync(path.join(outputDir, 'kitchen-observations.v1.json')),
+        false,
+        `${artifactScope} scope must not expose the private kitchen observation ledger`,
+      );
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
   }
 });
 

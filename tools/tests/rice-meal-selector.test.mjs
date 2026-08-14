@@ -319,6 +319,14 @@ test('selector binds every candidate to the exact source-evidence ledger version
   assert.equal(result.status, 'ready');
   assert.equal(result.candidates[0].source_evidence_ledger_version, sourceEvidence.ledger_version);
   assert.match(result.candidates[0].source_evidence_hash, /^sha256:[a-f0-9]{64}$/u);
+  const authority = result.candidates[0].runtime_candidate_authority;
+  assert.equal(authority.variant_id, result.candidates[0].variant_id);
+  assert.equal(authority.recipe_id, result.candidates[0].recipe_id);
+  assert.equal(authority.catalog_version, catalog.catalog_version);
+  assert.equal(authority.candidate_id, result.candidates[0].recipe_id
+    ? `${result.candidates[0].recipe_id}#${result.candidates[0].variant_id}`
+    : result.candidates[0].variant_id);
+  assert.match(authority.contract_hash, /^[a-f0-9]{64}$/u);
 
   assert.throws(() => selectRiceMealCandidates({
     request: { servings: 2, pantry: ['鸡腿', '土豆'], dislikes: [] },

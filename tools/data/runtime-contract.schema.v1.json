@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yiguochu.pages.dev/schemas/runtime-contract.v1.json",
+  "title": "一锅出 Runtime Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["safety_endpoints", "equipment_contract", "quantity_contract", "liquid_contract", "time_contract", "step_contract", "action_profile_ref"],
+  "properties": {
+    "safety_endpoints": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["endpoint_code", "required"], "properties": {"endpoint_code": {"type": "string", "minLength": 1}, "required": {"const": true}}}},
+    "equipment_contract": {"$ref": "#/$defs/equipment"},
+    "quantity_contract": {"type": "object", "additionalProperties": false, "required": ["ingredients"], "properties": {"ingredients": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["canonical_id", "amount"], "properties": {"canonical_id": {"type": "string", "minLength": 1}, "amount": {"$ref": "#/$defs/amount"}}}}}},
+    "liquid_contract": {"type": "object", "additionalProperties": false, "anyOf": [{"required": ["amount"]}, {"required": ["waterline"]}], "properties": {"amount": {"$ref": "#/$defs/amount"}, "waterline": {"type": "string", "minLength": 1}}},
+    "time_contract": {"type": "object", "additionalProperties": false, "anyOf": [{"required": ["total_minutes"]}, {"required": ["program"]}], "properties": {"total_minutes": {"type": "number", "exclusiveMinimum": 0}, "program": {"type": "string", "minLength": 1}}},
+    "step_contract": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["step_id", "action_code"], "properties": {"step_id": {"type": "string", "minLength": 1}, "action_code": {"type": "string", "minLength": 1}}}},
+    "action_profile_ref": {"type": "object", "additionalProperties": false, "required": ["action_profile_id", "profile_version"], "properties": {"action_profile_id": {"type": "string", "minLength": 1}, "profile_version": {"type": "string", "minLength": 1}}}
+  },
+  "$defs": {
+    "amount": {"type": "object", "additionalProperties": false, "required": ["value", "unit"], "properties": {"value": {"type": "number", "exclusiveMinimum": 0}, "unit": {"type": "string", "minLength": 1}}},
+    "equipment": {"type": "object", "additionalProperties": false, "required": ["vessel_type", "brand_or_family", "model", "capacity", "program", "boundary"], "properties": {"vessel_type": {"type": "string", "minLength": 1}, "brand_or_family": {"type": "string", "minLength": 1}, "model": {"type": "string", "minLength": 1}, "capacity": {"$ref": "#/$defs/amount"}, "program": {"type": "string", "minLength": 1}, "boundary": {"type": "string", "minLength": 1}}}
+  }
+}

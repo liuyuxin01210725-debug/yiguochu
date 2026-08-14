@@ -253,6 +253,7 @@ errors.push(...runtimeOnePotCatalogErrors.map(error => `runtime one-pot catalog:
 errors.push(...validateRuntimeCoverageResults(runtimeCoverageResults, {
   matrix: runtimeCoverageMatrix,
   authority: JSON.parse(fs.readFileSync(new URL('./data/runtime-authority.v1.json', import.meta.url), 'utf8')),
+  runtimeCatalog: runtimeOnePotCatalog,
 }).map(error => `runtime coverage results: ${error}`));
 errors.push(...validateKitchenObservationLedger(kitchenObservationLedger)
   .map(error => `kitchen observation ledger: ${error}`));
@@ -1027,7 +1028,7 @@ console.log(`source-backed execution completeness ${sourceBackedExecutionComplet
 console.log(`source-backed formal candidate review ${sourceBackedFormalCandidateReview?.counts?.total ?? 0} rows · ${sourceBackedFormalCandidateReview?.counts?.source_complete ?? 0} source-complete · ratio evidence ${sourceBackedFormalCandidateReview?.counts?.ratio_dsl?.candidate_evidence_only ?? 0} · ${sourceBackedFormalCandidateReview?.counts?.formal_ready ?? 0} formal-ready${sourceBackedFormalCandidateReviewErrors.length ? ` · invalid (${sourceBackedFormalCandidateReviewErrors.length})` : ' · review ok'}`);
 console.log(`source-backed formal staging ${sourceBackedFormalStaging?.counts?.total ?? 0} queued · ${sourceBackedFormalStaging?.counts?.source_complete ?? 0} source-complete · ${sourceBackedFormalStaging?.counts?.formal_ready ?? 0} formal-ready · ${sourceBackedFormalStaging?.counts?.kitchen_pending ?? 0} kitchen pending${sourceBackedFormalStagingErrors.length ? ` · invalid (${sourceBackedFormalStagingErrors.length})` : ' · staging ok'}`);
 console.log(`source-backed release ledger ${sourceBackedReleaseLedger?.counts?.total ?? 0} entries · ${sourceBackedReleaseLedger?.counts?.preview_only ?? 0} preview-only · ${sourceBackedReleaseLedger?.counts?.research_only ?? 0} research-only · ${sourceBackedReleaseLedger?.counts?.blocked ?? 0} blocked${sourceBackedReleaseLedgerErrors.length ? ` · invalid (${sourceBackedReleaseLedgerErrors.length})` : ' · release ledger ok'}`);
-console.log(`source-backed runtime alias deprecated · trial catalog ${kitchenTrialCatalog?.counts?.total ?? 0} candidates${kitchenTrialCatalogErrors.length ? ` · invalid (${kitchenTrialCatalogErrors.length})` : ' · trial catalog ok'}`);
+console.log(`source-backed runtime alias deprecated · trial catalog ${kitchenTrialCatalog?.counts?.total ?? 0} candidates / ${kitchenTrialCatalog?.counts?.trial_eligible ?? 0} eligible${kitchenTrialCatalogErrors.length ? ` · invalid (${kitchenTrialCatalogErrors.length})` : ' · trial catalog ok'}`);
 console.log(`source-backed coverage matrix ${sourceBackedCoverageMatrix?.counts?.total ?? 0} rows · P0 ${sourceBackedCoverageMatrix?.counts?.priority?.P0 ?? 0} · P1 ${sourceBackedCoverageMatrix?.counts?.priority?.P1 ?? 0} · P2 ${sourceBackedCoverageMatrix?.counts?.priority?.P2 ?? 0} · P3 ${sourceBackedCoverageMatrix?.counts?.priority?.P3 ?? 0}${sourceBackedCoverageMatrixErrors.length ? ` · invalid (${sourceBackedCoverageMatrixErrors.length})` : ' · matrix ok'}`);
 console.log([
   `${recipeCount} recipes`,

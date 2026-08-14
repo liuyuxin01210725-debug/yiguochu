@@ -177,6 +177,9 @@ test('rice-meal build selects schema-v3 candidates without model or budget work'
     'home-chicken-leg-potato-rice',
   ]);
   assert.equal(result.body.candidates[0].coverage_total, 2);
+  assert.equal(result.body.candidates[0].runtime_candidate_authority.variant_id, result.body.candidates[0].variant_id);
+  assert.equal(result.body.candidates[0].runtime_candidate_authority.catalog_version, result.body.catalog_version);
+  assert.match(result.body.candidates[0].runtime_candidate_authority.contract_hash, /^[a-f0-9]{64}$/u);
   assert.match(result.body.candidates[0].plan_token, /^rm1\.[A-Za-z0-9_-]+\.[a-f0-9]{64}$/u);
   assert.equal(result.modelCalls, 0);
   assert.equal(result.kv.gets, 0);
@@ -272,6 +275,8 @@ test('rice-meal build compiles only a signed token and preserves reviewed RM-15 
   assert.equal(result.body.schema_version, 3);
   assert.equal(result.body.status, 'ready');
   assert.equal(result.body.variant_id, 'home-chicken-leg-potato-rice');
+  assert.equal(result.body.runtime_candidate_authority.variant_id, result.body.variant_id);
+  assert.equal(result.body.meals[0].runtime_candidate_authority.variant_id, result.body.variant_id);
   assert.equal(result.body.meals[0].dish_name, '鸡腿土豆焖饭');
   assert.deepEqual(result.body.plan.ingredient_amounts.map(item => [item.canonical_id, item.grams]), [
     ['raw-rice', 200],

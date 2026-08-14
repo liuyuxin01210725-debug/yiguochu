@@ -5,6 +5,7 @@ import {
   assertPlanPresentation,
   buildCustomPlanPresentation,
 } from './plan-presentation.js';
+import { assertRuntimeCandidateAuthority } from './runtime-authority.js';
 
 const TOP_LEVEL_KEYS = ['plan_id', 'meals'];
 const MEAL_KEYS = ['meal_sequence', 'dish_name', 'ingredient_refs', 'steps', 'recommendation_reason'];
@@ -781,12 +782,27 @@ export function buildLockedPlanContract(
     throw new Error('invalid_planner_result');
   }
   if (plannerResult.plan_source === 'named_recipe' || plannerResult.plan_source === 'recipe_variant') {
+    if (plannerResult.plan_source === 'recipe_variant') {
+      throw new Error('recipe_variant_not_executable');
+    }
     if (typeof plannerResult.recipe_runtime_catalog_version !== 'string'
         || plannerResult.recipe_runtime_catalog_version.length === 0
         || plannerResult.recipe_runtime_catalog_version !== recipeRuntimeCatalog?.recipe_runtime_catalog_version) {
       throw new Error('named_recipe_runtime_catalog_stale');
     }
     const runtimeEntry = recipeRuntimeCatalog?.entries?.find(entry => entry?.recipe_id === plannerResult.recipe_id);
+    // Preserve the more actionable identity/activation errors before checking
+    // the candidate authority envelope. A planned or unknown entry is not an
+    // executable named recipe, regardless of whether its client supplied an
+    // authority object.
+    if (!runtimeEntry || runtimeEntry.activation_status !== 'preview_enabled') {
+      throw new Error('named_recipe_not_executable');
+    }
+    try {
+      assertRuntimeCandidateAuthority(plannerResult, recipeRuntimeCatalog);
+    } catch (_error) {
+      throw new Error('named_recipe_runtime_candidate_authority_invalid');
+    }
     const recipeRecord = recipeLibrary?.recipes?.find(recipe => recipe?.id === plannerResult.recipe_id);
     const meal = buildLockedRecipeMeal(
       plannerResult, runtimeEntry, ratioCatalog, recipeRecord, actionProfileCatalog,
@@ -796,6 +812,7 @@ export function buildLockedPlanContract(
       planner_version: plannerResult.planner_version,
       template_catalog_version: plannerResult.template_catalog_version,
       recipe_runtime_catalog_version: plannerResult.recipe_runtime_catalog_version,
+      runtime_candidate_authority: structuredClone(plannerResult.runtime_candidate_authority),
       mode: plannerResult.mode,
       intent: plannerResult.intent,
       plan_source: plannerResult.plan_source,
@@ -1212,6 +1229,7 @@ export function buildGeneratedPlanResponse(plannerResult, lockedPlan, validatedM
     planner_version: plannerResult.planner_version,
     template_catalog_version: plannerResult.template_catalog_version,
     recipe_runtime_catalog_version: lockedPlan.recipe_runtime_catalog_version ?? null,
+    runtime_candidate_authority: structuredClone(lockedPlan.runtime_candidate_authority || null),
     plan_id: lockedPlan.plan_id,
     status: plannerResult.status,
     generation_allowed: plannerResult.generation_allowed,
@@ -1234,6 +1252,7 @@ export function buildGeneratedPlanResponse(plannerResult, lockedPlan, validatedM
       plan_source: lockedMeal.plan_source,
       recipe_id: lockedMeal.recipe_id,
       variant_id: lockedMeal.variant_id,
+      runtime_candidate_authority: structuredClone(lockedMeal.runtime_candidate_authority || null),
       identity_level: lockedMeal.identity_level,
       presentation: structuredClone(lockedMeal.presentation || null),
       locked_ingredients: lockedMeal.locked_ingredients,
