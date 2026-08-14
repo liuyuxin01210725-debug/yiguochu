@@ -116,11 +116,13 @@ import { validateKitchenTrialCatalog } from './lib/kitchen-trial-catalog.mjs';
 import { validateSourceBackedCoverageMatrix } from './lib/source-backed-coverage-matrix.mjs';
 import { validateSourceBackedFormalizationMatrix } from './lib/source-backed-formalization-matrix.mjs';
 import { validateRuntimeCoverageMatrix } from './lib/runtime-coverage-matrix.mjs';
+import { validateRuntimeCoverageResults } from './lib/runtime-coverage-results.mjs';
 import { validateRuntimeOnePotCatalog } from './lib/runtime-one-pot-catalog.mjs';
 import {
   validateKitchenObservationLedger,
   validateKitchenObservationReferences,
   validateKitchenObservationSchemaParity,
+  validateKitchenObservationSchemaInstance,
 } from './lib/kitchen-observation.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
@@ -142,6 +144,7 @@ let kitchenTrialCatalog = { entries: [] };
 let sourceBackedCoverageMatrix = { records: [] };
 let sourceBackedFormalizationMatrix = { records: [] };
 let runtimeCoverageMatrix = { scenarios: [] };
+let runtimeCoverageResults = { scenarios: [] };
 let runtimeOnePotCatalog = { entries: [] };
 let kitchenObservationLedger = { observations: [] };
 for (const [relativePath, assign] of [
@@ -159,6 +162,7 @@ for (const [relativePath, assign] of [
   ['tools/data/source-backed-coverage-matrix.v1.json', value => { sourceBackedCoverageMatrix = value; }],
   ['tools/data/source-backed-formalization-matrix.v1.json', value => { sourceBackedFormalizationMatrix = value; }],
   ['tools/data/runtime-coverage-matrix.v1.json', value => { runtimeCoverageMatrix = value; }],
+  ['tools/data/runtime-coverage-results.v1.json', value => { runtimeCoverageResults = value; }],
   ['tools/data/generated/runtime-one-pot-catalog.v1.json', value => { runtimeOnePotCatalog = value; }],
   ['tools/data/kitchen-observations.v1.json', value => { kitchenObservationLedger = value; }],
 ]) {
@@ -246,6 +250,10 @@ const runtimeOnePotInputs = {
 };
 const runtimeOnePotCatalogErrors = validateRuntimeOnePotCatalog(runtimeOnePotCatalog, runtimeOnePotInputs);
 errors.push(...runtimeOnePotCatalogErrors.map(error => `runtime one-pot catalog: ${error}`));
+errors.push(...validateRuntimeCoverageResults(runtimeCoverageResults, {
+  matrix: runtimeCoverageMatrix,
+  authority: JSON.parse(fs.readFileSync(new URL('./data/runtime-authority.v1.json', import.meta.url), 'utf8')),
+}).map(error => `runtime coverage results: ${error}`));
 errors.push(...validateKitchenObservationLedger(kitchenObservationLedger)
   .map(error => `kitchen observation ledger: ${error}`));
 const kitchenTrialCatalogErrors = validateKitchenTrialCatalog(kitchenTrialCatalog, {
@@ -262,6 +270,8 @@ const kitchenObservationSchema = JSON.parse(fs.readFileSync(
 errors.push(...validateKitchenObservationSchemaParity(kitchenObservationSchema)
   .map(error => `kitchen observation schema: ${error}`));
 for (const observation of Array.isArray(kitchenObservationLedger?.observations) ? kitchenObservationLedger.observations : []) {
+  errors.push(...validateKitchenObservationSchemaInstance(observation, kitchenObservationSchema)
+    .map(error => `kitchen observation schema instance: ${error}`));
   errors.push(...validateKitchenObservationReferences(observation, {
     runtimeCatalog: runtimeOnePotCatalog,
     trialCatalog: kitchenTrialCatalog,

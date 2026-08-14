@@ -1,5 +1,6 @@
 import {
   isKitchenObservedReady,
+  isIsoDateTime,
   validateKitchenObservationReferences,
 } from './kitchen-observation.mjs';
 
@@ -38,7 +39,7 @@ export function evaluateKitchenPromotion({ runtimeCatalog, trialCatalog, executi
     if (!isKitchenObservedReady(observation, { requiredSafetyEndpointCodes })) reasons.push('kitchen_observation_incomplete');
   }
 
-  const reviewDateValid = typeof formalReview?.reviewed_at === 'string' && !Number.isNaN(Date.parse(formalReview.reviewed_at));
+  const reviewDateValid = isIsoDateTime(formalReview?.reviewed_at);
   if (formalReview?.approved !== true || formalReview.recipe_id !== recipeId || !formalReview.reviewer_id || !reviewDateValid) {
     reasons.push('independent_formal_approval_missing');
   }

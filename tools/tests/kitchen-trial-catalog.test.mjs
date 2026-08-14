@@ -28,6 +28,7 @@ test('trial catalog contains only unblocked preview candidates and never grants 
   assert.match(tiger.execution_card_ref, /^source-backed-execution-/u);
   assert.match(tiger.formalization_ref, /^source-backed-formalization-/u);
   assert.deepEqual(tiger.required_safety_endpoint_codes, ['poultry_fully_cooked']);
+  assert.ok(Object.values(tiger.contract_hashes).every(value => /^[a-f0-9]{64}$/u.test(value)));
 });
 
 test('trial catalog validation is deterministic and rejects authority escalation', () => {
@@ -36,4 +37,12 @@ test('trial catalog validation is deterministic and rejects authority escalation
   const broken = structuredClone(catalog);
   broken.entries[0].planner_runtime_eligible = true;
   assert.match(validateKitchenTrialCatalog(broken, inputs).join('\n'), /planner_runtime_eligible must be false/u);
+});
+
+test('trial catalog fails closed when a source/execution/formal join is missing', () => {
+  const brokenInputs = structuredClone(inputs);
+  brokenInputs.executionLibrary.entries = brokenInputs.executionLibrary.entries.filter(entry => entry.recipe_id !== 'tiger-chicken-bamboo-rice');
+  const catalog = buildKitchenTrialCatalog(brokenInputs);
+  const missing = catalog.entries.find(entry => entry.recipe_id === 'tiger-chicken-bamboo-rice');
+  assert.equal(missing.trial_eligible, false);
 });

@@ -1,0 +1,1439 @@
+{
+  "schema_version": 1,
+  "runtime_coverage_results_version": "runtime-coverage-results-v1-20260814-c21",
+  "scope": "runtime-coverage-results",
+  "policy": {
+    "registry_is_not_execution_evidence": true,
+    "shadow_and_catalog_enforced_are_separate": true,
+    "unobserved_results_cannot_authorize_production": true,
+    "actual_browser_or_worker_observation_required": true
+  },
+  "source_matrix_version": "runtime-coverage-matrix-v1-20260813-c6",
+  "authority_modes": [
+    "shadow_preview",
+    "catalog_enforced"
+  ],
+  "counts": {
+    "total": 101,
+    "observed": 0,
+    "not_observed": 101,
+    "passed": 0,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "scenario_id": "recipe_runtime:RR01",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR01",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR02",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR02",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR03",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR03",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR04",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR04",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR05",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR05",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR06",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR06",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR07",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR07",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR08",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR08",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR09",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR09",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR10",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR10",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR11",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR11",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR12",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR12",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR13",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR13",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR14",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR14",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR15",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR15",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR16",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR16",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "recipe_runtime:RR17",
+      "source_kind": "recipe_runtime",
+      "source_id": "RR17",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-01-jiangnan-planned-only",
+      "source_kind": "rice_meal",
+      "source_id": "RM-01-jiangnan-planned-only",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-02-xinjiang-planned-only",
+      "source_kind": "rice_meal",
+      "source_id": "RM-02-xinjiang-planned-only",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-03-potato-only",
+      "source_kind": "rice_meal",
+      "source_id": "RM-03-potato-only",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-04-chicken-potato-b",
+      "source_kind": "rice_meal",
+      "source_id": "RM-04-chicken-potato-b",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-05-chicken-potato-greens-no-fabricated-a",
+      "source_kind": "rice_meal",
+      "source_id": "RM-05-chicken-potato-greens-no-fabricated-a",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-06-tofu-cabbage-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-06-tofu-cabbage-ready",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-07-tofu-mushroom-greens-planned-gap",
+      "source_kind": "rice_meal",
+      "source_id": "RM-07-tofu-mushroom-greens-planned-gap",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-08-beef-broccoli-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-08-beef-broccoli-ready",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-09-four-vegetable-protein-mix-no-single-card",
+      "source_kind": "rice_meal",
+      "source_id": "RM-09-four-vegetable-protein-mix-no-single-card",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-10-six-mixed-best-honest-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-10-six-mixed-best-honest-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-11-ten-mixed-best-honest-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-11-ten-mixed-best-honest-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-12a-egg-dislike-preflight",
+      "source_kind": "rice_meal",
+      "source_id": "RM-12a-egg-dislike-preflight",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-12b-seafood-dislike-preflight",
+      "source_kind": "rice_meal",
+      "source_id": "RM-12b-seafood-dislike-preflight",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-12c-rice-dislike-preflight",
+      "source_kind": "rice_meal",
+      "source_id": "RM-12c-rice-dislike-preflight",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-13-green-bean-rib-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-13-green-bean-rib-ready",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-14-no-second-reliable-alternative",
+      "source_kind": "rice_meal",
+      "source_id": "RM-14-no-second-reliable-alternative",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-16-greens-ground-pork-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-16-greens-ground-pork-ready",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-15-selector-facts-for-compiler",
+      "source_kind": "rice_meal",
+      "source_id": "RM-15-selector-facts-for-compiler",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-17-corn-carrot-chicken-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-17-corn-carrot-chicken-ready",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-18-mushroom-bean-rib-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-18-mushroom-bean-rib-ready",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-21-shanghai-salted-pork-ready",
+      "source_kind": "rice_meal",
+      "source_id": "RM-21-shanghai-salted-pork-ready",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-22-chicken-corn-carrot-potato-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-22-chicken-corn-carrot-potato-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-23-five-items-ceil-sixty-percent",
+      "source_kind": "rice_meal",
+      "source_id": "RM-23-five-items-ceil-sixty-percent",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-24-tofu-ribs-no-forced-combination",
+      "source_kind": "rice_meal",
+      "source_id": "RM-24-tofu-ribs-no-forced-combination",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-25-tenderloin-and-brisket-one-generic-slot",
+      "source_kind": "rice_meal",
+      "source_id": "RM-25-tenderloin-and-brisket-one-generic-slot",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-26-explicit-rice-does-not-pad-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-26-explicit-rice-does-not-pad-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-27-calibration-cabbage-rice-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-27-calibration-cabbage-rice-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-28-calibration-pumpkin-rice-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-28-calibration-pumpkin-rice-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-29-calibration-curry-chicken-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-29-calibration-curry-chicken-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-30-calibration-sausage-mixed-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-30-calibration-sausage-mixed-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-31-calibration-beef-mixed-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-31-calibration-beef-mixed-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-32-calibration-bamboo-vegetable-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-32-calibration-bamboo-vegetable-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-33-calibration-mixed-chicken-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-33-calibration-mixed-chicken-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-34-calibration-fresh-shiitake-full-coverage",
+      "source_kind": "rice_meal",
+      "source_id": "RM-34-calibration-fresh-shiitake-full-coverage",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-35-screenshot-five-item-honest-two-item-options",
+      "source_kind": "rice_meal",
+      "source_id": "RM-35-screenshot-five-item-honest-two-item-options",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-36-screenshot-ribs-with-explicit-green-beans",
+      "source_kind": "rice_meal",
+      "source_id": "RM-36-screenshot-ribs-with-explicit-green-beans",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-37-source-sichuan-pork-ribs-calibration",
+      "source_kind": "rice_meal",
+      "source_id": "RM-37-source-sichuan-pork-ribs-calibration",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-343-source-tatung-beef-burdock-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-343-source-tatung-beef-burdock-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-344-source-tiger-pork-bamboo-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-344-source-tiger-pork-bamboo-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-345-source-tatung-pork-daikon-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-345-source-tatung-pork-daikon-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-346-source-tatung-wakayama-ginger-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-346-source-tatung-wakayama-ginger-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-347-source-taiwan-tatung-cabbage-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-347-source-taiwan-tatung-cabbage-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-348-source-zojirushi-pork-vegetable-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-348-source-zojirushi-pork-vegetable-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-349-source-panasonic-nf-pc400-takikomi-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-349-source-panasonic-nf-pc400-takikomi-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-350-source-panasonic-khao-man-gai",
+      "source_kind": "rice_meal",
+      "source_id": "RM-350-source-panasonic-khao-man-gai",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-351-source-zojirushi-okayama-ebimeshi",
+      "source_kind": "rice_meal",
+      "source_id": "RM-351-source-zojirushi-okayama-ebimeshi",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-352-source-cookpot-beef-wild-mushroom-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-352-source-cookpot-beef-wild-mushroom-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-353-source-tatung-hainan-chicken-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-353-source-tatung-hainan-chicken-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-354-source-tatung-pork-jowl-sesame-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-354-source-tatung-pork-jowl-sesame-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-355-source-tiger-chinese-sticky-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-355-source-tiger-chinese-sticky-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-356-source-panasonic-claypot-style-chicken-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-356-source-panasonic-claypot-style-chicken-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-357-source-tatung-tomato-pumpkin-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-357-source-tatung-tomato-pumpkin-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-358-source-nih-medlineplus-chicken-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-358-source-nih-medlineplus-chicken-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "rice_meal:RM-359-source-tiger-chicken-bamboo-rice",
+      "source_kind": "rice_meal",
+      "source_id": "RM-359-source-tiger-chicken-bamboo-rice",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-01",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-01",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-02",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-02",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-03",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-03",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-04",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-04",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-05",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-05",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-06",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-06",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-07",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-07",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-08",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-08",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-09",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-09",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-10",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-10",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-11",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-11",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-12",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-12",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-13",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-13",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-14",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-14",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-15",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-15",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-16",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-16",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-17",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-17",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-18",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-18",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-19",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-19",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-20",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-20",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-21",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-21",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-22",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-22",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-23",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-23",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-24",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-24",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-25",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-25",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-26",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-26",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-27",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-27",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-28",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-28",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-29",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-29",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    },
+    {
+      "scenario_id": "direct_recommend_shadow:dr-shadow-30",
+      "source_kind": "direct_recommend_shadow",
+      "source_id": "dr-shadow-30",
+      "authority_mode": "shadow_preview",
+      "observed": false,
+      "result_status": "not_observed",
+      "runtime_response": null,
+      "planner_state": null,
+      "blocker_codes": [
+        "not_observed"
+      ],
+      "evidence_refs": []
+    }
+  ]
+}

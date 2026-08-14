@@ -20,6 +20,8 @@ const SOURCE_ASSETS = Object.freeze({
   '/source-backed-execution-library.v1.json': readAsset('source-backed-execution-library.v1.json'),
   '/source-backed-release-ledger.v1.json': readAsset('source-backed-release-ledger.v1.json'),
   '/source-backed-coverage-matrix.v1.json': readAsset('source-backed-coverage-matrix.v1.json'),
+  '/runtime-one-pot-catalog.v1.json': readAsset('generated/runtime-one-pot-catalog.v1.json'),
+  '/runtime-authority.v1.json': JSON.stringify({ mode: 'shadow', catalog_version: 'runtime-one-pot-catalog-v1-test' }),
   '/build-meta.json': JSON.stringify({
     buildId: 'preview-test-build',
     plannerRollout: 'direct-recommend',
@@ -332,6 +334,13 @@ test('health reports exact validated planner asset versions and catalog counts',
   assert.equal(result.body.sourceCoverageMatrixP2, 36);
   assert.equal(result.body.sourceCoverageMatrixP3, 11);
   assert.equal(result.body.sourceCoverageMatrixSafetyBlocked, 1);
+  assert.deepEqual(result.body.runtimeAuthority, {
+    mode: 'shadow',
+    authorized: false,
+    code: 'shadow_preview_only',
+    eligible: 0,
+  });
+  assert.equal(result.body.runtimeAuthorityCatalogVersion, 'runtime-one-pot-catalog-v1-test');
   assert.equal(result.body.buildId, 'preview-test-build');
   assert.equal(result.body.plannerRollout, 'direct-recommend');
   assert.equal(result.body.generationMode, 'deterministic');

@@ -8,6 +8,7 @@ import {
   validateKitchenObservationLedger,
   validateKitchenObservationSchemaParity,
   validateKitchenObservation,
+  validateKitchenObservationSchemaInstance,
 } from '../lib/kitchen-observation.mjs';
 import { evaluateKitchenPromotion } from '../lib/kitchen-promotion-gate.mjs';
 
@@ -427,4 +428,33 @@ test('JSON Schema parity covers nested required fields and safety/disposition en
   const brokenApproval = structuredClone(schema);
   delete brokenApproval.$defs.disposition.properties.approve_for_production.const;
   assert.match(validateKitchenObservationSchemaParity(brokenApproval).join('\n'), /approve_for_production/u);
+});
+
+test('observation and formal review timestamps require strict ISO-8601 offsets', () => {
+  const observation = validObservation();
+  observation.recorded_at = '2026-08-14 12:00:00';
+  assert.match(validateKitchenObservation(observation).join('\n'), /recorded_at must be an ISO date-time/u);
+  const result = evaluateKitchenPromotion({
+    runtimeCatalog: {
+      runtime_catalog_version: 'runtime-one-pot-catalog-v1-test',
+      entries: [{ recipe_id: observation.recipe.recipe_id, planner_runtime_eligible: false, production_approved: false }],
+    },
+    observations: [],
+    formalReview: {
+      recipe_id: observation.recipe.recipe_id,
+      approved: true,
+      reviewer_id: 'reviewer',
+      reviewed_at: '2026-08-14 12:00:00',
+    },
+  }, observation.recipe.recipe_id);
+  assert.ok(result.reasons.includes('independent_formal_approval_missing'));
+});
+
+test('schema instance validator enforces the versioned JSON Schema before semantic checks', () => {
+  const observation = validObservation();
+  assert.deepEqual(validateKitchenObservationSchemaInstance(observation, schema), []);
+  const broken = structuredClone(observation);
+  broken.observer.extra = true;
+  broken.recorded_at = '2026-08-14 12:00:00';
+  assert.match(validateKitchenObservationSchemaInstance(broken, schema).join('\n'), /extra.*not allowed|recorded_at.*date-time/u);
 });

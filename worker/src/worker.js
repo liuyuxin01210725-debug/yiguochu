@@ -38,6 +38,7 @@ import {
   validateDeterministicTextProfiles,
   validateGeneratedPlan,
 } from './generated-plan-contract.js';
+import { decideRuntimeAuthority, normalizeRuntimeAuthority } from './runtime-authority.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
 const DEFAULT_DEEPSEEK_MODEL = 'deepseek-v4-flash';
@@ -53,6 +54,7 @@ const BUILD_METADATA_DEFAULTS = Object.freeze({
   riceCatalogScope: 'ready',
   riceCookerSourceEvidenceVersion: null,
   riceCookerSourceEvidenceSha256: null,
+  runtimeAuthorityMode: 'shadow',
 });
 // The canonical build replaces these sentinels with JSON strings. Source tests
 // intentionally leave them unresolved so ASSETS remains the authority there.
@@ -2179,6 +2181,20 @@ async function readRuntimeOnePotCatalogHealth(env, request) {
   };
 }
 
+async function readRuntimeAuthorityHealth(env, request, buildMetadata, catalogHealth = null) {
+  let asset = null;
+  try {
+    asset = await readOptionalPlannerJsonAsset(env?.ASSETS, request, '/runtime-authority.v1.json');
+  } catch (_error) {
+    asset = null;
+  }
+  const authority = normalizeRuntimeAuthority({
+    runtimeAuthorityMode: buildMetadata?.runtimeAuthorityMode ?? asset?.mode ?? 'shadow',
+    runtimeCatalogVersion: buildMetadata?.runtimeCatalogVersion ?? asset?.catalog_version ?? catalogHealth?.version ?? null,
+  });
+  return { authority, decision: decideRuntimeAuthority(authority, catalogHealth) };
+}
+
 async function readSourceCoverageMatrixHealth(env, request) {
   if (!env?.ASSETS || typeof env.ASSETS.fetch !== 'function') return null;
   const matrix = await readOptionalPlannerJsonAsset(
@@ -2368,6 +2384,15 @@ function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {})
       || !['ready', 'calibration'].includes(riceCatalogScope)
       || (hasSourceEvidenceMetadata && !validSourceEvidenceMetadata)
       || (productFocus === 'rice-meal-v1' && !validSourceEvidenceMetadata)) return null;
+  let runtimeAuthority;
+  try {
+    runtimeAuthority = normalizeRuntimeAuthority({
+      runtimeAuthorityMode: meta.runtimeAuthorityMode,
+      runtimeCatalogVersion: meta.runtimeCatalogVersion,
+    });
+  } catch (_error) {
+    return null;
+  }
   return {
     buildId: meta.buildId,
     plannerRollout: meta.plannerRollout,
@@ -2376,6 +2401,8 @@ function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {})
     riceCatalogScope,
     riceCookerSourceEvidenceVersion: validSourceEvidenceMetadata ? sourceEvidenceVersion : null,
     riceCookerSourceEvidenceSha256: validSourceEvidenceMetadata ? sourceEvidenceSha256 : null,
+    runtimeAuthorityMode: runtimeAuthority.mode,
+    runtimeCatalogVersion: runtimeAuthority.catalog_version,
   };
 }
 
@@ -3575,7 +3602,7 @@ async function enrichRiceMealNutrition(compiled, env, request) {
   return compiled;
 }
 
-async function handleRiceMealPlan(request, env) {
+async function handleRiceMealPlan(request, env, authorityDecision = { mode: 'shadow', authorized: false, code: 'shadow_preview_only', eligible: 0 }) {
   const rawBody = await request.text().catch(() => '');
   if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
     return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
@@ -3615,7 +3642,10 @@ async function handleRiceMealPlan(request, env) {
       recentPlanIds: selectorRequest.recent_plan_ids || [],
       riceCatalogScope: riceMealAssets.riceCatalogScope,
     });
-    return jsonResponse(withRiceMealPlanTokens(selection, secret), 200, env, request);
+    return jsonResponse({
+      ...withRiceMealPlanTokens(selection, secret),
+      runtime_authority: authorityDecision,
+    }, 200, env, request);
   } catch (_error) {
     return errorResponse('invalid_rice_meal_request', '菜饭规划请求格式无效', 400, env, {}, request);
   }
@@ -3994,6 +4024,8 @@ export default {
       let runtimeOnePotCatalogPlannerRuntimeEligible = 0;
       let runtimeOnePotCatalogProductionApproved = 0;
       let runtimeOnePotCatalogKitchenObserved = 0;
+      let runtimeAuthority = { mode: 'shadow', authorized: false, code: 'shadow_preview_only', eligible: 0 };
+      let runtimeAuthorityCatalogVersion = null;
       let sourceCoverageMatrix = 'unavailable';
       let sourceCoverageMatrixVersion = null;
       let sourceCoverageMatrixEntries = 0;
@@ -4080,8 +4112,10 @@ export default {
       } catch (_error) {
         sourceExecutionLibrary = 'unavailable';
       }
+      let runtimeCatalogHealth = null;
       try {
         const runtimeCatalog = await readRuntimeOnePotCatalogHealth(env, request);
+        runtimeCatalogHealth = runtimeCatalog;
         if (runtimeCatalog) {
           runtimeOnePotCatalog = runtimeCatalog.status;
           runtimeOnePotCatalogVersion = runtimeCatalog.version;
@@ -4092,6 +4126,18 @@ export default {
         }
       } catch (_error) {
         runtimeOnePotCatalog = 'unavailable';
+      }
+      try {
+        const authorityHealth = await readRuntimeAuthorityHealth(env, request, buildMetadata, runtimeCatalogHealth);
+        runtimeAuthority = authorityHealth.decision;
+        runtimeAuthorityCatalogVersion = authorityHealth.authority.catalog_version;
+      } catch (_error) {
+        runtimeAuthority = {
+          mode: buildMetadata?.runtimeAuthorityMode || 'shadow',
+          authorized: false,
+          code: runtimeCatalogHealth ? 'runtime_catalog_unavailable' : 'runtime_catalog_unavailable',
+          eligible: 0,
+        };
       }
       try {
         const runtimeCatalog = await readSourceRuntimeCatalogHealth(env, request);
@@ -4199,6 +4245,8 @@ export default {
         runtimeOnePotCatalogPlannerRuntimeEligible,
         runtimeOnePotCatalogProductionApproved,
         runtimeOnePotCatalogKitchenObserved,
+        runtimeAuthority,
+        runtimeAuthorityCatalogVersion,
         sourceCoverageMatrix,
         sourceCoverageMatrixVersion,
         sourceCoverageMatrixEntries,
@@ -4258,7 +4306,19 @@ export default {
         return errorResponse('build_metadata_unavailable', '构建元数据暂时不可用', 503, env, {}, request);
       }
       if (buildMetadata.productFocus === 'rice-meal-v1') {
-        return handleRiceMealPlan(request, env);
+        let authorityDecision;
+        try {
+          const runtimeCatalog = await readRuntimeOnePotCatalogHealth(env, request);
+          authorityDecision = (await readRuntimeAuthorityHealth(env, request, buildMetadata, runtimeCatalog)).decision;
+        } catch (_error) {
+          authorityDecision = { mode: buildMetadata.runtimeAuthorityMode || 'shadow', authorized: false, code: 'runtime_catalog_unavailable', eligible: 0 };
+        }
+        if (authorityDecision.mode === 'catalog-enforced' && !authorityDecision.authorized) {
+          return errorResponse(authorityDecision.code, '正式运行目录尚未具备可执行菜谱', 503, env, {
+            runtime_authority: authorityDecision,
+          }, request);
+        }
+        return handleRiceMealPlan(request, env, authorityDecision);
       }
       return handlePlanMeal(request, env);
     }

@@ -115,9 +115,72 @@ function isFiniteNumber(value) {
   return typeof value === 'number' && Number.isFinite(value);
 }
 
-function isIsoDateTime(value) {
-  return isNonEmptyString(value) && !Number.isNaN(Date.parse(value));
+function schemaTypeMatches(value, type) {
+  if (type === 'null') return value === null;
+  if (type === 'object') return isObject(value);
+  if (type === 'array') return Array.isArray(value);
+  if (type === 'string') return typeof value === 'string';
+  if (type === 'number') return typeof value === 'number' && Number.isFinite(value);
+  if (type === 'boolean') return typeof value === 'boolean';
+  return true;
 }
+
+function resolveSchemaRef(root, ref) {
+  if (typeof ref !== 'string' || !ref.startsWith('#/')) return null;
+  return ref.slice(2).split('/').reduce((value, key) => value?.[key.replaceAll('~1', '/').replaceAll('~0', '~')], root);
+}
+
+function validateSchemaValue(value, schema, root, path, errors) {
+  if (!isObject(schema)) return;
+  if (schema.$ref) {
+    const target = resolveSchemaRef(root, schema.$ref);
+    if (!target) errors.push(`${path} has unresolved schema ref ${schema.$ref}`);
+    else validateSchemaValue(value, target, root, path, errors);
+    return;
+  }
+  if (schema.const !== undefined && JSON.stringify(value) !== JSON.stringify(schema.const)) errors.push(`${path} must equal schema const`);
+  if (Array.isArray(schema.enum) && !schema.enum.some(option => JSON.stringify(option) === JSON.stringify(value))) errors.push(`${path} is not in schema enum`);
+  const types = Array.isArray(schema.type) ? schema.type : (schema.type ? [schema.type] : []);
+  if (types.length && !types.some(type => schemaTypeMatches(value, type))) {
+    errors.push(`${path} has invalid schema type`);
+    return;
+  }
+  if (typeof value === 'string') {
+    if (schema.minLength !== undefined && value.length < schema.minLength) errors.push(`${path} is shorter than schema minLength`);
+    if (schema.format === 'date-time' && !isIsoDateTime(value)) errors.push(`${path} is not a strict schema date-time`);
+  }
+  if (typeof value === 'number' && schema.minimum !== undefined && value < schema.minimum) errors.push(`${path} is below schema minimum`);
+  if (Array.isArray(value)) {
+    if (schema.minItems !== undefined && value.length < schema.minItems) errors.push(`${path} has fewer than schema minItems`);
+    if (schema.items) value.forEach((item, index) => validateSchemaValue(item, schema.items, root, `${path}[${index}]`, errors));
+  }
+  if (isObject(value)) {
+    for (const required of Array.isArray(schema.required) ? schema.required : []) {
+      if (!Object.prototype.hasOwnProperty.call(value, required)) errors.push(`${path}.${required} is required by schema`);
+    }
+    const properties = isObject(schema.properties) ? schema.properties : {};
+    if (schema.additionalProperties === false) {
+      for (const key of Object.keys(value)) if (!Object.prototype.hasOwnProperty.call(properties, key)) errors.push(`${path}.${key} is not allowed by schema`);
+    }
+    for (const [key, childSchema] of Object.entries(properties)) {
+      if (Object.prototype.hasOwnProperty.call(value, key)) validateSchemaValue(value[key], childSchema, root, `${path}.${key}`, errors);
+    }
+  }
+}
+
+export function validateKitchenObservationSchemaInstance(observation, schema) {
+  const errors = [];
+  validateSchemaValue(observation, schema, schema, '$', errors);
+  return [...new Set(errors)];
+}
+
+function isIsoDateTime(value) {
+  return isNonEmptyString(value)
+    && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?(?:Z|[+-]\d{2}:\d{2})$/u.test(value)
+    && !Number.isNaN(Date.parse(value));
+}
+
+export { isIsoDateTime };
 
 function requiredObject(value, path, errors) {
   if (!isObject(value)) {

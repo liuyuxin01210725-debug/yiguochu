@@ -32,6 +32,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "8f02fa624133852233e76ae410ef1a3396dc24d558007d178af3fcca37231f85",
+        "execution": "53c6f23987edb7c27cf4f7416cb0dc45c0228a4e89b3012af1824d70dd9b4e73",
+        "formalization": "b2d9251950024d1c9367a560ae9a6ca87d82625de96371941e30f577e14a8c2c",
+        "formal_review": "5ea763ceb87a1033a7385b30f77131c5da2f6df7886429296ecb816bcc2c08f6"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -49,6 +55,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "7341535e063add8daa15a4c2e39e4ea8568cf435570c4a9bd3273d51fd61bbc8",
+        "execution": "079b07005e14085843d3683a69fa83089a55e996bbcb8d48ee6147bb1ff9e773",
+        "formalization": "bc33ac3e5346a661857a40ba52cc0d23fced0a05e78b43203c3a471a0893bd15",
+        "formal_review": "00920810a2b095ae2ed1d73f4f49c98ba535f899ad9003be20fc5e980b447fad"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -67,6 +79,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "81465801effcf55e065d32c02dbb0bfe30bca2883a05335dd47cd263d907e51a",
+        "execution": "da290cdc8711fcc39a7a2e387df49110707c58f7e3903c3c3624921082583be7",
+        "formalization": "b9ec7531383122906cbd73bc5e1cf3a5ca3c87b5950befc48e7d012b6912ac97",
+        "formal_review": "1661ab5153767eae90f1f3ba8aa81266410adf50919924701a5a16c02b96d805"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -84,6 +102,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "d5cc2854d170fef8c0a8dde3cec1d30341bcddeda4f87fd62845ba8f9b39d085",
+        "execution": "9152e48dc9e5443d6b799fe0d0a0b3a3643d03121561d438aa2b43bd1fd147b1",
+        "formalization": "23ec44193c13807bb02ee5e19d396dacd1be095aed6699b037c629067b23a2bc",
+        "formal_review": "ad110a55630a33a5262cc902276954cfb4f854261c1fdeba36e2857ad5dd2486"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -101,6 +125,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "676a15401700500c982ebd51aef99c5f7f1b74a6e74bce4403018104ad0a6e7f",
+        "execution": "d82aa43727ede992644424ddb70d2f5baa4a9e1954f369035e81be862e1ea2bb",
+        "formalization": "e676e41aea764baaab5b821355e772db3b64cb8d0d27b4e2e5683a94627ede55",
+        "formal_review": "3c9fef5adb530118d67198b9bef62ec13010a59f271859646fdd697860e1775a"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -118,6 +148,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "61944eb5caaff555563c63165d0d454f0a025003ebab8bc4edf89958b760866a",
+        "execution": "82b14e985d3f1cfb2b3b2c43e5356f8178d8062804d3ffd412b1cb01df55c923",
+        "formalization": "3c12ba45b410367788fe77b8dfeadd6d522bd6141be6890b4800f80032a0a03c",
+        "formal_review": "80a17cd88d37da064ded5b49506497cd79cf5a2674d8140208c0c26422074ffc"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -135,6 +171,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "9f48d76bbb346443e0ffe6acf4af2205c9451bf4f864d2dda9af09a8c60308cb",
+        "execution": "05c880e66d22c505a3c94577766d0e37fbc4511dce6fd115d632a2b5109b250a",
+        "formalization": "01a287e143f028d40e63930dc2b5f2bae30320df1225c7b3a9e933cb12435aa7",
+        "formal_review": "e5319ad9c50b15862a11785e9f4745ea9d980dd80784aee378255fdc3f5098f7"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -152,6 +194,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "83e5827a72887f0056405a5a894f76993922426011e67eb03a8dad423ab04943",
+        "execution": "baa46c845b8718ecb52ed1f33af203bf64a74545ab79e16b041fb37a5cdf5f6e",
+        "formalization": "a6b6261149cb7840cbe15a02ea72e45be35fd1b0198a33c21419f0ef8738272f",
+        "formal_review": "c4753dd827f5984f4ca51918ad2f0252571b669cd2364f4dd64baae579b2c83d"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -169,6 +217,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "d63b1245b719f9ddd58db9fb1e493f02f059143c351baeb752195c438e1984b8",
+        "execution": "4d83d7b1e2b0df67088f1a97bb68aa9cef9ae66c4d8722f2444d342c13757e26",
+        "formalization": "a9d88aa9c65d66039f7dd940060c575931df27dd0c2c3628f8bce6a6a4a84ca7",
+        "formal_review": "5d7f3839cabf7c85e92793a7169dc5aaeb223ffb83a28a9b73b1f4743be36d2b"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -186,6 +240,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "f7691fa00d22feaeefe48e3d86f6d436eb192ed40a7c978defd2a1ceef98f325",
+        "execution": "c16cb0ff68fca89e4dce31b97c144c2c64c8d0b1dd4dd33923c25bee909bd887",
+        "formalization": "20d03c19fba7e5158188ec89302142302713e59e3f69fb990015c003cca130a8",
+        "formal_review": "e67d9447e91fcd19fe97d9a91cd0e5801aab9d0a70f59ae01c0824631781919c"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -203,6 +263,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "ca5b62782478cad73740e95d34e7a21eadd100c5cd725c3a2382b73c631c826d",
+        "execution": "a3c860db887549f06a41fef26dbb3ad8559bd8474b2cbd21ecdf018ac680beca",
+        "formalization": "85accce5fecf934502347276db0cb28fdc2b1494a03e6e8c0a037005442deb75",
+        "formal_review": "a14224bb7c9fb811cd6849c8e20c4493693ac243fc04bfa394c391d990e998aa"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -218,6 +284,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "b6577b21b39b30860572d6df6328d8aa0cdb0c4c687358cdd84489f1405171c3",
+        "execution": "bf49b552c6e04307b05ce1e8467cf52cb9f7dc960543cd5215e776cc0ea273c9",
+        "formalization": "9a06e23ee0619552b9f90302adc181ca183f32f8c237f56fb74b745ff40723e4",
+        "formal_review": "f2b15fd8330a4c465be638d791556009a9b32ac7fa1bbf30915aca40e1cdb040"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -233,6 +305,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "aebcd5a9908f9bf0b0e6fafa0bc288f46bb1cc66a6ce6b2176c456c7cab021ba",
+        "execution": "682c8fc01d45af73c53261fc8526227185f6c765d1cdab0797cfb97a1b77ad62",
+        "formalization": "0269c0b63b0bc514d7a26207172ad9d98ca54458b57b013e46c49bccabbafe0e",
+        "formal_review": "fa235364c97ca73db664829788e0836eb9bba19621a0eaa685f2bd7f81847af9"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -250,6 +328,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "ef63e8fd6446f0098b1ab37cfe3f21518411710f1d3da91e6036578607cb63be",
+        "execution": "e28519838ab5f57f39a059ac8952846a7768b3bf91b7cf2517db54f2f33ed191",
+        "formalization": "171022b9e09c64ef5cf6df2c3322b45a15213d252a2e499c2d7f50ac7b2cbe4d",
+        "formal_review": "a205fa6b27c299daa51028c3d1ad0ffb49fb00555341cec63a756e3bc5eece27"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -267,6 +351,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "bf428b555037f8e0acd9d42baa25344a2643bccd9354514661cd583ba914fd47",
+        "execution": "e72476d972b3f9b6adb1ef908d11127e0d4681f7d5167d4fc070b456354c5b37",
+        "formalization": "df3f708dfbd549ace0ac5454957a20a5e2e11c25193c26364b3e681cff128f9a",
+        "formal_review": "1431ac7f28bd2e4835c7d56eac671a6cc2125edbb028c814644909ba03dc8cd6"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -284,6 +374,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "5b744e5e69cadb6ed0fd8596e557224385241c1c94697ef1e49485af2ae5341c",
+        "execution": "2173edefcb8ad45390b8518d47165c96ac170e81ee9ad02abb2a58b8368e229b",
+        "formalization": "f2f8f9d517d513e5634086d747efe2867dab41a0c9e0f08ff81f6491eea7fdc7",
+        "formal_review": "bc3df163a5adfdd8789bcc1f5f3e240c5d2568e0354da983e044d62af6c97a7f"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -301,6 +397,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "83ecfd6044fe7600656aa0d61f1745bac38ac5e9e33367a4666e3b20887a0979",
+        "execution": "b664bbc8edd487ff728f84afe55e5b640a0f03acc6cf0706af9daa9ec8bbdba4",
+        "formalization": "8d91afc14b1e2e42a9230f1a18d4186aacec65450a4bc23464921261cc1d8805",
+        "formal_review": "73703d7ae133a8dec057af8e46966fc5ac0b69d4a92d46956126f479a2bc7166"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -318,6 +420,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "b0a80c40159c7c1859e0d2d67085576a2ec0b2007b06f34dbf07c82d95fd5f88",
+        "execution": "501bd7d3fb3bec359ec2583dacea5eec12ff14a710de126346eb4edda0bf1cb1",
+        "formalization": "c17f01aef113ca5a2a6d92d35f93f6660da2d7831c8d9259b3e46a468dad70dc",
+        "formal_review": "e408ac1302f7c7d53ceab2f5c73325ffa9f9bfb36bcd964002f6df98cf32e5ec"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -335,6 +443,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "e89008365e77429f953e69f841ff315cac8d5041dba4eb9fd627e2c4e6161183",
+        "execution": "738a094e206b0fdfa16494a5088000b52e77c68069cceca80429ee8efa436ba9",
+        "formalization": "1b194b157747360362f79aa0a166f1a3674a3e1505ff80c4efa5e4fcbf8af5a0",
+        "formal_review": "4e327ce7c7413efba8093b3bd20594aec33e103d9a0f1507f650f4de9e1d8e9c"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -350,6 +464,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "c765d7b4a23a437bf91355212f9541fa5f8c16051b7696e75318f89538108ad0",
+        "execution": "9f12e6bbf0175a57ee99185704e4c34863cebfde03b38aab81f394ab5008bc8b",
+        "formalization": "7299e1ead2f5a81912593ee1065eb191372406250fa9c370689a56caa051df8a",
+        "formal_review": "9788ad86385293f16dbfff5b5efc94cf13a70e25aa5666cd20de8a5543d2bb07"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -367,6 +487,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "020ddd4c43be0792481570e500749eeda2da08eae371072bf188378c8bd7f58b",
+        "execution": "22ca6676b9b005c2d31076d51e6855b82f2aa9d465381a8dc9d1af370c81c310",
+        "formalization": "31baf9dda38dd73b6b431d88b64c59056a432d9b531eee968659d352261f4fc2",
+        "formal_review": "26d8f4db7402af63911009131939034d77a2e5824b58e9679f957eed408e7fea"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -384,6 +510,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "e4e76f71c44fb4c90ac0376b37dba15c2d4459747c7a7862d9dbe0fa43bbaae2",
+        "execution": "f33a58280c1221b6c7397c76804197aa78c0058a2bf17cfb3232100b6c8aff2f",
+        "formalization": "630efa20cad1116204c27132cf0977e9fe59877df7e6b4e15a63d89534c75b61",
+        "formal_review": "e7e62cd299016f80fca49bf8452f3070c4c28c7e86f2f0ddb517411cbf4b4b5d"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -401,6 +533,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "e0c9c2ffacc353cedfd9b14508fa3eae6b5231e27c890a5cc91dd94262e0a9f7",
+        "execution": "a832cf85cf0949bb8538cb26281470275d16ebc94f0360409500f1b5aa28f511",
+        "formalization": "85bbdb69ed74561ca4d016cfbeb4587eed58cd08d010e88919a5804ed467c4a3",
+        "formal_review": "62c1bdb03c601bbefd516a44716f054605f2476e60ecc7c72c800bb5f61e1f1d"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -418,6 +556,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "998ad36d252f28a09be1f512887ad244f2a977d0b5eb82591a881bdf30f0a057",
+        "execution": "5e2b693eac2e062da6930fd5bca9e26e7b6bc451304ca06e524666dcede6f48f",
+        "formalization": "29c90f7020529a5fa677e248699fa7c45f25d5f9193f6383fe13b8ab7275ab3a",
+        "formal_review": "9f0a85f6da35f973b5c64b4bf88d6656d5433643d506cd8a730a9e858877a973"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -433,6 +577,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "53554be21f984d6c70cadd1bfb617dd1d2123e9dbecef4cf8751971370fddc3e",
+        "execution": "1ddaa777e478ad5431d1fd802ddc5c8ba4b78af4714b680bbec3b03c94eced8d",
+        "formalization": "42941e6c9a04126ccaf6200efff8ab8108c986136a150715e04b11441a17567f",
+        "formal_review": "78036586fd8d1e4a3b80c3974bb3f1887190080374f79607a0bd6826ce6b0eca"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -448,6 +598,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "3526109123f04a53ba7c3b330a5d29068818519e013946d325b90140f8795adb",
+        "execution": "5188b7c766eff8cd68c905f0d80869974a39a7c9077d19089d000748cffb09c8",
+        "formalization": "ee44abf329d77d4d819e3ae1fb2d2de0c4710b264e49e252bb38d2fe79f9fb36",
+        "formal_review": "ebb1c7067934b94ef45c7597fd496d782f21b68efdbbda6f04de53d7a59d1073"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -465,6 +621,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "d064e71d45711545d013be3979cb1f02a403cd78c654d46d29b6a5cdbb0d1f62",
+        "execution": "03edadc0b67a21e5130b18eef0e30a2a4bfdcb0f5f5cf624f96324fc7bc17e99",
+        "formalization": "1412376845798420e6a2b3b52f937902d9a99ab6674940106b400a6904a1a9f5",
+        "formal_review": "a3c715a5b2bfd1cb9759b53ca469ede9b15ecbac4cfbac3def119d05bbfaa17f"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -482,6 +644,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "f32d8b565a67412eb5fa5a2bc1a582e8441b20b497faf6f39817ecc6d2501459",
+        "execution": "8c01df4be7217bececff7c70092996b0e4e556683097a8b934ce8a2bdd92cd57",
+        "formalization": "1fd2c76aabd9d0d053d2dbe4d45a24cf3ef22e918d3dc6b2aa9a0ee88dee5db1",
+        "formal_review": "b3ff0e3f5f26b749fc6ee19038030f61a66baf364af0f54c3309e965cfffc0de"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -501,6 +669,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "6145014e389dbceb48d63db3b77a2fbe2ea348daf0d4f04d9ace34d17af474dd",
+        "execution": "af89f5d01080adbc5c83d68a4ae490c859c9c65123630a50658ef60797cb715d",
+        "formalization": "f2cca4c67b741ab927e4045fe10f78bb2d296f886963c6a23cbea29406d002d1",
+        "formal_review": "3a27c60cc4318686441995127fcd1b018c17ca8b9a3039f5aa2035409cc0aab7"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -516,6 +690,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "5c6107ce3b78486c56f6bda1374890c6d58607569912a188fe04fb7025ce352d",
+        "execution": "031f8621a70ad795169556cb64f64b43bc35f296fe299e7f41e80d62cf020f19",
+        "formalization": "d94ed4cf78465b81c764e2b2e1a9ed0d279b097095d8a0863485b724119d0bec",
+        "formal_review": "c59d6fd2f9f9434daf45330705ecc42b371dfa1d421c06600ed6780ee0e7a5ef"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -531,6 +711,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "64b468c1e8bfc36d91a818c954749aba73661e4aae69080cb5e70f2c574adcb6",
+        "execution": "3b8cf9611eb2738ab3d896b13fac01c5cfc122d9779a47ce351ef6a8808d0814",
+        "formalization": "3a2b09d6ec0e0a7f66802e3cbaf6a7808398b83765516e5351f7e9feac66e4c8",
+        "formal_review": "88e8ffbc03c64f453ff1fda6c56196f780c98d0f35a4d24366c1bf807fc8f8f0"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -548,6 +734,12 @@
       "source_status": "executable",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "9e3c5afcf4522f6e89dd799e7b5cb6078ba75931db5d765f83767a042ec9d61d",
+        "execution": "2bf335aea55707b4092dbccd8ea20b122592f23b6c18ba134418c6dbc5713eb6",
+        "formalization": "ccea66dd118ae0e1f650f8c2bd3a1f1cc77a196538e8f1c05bb31b60d616e56d",
+        "formal_review": "a7e397e1ac9fa4ac73b9c8d202df14a487e8cb1becab299aeab9063b158f8298"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -563,6 +755,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "01b5c781d71f7d53516633c91a863fb2dd67ba094dda9581c70be41d791157e4",
+        "execution": "23b7644b6a1910ed6a0a9afa0fe395b39ac0409158d891e59e8b8a9c979ef0fc",
+        "formalization": "c17aa309946650c79e0981d681a81a4fd2c1c2c30e4ac912cc263d033a8314a8",
+        "formal_review": "edff209f9d807f810ab36dffa4b4707ff23aa4e0da73a0873bcbcf6726cac462"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     },
     {
@@ -578,6 +776,12 @@
       "source_status": "recipe_fact_checked",
       "formalization_status": "preview_candidate",
       "cooker_boundary_preserved": true,
+      "contract_hashes": {
+        "source": "a304bb33d2fa288c041e64b92a57246d00e9da123e3d03b53fc598ecf3a587ac",
+        "execution": "9caca56b785b445e19b73a506583231944aef1126ea1cf8cdfbbed4d8e61b10f",
+        "formalization": "cd975fce091ab698a0f9f72f7cd03bfee063a6fc24b3949c5e7a93ecf75f4ddc",
+        "formal_review": "e1b1a8682125f42cc040f717f99e1aa57219eabd266770a4f741a43d3eb8a6f2"
+      },
       "next_action": "记录同源固定批次、液体/水位、器具程序、时间、安全终点和真实旅程，再提交独立评审。"
     }
   ]

@@ -67,6 +67,7 @@ const CHECKER_DATA_FILES = [
   'rice-meal-collection.v1.json',
   'recipe-runtime.v1.json',
   'recipe-action-profiles.v1.json',
+  'runtime-authority.v1.json',
   'regional-menu-research.v1.json',
   'menu-verification-cases.v1.json',
   'menu-master-baseline.v1.json',

@@ -21,9 +21,7 @@ const CHROME = process.env.YIGUOCHU_CHROME_PATH
   || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const REQUIRED_ASSETS = [
   'index.html',
-  'recipes.html',
   'recipes/index.html',
-  'cook.html',
   'cook/index.html',
   'manifest.json',
   'sw.js',
@@ -62,6 +60,8 @@ const REQUIRED_ASSETS = [
   'rice-meal-catalog-validator.js',
   'rice-cooker-source-evidence-validator.js',
   'runtime-one-pot-catalog.v1.json',
+  'runtime-authority.v1.json',
+  'runtime-authority.js',
   'build-meta.json',
 ];
 const BYTE_IDENTICAL_ASSETS = new Map([
@@ -171,11 +171,12 @@ function serveStatic(outputDir) {
   const server = http.createServer((request, response) => {
     const pathname = new URL(request.url, 'http://127.0.0.1').pathname;
     const fileName = pathname === '/' ? 'index.html' : pathname.slice(1);
-    if (!REQUIRED_ASSETS.includes(fileName)) {
+    const target = path.resolve(outputDir, fileName);
+    if (!target.startsWith(`${path.resolve(outputDir)}${path.sep}`) || !fs.existsSync(target) || !fs.statSync(target).isFile()) {
       response.writeHead(404).end('not found');
       return;
     }
-    response.writeHead(200).end(fs.readFileSync(path.join(outputDir, fileName)));
+    response.writeHead(200).end(fs.readFileSync(target));
   });
   return new Promise(resolve => server.listen(0, '127.0.0.1', () => resolve(server)));
 }
@@ -242,10 +243,7 @@ test('distribution build includes canonical recipe assets and refreshes its serv
     for (const asset of REQUIRED_ASSETS) {
       assert.equal(fs.existsSync(path.join(outputDir, asset)), true, `${asset} must be built`);
     }
-    assert.equal(
-      fs.readFileSync(path.join(outputDir, 'recipes.html'), 'utf8'),
-      fs.readFileSync(path.join(ROOT, 'recipes.html'), 'utf8'),
-    );
+    assert.match(fs.readFileSync(path.join(outputDir, 'recipes/index.html'), 'utf8'), /runtime-one-pot-catalog\.v1\.json/u);
     assert.equal(
       fs.readFileSync(path.join(outputDir, 'recipe-library.json'), 'utf8'),
       fs.readFileSync(LIBRARY_PATH, 'utf8'),
@@ -286,6 +284,8 @@ test('distribution build includes canonical recipe assets and refreshes its serv
         productFocus:'legacy',
         riceCatalogScope:'ready',
         artifactScope:'runtime',
+        runtimeAuthorityMode:'shadow',
+        runtimeCatalogVersion:'runtime-one-pot-catalog-v1-20260813-c11',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -314,6 +314,8 @@ test('distribution build defaults to the source-backed rice rotation and rejects
         productFocus:'rice-meal-v1',
         riceCatalogScope:'ready',
         artifactScope:'runtime',
+        runtimeAuthorityMode:'shadow',
+        runtimeCatalogVersion:'runtime-one-pot-catalog-v1-20260813-c11',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -344,10 +346,61 @@ test('distribution build defaults to the source-backed rice rotation and rejects
   }
 });
 
+test('runtime scope serves formal-only page shells while research scope serves research pages', () => {
+  const runtimeDir = makeOutputDir();
+  const researchDir = makeOutputDir();
+  try {
+    build(runtimeDir);
+    assert.equal(fs.existsSync(path.join(runtimeDir, 'runtime-recipes.html')), false);
+    assert.equal(fs.existsSync(path.join(runtimeDir, 'runtime-cook.html')), false);
+    assert.equal(fs.existsSync(path.join(runtimeDir, 'recipes.html')), false);
+    assert.equal(fs.existsSync(path.join(runtimeDir, 'cook.html')), false);
+    assert.match(fs.readFileSync(path.join(runtimeDir, 'recipes/index.html'), 'utf8'), /runtime-one-pot-catalog\.v1\.json/u);
+    assert.doesNotMatch(fs.readFileSync(path.join(runtimeDir, 'recipes/index.html'), 'utf8'), /source-backed-execution-library/u);
+    assert.match(fs.readFileSync(path.join(runtimeDir, 'cook/index.html'), 'utf8'), /runtime-one-pot-catalog\.v1\.json/u);
+
+    const researchResult = runBuild(researchDir, { artifactScope: 'research' });
+    assert.equal(researchResult.status, 0, `${researchResult.stdout}\n${researchResult.stderr}`);
+    assert.equal(fs.existsSync(path.join(researchDir, 'recipes.html')), true);
+    assert.equal(fs.existsSync(path.join(researchDir, 'cook.html')), true);
+    assert.match(fs.readFileSync(path.join(researchDir, 'recipes/index.html'), 'utf8'), /source-backed-execution-library\.v1\.json/u);
+    assert.match(fs.readFileSync(path.join(researchDir, 'cook/index.html'), 'utf8'), /source-backed-execution-library\.v1\.json/u);
+  } finally {
+    fs.rmSync(runtimeDir, { recursive: true, force: true });
+    fs.rmSync(researchDir, { recursive: true, force: true });
+  }
+});
+
+test('generated service-worker shells contain only files present in their artifact scope', () => {
+  for (const artifactScope of ['runtime', 'research']) {
+    const outputDir = makeOutputDir();
+    try {
+      const result = runBuild(outputDir, { artifactScope });
+      assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+      const worker = fs.readFileSync(path.join(outputDir, 'sw.js'), 'utf8');
+      const shell = JSON.parse(worker.match(/const injectedShell = '(\[[^;]+\])';/u)[1]);
+      for (const entry of shell) {
+        if (entry === './') continue;
+        assert.equal(fs.existsSync(path.join(outputDir, entry.slice(2))), true, `${artifactScope} shell entry missing: ${entry}`);
+      }
+      if (artifactScope === 'runtime') {
+        assert.equal(shell.includes('./source-recipes/index.html'), false);
+        assert.equal(shell.includes('./recipes.html'), false);
+      } else {
+        assert.equal(shell.includes('./source-recipes/index.html'), true);
+        assert.equal(shell.includes('./recipes.html'), true);
+      }
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
+  }
+});
+
 test('distribution build excludes research-only and planner coverage audit artifacts', () => {
   const outputDir = makeOutputDir();
   try {
-    build(outputDir);
+    const researchBuild = runBuild(outputDir, { artifactScope: 'research' });
+    assert.equal(researchBuild.status, 0, `${researchBuild.stdout}\n${researchBuild.stderr}`);
     const buffers = [];
     const relativeFiles = [];
     const visit = directory => {
@@ -444,7 +497,7 @@ test('built Worker contains its complete relative module graph and plans from em
   try {
     build(outputDir);
     const graph = assertBuiltImportGraph(outputDir);
-    assert.equal(graph.size, 20);
+    assert.equal(graph.size, 21);
     const { default: builtWorker } = await import(`${pathToFileURL(path.join(outputDir, '_worker.js')).href}?built=${Date.now()}`);
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async () => { throw new Error('built planner must not use upstream fetch'); };
@@ -516,6 +569,8 @@ test('rice-meal distribution embeds the catalog and focus metadata without a leg
         productFocus:'rice-meal-v1',
         riceCatalogScope:'calibration',
         artifactScope:'runtime',
+        runtimeAuthorityMode:'shadow',
+        runtimeCatalogVersion:'runtime-one-pot-catalog-v1-20260813-c11',
         riceCookerSourceEvidenceVersion:'rice-cooker-source-evidence-v1-20260802',
         riceCookerSourceEvidenceSha256:SOURCE_EVIDENCE_SHA256,
       },
@@ -635,7 +690,8 @@ test('generated canonical page executes and renders approved title and provenanc
   let browserProfile;
   try {
     assert.equal(fs.existsSync(CHROME), true, `Chrome executable is required: ${CHROME}`);
-    build(outputDir);
+    const researchBuild = runBuild(outputDir, { artifactScope: 'research' });
+    assert.equal(researchBuild.status, 0, `${researchBuild.stdout}\n${researchBuild.stderr}`);
     server = await serveStatic(outputDir);
     const { port } = server.address();
     const baseUrl = `http://127.0.0.1:${port}`;

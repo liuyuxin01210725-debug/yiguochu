@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "runtime_authority_version": "runtime-authority-v1-20260814-c21",
+  "mode": "shadow",
+  "catalog_version": "runtime-one-pot-catalog-v1-20260813-c11",
+  "policy": {
+    "shadow_marks_old_planner_unauthorized": true,
+    "catalog_enforced_fails_closed_on_empty_catalog": true,
+    "research_cards_never_authorize_runtime": true
+  }
+}

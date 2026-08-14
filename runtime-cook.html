@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一锅出｜正式逐步试做</title>
+  <style>
+    :root { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC",sans-serif; background:#f4f2ea; color:#2c2e26; }
+    body { margin:0; } main { max-width:720px; margin:0 auto; padding:28px 18px 56px; } a { color:#9b4f2e; font-weight:600; }
+    .card { background:#fffdf8; border:1px solid #e5e0d4; border-radius:16px; padding:18px; margin-top:16px; }
+    .empty { border-left:4px solid #b5613a; padding:14px 16px; background:#fff8f2; border-radius:10px; line-height:1.7; }
+    .meta { color:#777968; font-size:13px; } button { border:0; border-radius:10px; padding:10px 14px; background:#b5613a; color:white; font-weight:600; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="/recipes/">← 返回正式运行菜谱</a></p>
+    <div id="content" class="card" aria-live="polite">正在读取执行合同…</div>
+  </main>
+  <script>
+    const content = document.getElementById('content');
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    async function load() {
+      try {
+        const response = await fetch('/runtime-one-pot-catalog.v1.json', { cache:'no-store' });
+        if (!response.ok) throw new Error('runtime catalog unavailable');
+        const catalog = await response.json();
+        const id = new URLSearchParams(location.search).get('id');
+        const entry = (Array.isArray(catalog.entries) ? catalog.entries : []).find(value => value.recipe_id === id && value.planner_runtime_eligible === true && value.production_approved !== true);
+        if (!entry) {
+          content.innerHTML = '<div class="empty"><strong>这道菜还没有正式执行合同。</strong><p>研究卡、来源卡和预览卡不会直接变成正式步骤。请返回正式运行目录，或查看来源资料库中的证据边界。</p><p><a href="/source-recipes/">查看来源资料库（研究/预览）</a></p></div>';
+          return;
+        }
+        content.innerHTML = `<h1>${esc(entry.canonical_name)}</h1><p class="meta">运行目录 ${esc(catalog.runtime_catalog_version)}</p><p>该菜已通过运行合同，可继续接入逐步执行界面。</p><p><a href="/recipes/">返回正式运行菜谱</a></p>`;
+      } catch (error) {
+        content.innerHTML = `<div class="empty"><strong>暂时无法读取执行合同。</strong><p>${esc(error.message)}</p><button onclick="location.reload()">重新加载</button></div>`;
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

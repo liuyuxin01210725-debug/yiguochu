@@ -15,12 +15,12 @@ function stableHash(value) {
   return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 }
 
-function sourceSummary(sourceCatalog, recipeId) {
-  const source = mapById(sourceCatalog?.recipes).get(recipeId);
+function sourceSummary(sourceCatalog, recipeId, recipeLibraryRecipe = null) {
+  const source = mapById(sourceCatalog?.recipes).get(recipeId) || recipeLibraryRecipe;
   if (!source) return null;
   return {
-    source_recipe_id: source.recipe_id,
-    canonical_name: source.canonical_name,
+    source_recipe_id: source.recipe_id ?? source.id ?? recipeId,
+    canonical_name: source.canonical_name ?? source.name ?? recipeId,
     status: source.status,
     source_refs: asArray(source.source_refs).map(ref => ({
       id: ref.id ?? null,
@@ -42,7 +42,7 @@ function projectRecipe(recipe, inputs) {
   const recipeId = recipe.id;
   const runtime = mapById(inputs.recipeRuntime?.entries).get(recipeId) ?? null;
   const actionProfile = mapById(inputs.actionProfiles?.profiles, 'profile_id').get(recipeId) ?? null;
-  const source = sourceSummary(inputs.sourceCatalog, recipeId);
+  const source = sourceSummary(inputs.sourceCatalog, recipeId, recipe);
   const formal = mapById(inputs.formalizationLedger?.records).get(recipeId) ?? null;
   const execution = mapById(inputs.executionLibrary?.entries).get(recipeId) ?? null;
   const kitchen = kitchenState(inputs.kitchenLedger, recipeId);

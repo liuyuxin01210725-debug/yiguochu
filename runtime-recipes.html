@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一锅出｜正式运行菜谱</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC",sans-serif; background:#f4f2ea; color:#2c2e26; }
+    body { margin:0; background:#f4f2ea; } main { max-width:720px; margin:0 auto; padding:28px 18px 56px; }
+    h1 { margin:0 0 8px; font-size:28px; } p { line-height:1.65; color:#626457; }
+    .meta { font-size:13px; color:#777968; } .card { background:#fffdf8; border:1px solid #e5e0d4; border-radius:16px; padding:16px; margin:12px 0; }
+    .empty { border-left:4px solid #b5613a; padding:14px 16px; background:#fff8f2; border-radius:10px; }
+    a { color:#9b4f2e; font-weight:600; } button { border:0; border-radius:10px; padding:10px 14px; background:#b5613a; color:white; font-weight:600; }
+    code { font-size:12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="/">← 返回一锅出</a></p>
+    <h1>正式运行菜谱</h1>
+    <p class="meta" id="meta">正在读取 runtime catalog…</p>
+    <section id="content" aria-live="polite"></section>
+  </main>
+  <script>
+    const content = document.getElementById('content');
+    const meta = document.getElementById('meta');
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    async function load() {
+      try {
+        const response = await fetch('/runtime-one-pot-catalog.v1.json', { cache:'no-store' });
+        if (!response.ok) throw new Error('runtime catalog unavailable');
+        const catalog = await response.json();
+        const entries = Array.isArray(catalog.entries) ? catalog.entries : [];
+        const eligible = entries.filter(entry => entry.planner_runtime_eligible === true && entry.production_approved !== true);
+        meta.textContent = `目录 ${esc(catalog.runtime_catalog_version)} · ${entries.length} 条正式索引 · ${eligible.length} 条已通过执行合同`;
+        if (!eligible.length) {
+          content.innerHTML = '<div class="empty"><strong>当前没有可正式执行的菜谱。</strong><p>来源资料库和研究候选不会自动进入运行菜单。每道菜还需要完整比例、器具、步骤、安全终点、厨房观察和正式评审。</p><p><a href="/source-recipes/">查看来源资料库（研究/预览）</a></p></div>';
+          return;
+        }
+        content.innerHTML = eligible.map(entry => `<article class="card"><h2>${esc(entry.canonical_name)}</h2><p>状态：已通过运行合同；来源：${esc(entry.source_summary?.canonical_name || '已签署基础菜谱')}</p><p><a href="/cook/?id=${encodeURIComponent(entry.recipe_id)}">开始逐步试做</a></p></article>`).join('');
+      } catch (error) {
+        meta.textContent = '正式运行目录读取失败';
+        content.innerHTML = `<div class="empty"><strong>暂时无法读取正式运行目录。</strong><p>${esc(error.message)}</p><button onclick="location.reload()">重新加载</button></div>`;
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

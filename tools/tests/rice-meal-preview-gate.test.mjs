@@ -148,6 +148,8 @@ test('runtime audit proves exact build metadata, truthful health and zero model 
     artifactScope: 'runtime',
     productFocus: 'rice-meal-v1',
     riceCatalogScope: 'ready',
+    runtimeAuthorityMode: 'shadow',
+    runtimeCatalogVersion: 'runtime-one-pot-catalog-v1-20260813-c11',
     riceCookerSourceEvidenceVersion: assets.sourceEvidence.ledger_version,
     riceCookerSourceEvidenceSha256: sourceEvidenceSha256,
   });

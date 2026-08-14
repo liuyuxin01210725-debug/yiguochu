@@ -308,7 +308,7 @@
         appendFormalCandidateReview(article, record);
         const executionLink = document.createElement('p');
         const executionAnchor = document.createElement('a');
-        executionAnchor.href = `/recipes?id=${encodeURIComponent(record.recipe_id)}`;
+        executionAnchor.href = `/recipes/?id=${encodeURIComponent(record.recipe_id)}`;
         executionAnchor.textContent = '打开执行卡';
         executionLink.append(executionAnchor);
         const cookAnchor = document.createElement('a');
