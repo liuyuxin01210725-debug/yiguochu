@@ -115,9 +115,72 @@ function isFiniteNumber(value) {
   return typeof value === 'number' && Number.isFinite(value);
 }
 
-function isIsoDateTime(value) {
-  return isNonEmptyString(value) && !Number.isNaN(Date.parse(value));
+function schemaTypeMatches(value, type) {
+  if (type === 'null') return value === null;
+  if (type === 'object') return isObject(value);
+  if (type === 'array') return Array.isArray(value);
+  if (type === 'string') return typeof value === 'string';
+  if (type === 'number') return typeof value === 'number' && Number.isFinite(value);
+  if (type === 'boolean') return typeof value === 'boolean';
+  return true;
 }
+
+function resolveSchemaRef(root, ref) {
+  if (typeof ref !== 'string' || !ref.startsWith('#/')) return null;
+  return ref.slice(2).split('/').reduce((value, key) => value?.[key.replaceAll('~1', '/').replaceAll('~0', '~')], root);
+}
+
+function validateSchemaValue(value, schema, root, path, errors) {
+  if (!isObject(schema)) return;
+  if (schema.$ref) {
+    const target = resolveSchemaRef(root, schema.$ref);
+    if (!target) errors.push(`${path} has unresolved schema ref ${schema.$ref}`);
+    else validateSchemaValue(value, target, root, path, errors);
+    return;
+  }
+  if (schema.const !== undefined && JSON.stringify(value) !== JSON.stringify(schema.const)) errors.push(`${path} must equal schema const`);
+  if (Array.isArray(schema.enum) && !schema.enum.some(option => JSON.stringify(option) === JSON.stringify(value))) errors.push(`${path} is not in schema enum`);
+  const types = Array.isArray(schema.type) ? schema.type : (schema.type ? [schema.type] : []);
+  if (types.length && !types.some(type => schemaTypeMatches(value, type))) {
+    errors.push(`${path} has invalid schema type`);
+    return;
+  }
+  if (typeof value === 'string') {
+    if (schema.minLength !== undefined && value.length < schema.minLength) errors.push(`${path} is shorter than schema minLength`);
+    if (schema.format === 'date-time' && !isIsoDateTime(value)) errors.push(`${path} is not a strict schema date-time`);
+  }
+  if (typeof value === 'number' && schema.minimum !== undefined && value < schema.minimum) errors.push(`${path} is below schema minimum`);
+  if (Array.isArray(value)) {
+    if (schema.minItems !== undefined && value.length < schema.minItems) errors.push(`${path} has fewer than schema minItems`);
+    if (schema.items) value.forEach((item, index) => validateSchemaValue(item, schema.items, root, `${path}[${index}]`, errors));
+  }
+  if (isObject(value)) {
+    for (const required of Array.isArray(schema.required) ? schema.required : []) {
+      if (!Object.prototype.hasOwnProperty.call(value, required)) errors.push(`${path}.${required} is required by schema`);
+    }
+    const properties = isObject(schema.properties) ? schema.properties : {};
+    if (schema.additionalProperties === false) {
+      for (const key of Object.keys(value)) if (!Object.prototype.hasOwnProperty.call(properties, key)) errors.push(`${path}.${key} is not allowed by schema`);
+    }
+    for (const [key, childSchema] of Object.entries(properties)) {
+      if (Object.prototype.hasOwnProperty.call(value, key)) validateSchemaValue(value[key], childSchema, root, `${path}.${key}`, errors);
+    }
+  }
+}
+
+export function validateKitchenObservationSchemaInstance(observation, schema) {
+  const errors = [];
+  validateSchemaValue(observation, schema, schema, '$', errors);
+  return [...new Set(errors)];
+}
+
+function isIsoDateTime(value) {
+  return isNonEmptyString(value)
+    && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?(?:Z|[+-]\d{2}:\d{2})$/u.test(value)
+    && !Number.isNaN(Date.parse(value));
+}
+
+export { isIsoDateTime };
 
 function requiredObject(value, path, errors) {
   if (!isObject(value)) {
@@ -190,6 +253,25 @@ function validateRecipe(recipe, errors) {
     'source_status_at_attempt',
     'formalization_status_at_attempt',
   ]) requiredString(recipe[field], `recipe.${field}`, errors);
+  if (Object.prototype.hasOwnProperty.call(recipe, 'required_safety_endpoint_codes')) {
+    if (!Array.isArray(recipe.required_safety_endpoint_codes)) errors.push('recipe.required_safety_endpoint_codes must be an array');
+    else recipe.required_safety_endpoint_codes.forEach((code, index) => requiredString(code, `recipe.required_safety_endpoint_codes[${index}]`, errors));
+  }
+  const trialFields = ['trial_catalog_version', 'trial_candidate_id', 'trial_variant_id', 'trial_contract_hashes'];
+  if (trialFields.some(field => Object.prototype.hasOwnProperty.call(recipe, field))) {
+    for (const field of ['trial_catalog_version', 'trial_candidate_id']) requiredString(recipe[field], `recipe.${field}`, errors);
+    if (recipe.trial_variant_id !== null && !isNonEmptyString(recipe.trial_variant_id)) errors.push('recipe.trial_variant_id must be a string or null');
+    if (!isObject(recipe.trial_contract_hashes)) {
+      errors.push('recipe.trial_contract_hashes must be an object');
+    } else {
+      for (const key of ['source', 'execution', 'formalization', 'formal_review']) {
+        if (!/^[a-f0-9]{64}$/u.test(recipe.trial_contract_hashes[key] || '')) errors.push(`recipe.trial_contract_hashes.${key} must be a SHA-256 hex digest`);
+      }
+      for (const key of Object.keys(recipe.trial_contract_hashes)) {
+        if (!['source', 'execution', 'formalization', 'formal_review'].includes(key)) errors.push(`recipe.trial_contract_hashes.${key} is not allowed`);
+      }
+    }
+  }
 }
 
 function validateClaimScope(scope, errors) {
@@ -311,8 +393,8 @@ function validateProcessAdherence(process, errors) {
 }
 
 function validateSafetyEndpoints(endpoints, errors) {
-  if (!Array.isArray(endpoints) || endpoints.length === 0) {
-    errors.push('safety_endpoints must contain at least one endpoint');
+  if (!Array.isArray(endpoints)) {
+    errors.push('safety_endpoints must be an array');
     return;
   }
   endpoints.forEach((endpoint, index) => {
@@ -462,34 +544,71 @@ export function isKitchenObservationReady(observation) {
   return validateKitchenObservation(observation).length === 0;
 }
 
-export function isKitchenObservedReady(observation) {
+export function isKitchenObservedReady(observation, { requiredSafetyEndpointCodes = null } = {}) {
   if (!isKitchenObservationReady(observation)) return false;
   if (observation.disposition?.status !== 'kitchen_observed') return false;
   if (!isIsoDateTime(observation.disposition?.reviewed_at)) return false;
   if (!observation.sensory_result?.portion_complete) return false;
   if (!observation.process_adherence?.steps?.every(step => step.completed === true)) return false;
-  if (!observation.safety_endpoints?.every(endpoint => endpoint.result === 'pass' || endpoint.result === 'not_applicable')) return false;
+  const requiredCodes = Array.isArray(requiredSafetyEndpointCodes)
+    ? requiredSafetyEndpointCodes
+    : (Array.isArray(observation.recipe?.required_safety_endpoint_codes)
+    ? observation.recipe.required_safety_endpoint_codes
+    : []);
+  if (!Array.isArray(observation.safety_endpoints)) return false;
+  if (requiredCodes.length === 0 && observation.safety_endpoints.length === 0) return true;
+  const seenRequired = new Set();
+  for (const endpoint of observation.safety_endpoints) {
+    const code = endpoint?.required_endpoint?.code;
+    const required = code && requiredCodes.includes(code);
+    if (required) {
+      seenRequired.add(code);
+      if (endpoint.result !== 'pass') return false;
+    }
+    if (!required && endpoint.result === 'not_applicable') continue;
+    if (endpoint.result !== 'pass') return false;
+  }
+  if (requiredCodes.some(code => !seenRequired.has(code))) return false;
   return true;
 }
 
-export function validateKitchenObservationReferences(observation, { runtimeCatalog, executionLibrary } = {}) {
+export function validateKitchenObservationReferences(observation, { runtimeCatalog, trialCatalog, executionLibrary } = {}) {
   const errors = [];
   const recipeId = observation?.recipe?.recipe_id;
   if (!recipeId) return errors;
   const runtimeEntries = new Map((Array.isArray(runtimeCatalog?.entries) ? runtimeCatalog.entries : []).map(entry => [entry?.recipe_id, entry]));
+  const trialEntries = new Map((Array.isArray(trialCatalog?.entries) ? trialCatalog.entries : []).map(entry => [entry?.recipe_id, entry]));
   const executionEntries = new Map((Array.isArray(executionLibrary?.entries) ? executionLibrary.entries : []).map(entry => [entry?.recipe_id, entry]));
   const runtimeVersion = runtimeCatalog?.runtime_catalog_version || runtimeCatalog?.recipe_runtime_catalog_version || null;
+  const trialVersion = trialCatalog?.kitchen_trial_catalog_version || null;
   const executionVersion = executionLibrary?.execution_library_version || null;
   const runtimeRef = observation?.recipe?.runtime_catalog_ref;
   const executionRef = observation?.recipe?.execution_card_ref;
   const runtimePattern = runtimeVersion ? new RegExp(`^${escapeRegExp(runtimeVersion)}#([^#]+)$`, 'u') : null;
+  const trialPattern = trialVersion ? new RegExp(`^${escapeRegExp(trialVersion)}#([^#]+)$`, 'u') : null;
   const executionPattern = executionVersion ? new RegExp(`^${escapeRegExp(executionVersion)}#([^#]+)$`, 'u') : null;
   const runtimeMatch = runtimePattern?.exec(runtimeRef || '');
+  const trialMatch = trialPattern?.exec(runtimeRef || '');
   const executionMatch = executionPattern?.exec(executionRef || '');
-  if (!runtimeMatch) {
-    errors.push('recipe.runtime_catalog_ref must use versioned runtime catalog ref');
-  } else if (runtimeMatch[1] !== recipeId || !runtimeEntries.has(runtimeMatch[1])) {
-    errors.push('recipe.runtime_catalog_ref does not resolve to recipe');
+  if (runtimeMatch) {
+    if (runtimeMatch[1] !== recipeId || !runtimeEntries.has(runtimeMatch[1])) errors.push('recipe.runtime_catalog_ref does not resolve to recipe');
+  } else if (trialMatch) {
+    const trialEntry = trialEntries.get(trialMatch[1]);
+    if (trialMatch[1] !== recipeId || !trialEntry || trialEntry.trial_eligible !== true || trialEntry.planner_runtime_eligible !== false || trialEntry.production_approved !== false) {
+      errors.push('recipe.runtime_catalog_ref does not resolve to eligible trial recipe');
+    } else {
+      if (trialEntry.candidate_id !== recipeId) errors.push('trial candidate_id does not match recipe');
+      if (trialEntry.variant_id !== null) errors.push('trial variant_id must remain null for the canonical trial candidate');
+      if (!Array.isArray(trialEntry.eligibility_reasons) || trialEntry.eligibility_reasons.length !== 0) errors.push('trial candidate eligibility was not strictly recomputed');
+      if (trialEntry.cooker_boundary_preserved !== true) errors.push('trial candidate cooker boundary is not preserved');
+      const recipeTrial = observation?.recipe || {};
+      if (recipeTrial.trial_catalog_version !== trialVersion) errors.push('recipe.trial_catalog_version does not match trial catalog');
+      if (recipeTrial.trial_candidate_id !== (trialEntry.candidate_id || recipeId)) errors.push('recipe.trial_candidate_id does not match trial catalog candidate');
+      if (recipeTrial.trial_variant_id !== (trialEntry.variant_id ?? null)) errors.push('recipe.trial_variant_id does not match trial catalog variant');
+      if (JSON.stringify(recipeTrial.trial_contract_hashes || null) !== JSON.stringify(trialEntry.contract_hashes || null)) errors.push('recipe.trial_contract_hashes do not match trial contract hashes');
+    }
+  } else {
+    errors.push('recipe.runtime_catalog_ref must use versioned runtime catalog ref or trial catalog ref');
   }
   if (!executionMatch) {
     errors.push('recipe.execution_card_ref must use versioned execution ref');

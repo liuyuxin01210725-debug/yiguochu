@@ -1,4 +1,4 @@
-const RUNTIME_COVERAGE_MATRIX_VERSION = 'runtime-coverage-matrix-v1-20260813-c5';
+const RUNTIME_COVERAGE_MATRIX_VERSION = 'runtime-coverage-matrix-v1-20260813-c6';
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];
@@ -28,12 +28,57 @@ function structuredRecipeIds(journey) {
   return [...new Set(ids)];
 }
 
+/**
+ * Variant joins are deliberately separate from recipe joins. A variant is a
+ * runtime candidate identity, not free text and not a recipe alias. Keep the
+ * structured fields narrow so a title/notes mention can never create evidence.
+ */
+function structuredVariantIds(journey) {
+  const ids = [];
+  const fields = [
+    'variant_id',
+    'selected_variant_id',
+    'candidate_variant_ids',
+    'runtime_variant_refs',
+    'evidence_variant_ids',
+  ];
+  for (const field of fields) {
+    const value = journey?.[field];
+    if (typeof value === 'string' && value) {
+      ids.push(value);
+      continue;
+    }
+    if (!Array.isArray(value)) continue;
+    for (const item of value) {
+      if (typeof item === 'string' && item) ids.push(item);
+      else if (item && typeof item === 'object' && typeof item.variant_id === 'string' && item.variant_id) {
+        ids.push(item.variant_id);
+      }
+    }
+  }
+  return [...new Set(ids)];
+}
+
+function structuredValueIds(value, key = 'variant_id') {
+  const values = [];
+  if (typeof value === 'string' && value) values.push(value);
+  else if (Array.isArray(value)) {
+    for (const item of value) {
+      if (typeof item === 'string' && item) values.push(item);
+      else if (item && typeof item === 'object' && typeof item[key] === 'string' && item[key]) values.push(item[key]);
+    }
+  } else if (value && typeof value === 'object' && typeof value[key] === 'string' && value[key]) {
+    values.push(value[key]);
+  }
+  return values;
+}
+
 function expectedVariantIds(journey) {
   const expect = journey?.expect || {};
   return [...new Set([
-    ...asArray(expect.allowed_variant_ids),
-    ...(expect.expected_first_variant ? [expect.expected_first_variant] : []),
-  ].filter(value => typeof value === 'string' && value))];
+    ...structuredValueIds(expect.allowed_variant_ids),
+    ...structuredValueIds(expect.expected_first_variant),
+  ])];
 }
 
 function requestFor(sourceKind, journey) {
@@ -64,10 +109,12 @@ function requestFor(sourceKind, journey) {
 function expectedFor(sourceKind, journey, formalIds, variantIds) {
   if (sourceKind === 'recipe_runtime') {
     const ids = structuredRecipeIds(journey);
+    const candidateVariants = structuredVariantIds(journey);
     const valid = ids.filter(id => formalIds.has(id));
+    const validVariants = candidateVariants.filter(id => variantIds.has(id));
     return {
       status: journey.expected_title ? 'ready_candidate' : 'boundary_case',
-      candidate_refs: { recipe_ids: valid, template_ids: [], variant_ids: [] },
+      candidate_refs: { recipe_ids: valid, template_ids: [], variant_ids: validVariants },
       used_raw: [],
       unused_raw: [],
       reason_codes: journey.expected_title ? [] : ['not_observed'],
@@ -88,14 +135,41 @@ function expectedFor(sourceKind, journey, formalIds, variantIds) {
     };
   }
   const expect = journey.expect || {};
+  const ids = [
+    ...structuredVariantIds(journey),
+    ...structuredValueIds(expect.allowed_variant_ids),
+    ...structuredValueIds(expect.expected_first_variant),
+    ...structuredValueIds(expect.candidate_variant_ids),
+  ];
+  const valid = [...new Set(ids.filter(id => variantIds.has(id)))];
   return {
     status: asArray(expect.allowed_statuses).join('|') || 'not_specified',
-    candidate_refs: { recipe_ids: [], template_ids: [], variant_ids: [] },
+    candidate_refs: { recipe_ids: [], template_ids: [], variant_ids: valid },
     used_raw: [],
     unused_raw: [],
     reason_codes: asArray(expect.required_unused_reason_codes),
     nutrition_grades: [],
   };
+}
+
+function unknownCandidateIds(sourceKind, journey, formalIds, variantIds) {
+  const unknown = [];
+  if (sourceKind === 'recipe_runtime') {
+    for (const id of structuredRecipeIds(journey)) if (!formalIds.has(id)) unknown.push(id);
+    for (const id of structuredVariantIds(journey)) if (!variantIds.has(id)) unknown.push(id);
+  } else {
+    const expect = journey?.expect || {};
+    const variantIdsInJourney = sourceKind === 'rice_meal'
+      ? [...expectedVariantIds(journey), ...structuredValueIds(expect.candidate_variant_ids)]
+      : [
+        ...structuredVariantIds(journey),
+        ...structuredValueIds(expect.allowed_variant_ids),
+        ...structuredValueIds(expect.expected_first_variant),
+        ...structuredValueIds(expect.candidate_variant_ids),
+      ];
+    for (const id of variantIdsInJourney) if (!variantIds.has(id)) unknown.push(id);
+  }
+  return [...new Set(unknown)];
 }
 
 function contractStatus() {
@@ -110,8 +184,15 @@ function scenarioRow(sourceKind, journey, formalIds, variantIds) {
   const sourceId = journey.id;
   const expected = expectedFor(sourceKind, journey, formalIds, variantIds);
   const candidateRefs = expected.candidate_refs;
-  const allCandidateIds = [...candidateRefs.recipe_ids, ...candidateRefs.template_ids];
-  const candidateJoinStatus = allCandidateIds.length ? 'ok' : 'none';
+  const resolvedIds = [...new Set([
+    ...candidateRefs.recipe_ids,
+    ...candidateRefs.template_ids,
+    ...candidateRefs.variant_ids,
+  ])];
+  const unknownIds = unknownCandidateIds(sourceKind, journey, formalIds, variantIds);
+  const candidateJoinStatus = unknownIds.length > 0
+    ? 'invalid'
+    : (resolvedIds.length ? 'ok' : 'none');
   return {
     scenario_id: `${sourceKind}:${sourceId}`,
     source_kind: sourceKind,
@@ -120,7 +201,14 @@ function scenarioRow(sourceKind, journey, formalIds, variantIds) {
     expected,
     joins: {
       source: { status: 'ok', source_id: sourceId },
-      candidate_refs: { status: candidateJoinStatus },
+      candidate_refs: {
+        status: candidateJoinStatus,
+        resolved_ids: resolvedIds,
+        unknown_ids: unknownIds,
+        blocker_codes: unknownIds.length > 0
+          ? ['unknown_candidate_id', 'candidate_join_invalid']
+          : [],
+      },
     },
     observation: {
       observed: false,
@@ -169,13 +257,16 @@ export function buildRuntimeCoverageMatrix({
       observations_are_separate_from_expectations: true,
       missing_contracts_fail_closed: true,
       production_requires_observed_and_promoted: true,
+      candidate_join_preserves_unknown_ids: true,
+      candidate_join_includes_variant_ids: true,
     },
     counts: {
       total: scenarios.length,
       by_source: bySource,
       observed: scenarios.filter(row => row.observation.observed).length,
       production_eligible: scenarios.filter(row => row.production_eligible).length,
-      candidate_joined: scenarios.filter(row => row.joins.candidate_refs.status === 'ok').length,
+    candidate_joined: scenarios.filter(row => row.joins.candidate_refs.status === 'ok').length,
+    candidate_join_invalid: scenarios.filter(row => row.joins.candidate_refs.status === 'invalid').length,
     },
     scenarios,
   };

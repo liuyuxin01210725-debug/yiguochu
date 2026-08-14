@@ -111,15 +111,18 @@ import { validateSourceBackedExecutionLibrary } from './lib/source-backed-execut
 import { validateSourceBackedFormalCandidateReview } from './lib/source-backed-formal-candidate-review.mjs';
 import { validateSourceBackedFormalStaging } from './lib/source-backed-formal-staging.mjs';
 import { validateSourceBackedFormalRatioEvidence } from './lib/source-backed-formal-ratio-evidence.mjs';
-import { validateSourceBackedRuntimeCatalog } from './lib/source-backed-runtime-catalog.mjs';
+import { validateSourceBackedReleaseLedger } from './lib/source-backed-release-ledger.mjs';
+import { validateKitchenTrialCatalog } from './lib/kitchen-trial-catalog.mjs';
 import { validateSourceBackedCoverageMatrix } from './lib/source-backed-coverage-matrix.mjs';
 import { validateSourceBackedFormalizationMatrix } from './lib/source-backed-formalization-matrix.mjs';
 import { validateRuntimeCoverageMatrix } from './lib/runtime-coverage-matrix.mjs';
+import { validateRuntimeCoverageResults } from './lib/runtime-coverage-results.mjs';
 import { validateRuntimeOnePotCatalog } from './lib/runtime-one-pot-catalog.mjs';
 import {
   validateKitchenObservationLedger,
   validateKitchenObservationReferences,
   validateKitchenObservationSchemaParity,
+  validateKitchenObservationSchemaInstance,
 } from './lib/kitchen-observation.mjs';
 
 const file = new URL('./data/recipe-library.json', import.meta.url);
@@ -136,9 +139,12 @@ let sourceBackedFormalCandidateReview = { counts: {}, records: [] };
 let sourceBackedFormalStaging = { counts: {}, records: [] };
 let sourceBackedFormalRatioEvidence = { counts: {}, entries: [] };
 let sourceBackedRuntimeCatalog = { entries: [] };
+let sourceBackedReleaseLedger = { entries: [] };
+let kitchenTrialCatalog = { entries: [] };
 let sourceBackedCoverageMatrix = { records: [] };
 let sourceBackedFormalizationMatrix = { records: [] };
 let runtimeCoverageMatrix = { scenarios: [] };
+let runtimeCoverageResults = { scenarios: [] };
 let runtimeOnePotCatalog = { entries: [] };
 let kitchenObservationLedger = { observations: [] };
 for (const [relativePath, assign] of [
@@ -151,9 +157,12 @@ for (const [relativePath, assign] of [
   ['tools/data/source-backed-formal-staging.v1.json', value => { sourceBackedFormalStaging = value; }],
   ['tools/data/source-backed-formal-ratio-evidence.v1.json', value => { sourceBackedFormalRatioEvidence = value; }],
   ['tools/data/source-backed-runtime-catalog.v1.json', value => { sourceBackedRuntimeCatalog = value; }],
+  ['tools/data/source-backed-release-ledger.v1.json', value => { sourceBackedReleaseLedger = value; }],
+  ['tools/data/kitchen-trial-catalog.v1.json', value => { kitchenTrialCatalog = value; }],
   ['tools/data/source-backed-coverage-matrix.v1.json', value => { sourceBackedCoverageMatrix = value; }],
   ['tools/data/source-backed-formalization-matrix.v1.json', value => { sourceBackedFormalizationMatrix = value; }],
   ['tools/data/runtime-coverage-matrix.v1.json', value => { runtimeCoverageMatrix = value; }],
+  ['tools/data/runtime-coverage-results.v1.json', value => { runtimeCoverageResults = value; }],
   ['tools/data/generated/runtime-one-pot-catalog.v1.json', value => { runtimeOnePotCatalog = value; }],
   ['tools/data/kitchen-observations.v1.json', value => { kitchenObservationLedger = value; }],
 ]) {
@@ -241,8 +250,20 @@ const runtimeOnePotInputs = {
 };
 const runtimeOnePotCatalogErrors = validateRuntimeOnePotCatalog(runtimeOnePotCatalog, runtimeOnePotInputs);
 errors.push(...runtimeOnePotCatalogErrors.map(error => `runtime one-pot catalog: ${error}`));
+errors.push(...validateRuntimeCoverageResults(runtimeCoverageResults, {
+  matrix: runtimeCoverageMatrix,
+  authority: JSON.parse(fs.readFileSync(new URL('./data/runtime-authority.v1.json', import.meta.url), 'utf8')),
+  runtimeCatalog: runtimeOnePotCatalog,
+}).map(error => `runtime coverage results: ${error}`));
 errors.push(...validateKitchenObservationLedger(kitchenObservationLedger)
   .map(error => `kitchen observation ledger: ${error}`));
+const kitchenTrialCatalogErrors = validateKitchenTrialCatalog(kitchenTrialCatalog, {
+  sourceCatalog: sourceBackedCatalog,
+  executionLibrary: sourceBackedExecutionLibrary,
+  formalizationLedger: sourceBackedFormalizationLedger,
+  formalReview: sourceBackedFormalCandidateReview,
+});
+errors.push(...kitchenTrialCatalogErrors.map(error => `kitchen trial catalog: ${error}`));
 const kitchenObservationSchema = JSON.parse(fs.readFileSync(
   new URL('./data/kitchen-observation.schema.v1.json', import.meta.url),
   'utf8',
@@ -250,8 +271,11 @@ const kitchenObservationSchema = JSON.parse(fs.readFileSync(
 errors.push(...validateKitchenObservationSchemaParity(kitchenObservationSchema)
   .map(error => `kitchen observation schema: ${error}`));
 for (const observation of Array.isArray(kitchenObservationLedger?.observations) ? kitchenObservationLedger.observations : []) {
+  errors.push(...validateKitchenObservationSchemaInstance(observation, kitchenObservationSchema)
+    .map(error => `kitchen observation schema instance: ${error}`));
   errors.push(...validateKitchenObservationReferences(observation, {
     runtimeCatalog: runtimeOnePotCatalog,
+    trialCatalog: kitchenTrialCatalog,
     executionLibrary: sourceBackedExecutionLibrary,
   }).map(error => `kitchen observation: ${error}`));
 }
@@ -274,15 +298,21 @@ const sourceBackedFormalStagingErrors = validateSourceBackedFormalStaging(
   sourceBackedFormalCandidateReview,
 );
 errors.push(...sourceBackedFormalStagingErrors.map(error => `source-backed formal staging: ${error}`));
-const sourceBackedRuntimeCatalogErrors = validateSourceBackedRuntimeCatalog(
-  sourceBackedRuntimeCatalog,
+const sourceBackedReleaseLedgerErrors = validateSourceBackedReleaseLedger(
+  sourceBackedReleaseLedger,
   {
     sourceCatalog: sourceBackedCatalog,
     executionLibrary: sourceBackedExecutionLibrary,
     formalizationLedger: sourceBackedFormalizationLedger,
   },
 );
-errors.push(...sourceBackedRuntimeCatalogErrors.map(error => `source-backed runtime catalog: ${error}`));
+errors.push(...sourceBackedReleaseLedgerErrors.map(error => `source-backed release ledger: ${error}`));
+if (JSON.stringify(sourceBackedRuntimeCatalog) !== JSON.stringify({
+  schema_version: 1,
+  scope: 'deprecated-alias',
+  deprecated: true,
+  replacement: 'tools/data/source-backed-release-ledger.v1.json',
+})) errors.push('source-backed runtime catalog alias is invalid');
 const sourceBackedCoverageMatrixInputs = {
   sourceCatalog: sourceBackedCatalog,
   executionLibrary: sourceBackedExecutionLibrary,
@@ -997,7 +1027,8 @@ console.log(`source-backed execution ${sourceBackedExecutionLibrary?.counts?.tot
 console.log(`source-backed execution completeness ${sourceBackedExecutionCompleteness.fully_usable}/${sourceBackedExecutionEntries.length} complete research fields · ${sourceBackedExecutionCompleteness.unblocked}/${sourceBackedExecutionEntries.length} unblocked complete · ${sourceBackedExecutionCompleteness.blocked} safety-blocked · ${sourceBackedExecutionCompleteness.quantities}/${sourceBackedExecutionEntries.length} quantities · ${sourceBackedExecutionCompleteness.liquid}/${sourceBackedExecutionEntries.length} liquid · ${sourceBackedExecutionCompleteness.steps}/${sourceBackedExecutionEntries.length} steps · ${sourceBackedExecutionCompleteness.time}/${sourceBackedExecutionEntries.length} time`);
 console.log(`source-backed formal candidate review ${sourceBackedFormalCandidateReview?.counts?.total ?? 0} rows · ${sourceBackedFormalCandidateReview?.counts?.source_complete ?? 0} source-complete · ratio evidence ${sourceBackedFormalCandidateReview?.counts?.ratio_dsl?.candidate_evidence_only ?? 0} · ${sourceBackedFormalCandidateReview?.counts?.formal_ready ?? 0} formal-ready${sourceBackedFormalCandidateReviewErrors.length ? ` · invalid (${sourceBackedFormalCandidateReviewErrors.length})` : ' · review ok'}`);
 console.log(`source-backed formal staging ${sourceBackedFormalStaging?.counts?.total ?? 0} queued · ${sourceBackedFormalStaging?.counts?.source_complete ?? 0} source-complete · ${sourceBackedFormalStaging?.counts?.formal_ready ?? 0} formal-ready · ${sourceBackedFormalStaging?.counts?.kitchen_pending ?? 0} kitchen pending${sourceBackedFormalStagingErrors.length ? ` · invalid (${sourceBackedFormalStagingErrors.length})` : ' · staging ok'}`);
-console.log(`source-backed runtime catalog ${sourceBackedRuntimeCatalog?.counts?.total ?? 0} entries · ${sourceBackedRuntimeCatalog?.counts?.preview_only ?? 0} preview-only · ${sourceBackedRuntimeCatalog?.counts?.research_only ?? 0} research-only · ${sourceBackedRuntimeCatalog?.counts?.blocked ?? 0} blocked${sourceBackedRuntimeCatalogErrors.length ? ` · invalid (${sourceBackedRuntimeCatalogErrors.length})` : ' · runtime catalog ok'}`);
+console.log(`source-backed release ledger ${sourceBackedReleaseLedger?.counts?.total ?? 0} entries · ${sourceBackedReleaseLedger?.counts?.preview_only ?? 0} preview-only · ${sourceBackedReleaseLedger?.counts?.research_only ?? 0} research-only · ${sourceBackedReleaseLedger?.counts?.blocked ?? 0} blocked${sourceBackedReleaseLedgerErrors.length ? ` · invalid (${sourceBackedReleaseLedgerErrors.length})` : ' · release ledger ok'}`);
+console.log(`source-backed runtime alias deprecated · trial catalog ${kitchenTrialCatalog?.counts?.total ?? 0} candidates / ${kitchenTrialCatalog?.counts?.trial_eligible ?? 0} eligible${kitchenTrialCatalogErrors.length ? ` · invalid (${kitchenTrialCatalogErrors.length})` : ' · trial catalog ok'}`);
 console.log(`source-backed coverage matrix ${sourceBackedCoverageMatrix?.counts?.total ?? 0} rows · P0 ${sourceBackedCoverageMatrix?.counts?.priority?.P0 ?? 0} · P1 ${sourceBackedCoverageMatrix?.counts?.priority?.P1 ?? 0} · P2 ${sourceBackedCoverageMatrix?.counts?.priority?.P2 ?? 0} · P3 ${sourceBackedCoverageMatrix?.counts?.priority?.P3 ?? 0}${sourceBackedCoverageMatrixErrors.length ? ` · invalid (${sourceBackedCoverageMatrixErrors.length})` : ' · matrix ok'}`);
 console.log([
   `${recipeCount} recipes`,

@@ -19,7 +19,11 @@ function serviceWorkerHarness(fetchImpl) {
     const store = stores.get(name);
     return {
       async addAll(urls) {
-        for (const url of urls) store.set(requestKey(url), new Response(`cached:${url}`));
+        for (const url of urls) {
+          const response = await fetchImpl(new Request(requestKey(url)));
+          if (!response || !response.ok) throw new Error(`precache failed: ${url}`);
+          store.set(requestKey(url), response.clone());
+        }
       },
       async put(request, response) {
         store.set(requestKey(request), response.clone());
@@ -77,14 +81,22 @@ test('service worker installation precaches the PWA start page', async () => {
   const cachedUrls = [...harness.stores.get(cacheName).keys()];
   assert.ok(cachedUrls.includes(`${ORIGIN}/`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/index.html`));
-  assert.ok(cachedUrls.includes(`${ORIGIN}/recipes`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/recipes/`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/recipes/index.html`));
-  assert.ok(cachedUrls.includes(`${ORIGIN}/source-recipes.html`));
-  assert.ok(cachedUrls.includes(`${ORIGIN}/source-recipes/`));
-  assert.ok(cachedUrls.includes(`${ORIGIN}/source-recipes/index.html`));
+  assert.equal(cachedUrls.includes(`${ORIGIN}/source-recipes.html`), false);
+  assert.equal(cachedUrls.includes(`${ORIGIN}/source-recipes/index.html`), false);
   assert.ok(cachedUrls.includes(`${ORIGIN}/cook/`));
   assert.ok(cachedUrls.includes(`${ORIGIN}/cook/index.html`));
+});
+
+test('service worker install fails closed when a generated shell references a missing asset', async () => {
+  const harness = serviceWorkerHarness(async request => {
+    if (new URL(request.url).pathname === '/cook/index.html') return new Response('missing', { status: 404 });
+    return new Response(`network:${request}`, { status: 200 });
+  });
+  let installWork;
+  harness.listeners.get('install')({ waitUntil(promise) { installWork = promise; } });
+  await assert.rejects(installWork, /precache failed/u);
 });
 
 test('an offline source catalog navigation serves the source catalog shell', async () => {

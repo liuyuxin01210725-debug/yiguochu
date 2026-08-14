@@ -8,7 +8,9 @@ import {
   validateKitchenObservationLedger,
   validateKitchenObservationSchemaParity,
   validateKitchenObservation,
+  validateKitchenObservationSchemaInstance,
 } from '../lib/kitchen-observation.mjs';
+import { evaluateKitchenPromotion } from '../lib/kitchen-promotion-gate.mjs';
 
 const schema = JSON.parse(readFileSync(new URL('../data/kitchen-observation.schema.v1.json', import.meta.url), 'utf8'));
 
@@ -214,14 +216,33 @@ test('missing timeline fields blocks the kitchen gate', () => {
   assert.match(errors.join('\n'), /timeline\.finish_at is required/u);
 });
 
-test('missing or failed safety endpoint blocks the kitchen gate', () => {
+test('missing or failed safety endpoint blocks the kitchen gate', async () => {
   const missing = validObservation();
   missing.safety_endpoints = [];
-  assert.match(validateKitchenObservation(missing).join('\n'), /safety_endpoints must contain at least one endpoint/u);
+  assert.deepEqual(validateKitchenObservation(missing), []);
+  assert.equal((await import('../lib/kitchen-observation.mjs')).isKitchenObservedReady(missing), false);
 
   const failed = validObservation();
   failed.safety_endpoints[0].result = 'fail';
   assert.match(validateKitchenObservation(failed).join('\n'), /safety_endpoints\[0\] must pass/u);
+});
+
+test('required safety endpoints cannot be marked not_applicable, while optional endpoints may be omitted', async () => {
+  const { isKitchenObservedReady } = await import('../lib/kitchen-observation.mjs');
+  const required = validObservation();
+  required.recipe.required_safety_endpoint_codes = ['pork_fully_cooked'];
+  required.safety_endpoints[0].required_endpoint.code = 'pork_fully_cooked';
+  required.disposition.status = 'kitchen_observed';
+  required.disposition.reviewed_at = '2026-08-13T12:00:00+08:00';
+  required.safety_endpoints[0].result = 'not_applicable';
+  assert.equal(isKitchenObservedReady(required), false);
+
+  const noRisk = validObservation();
+  noRisk.recipe.required_safety_endpoint_codes = [];
+  noRisk.safety_endpoints = [];
+  noRisk.disposition.status = 'kitchen_observed';
+  noRisk.disposition.reviewed_at = '2026-08-13T12:00:00+08:00';
+  assert.equal(isKitchenObservedReady(noRisk), true);
 });
 
 test('missing evidence cannot be replaced by browser or automated journey evidence', () => {
@@ -311,6 +332,122 @@ test('reference validation fails closed when catalogs or versions are absent', (
   assert.match(errors.join('\n'), /versioned execution ref/u);
 });
 
+test('trial catalog references are valid before a recipe enters the runtime catalog', () => {
+  const observation = validObservation();
+  observation.recipe.runtime_catalog_ref = 'kitchen-trial-catalog-v1-test#taiwan-tatung-cabbage-rice';
+  observation.recipe.execution_card_ref = 'source-backed-execution-v1-test#taiwan-tatung-cabbage-rice';
+  observation.recipe.trial_catalog_version = 'kitchen-trial-catalog-v1-test';
+  observation.recipe.trial_candidate_id = 'taiwan-tatung-cabbage-rice';
+  observation.recipe.trial_variant_id = null;
+  observation.recipe.trial_contract_hashes = {
+    source: '1'.repeat(64),
+    execution: '2'.repeat(64),
+    formalization: '3'.repeat(64),
+    formal_review: '4'.repeat(64),
+  };
+  const errors = validateKitchenObservationReferences(observation, {
+    runtimeCatalog: { runtime_catalog_version: 'runtime-one-pot-catalog-v1-test', entries: [] },
+    trialCatalog: {
+      kitchen_trial_catalog_version: 'kitchen-trial-catalog-v1-test',
+      entries: [{
+        recipe_id: observation.recipe.recipe_id,
+        candidate_id: observation.recipe.recipe_id,
+        variant_id: null,
+        trial_eligible: true,
+        planner_runtime_eligible: false,
+        production_approved: false,
+        cooker_boundary_preserved: true,
+        eligibility_reasons: [],
+        contract_hashes: observation.recipe.trial_contract_hashes,
+      }],
+    },
+    executionLibrary: {
+      execution_library_version: 'source-backed-execution-v1-test',
+      entries: [{ recipe_id: observation.recipe.recipe_id }],
+    },
+  });
+  assert.deepEqual(errors, []);
+});
+
+test('trial observation references fail closed when a candidate contract hash is stale', () => {
+  const observation = validObservation();
+  observation.recipe.runtime_catalog_ref = 'kitchen-trial-catalog-v1-test#taiwan-tatung-cabbage-rice';
+  observation.recipe.execution_card_ref = 'source-backed-execution-v1-test#taiwan-tatung-cabbage-rice';
+  observation.recipe.trial_catalog_version = 'kitchen-trial-catalog-v1-test';
+  observation.recipe.trial_candidate_id = 'taiwan-tatung-cabbage-rice';
+  observation.recipe.trial_variant_id = null;
+  observation.recipe.trial_contract_hashes = {
+    source: '0'.repeat(64),
+    execution: '2'.repeat(64),
+    formalization: '3'.repeat(64),
+    formal_review: '4'.repeat(64),
+  };
+  const errors = validateKitchenObservationReferences(observation, {
+    runtimeCatalog: { runtime_catalog_version: 'runtime-one-pot-catalog-v1-test', entries: [] },
+    trialCatalog: {
+      kitchen_trial_catalog_version: 'kitchen-trial-catalog-v1-test',
+      entries: [{
+        recipe_id: observation.recipe.recipe_id,
+        candidate_id: observation.recipe.recipe_id,
+        variant_id: null,
+        trial_eligible: true,
+        planner_runtime_eligible: false,
+        production_approved: false,
+        cooker_boundary_preserved: true,
+        eligibility_reasons: [],
+        contract_hashes: {
+          source: '1'.repeat(64),
+          execution: '2'.repeat(64),
+          formalization: '3'.repeat(64),
+          formal_review: '4'.repeat(64),
+        },
+      }],
+    },
+    executionLibrary: {
+      execution_library_version: 'source-backed-execution-v1-test',
+      entries: [{ recipe_id: observation.recipe.recipe_id }],
+    },
+  });
+  assert.match(errors.join('\n'), /trial.*contract.*hash|trial_contract_hashes/u);
+});
+
+test('promotion uses the trial catalog safety contract even when the observation omits it', () => {
+  const observation = validObservation();
+  observation.recipe.runtime_catalog_ref = 'kitchen-trial-catalog-v1-test#taiwan-tatung-cabbage-rice';
+  observation.recipe.execution_card_ref = 'source-backed-execution-v1-test#taiwan-tatung-cabbage-rice';
+  delete observation.recipe.required_safety_endpoint_codes;
+  observation.safety_endpoints[0].required_endpoint.code = 'pork_fully_cooked';
+  observation.safety_endpoints[0].result = 'not_applicable';
+  observation.disposition.status = 'kitchen_observed';
+  observation.disposition.reviewed_at = '2026-08-13T12:00:00+08:00';
+  const result = evaluateKitchenPromotion({
+    runtimeCatalog: { runtime_catalog_version: 'runtime-one-pot-catalog-v1-test', entries: [] },
+    trialCatalog: {
+      kitchen_trial_catalog_version: 'kitchen-trial-catalog-v1-test',
+      entries: [{
+        recipe_id: observation.recipe.recipe_id,
+        trial_eligible: true,
+        planner_runtime_eligible: false,
+        production_approved: false,
+        required_safety_endpoint_codes: ['pork_fully_cooked'],
+      }],
+    },
+    executionLibrary: {
+      execution_library_version: 'source-backed-execution-v1-test',
+      entries: [{ recipe_id: observation.recipe.recipe_id }],
+    },
+    observations: [observation],
+    formalReview: {
+      recipe_id: observation.recipe.recipe_id,
+      reviewer_id: 'independent-reviewer',
+      reviewed_at: '2026-08-13T12:00:00+08:00',
+      approved: true,
+    },
+  }, observation.recipe.recipe_id);
+  assert.equal(result.allowed, false);
+  assert.ok(result.reasons.includes('kitchen_observation_incomplete'));
+});
+
 test('empty observation ledger is valid, but malformed or duplicate records are blocked', () => {
   const emptyLedger = {
     schema_version: 'kitchen-observations.v1',
@@ -352,4 +489,44 @@ test('JSON Schema parity covers nested required fields and safety/disposition en
   const brokenApproval = structuredClone(schema);
   delete brokenApproval.$defs.disposition.properties.approve_for_production.const;
   assert.match(validateKitchenObservationSchemaParity(brokenApproval).join('\n'), /approve_for_production/u);
+});
+
+test('observation and formal review timestamps require strict ISO-8601 offsets', () => {
+  const observation = validObservation();
+  observation.recorded_at = '2026-08-14 12:00:00';
+  assert.match(validateKitchenObservation(observation).join('\n'), /recorded_at must be an ISO date-time/u);
+  const result = evaluateKitchenPromotion({
+    runtimeCatalog: {
+      runtime_catalog_version: 'runtime-one-pot-catalog-v1-test',
+      entries: [{ recipe_id: observation.recipe.recipe_id, planner_runtime_eligible: false, production_approved: false }],
+    },
+    observations: [],
+    formalReview: {
+      recipe_id: observation.recipe.recipe_id,
+      approved: true,
+      reviewer_id: 'reviewer',
+      reviewed_at: '2026-08-14 12:00:00',
+    },
+  }, observation.recipe.recipe_id);
+  assert.ok(result.reasons.includes('independent_formal_approval_missing'));
+});
+
+test('schema instance validator enforces the versioned JSON Schema before semantic checks', () => {
+  const observation = validObservation();
+  assert.deepEqual(validateKitchenObservationSchemaInstance(observation, schema), []);
+  const trialObservation = structuredClone(observation);
+  trialObservation.recipe.trial_catalog_version = 'kitchen-trial-catalog-v1-test';
+  trialObservation.recipe.trial_candidate_id = trialObservation.recipe.recipe_id;
+  trialObservation.recipe.trial_variant_id = null;
+  trialObservation.recipe.trial_contract_hashes = {
+    source: '1'.repeat(64),
+    execution: '2'.repeat(64),
+    formalization: '3'.repeat(64),
+    formal_review: '4'.repeat(64),
+  };
+  assert.deepEqual(validateKitchenObservationSchemaInstance(trialObservation, schema), []);
+  const broken = structuredClone(observation);
+  broken.observer.extra = true;
+  broken.recorded_at = '2026-08-14 12:00:00';
+  assert.match(validateKitchenObservationSchemaInstance(broken, schema).join('\n'), /extra.*not allowed|recorded_at.*date-time/u);
 });

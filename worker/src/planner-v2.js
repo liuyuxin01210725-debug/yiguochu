@@ -2022,6 +2022,9 @@ export function canonicalPlanIdentityPayload(result = {}) {
     recipe_id: identityText(result.recipe_id),
     variant_id: identityText(result.variant_id),
     identity_level: identityText(result.identity_level),
+    runtime_candidate_authority: namedIdentity
+      ? recursivelySortObjectKeys(structuredClone(result.runtime_candidate_authority || null))
+      : null,
     template_id: singlePot?.template_id || null,
     normalized_items: (Array.isArray(result.normalized_items) ? result.normalized_items : [])
       .map(identityIngredient)

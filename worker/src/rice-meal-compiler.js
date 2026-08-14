@@ -648,6 +648,14 @@ function canonicalCandidateFacts(candidate) {
   const taxonomyHash = nonEmptyString(candidate.taxonomy_hash);
   const riceCatalogScope = nonEmptyString(candidate.rice_catalog_scope);
   const recipeId = candidate.recipe_id == null ? null : nonEmptyString(candidate.recipe_id);
+  const runtimeAuthority = candidate.runtime_candidate_authority;
+  const authorityFields = runtimeAuthority && {
+    candidate_id: runtimeAuthority.candidate_id,
+    recipe_id: runtimeAuthority.recipe_id,
+    variant_id: runtimeAuthority.variant_id,
+    catalog_version: runtimeAuthority.catalog_version,
+    contract_hash: runtimeAuthority.contract_hash,
+  };
   const selectedIngredientIds = sortedUniqueStrings(candidate.selected_ingredient_ids);
   const selectedInputIds = sortedUniqueStrings(candidate.selected_input_ids);
   const ratioRuleIds = sortedUniqueStrings(candidate.ratio_rule_ids);
@@ -661,7 +669,11 @@ function canonicalCandidateFacts(candidate) {
       || !/^sha256:[a-f0-9]{64}$/u.test(fields[5])
       || !/^sha256:[a-f0-9]{64}$/u.test(fields[7]) || substitutions == null || safetyEndpoints == null
       || selectedIngredientIds == null || selectedInputIds == null || ratioRuleIds == null
-      || controlledSeasonings == null || actions == null) {
+      || controlledSeasonings == null || actions == null
+      || !authorityFields || typeof authorityFields.candidate_id !== 'string'
+      || (authorityFields.recipe_id !== null && typeof authorityFields.recipe_id !== 'string')
+      || typeof authorityFields.variant_id !== 'string'
+      || !/^[a-f0-9]{64}$/u.test(authorityFields.contract_hash || '')) {
     return null;
   }
   return {
@@ -686,6 +698,7 @@ function canonicalCandidateFacts(candidate) {
     ratio_rule_ids: ratioRuleIds,
     action_protocol: actions,
     safety_endpoints: safetyEndpoints,
+    runtime_candidate_authority: authorityFields,
   };
 }
 
@@ -1343,6 +1356,7 @@ export function compileRiceMeal(candidate, assets) {
     family_id: recomputed.family_id,
     variant_id: recomputed.variant_id,
     recipe_id: recomputed.recipe_id,
+    runtime_candidate_authority: clone(recomputed.runtime_candidate_authority),
     user_notices: clone(recomputed.user_notices || []),
     plan: {
       plan_id: recomputed.plan_id,
@@ -1350,6 +1364,7 @@ export function compileRiceMeal(candidate, assets) {
       family_id: recomputed.family_id,
       variant_id: recomputed.variant_id,
       recipe_id: recomputed.recipe_id,
+      runtime_candidate_authority: clone(recomputed.runtime_candidate_authority),
       servings: recomputed.servings,
       ingredient_amounts: lockedMeal.locked_ingredients.map(item => ({
         canonical_id: item.canonical_id,
@@ -1391,6 +1406,7 @@ export function compileRiceMeal(candidate, assets) {
       plan_source: meal.plan_source,
       recipe_id: meal.recipe_id,
       variant_id: meal.variant_id,
+      runtime_candidate_authority: clone(recomputed.runtime_candidate_authority),
       identity_level: meal.identity_level,
       user_notices: clone(recomputed.user_notices || []),
       locked_ingredients: clone(meal.locked_ingredients),

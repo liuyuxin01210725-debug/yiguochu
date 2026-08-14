@@ -49,6 +49,8 @@ const BUILD_METADATA = buildId => Object.freeze({
   productFocus: 'rice-meal-v1',
   riceCatalogScope: 'ready',
   artifactScope: 'runtime',
+  runtimeAuthorityMode: 'shadow',
+  runtimeCatalogVersion: 'runtime-one-pot-catalog-v1-20260813-c11',
   riceCookerSourceEvidenceVersion: SOURCE_EVIDENCE.ledger_version,
   riceCookerSourceEvidenceSha256: SOURCE_EVIDENCE_SHA256,
 });

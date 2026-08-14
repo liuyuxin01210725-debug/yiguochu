@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
+import { inspectRuntimeContract } from './runtime-contract-gate.mjs';
 
-const RUNTIME_CATALOG_VERSION = 'runtime-one-pot-catalog-v1-20260813-correction';
+const RUNTIME_CATALOG_VERSION = 'runtime-one-pot-catalog-v1-20260813-c11';
 const TRUSTED_STATUSES = new Set(['approved', 'auto_approved']);
 
 function asArray(value) {
@@ -15,12 +16,12 @@ function stableHash(value) {
   return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 }
 
-function sourceSummary(sourceCatalog, recipeId) {
-  const source = mapById(sourceCatalog?.recipes).get(recipeId);
+function sourceSummary(sourceCatalog, recipeId, recipeLibraryRecipe = null) {
+  const source = mapById(sourceCatalog?.recipes).get(recipeId) || recipeLibraryRecipe;
   if (!source) return null;
   return {
-    source_recipe_id: source.recipe_id,
-    canonical_name: source.canonical_name,
+    source_recipe_id: source.recipe_id ?? source.id ?? recipeId,
+    canonical_name: source.canonical_name ?? source.name ?? recipeId,
     status: source.status,
     source_refs: asArray(source.source_refs).map(ref => ({
       id: ref.id ?? null,
@@ -42,11 +43,26 @@ function projectRecipe(recipe, inputs) {
   const recipeId = recipe.id;
   const runtime = mapById(inputs.recipeRuntime?.entries).get(recipeId) ?? null;
   const actionProfile = mapById(inputs.actionProfiles?.profiles, 'profile_id').get(recipeId) ?? null;
-  const source = sourceSummary(inputs.sourceCatalog, recipeId);
+  const source = sourceSummary(inputs.sourceCatalog, recipeId, recipe);
   const formal = mapById(inputs.formalizationLedger?.records).get(recipeId) ?? null;
   const execution = mapById(inputs.executionLibrary?.entries).get(recipeId) ?? null;
   const kitchen = kitchenState(inputs.kitchenLedger, recipeId);
-  const plannerRuntimeEligible = TRUSTED_STATUSES.has(recipe.status);
+  const ratioRuleIds = asArray(recipe.ratio_rules).filter(ruleId => (
+    asArray(inputs.ratios?.rules).some(rule => rule?.rule_id === ruleId)
+  ));
+  const hasRuntimeContract = Boolean(runtime && runtime.activation_status === 'active');
+  const hasActionProfile = Boolean(actionProfile && Array.isArray(actionProfile.actions) && actionProfile.actions.length > 0);
+  const hasExecutableRatio = ratioRuleIds.length > 0 && ratioRuleIds.length === asArray(recipe.ratio_rules).length
+    && asArray(inputs.ratios?.rules).some(rule => ratioRuleIds.includes(rule?.rule_id) && rule?.execution_mode === 'executable');
+  const hasTaxonomy = asArray(recipe.core_ingredients).length > 0
+    && asArray(recipe.core_ingredients).every(name => asArray(inputs.taxonomy?.items).some(item => item?.display_name === name || item?.canonical_id === name));
+  const runtimeContract = inspectRuntimeContract({ recipe: source || recipe, runtime, actionProfile });
+  const plannerRuntimeEligible = TRUSTED_STATUSES.has(recipe.status)
+    && hasRuntimeContract
+    && hasActionProfile
+    && hasExecutableRatio
+    && hasTaxonomy
+    && runtimeContract.complete;
   return {
     recipe_id: recipeId,
     canonical_name: recipe.name,
@@ -58,7 +74,7 @@ function projectRecipe(recipe, inputs) {
     runtime_contract: runtime,
     action_profile: actionProfile,
     ratio_contract: {
-      rule_ids: asArray(recipe.ratio_rules),
+      rule_ids: ratioRuleIds,
       catalog_version: inputs.ratios?.ratio_catalog_version ?? null,
     },
     taxonomy_contract: {
@@ -78,6 +94,7 @@ function projectRecipe(recipe, inputs) {
       blocker_codes: asArray(formal.formal_planner_blocker_codes),
     } : null,
     kitchen_observation_ids: kitchen.observation_ids,
+    runtime_contract_status: runtimeContract,
     contract_hashes: {
       recipe_library: stableHash(recipe),
       recipe_runtime: stableHash(runtime),
@@ -87,6 +104,14 @@ function projectRecipe(recipe, inputs) {
       source_summary: stableHash(source),
       safety: stableHash(recipe.safety_rules),
     },
+    eligibility_reasons: plannerRuntimeEligible ? [] : [
+      ...(!TRUSTED_STATUSES.has(recipe.status) ? ['status_not_trusted'] : []),
+      ...(!hasRuntimeContract ? ['runtime_contract_missing'] : []),
+      ...(!hasActionProfile ? ['action_profile_missing'] : []),
+      ...(!hasExecutableRatio ? ['ratio_contract_missing_or_unmapped'] : []),
+      ...(!hasTaxonomy ? ['taxonomy_contract_missing'] : []),
+      ...runtimeContract.reasons,
+    ],
   };
 }
 
@@ -101,6 +126,7 @@ export function buildRuntimeOnePotCatalog(inputs = {}) {
     scope: 'runtime-one-pot-catalog',
     policy: {
       only_trusted_formal_recipes: true,
+      eligibility_requires_complete_contracts: true,
       source_cards_are_not_runtime_entries: true,
       research_assets_have_no_planner_authority: true,
       kitchen_observed_does_not_grant_production_approval: true,
@@ -146,7 +172,7 @@ export function validateRuntimeOnePotCatalog(catalog, inputs = {}) {
     const expectedEntry = expectedById.get(entry.recipe_id);
     if (!expectedEntry) { errors.push(`${entry.recipe_id} is not a trusted formal recipe`); continue; }
     if (JSON.stringify(entry) !== JSON.stringify(expectedEntry)) errors.push(`${entry.recipe_id} does not match deterministic runtime contract or hash`);
-    if (entry.planner_runtime_eligible !== true) errors.push(`${entry.recipe_id} must be planner runtime eligible`);
+    if (entry.planner_runtime_eligible !== expectedEntry.planner_runtime_eligible) errors.push(`${entry.recipe_id} eligibility drifted from its contracts`);
     if (entry.production_approved !== false) errors.push(`${entry.recipe_id} cannot claim production approval`);
   }
   if (JSON.stringify(catalog) !== JSON.stringify(expected)) errors.push('runtime catalog does not match deterministic build');

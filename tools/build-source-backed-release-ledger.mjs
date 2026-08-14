@@ -12,9 +12,6 @@ const ledger = buildSourceBackedReleaseLedger({
   executionLibrary: readJson('tools/data/source-backed-execution-library.v1.json'),
   formalizationLedger: readJson('tools/data/source-backed-formalization-ledger.v1.json'),
 });
-ledger.scope = 'source-backed-release-ledger';
-ledger.release_ledger_version = `source-backed-release-ledger-v1-20260813-correction`;
-ledger.deprecated_alias = 'tools/data/source-backed-runtime-catalog.v1.json';
 const outputPath = path.join(ROOT, 'tools/data/source-backed-release-ledger.v1.json');
 fs.writeFileSync(outputPath, `${JSON.stringify(ledger, null, 2)}\n`, 'utf8');
 console.log(`source-backed release ledger ${ledger.release_ledger_version}: ${ledger.counts.total} cards`);

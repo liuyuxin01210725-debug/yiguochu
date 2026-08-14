@@ -84,7 +84,7 @@ test('existing recipe page links to the source-backed shelf without changing its
 
 test('every source-backed card exposes the shared execution-card detail route', () => {
   const page = fs.readFileSync(new URL('../../source-recipes.html', import.meta.url), 'utf8');
-  assert.match(page, /recipes\?id=/u);
+  assert.match(page, /recipes\/\?id=/u);
   assert.doesNotMatch(page, /recipes\.html\?id=/u);
   assert.match(page, /打开执行卡/u);
   assert.match(page, /cook\/?\?id=/u);

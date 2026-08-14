@@ -167,14 +167,44 @@ test('rice-meal build selects schema-v3 candidates without model or budget work'
   assert.equal(result.body.schema_version, 3);
   assert.equal(result.body.product_focus, 'rice_meal');
   assert.equal(result.body.status, 'ready');
+  assert.deepEqual(result.body.runtime_authority, {
+    mode: 'shadow',
+    authorized: false,
+    code: 'shadow_preview_only',
+    eligible: 0,
+  });
   assert.deepEqual(result.body.candidates.map(candidate => candidate.variant_id), [
     'home-chicken-leg-potato-rice',
   ]);
   assert.equal(result.body.candidates[0].coverage_total, 2);
+  assert.equal(result.body.candidates[0].runtime_candidate_authority.variant_id, result.body.candidates[0].variant_id);
+  assert.equal(result.body.candidates[0].runtime_candidate_authority.catalog_version, result.body.catalog_version);
+  assert.match(result.body.candidates[0].runtime_candidate_authority.contract_hash, /^[a-f0-9]{64}$/u);
   assert.match(result.body.candidates[0].plan_token, /^rm1\.[A-Za-z0-9_-]+\.[a-f0-9]{64}$/u);
   assert.equal(result.modelCalls, 0);
   assert.equal(result.kv.gets, 0);
   assert.equal(result.kv.puts, 0);
+});
+
+test('catalog-enforced authority fails closed instead of falling back to rice planner', async () => {
+  const assets = assetBinding({
+    '/build-meta.json': JSON.stringify({
+      ...JSON.parse(RICE_MEAL_BUILD_META),
+      runtimeAuthorityMode: 'catalog-enforced',
+      runtimeCatalogVersion: 'runtime-one-pot-catalog-v1-test',
+    }),
+    '/runtime-one-pot-catalog.v1.json': JSON.stringify({
+      runtime_catalog_version: 'runtime-one-pot-catalog-v1-test',
+      counts: { planner_runtime_eligible: 0, production_approved: 0 },
+      entries: [],
+    }),
+    '/runtime-authority.v1.json': JSON.stringify({ mode: 'catalog-enforced', catalog_version: 'runtime-one-pot-catalog-v1-test' }),
+  });
+  const result = await post('/plan-meal', ricePlanRequest(), { assets });
+  assert.equal(result.status, 503);
+  assert.equal(result.body.code, 'runtime_catalog_empty');
+  assert.equal(result.body.runtime_authority.mode, 'catalog-enforced');
+  assert.equal(result.body.runtime_authority.authorized, false);
 });
 
 test('calibration build can sign and compile calibration meals while ready builds reject their tokens', async () => {
@@ -245,6 +275,8 @@ test('rice-meal build compiles only a signed token and preserves reviewed RM-15 
   assert.equal(result.body.schema_version, 3);
   assert.equal(result.body.status, 'ready');
   assert.equal(result.body.variant_id, 'home-chicken-leg-potato-rice');
+  assert.equal(result.body.runtime_candidate_authority.variant_id, result.body.variant_id);
+  assert.equal(result.body.meals[0].runtime_candidate_authority.variant_id, result.body.variant_id);
   assert.equal(result.body.meals[0].dish_name, '鸡腿土豆焖饭');
   assert.deepEqual(result.body.plan.ingredient_amounts.map(item => [item.canonical_id, item.grams]), [
     ['raw-rice', 200],
@@ -468,7 +500,7 @@ test('rice build routes parsed invalid bodies by build metadata, never through l
   const malformedRicePlan = await post('/plan-meal', ricePlanRequest({ dislikes: '不吃辣' }));
   assert.equal(malformedRicePlan.status, 400);
   assert.equal(malformedRicePlan.body.code, 'invalid_rice_meal_request');
-  assert.deepEqual(malformedRicePlan.assets.calls, ['/build-meta.json']);
+  assert.deepEqual(malformedRicePlan.assets.calls, ['/build-meta.json', '/runtime-one-pot-catalog.v1.json', '/runtime-authority.v1.json']);
   assert.equal(malformedRicePlan.modelCalls, 0);
   assert.equal(malformedRicePlan.kv.gets, 0);
 

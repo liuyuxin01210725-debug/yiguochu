@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_coverage_matrix_version": "runtime-coverage-matrix-v1-20260813-c5",
+  "runtime_coverage_matrix_version": "runtime-coverage-matrix-v1-20260813-c6",
   "scope": "runtime-coverage-matrix",
   "policy": {
     "scenario_is_primary_key": true,
@@ -8,7 +8,9 @@
     "text_mentions_are_not_evidence": true,
     "observations_are_separate_from_expectations": true,
     "missing_contracts_fail_closed": true,
-    "production_requires_observed_and_promoted": true
+    "production_requires_observed_and_promoted": true,
+    "candidate_join_preserves_unknown_ids": true,
+    "candidate_join_includes_variant_ids": true
   },
   "counts": {
     "total": 101,
@@ -19,7 +21,8 @@
     },
     "observed": 0,
     "production_eligible": 0,
-    "candidate_joined": 16
+    "candidate_joined": 59,
+    "candidate_join_invalid": 1
   },
   "scenarios": [
     {
@@ -56,7 +59,12 @@
           "source_id": "RR01"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -126,7 +134,12 @@
           "source_id": "RR02"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -196,7 +209,12 @@
           "source_id": "RR03"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -265,7 +283,17 @@
           "source_id": "RR04"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "invalid",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [
+            "shanghai-choy-sum-variant"
+          ],
+          "blocker_codes": [
+            "unknown_candidate_id",
+            "candidate_join_invalid"
+          ]
         }
       },
       "observation": {
@@ -335,7 +363,12 @@
           "source_id": "RR05"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "xinjiang-lamb-pilaf"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -406,7 +439,12 @@
           "source_id": "RR06"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "xinjiang-lamb-pilaf"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -477,7 +515,12 @@
           "source_id": "RR07"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "xinjiang-lamb-pilaf"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -546,7 +589,12 @@
           "source_id": "RR08"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "taiwan-cabbage-mushroom-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -619,7 +667,12 @@
           "source_id": "RR09"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "taiwan-cabbage-mushroom-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -690,7 +743,12 @@
           "source_id": "RR10"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "quanzhou-oil-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -759,7 +817,12 @@
           "source_id": "RR11"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "north-china-green-bean-braised-noodles"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -831,7 +894,12 @@
           "source_id": "RR12"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -899,7 +967,10 @@
           "source_id": "RR13"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -972,7 +1043,12 @@
           "source_id": "RR14"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1043,7 +1119,12 @@
           "source_id": "RR15"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1112,7 +1193,12 @@
           "source_id": "RR16"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1183,7 +1269,12 @@
           "source_id": "RR17"
         },
         "candidate_refs": {
-          "status": "ok"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1251,7 +1342,10 @@
           "source_id": "RM-01-jiangnan-planned-only"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1320,7 +1414,10 @@
           "source_id": "RM-02-xinjiang-planned-only"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1387,7 +1484,10 @@
           "source_id": "RM-03-potato-only"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1457,7 +1557,12 @@
           "source_id": "RM-04-chicken-potato-b"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-chicken-leg-potato-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1530,7 +1635,12 @@
           "source_id": "RM-05-chicken-potato-greens-no-fabricated-a"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-chicken-leg-potato-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1603,7 +1713,12 @@
           "source_id": "RM-06-tofu-cabbage-ready"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-cabbage-tofu-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1672,7 +1787,10 @@
           "source_id": "RM-07-tofu-mushroom-greens-planned-gap"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1745,7 +1863,12 @@
           "source_id": "RM-08-beef-broccoli-ready"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-broccoli-beef-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1815,7 +1938,10 @@
           "source_id": "RM-09-four-vegetable-protein-mix-no-single-card"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1895,7 +2021,12 @@
           "source_id": "RM-10-six-mixed-best-honest-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-mushroom-green-bean-pork-rib-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -1979,7 +2110,12 @@
           "source_id": "RM-11-ten-mixed-best-honest-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-mushroom-green-bean-pork-rib-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2050,7 +2186,10 @@
           "source_id": "RM-12a-egg-dislike-preflight"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2121,7 +2260,10 @@
           "source_id": "RM-12b-seafood-dislike-preflight"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2191,7 +2333,10 @@
           "source_id": "RM-12c-rice-dislike-preflight"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2264,7 +2409,12 @@
           "source_id": "RM-13-green-bean-rib-ready"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-green-bean-pork-rib-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2330,7 +2480,10 @@
           "source_id": "RM-14-no-second-reliable-alternative"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2400,7 +2553,12 @@
           "source_id": "RM-16-greens-ground-pork-ready"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-greens-minced-pork-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2470,7 +2628,12 @@
           "source_id": "RM-15-selector-facts-for-compiler"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-chicken-leg-potato-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2541,7 +2704,12 @@
           "source_id": "RM-17-corn-carrot-chicken-ready"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-corn-carrot-chicken-leg-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2616,7 +2784,12 @@
           "source_id": "RM-18-mushroom-bean-rib-ready"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-mushroom-green-bean-pork-rib-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2686,7 +2859,12 @@
           "source_id": "RM-21-shanghai-salted-pork-ready"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "shanghai-salted-pork-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2766,7 +2944,12 @@
           "source_id": "RM-22-chicken-corn-carrot-potato-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-corn-carrot-chicken-leg-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2848,7 +3031,12 @@
           "source_id": "RM-23-five-items-ceil-sixty-percent"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-corn-carrot-chicken-leg-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2916,7 +3104,10 @@
           "source_id": "RM-24-tofu-ribs-no-forced-combination"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -2994,7 +3185,12 @@
           "source_id": "RM-25-tenderloin-and-brisket-one-generic-slot"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-broccoli-beef-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3068,7 +3264,12 @@
           "source_id": "RM-26-explicit-rice-does-not-pad-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-green-bean-pork-rib-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3139,7 +3340,12 @@
           "source_id": "RM-27-calibration-cabbage-rice-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-taiwan-cabbage-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3211,7 +3417,12 @@
           "source_id": "RM-28-calibration-pumpkin-rice-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-taiwan-pumpkin-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3283,7 +3494,12 @@
           "source_id": "RM-29-calibration-curry-chicken-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-curry-chicken-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3356,7 +3572,12 @@
           "source_id": "RM-30-calibration-sausage-mixed-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-sausage-mixed-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3427,7 +3648,12 @@
           "source_id": "RM-31-calibration-beef-mixed-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-beef-mixed-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3500,7 +3726,12 @@
           "source_id": "RM-32-calibration-bamboo-vegetable-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-bamboo-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3573,7 +3804,12 @@
           "source_id": "RM-33-calibration-mixed-chicken-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-mixed-chicken-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3644,7 +3880,12 @@
           "source_id": "RM-34-calibration-fresh-shiitake-full-coverage"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-fresh-shiitake-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3725,7 +3966,13 @@
           "source_id": "RM-35-screenshot-five-item-honest-two-item-options"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-cabbage-tofu-rice",
+            "home-chicken-leg-potato-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3796,7 +4043,12 @@
           "source_id": "RM-36-screenshot-ribs-with-explicit-green-beans"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "home-green-bean-pork-rib-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3867,7 +4119,12 @@
           "source_id": "RM-37-source-sichuan-pork-ribs-calibration"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-sichuan-pork-ribs-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -3937,7 +4194,12 @@
           "source_id": "RM-343-source-tatung-beef-burdock-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tatung-beef-burdock-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4007,7 +4269,12 @@
           "source_id": "RM-344-source-tiger-pork-bamboo-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tiger-pork-bamboo-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4079,7 +4346,12 @@
           "source_id": "RM-345-source-tatung-pork-daikon-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tatung-pork-daikon-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4151,7 +4423,12 @@
           "source_id": "RM-346-source-tatung-wakayama-ginger-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tatung-wakayama-ginger-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4224,7 +4501,12 @@
           "source_id": "RM-347-source-taiwan-tatung-cabbage-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-taiwan-tatung-cabbage-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4296,7 +4578,12 @@
           "source_id": "RM-348-source-zojirushi-pork-vegetable-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-zojirushi-pork-vegetable-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4369,7 +4656,12 @@
           "source_id": "RM-349-source-panasonic-nf-pc400-takikomi-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-panasonic-nf-pc400-takikomi-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4442,7 +4734,13 @@
           "source_id": "RM-350-source-panasonic-khao-man-gai"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-panasonic-khao-man-gai",
+            "source-tatung-hainan-chicken-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4514,7 +4812,12 @@
           "source_id": "RM-351-source-zojirushi-okayama-ebimeshi"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-zojirushi-okayama-ebimeshi"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4586,7 +4889,12 @@
           "source_id": "RM-352-source-cookpot-beef-wild-mushroom-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-cookpot-beef-wild-mushroom-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4659,7 +4967,13 @@
           "source_id": "RM-353-source-tatung-hainan-chicken-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-panasonic-khao-man-gai",
+            "source-tatung-hainan-chicken-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4731,7 +5045,12 @@
           "source_id": "RM-354-source-tatung-pork-jowl-sesame-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tatung-pork-jowl-sesame-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4804,7 +5123,12 @@
           "source_id": "RM-355-source-tiger-chinese-sticky-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tiger-chinese-sticky-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4874,7 +5198,12 @@
           "source_id": "RM-356-source-panasonic-claypot-style-chicken-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-panasonic-claypot-style-chicken-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -4945,7 +5274,12 @@
           "source_id": "RM-357-source-tatung-tomato-pumpkin-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tatung-tomato-pumpkin-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5019,7 +5353,12 @@
           "source_id": "RM-358-source-nih-medlineplus-chicken-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-nih-medlineplus-chicken-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5090,7 +5429,12 @@
           "source_id": "RM-359-source-tiger-chicken-bamboo-rice"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "ok",
+          "resolved_ids": [
+            "source-tiger-chicken-bamboo-rice"
+          ],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5153,7 +5497,10 @@
           "source_id": "dr-shadow-01"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5218,7 +5565,10 @@
           "source_id": "dr-shadow-02"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5283,7 +5633,10 @@
           "source_id": "dr-shadow-03"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5349,7 +5702,10 @@
           "source_id": "dr-shadow-04"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5415,7 +5771,10 @@
           "source_id": "dr-shadow-05"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5484,7 +5843,10 @@
           "source_id": "dr-shadow-06"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5553,7 +5915,10 @@
           "source_id": "dr-shadow-07"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5621,7 +5986,10 @@
           "source_id": "dr-shadow-08"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5687,7 +6055,10 @@
           "source_id": "dr-shadow-09"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5753,7 +6124,10 @@
           "source_id": "dr-shadow-10"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5822,7 +6196,10 @@
           "source_id": "dr-shadow-11"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5894,7 +6271,10 @@
           "source_id": "dr-shadow-12"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -5963,7 +6343,10 @@
           "source_id": "dr-shadow-13"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6032,7 +6415,10 @@
           "source_id": "dr-shadow-14"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6101,7 +6487,10 @@
           "source_id": "dr-shadow-15"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6169,7 +6558,10 @@
           "source_id": "dr-shadow-16"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6237,7 +6629,10 @@
           "source_id": "dr-shadow-17"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6305,7 +6700,10 @@
           "source_id": "dr-shadow-18"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6371,7 +6769,10 @@
           "source_id": "dr-shadow-19"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6438,7 +6839,10 @@
           "source_id": "dr-shadow-20"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6505,7 +6909,10 @@
           "source_id": "dr-shadow-21"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6571,7 +6978,10 @@
           "source_id": "dr-shadow-22"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6637,7 +7047,10 @@
           "source_id": "dr-shadow-23"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6704,7 +7117,10 @@
           "source_id": "dr-shadow-24"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6770,7 +7186,10 @@
           "source_id": "dr-shadow-25"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6841,7 +7260,10 @@
           "source_id": "dr-shadow-26"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6925,7 +7347,10 @@
           "source_id": "dr-shadow-27"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -6992,7 +7417,10 @@
           "source_id": "dr-shadow-28"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -7058,7 +7486,10 @@
           "source_id": "dr-shadow-29"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {
@@ -7124,7 +7555,10 @@
           "source_id": "dr-shadow-30"
         },
         "candidate_refs": {
-          "status": "none"
+          "status": "none",
+          "resolved_ids": [],
+          "unknown_ids": [],
+          "blocker_codes": []
         }
       },
       "observation": {

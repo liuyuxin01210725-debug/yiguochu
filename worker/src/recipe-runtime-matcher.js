@@ -1,5 +1,6 @@
 import { minimumRecommendCoverageCount } from './planner-coverage.js';
 import { buildNamedRecipePresentation } from './plan-presentation.js';
+import { attachRuntimeCandidateAuthority } from './runtime-authority.js';
 
 const IDENTITY_LEVEL_BY_IMPACT = Object.freeze({
   preserves_identity: 'approved_variant',
@@ -119,7 +120,7 @@ function candidateFor(entry, allItems, attempt, variant = null, runtimeCatalogVe
     variant: Boolean(variant),
   });
   if (!presentation) return null;
-  return {
+  return attachRuntimeCandidateAuthority({
     recipe_runtime_catalog_version: runtimeCatalogVersion,
     plan_source: variant ? 'recipe_variant' : 'named_recipe',
     recipe_id: entry.recipe_id,
@@ -136,7 +137,7 @@ function candidateFor(entry, allItems, attempt, variant = null, runtimeCatalogVe
     coverage_ratio: requestItems.length ? planned.length / requestItems.length : 0,
     recognition_ratio: requestItems.length ? recognized.length / requestItems.length : 0,
     recognized_coverage_ratio: recognized.length ? plannedRecognized.length / recognized.length : 0,
-  };
+  }, entry, variant, runtimeCatalogVersion);
 }
 
 export function matchNamedRecipeCandidates(assets = {}, normalizedRequest = {}) {

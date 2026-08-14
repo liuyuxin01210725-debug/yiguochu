@@ -72,3 +72,19 @@ test('promotion gate refuses a recipe when the observation points at a different
   assert.equal(result.allowed, false);
   assert.ok(result.reasons.includes('kitchen_observation_missing'));
 });
+
+test('preview trial candidate can reach promotion review without entering runtime first', () => {
+  const result = evaluateKitchenPromotion({
+    runtimeCatalog: { entries: [] },
+    trialCatalog: {
+      kitchen_trial_catalog_version: 'kitchen-trial-catalog-v1-test',
+      entries: [{ recipe_id: 'tiger-chicken-bamboo-rice', trial_eligible: true, planner_runtime_eligible: false, production_approved: false }],
+    },
+    executionLibrary: { execution_library_version: 'source-backed-execution-v1-test', entries: [{ recipe_id: 'tiger-chicken-bamboo-rice' }] },
+    observations: [],
+    formalReview: null,
+  }, 'tiger-chicken-bamboo-rice');
+  assert.equal(result.allowed, false);
+  assert.ok(!result.reasons.includes('runtime_recipe_missing'));
+  assert.ok(result.reasons.includes('kitchen_observation_missing'));
+});

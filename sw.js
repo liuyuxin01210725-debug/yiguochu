@@ -1,22 +1,11 @@
 const C = 'yiguochu-shell-v5';
-const SHELL = [
-  './',
-  './index.html',
-  './recipes',
-  './recipes/',
-  './recipes/index.html',
-  './source-recipes.html',
-  './source-recipes/',
-  './source-recipes/index.html',
-  './cook.html',
-  './cook/',
-  './cook/index.html',
-  './manifest.json',
-  './icon.svg',
-  './icon-180.png',
-  './icon-192.png',
-  './icon-512.png',
-];
+const ARTIFACT_SCOPE = '__YIGUOCHU_ARTIFACT_SCOPE__';
+// The build injects a scope-specific list. The source fallback is deliberately
+// runtime-only so a raw source worker never caches research pages by accident.
+const injectedShell = '__YIGUOCHU_SHELL_JSON__';
+const SHELL = injectedShell === '__YIGUOCHU_SHELL_JSON__'
+  ? ['./','./index.html','./recipes/','./recipes/index.html','./cook/','./cook/index.html','./manifest.json','./icon.svg','./icon-180.png','./icon-192.png','./icon-512.png']
+  : JSON.parse(injectedShell);
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(C).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
 });

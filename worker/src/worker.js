@@ -38,6 +38,12 @@ import {
   validateDeterministicTextProfiles,
   validateGeneratedPlan,
 } from './generated-plan-contract.js';
+import {
+  decideRuntimeAuthority,
+  normalizeRuntimeAuthority,
+  validateRuntimeCandidateAuthority,
+  validateRuntimeVariantCandidateAuthority,
+} from './runtime-authority.js';
 
 const NUTRIENT_KEYS = ['kcal', 'p', 'fb', 'mg', 'k', 'ca', 'fe', 'zn', 'na', 'vc', 'vd', 'w3'];
 const DEFAULT_DEEPSEEK_MODEL = 'deepseek-v4-flash';
@@ -53,6 +59,7 @@ const BUILD_METADATA_DEFAULTS = Object.freeze({
   riceCatalogScope: 'ready',
   riceCookerSourceEvidenceVersion: null,
   riceCookerSourceEvidenceSha256: null,
+  runtimeAuthorityMode: 'shadow',
 });
 // The canonical build replaces these sentinels with JSON strings. Source tests
 // intentionally leave them unresolved so ASSETS remains the authority there.
@@ -1869,6 +1876,7 @@ async function namedPlanCandidates(plannerAssets, normalizedResult, customCandid
       const draft = structuredClone(custom);
       Object.assign(draft, {
         recipe_runtime_catalog_version: named.recipe_runtime_catalog_version,
+        runtime_candidate_authority: structuredClone(named.runtime_candidate_authority),
         plan_source: named.plan_source,
         recipe_id: named.recipe_id,
         variant_id: named.variant_id,
@@ -1892,6 +1900,16 @@ async function namedPlanCandidates(plannerAssets, normalizedResult, customCandid
         // ingredients. Only a fully materializable server candidate is eligible.
       }
     }
+  }
+  return candidates;
+}
+
+function assertPlannerCandidateAuthorities(plannerAssets, candidates) {
+  const runtimeCatalog = plannerAssets?.recipeRuntime;
+  for (const candidate of Array.isArray(candidates) ? candidates : []) {
+    if (!candidate || (candidate.plan_source !== 'named_recipe' && candidate.plan_source !== 'recipe_variant')) continue;
+    const errors = validateRuntimeCandidateAuthority(candidate, runtimeCatalog);
+    if (errors.length) throw Object.assign(new Error(errors.join('; ')), { code: 'runtime_candidate_authority_invalid' });
   }
   return candidates;
 }
@@ -1971,7 +1989,9 @@ async function enumerateAuthoritativeHybridRecommendState(
     customState.authoritative,
     customState.candidates,
   );
+  assertPlannerCandidateAuthorities(plannerAssets, named);
   const navigationMembers = uniqueHybridMembers([...named, ...customState.candidates]);
+  assertPlannerCandidateAuthorities(plannerAssets, navigationMembers);
   const displayed = selectHybridCandidates([...named, ...customState.displayed], {
     limit,
     recentPlanIds: plannerRequest.recent_plan_ids,
@@ -1982,6 +2002,7 @@ async function enumerateAuthoritativeHybridRecommendState(
     preserveInputOrder: named.length === 0,
   })
     .map(detachedHybridCandidate);
+  assertPlannerCandidateAuthorities(plannerAssets, displayed);
   const initialResponse = displayed.length
     ? {
         ...structuredClone(displayed[0]),
@@ -2058,7 +2079,9 @@ export async function getCachedInitialRecommendBundle(
   const cacheableOwner = cacheOwner
     && (typeof cacheOwner === 'object' || typeof cacheOwner === 'function');
   if (!cacheableOwner) {
-    return compute(plannerAssets, plannerRequest, { limit: 3 });
+    const planned = await compute(plannerAssets, plannerRequest, { limit: 3 });
+    assertPlannerCandidateAuthorities(plannerAssets, [planned, ...(Array.isArray(planned?.candidate_plans) ? planned.candidate_plans : [])]);
+    return planned;
   }
   let cache = INITIAL_RECOMMEND_BUNDLE_CACHE.get(cacheOwner);
   if (!cache) {
@@ -2066,8 +2089,13 @@ export async function getCachedInitialRecommendBundle(
     INITIAL_RECOMMEND_BUNDLE_CACHE.set(cacheOwner, cache);
   }
   const key = JSON.stringify(plannerRequest);
-  if (cache.has(key)) return structuredClone(cache.get(key));
+  if (cache.has(key)) {
+    const cached = cache.get(key);
+    assertPlannerCandidateAuthorities(plannerAssets, [cached, ...(Array.isArray(cached?.candidate_plans) ? cached.candidate_plans : [])]);
+    return structuredClone(cached);
+  }
   const planned = await compute(plannerAssets, plannerRequest, { limit: 3 });
+  assertPlannerCandidateAuthorities(plannerAssets, [planned, ...(Array.isArray(planned?.candidate_plans) ? planned.candidate_plans : [])]);
   if (cache.size >= INITIAL_RECOMMEND_BUNDLE_CACHE_LIMIT) {
     cache.delete(cache.keys().next().value);
   }
@@ -2142,14 +2170,14 @@ async function readSourceRuntimeCatalogHealth(env, request) {
   const catalog = await readOptionalPlannerJsonAsset(
     env.ASSETS,
     request,
-    '/source-backed-runtime-catalog.v1.json',
+    '/source-backed-release-ledger.v1.json',
   );
   if (!catalog || !Array.isArray(catalog.entries) || !catalog.counts) return null;
   return {
     status: 'ok',
-    version: typeof catalog.runtime_catalog_version === 'string'
-      ? catalog.runtime_catalog_version
-      : null,
+    version: typeof catalog.release_ledger_version === 'string'
+      ? catalog.release_ledger_version
+      : (typeof catalog.runtime_catalog_version === 'string' ? catalog.runtime_catalog_version : null),
     entries: catalog.entries.length,
     previewOnly: Number(catalog.counts.preview_only) || 0,
     researchOnly: Number(catalog.counts.research_only) || 0,
@@ -2177,6 +2205,20 @@ async function readRuntimeOnePotCatalogHealth(env, request) {
     productionApproved: Number(catalog.counts.production_approved) || 0,
     kitchenObserved: Number(catalog.counts.kitchen_observed) || 0,
   };
+}
+
+async function readRuntimeAuthorityHealth(env, request, buildMetadata, catalogHealth = null) {
+  let asset = null;
+  try {
+    asset = await readOptionalPlannerJsonAsset(env?.ASSETS, request, '/runtime-authority.v1.json');
+  } catch (_error) {
+    asset = null;
+  }
+  const authority = normalizeRuntimeAuthority({
+    runtimeAuthorityMode: buildMetadata?.runtimeAuthorityMode ?? asset?.mode ?? 'shadow',
+    runtimeCatalogVersion: buildMetadata?.runtimeCatalogVersion ?? asset?.catalog_version ?? catalogHealth?.version ?? null,
+  });
+  return { authority, decision: decideRuntimeAuthority(authority, catalogHealth) };
 }
 
 async function readSourceCoverageMatrixHealth(env, request) {
@@ -2368,6 +2410,15 @@ function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {})
       || !['ready', 'calibration'].includes(riceCatalogScope)
       || (hasSourceEvidenceMetadata && !validSourceEvidenceMetadata)
       || (productFocus === 'rice-meal-v1' && !validSourceEvidenceMetadata)) return null;
+  let runtimeAuthority;
+  try {
+    runtimeAuthority = normalizeRuntimeAuthority({
+      runtimeAuthorityMode: meta.runtimeAuthorityMode,
+      runtimeCatalogVersion: meta.runtimeCatalogVersion,
+    });
+  } catch (_error) {
+    return null;
+  }
   return {
     buildId: meta.buildId,
     plannerRollout: meta.plannerRollout,
@@ -2376,6 +2427,8 @@ function validatedBuildMetadata(meta, { allowSourceLegacyDefault = false } = {})
     riceCatalogScope,
     riceCookerSourceEvidenceVersion: validSourceEvidenceMetadata ? sourceEvidenceVersion : null,
     riceCookerSourceEvidenceSha256: validSourceEvidenceMetadata ? sourceEvidenceSha256 : null,
+    runtimeAuthorityMode: runtimeAuthority.mode,
+    runtimeCatalogVersion: runtimeAuthority.catalog_version,
   };
 }
 
@@ -3462,6 +3515,9 @@ async function handlePlanMeal(request, env) {
     if (error?.code === 'invalid_planner_request') {
       return errorResponse('invalid_planner_request', '规划请求格式无效', 400, env, {}, request);
     }
+    if (error?.code === 'runtime_candidate_authority_invalid') {
+      return errorResponse('runtime_candidate_authority_invalid', '运行候选合同已变化，请重新规划', 503, env, {}, request);
+    }
     throw error;
   }
   let plannerAssets;
@@ -3565,6 +3621,33 @@ function withRiceMealPlanTokens(selection, secret) {
   return response;
 }
 
+function assertRiceMealCandidateAuthorities(selection, catalog) {
+  const variantById = new Map((catalog?.families || []).flatMap(family => (
+    (family?.variants || []).map(variant => [variant?.variant_id, { variant, familyId: family?.family_id || null }])
+  )));
+  const candidates = [
+    ...(Array.isArray(selection?.candidates) ? selection.candidates : []),
+    selection?.best_available_candidate,
+    selection?.current_candidate,
+  ].filter(Boolean);
+  const seen = new Set();
+  for (const candidate of candidates) {
+    const key = `${candidate.variant_id || ''}\u0000${candidate.plan_id || ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const binding = variantById.get(candidate.variant_id);
+    if (!binding) throw Object.assign(new Error('runtime candidate variant is not present in the rice catalog'), { code: 'runtime_candidate_authority_invalid' });
+    const errors = validateRuntimeVariantCandidateAuthority(
+      candidate,
+      binding.variant,
+      catalog.catalog_version,
+      binding.familyId,
+    );
+    if (errors.length) throw Object.assign(new Error(errors.join('; ')), { code: 'runtime_candidate_authority_invalid' });
+  }
+  return selection;
+}
+
 async function enrichRiceMealNutrition(compiled, env, request) {
   const inputs = compiled?.plan?.nutrition_inputs;
   if (!Array.isArray(inputs)) return compiled;
@@ -3575,7 +3658,7 @@ async function enrichRiceMealNutrition(compiled, env, request) {
   return compiled;
 }
 
-async function handleRiceMealPlan(request, env) {
+async function handleRiceMealPlan(request, env, authorityDecision = { mode: 'shadow', authorized: false, code: 'shadow_preview_only', eligible: 0 }) {
   const rawBody = await request.text().catch(() => '');
   if (new TextEncoder().encode(rawBody).length > 32 * 1024) {
     return errorResponse('request_too_large', '请求体超过 32KB 上限', 400, env, {}, request);
@@ -3615,8 +3698,15 @@ async function handleRiceMealPlan(request, env) {
       recentPlanIds: selectorRequest.recent_plan_ids || [],
       riceCatalogScope: riceMealAssets.riceCatalogScope,
     });
-    return jsonResponse(withRiceMealPlanTokens(selection, secret), 200, env, request);
+    assertRiceMealCandidateAuthorities(selection, riceMealAssets.catalog);
+    return jsonResponse({
+      ...withRiceMealPlanTokens(selection, secret),
+      runtime_authority: authorityDecision,
+    }, 200, env, request);
   } catch (_error) {
+    if (_error?.code === 'runtime_candidate_authority_invalid') {
+      return errorResponse('runtime_candidate_authority_invalid', '菜饭候选合同已变化，请重新规划', 503, env, {}, request);
+    }
     return errorResponse('invalid_rice_meal_request', '菜饭规划请求格式无效', 400, env, {}, request);
   }
 }
@@ -3837,6 +3927,9 @@ async function handleGeneratePlan(request, env) {
       plannerAssets.actionProfiles,
     );
   } catch (error) {
+    if (/named_recipe_runtime_candidate_authority_invalid/u.test(String(error?.message || ''))) {
+      return errorResponse('runtime_candidate_authority_invalid', '运行候选合同已变化，请重新规划', 503, env, {}, request);
+    }
     console.error('locked plan contract failed', String(error?.message || 'contract_error').slice(0, 80));
     return errorResponse('planner_unavailable', '规划服务暂时不可用', 503, env, {}, request);
   }
@@ -3994,6 +4087,8 @@ export default {
       let runtimeOnePotCatalogPlannerRuntimeEligible = 0;
       let runtimeOnePotCatalogProductionApproved = 0;
       let runtimeOnePotCatalogKitchenObserved = 0;
+      let runtimeAuthority = { mode: 'shadow', authorized: false, code: 'shadow_preview_only', eligible: 0 };
+      let runtimeAuthorityCatalogVersion = null;
       let sourceCoverageMatrix = 'unavailable';
       let sourceCoverageMatrixVersion = null;
       let sourceCoverageMatrixEntries = 0;
@@ -4080,8 +4175,10 @@ export default {
       } catch (_error) {
         sourceExecutionLibrary = 'unavailable';
       }
+      let runtimeCatalogHealth = null;
       try {
         const runtimeCatalog = await readRuntimeOnePotCatalogHealth(env, request);
+        runtimeCatalogHealth = runtimeCatalog;
         if (runtimeCatalog) {
           runtimeOnePotCatalog = runtimeCatalog.status;
           runtimeOnePotCatalogVersion = runtimeCatalog.version;
@@ -4092,6 +4189,18 @@ export default {
         }
       } catch (_error) {
         runtimeOnePotCatalog = 'unavailable';
+      }
+      try {
+        const authorityHealth = await readRuntimeAuthorityHealth(env, request, buildMetadata, runtimeCatalogHealth);
+        runtimeAuthority = authorityHealth.decision;
+        runtimeAuthorityCatalogVersion = authorityHealth.authority.catalog_version;
+      } catch (_error) {
+        runtimeAuthority = {
+          mode: buildMetadata?.runtimeAuthorityMode || 'shadow',
+          authorized: false,
+          code: runtimeCatalogHealth ? 'runtime_catalog_unavailable' : 'runtime_catalog_unavailable',
+          eligible: 0,
+        };
       }
       try {
         const runtimeCatalog = await readSourceRuntimeCatalogHealth(env, request);
@@ -4199,6 +4308,8 @@ export default {
         runtimeOnePotCatalogPlannerRuntimeEligible,
         runtimeOnePotCatalogProductionApproved,
         runtimeOnePotCatalogKitchenObserved,
+        runtimeAuthority,
+        runtimeAuthorityCatalogVersion,
         sourceCoverageMatrix,
         sourceCoverageMatrixVersion,
         sourceCoverageMatrixEntries,
@@ -4258,7 +4369,19 @@ export default {
         return errorResponse('build_metadata_unavailable', '构建元数据暂时不可用', 503, env, {}, request);
       }
       if (buildMetadata.productFocus === 'rice-meal-v1') {
-        return handleRiceMealPlan(request, env);
+        let authorityDecision;
+        try {
+          const runtimeCatalog = await readRuntimeOnePotCatalogHealth(env, request);
+          authorityDecision = (await readRuntimeAuthorityHealth(env, request, buildMetadata, runtimeCatalog)).decision;
+        } catch (_error) {
+          authorityDecision = { mode: buildMetadata.runtimeAuthorityMode || 'shadow', authorized: false, code: 'runtime_catalog_unavailable', eligible: 0 };
+        }
+        if (authorityDecision.mode === 'catalog-enforced' && !authorityDecision.authorized) {
+          return errorResponse(authorityDecision.code, '正式运行目录尚未具备可执行菜谱', 503, env, {
+            runtime_authority: authorityDecision,
+          }, request);
+        }
+        return handleRiceMealPlan(request, env, authorityDecision);
       }
       return handlePlanMeal(request, env);
     }

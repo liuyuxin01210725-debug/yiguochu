@@ -34,7 +34,7 @@ const HEALTH_ASSETS = Object.freeze({
   '/recipe-runtime.v1.json': fs.readFileSync(new URL('../data/recipe-runtime.v1.json', import.meta.url), 'utf8'),
   '/recipe-action-profiles.v1.json': fs.readFileSync(new URL('../data/recipe-action-profiles.v1.json', import.meta.url), 'utf8'),
   '/source-backed-execution-library.v1.json': fs.readFileSync(new URL('../data/source-backed-execution-library.v1.json', import.meta.url), 'utf8'),
-  '/source-backed-runtime-catalog.v1.json': fs.readFileSync(new URL('../data/source-backed-runtime-catalog.v1.json', import.meta.url), 'utf8'),
+  '/source-backed-release-ledger.v1.json': fs.readFileSync(new URL('../data/source-backed-release-ledger.v1.json', import.meta.url), 'utf8'),
   '/source-backed-coverage-matrix.v1.json': fs.readFileSync(new URL('../data/source-backed-coverage-matrix.v1.json', import.meta.url), 'utf8'),
   '/runtime-one-pot-catalog.v1.json': fs.readFileSync(new URL('../data/generated/runtime-one-pot-catalog.v1.json', import.meta.url), 'utf8'),
 });
@@ -4108,8 +4108,8 @@ test('health cache is isolated per assets binding in one module instance', async
   assert.equal(missingBody.recipeLibrary, 'unavailable');
   assert.equal(missingBody.recipeFamilies, 0);
   assert.equal(missingBody.baseRecipes, 0);
-  assert.equal(okFetches, 12);
-  assert.equal(missingFetches, 13);
+  assert.equal(okFetches, 13);
+  assert.equal(missingFetches, 14);
 });
 
 test('health reuses planner assets while refreshing build metadata for the same binding', async () => {
@@ -4136,16 +4136,18 @@ test('health reuses planner assets while refreshing build metadata for the same 
     'https://one.example/recipe-action-profiles.v1.json',
     'https://one.example/rice-meal-catalog.v1.json',
     'https://one.example/source-backed-execution-library.v1.json',
-    'https://one.example/source-backed-runtime-catalog.v1.json',
+    'https://one.example/source-backed-release-ledger.v1.json',
     'https://one.example/source-backed-coverage-matrix.v1.json',
     'https://one.example/runtime-one-pot-catalog.v1.json',
+    'https://one.example/runtime-authority.v1.json',
     'https://two.example/build-meta.json',
     'https://two.example/source-backed-execution-library.v1.json',
-    'https://two.example/source-backed-runtime-catalog.v1.json',
+    'https://two.example/source-backed-release-ledger.v1.json',
     'https://two.example/source-backed-coverage-matrix.v1.json',
     'https://two.example/runtime-one-pot-catalog.v1.json',
+    'https://two.example/runtime-authority.v1.json',
   ]));
-  assert.equal(requests.length, 17);
+  assert.equal(requests.length, 19);
 });
 
 test('trusted recipe time adaptation and retained-liquid rules enter grounding', () => {

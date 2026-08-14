@@ -17,7 +17,7 @@ test('source execution cook mode is shipped as a static route for all source car
   assert.match(fs.readFileSync(path.join(ROOT, 'tools/build-dist.mjs'), 'utf8'), /'cook\.html'/u);
   assert.match(fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'), /cook\/?\?id=/u);
   assert.match(fs.readFileSync(path.join(ROOT, 'tools/build-dist.mjs'), 'utf8'), /path\.join\(outputDir, 'cook', 'index\.html'\)/u);
-  assert.match(fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8'), /'\.\/cook\.html'/u);
+  assert.match(fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8'), /cook\/index\.html/u);
 });
 
 test('every source execution card has a cook-mode addressable id and ordered steps', () => {

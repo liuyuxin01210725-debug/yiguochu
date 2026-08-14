@@ -13,6 +13,7 @@ import { compileRatioPlan, computePlanId, planMealWithIdentity } from '../../wor
 import { prepareRatioCatalog } from '../../worker/src/ratio-dsl.js';
 import { validateRecipeRuntimeCatalog } from '../../worker/src/recipe-runtime-validator.js';
 import { materializeNamedPlanFacts } from '../../worker/src/recipe-runtime-compiler.js';
+import { buildRuntimeCandidateAuthority } from '../../worker/src/runtime-authority.js';
 import { RECIPE_ACTION_REGISTRY, RECIPE_SAFETY_EVIDENCE_REGISTRY } from '../../worker/src/recipe-action-registry.js';
 import * as recipeActionRegistry from '../../worker/src/recipe-action-registry.js';
 import { validateRecipeActionProfileCatalog } from '../../worker/src/recipe-action-profile-validator.js';
@@ -78,6 +79,14 @@ async function namedPlannerResult(preferUse, identity) {
     identity_level: identity.identity_level,
     presentation: structuredClone(identity.presentation),
   };
+  const runtimeEntry = productionAssets.recipeRuntime.entries.find(entry => entry?.recipe_id === identity.recipe_id);
+  if (runtimeEntry) {
+    named.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+      runtimeEntry,
+      identity.variant_id ? runtimeEntry.approved_variants?.find(variant => variant?.variant_id === identity.variant_id) : null,
+      productionAssets.recipeRuntime.recipe_runtime_catalog_version,
+    );
+  }
   named.plan.plan_id = await computePlanId(named);
   return named;
 }
@@ -94,6 +103,14 @@ async function taiwanPlannerResult(identity) {
     recipe_runtime_catalog_version: productionAssets.recipeRuntime.recipe_runtime_catalog_version,
     ...identity,
   };
+  const runtimeEntry = productionAssets.recipeRuntime.entries.find(entry => entry?.recipe_id === identity.recipe_id);
+  if (runtimeEntry) {
+    named.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+      runtimeEntry,
+      identity.variant_id ? runtimeEntry.approved_variants?.find(variant => variant?.variant_id === identity.variant_id) : null,
+      productionAssets.recipeRuntime.recipe_runtime_catalog_version,
+    );
+  }
   named.plan.plan_id = await computePlanId(named);
   return named;
 }
@@ -182,13 +199,29 @@ async function materializedNamed(planned, runtime, ratios) {
   const entry = runtime.entries.find(candidate => candidate.recipe_id === planned.recipe_id);
   const recipe = productionAssets.recipes.recipes.find(candidate => candidate.id === planned.recipe_id);
   const materialized = materializeNamedPlanFacts(planned, entry, ratios, recipe, profilesFor(runtime));
+  materialized.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+    entry,
+    planned.variant_id ? entry.approved_variants?.find(variant => variant?.variant_id === planned.variant_id) : null,
+    runtime.recipe_runtime_catalog_version,
+  );
   materialized.plan.plan_id = await computePlanId(materialized);
   return materialized;
 }
 
-const namedCompiler = (planned, runtime, ratios) => buildLockedPlanContract(
-  planned, productionAssets.templates, runtime, ratios, productionAssets.recipes, profilesFor(runtime),
-);
+const namedCompiler = (planned, runtime, ratios) => {
+  const candidate = structuredClone(planned);
+  const entry = runtime.entries.find(item => item?.recipe_id === candidate.recipe_id);
+  if (entry) {
+    candidate.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+      entry,
+      candidate.variant_id ? entry.approved_variants?.find(variant => variant?.variant_id === candidate.variant_id) : null,
+      runtime.recipe_runtime_catalog_version,
+    );
+  }
+  return buildLockedPlanContract(
+    candidate, productionAssets.templates, runtime, ratios, productionAssets.recipes, profilesFor(runtime),
+  );
+};
 
 function actionProfileCatalog(entry, suffix = 'v1') {
   const action_profile_id = `test-${entry.recipe_id}-profile`;
@@ -1167,6 +1200,9 @@ test('named compiler rejects Shanghai profile when cured-pork start and sequence
   });
   const recipe = productionAssets.recipes.recipes.find(row => row.id === entry.recipe_id);
   const materialized = materializeNamedPlanFacts(generic, entry, ratios, recipe, profiles);
+  materialized.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+    entry, null, runtime.recipe_runtime_catalog_version,
+  );
   materialized.plan.plan_id = await computePlanId(materialized);
   const missingStart = profileWithoutAction(profiles, 'start_cured_pork_and_rice');
 
@@ -1201,6 +1237,9 @@ test('named compiler rejects Taiwan profile when cabbage-mushroom start and sequ
   });
   const recipe = productionAssets.recipes.recipes.find(row => row.id === entry.recipe_id);
   const materialized = materializeNamedPlanFacts(generic, entry, ratios, recipe, profiles);
+  materialized.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+    entry, null, runtime.recipe_runtime_catalog_version,
+  );
   materialized.plan.plan_id = await computePlanId(materialized);
   const missingStart = profileWithoutAction(profiles, 'start_cabbage_mushroom_and_rice');
 
@@ -1310,6 +1349,9 @@ test('materialized execution contract is signed and stale profile plans fail clo
   });
   const recipe = productionAssets.recipes.recipes.find(row => row.id === entry.recipe_id);
   const first = materializeNamedPlanFacts(generic, entry, ratios, recipe, profiles);
+  first.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+    entry, null, runtime.recipe_runtime_catalog_version,
+  );
   first.plan.plan_id = await computePlanId(first);
   assert.equal(first.plan.pots[0].execution_contract.action_profile_id, profiles.profiles[0].action_profile_id);
 
@@ -1322,6 +1364,9 @@ test('materialized execution contract is signed and stale profile plans fail clo
     ...productionAssets, ratios, actionProfiles: changedProfiles,
   }), []);
   const second = materializeNamedPlanFacts(generic, entry, ratios, recipe, changedProfiles);
+  second.runtime_candidate_authority = buildRuntimeCandidateAuthority(
+    entry, null, runtime.recipe_runtime_catalog_version,
+  );
   second.plan.plan_id = await computePlanId(second);
   assert.notEqual(second.plan.plan_id, first.plan.plan_id);
   assert.throws(() => buildLockedPlanContract(first, productionAssets.templates, runtime, ratios,

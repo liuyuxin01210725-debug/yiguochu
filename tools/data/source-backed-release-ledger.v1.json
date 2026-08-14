@@ -23878,6 +23878,6 @@
       "next_action": "回到同一来源补齐固定批量、液体、步骤和总时长。"
     }
   ],
-  "release_ledger_version": "source-backed-release-ledger-v1-20260813-correction",
+  "release_ledger_version": "source-backed-release-ledger-v1-20260813-c11",
   "deprecated_alias": "tools/data/source-backed-runtime-catalog.v1.json"
 }
