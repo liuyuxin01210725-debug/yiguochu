@@ -8,7 +8,7 @@
     "people": "约 5 人份（可缩放）"
   },
   "ingredients": [
-    "牛肉 900g（{'ru': 'крупными кусками', 'en': 'in large pieces'}）",
+    "牛肉 900g",
     "Massaman curry paste 5tbsp",
     "椰奶 800ml",
     "土豆es 500g",
@@ -20,14 +20,13 @@
     "肉桂 stick 1piece",
     "豆蔻 pods 4piece",
     "Bay leaves 2piece",
-    "大米（Jasmine rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}）"
+    "大米（Jasmine rice） 400g"
   ],
   "steps_now": [
     "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
     "锅中少油炒香洋葱姜蒜与香料；下肉/土豆等翻匀。",
     "倒入椰奶或汤、咖喱酱/块，小火炖至软烂；可同时电饭煲煮米，或米与咖喱同锅收汁。",
-    "试味调盐；装饭浇咖喱，或一锅拌匀后分装。",
-    "要点对照来源：Heat the thick part of the coconut milk without stirring until the oil separates.…（完整英文步骤见 UniTools 原条目）"
+    "试味调盐；装饭浇咖喱，或一锅拌匀后分装。"
   ],
   "prep_optional": [],
   "time_minutes": {
