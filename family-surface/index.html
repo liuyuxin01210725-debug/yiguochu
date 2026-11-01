@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <title>一锅出 · 女儿早餐（S1 新表面）</title>
+  <style>
+    :root {
+      --bg: #f6f1ea;
+      --card: #fffdf9;
+      --ink: #1c1917;
+      --muted: #78716c;
+      --line: #e7e0d6;
+      --accent: #c2410c;
+      --accent-soft: #ffedd5;
+      --ok: #166534;
+      --ok-soft: #dcfce7;
+      --warn: #92400e;
+      --warn-soft: #fef3c7;
+      --home: #1d4ed8;
+      --home-soft: #dbeafe;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(28, 25, 23, 0.06);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(1200px 400px at 10% -10%, #ffe8d6 0%, transparent 60%),
+        radial-gradient(900px 300px at 100% 0%, #e8f0ff 0%, transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 480px; margin: 0 auto; padding: 20px 16px 96px; }
+    header.scene {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5 55%, #fed7aa);
+      border: 1px solid #fdba74;
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-flex; gap: 6px; align-items: center;
+      font-size: 12px; letter-spacing: 0.04em; color: var(--warn);
+      background: rgba(255,255,255,0.7); border-radius: 999px; padding: 4px 10px;
+      border: 1px solid #fdba74;
+    }
+    h1 { margin: 10px 0 6px; font-size: 26px; line-height: 1.2; }
+    .lead { margin: 0; color: #57534e; font-size: 14px; line-height: 1.55; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .chip {
+      font-size: 12px; padding: 5px 10px; border-radius: 999px;
+      background: #fff; border: 1px solid var(--line); color: var(--muted);
+    }
+    .chip.strong { background: var(--accent-soft); color: var(--accent); border-color: #fdba74; }
+    section { margin-top: 22px; }
+    .section-title {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .section-title h2 { margin: 0; font-size: 16px; }
+    .section-title span { font-size: 12px; color: var(--muted); }
+    .cards { display: grid; gap: 12px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .card:hover, .card:focus-visible { transform: translateY(-1px); border-color: #d6d3d1; outline: none; }
+    .card.active { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(194,65,12,.15), var(--shadow); }
+    .row { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+    .title { font-size: 18px; font-weight: 700; margin: 0 0 6px; }
+    .why { margin: 0; color: #57534e; font-size: 13px; line-height: 1.5; }
+    .badge {
+      flex: none; font-size: 11px; font-weight: 700; padding: 4px 8px;
+      border-radius: 999px; white-space: nowrap;
+    }
+    .badge.trial { background: var(--warn-soft); color: var(--warn); }
+    .badge.home { background: var(--home-soft); color: var(--home); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .tag {
+      font-size: 11px; color: var(--muted); background: #f5f5f4;
+      border-radius: 8px; padding: 3px 8px;
+    }
+    .detail {
+      display: none; margin-top: 14px; padding-top: 14px;
+      border-top: 1px dashed var(--line);
+    }
+    .card.open .detail { display: block; }
+    .block-title {
+      font-size: 12px; font-weight: 700; color: var(--muted);
+      text-transform: none; letter-spacing: 0.02em; margin: 0 0 8px;
+    }
+    .amounts, .steps { margin: 0 0 14px; padding-left: 18px; }
+    .amounts li, .steps li { margin: 0 0 6px; font-size: 14px; line-height: 1.45; }
+    .note {
+      font-size: 12px; color: var(--muted); background: #fafaf9;
+      border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px;
+      margin: 0 0 14px; line-height: 1.45;
+    }
+    .note.warn { background: var(--warn-soft); border-color: #fcd34d; color: var(--warn); }
+    .feedback {
+      display: grid; gap: 8px;
+    }
+    .feedback-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    button {
+      appearance: none; border: 0; border-radius: 12px; padding: 12px 14px;
+      font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .btn-ok { background: var(--ok-soft); color: var(--ok); }
+    .btn-left { background: #fee2e2; color: #991b1b; }
+    .btn-miss { background: #f5f5f4; color: #44403c; grid-column: 1 / -1; }
+    .btn-ghost {
+      background: #fff; color: var(--ink); border: 1px solid var(--line);
+      font-weight: 600; width: 100%;
+    }
+    select, textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 12px;
+      padding: 10px 12px; font: inherit; background: #fff; color: var(--ink);
+    }
+    textarea { min-height: 72px; resize: vertical; }
+    .feedback-extra { display: none; gap: 8px; }
+    .feedback-extra.show { display: grid; }
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+      background: #1c1917; color: #fff; padding: 10px 14px; border-radius: 999px;
+      font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s;
+      z-index: 20; max-width: 90vw;
+    }
+    .toast.show { opacity: 1; }
+    footer.bar {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      background: rgba(255,253,249,.92); backdrop-filter: blur(10px);
+      border-top: 1px solid var(--line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    }
+    footer.bar .inner {
+      max-width: 480px; margin: 0 auto; display: flex; gap: 8px; align-items: center;
+      justify-content: space-between; font-size: 12px; color: var(--muted);
+    }
+    .diff {
+      margin-top: 18px; padding: 14px 16px; border-radius: 14px;
+      background: #fff; border: 1px solid var(--line); font-size: 13px; line-height: 1.5; color: #44403c;
+    }
+    .log {
+      margin-top: 10px; font-size: 12px; color: var(--muted);
+      max-height: 140px; overflow: auto; white-space: pre-wrap;
+      background: #fafaf9; border-radius: 12px; padding: 10px; border: 1px solid var(--line);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="scene">
+      <div class="eyebrow">S1 新表面 · 非旧 index 推荐流</div>
+      <h1>女儿 · 工作日早餐</h1>
+      <p class="lead">先定今早一碗。白名单卡直接点开；不做配菜表单、不调 /plan-meal。</p>
+      <div class="meta">
+        <span class="chip strong">场景已定</span>
+        <span class="chip">≤2 待试焖饭</span>
+        <span class="chip">1 家常汤泡饭</span>
+        <span class="chip">吃光 / 剩了</span>
+      </div>
+    </header>
+
+    <section>
+      <div class="section-title">
+        <h2>今早可选</h2>
+        <span>点开看用量与步骤</span>
+      </div>
+      <div class="cards" id="cards"></div>
+    </section>
+
+    <div class="diff">
+      <strong>与旧架构差一句话：</strong>这里是场景白名单卡 + 本地吃完反馈，不再走冰箱匹配 → /plan-meal → /generate-plan。
+    </div>
+
+    <section>
+      <div class="section-title">
+        <h2>本机反馈账本</h2>
+        <span>localStorage · 可导出 md</span>
+      </div>
+      <button class="btn-ghost" type="button" id="exportBtn">导出 feedback.md</button>
+      <button class="btn-ghost" type="button" id="clearBtn" style="margin-top:8px">清空本机记录</button>
+      <pre class="log" id="log">暂无记录</pre>
+    </section>
+  </div>
+
+  <footer class="bar">
+    <div class="inner">
+      <span>family-surface/ · family-restart</span>
+      <span>不开公网部署</span>
+    </div>
+  </footer>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const DISHES = [
+      {
+        id: "cabbage-tofu",
+        name: "白菜豆腐焖饭",
+        badge: "待试",
+        badgeClass: "trial",
+        form: "焖饭",
+        time: "主动约 35 分钟",
+        why: "无中途开盖、锅外预步骤最少；豆腐+白菜口感偏软，适合女儿早餐试做。",
+        note: "目录 status=preview_ready，家庭未验证。白菜须锅外焖熟沥干，焖菜水弃置。",
+        amounts: [
+          "1 人份：生米 100g · 老豆腐 90g · 白菜 75g · 水 130g · 盐 1g",
+          "2 人份：生米 200g · 老豆腐 180g · 白菜 150g · 水 260g · 盐 2g"
+        ],
+        steps: [
+          "洗米，沥干。",
+          "白菜锅外加少量水焖熟，充分沥干，焖菜水弃置，留着出锅后拌。",
+          "内胆放米、水、盐、切块老豆腐；合盖跑标准煮饭程序。",
+          "程毕焖一会儿；确认米饭不夹生、豆腐热透。",
+          "拌入沥干白菜，翻松装碗。"
+        ]
+      },
+      {
+        id: "greens-minced-pork",
+        name: "肉糜青菜饭",
+        badge: "待试",
+        badgeClass: "trial",
+        form: "焖饭",
+        time: "主动约 35 分钟",
+        why: "贴近家里「青菜+肉+饭」口述；比切鸡腿/预煮排骨更适合晨间试做。",
+        note: "目录 status=preview_ready，家庭未验证。肉糜须锅外炒散熟化；晨间仍有锅外成本。",
+        amounts: [
+          "1 人份：生米 100g · 猪肉末 50g · 青菜 75g · 水 135g",
+          "2 人份：生米 200g · 猪肉末 100g · 青菜 150g · 水 270g"
+        ],
+        steps: [
+          "洗米。",
+          "锅外把猪肉末炒散至无粉红生肉。",
+          "青菜锅外焯/炒至熟软，留着出锅后拌。",
+          "内胆放米、水与炒好的肉糜；合盖跑标准煮饭程序。",
+          "程毕确认米饭熟透、肉糜熟透；拌入青菜翻松。"
+        ]
+      },
+      {
+        id: "soup-rice",
+        name: "青菜豆腐汤泡饭",
+        badge: "家常 · 口述",
+        badgeClass: "home",
+        form: "汤泡饭",
+        time: "约 10–15 分钟（有剩饭）",
+        why: "家里真实常吃；赶时间时的一等公民后备，不经旧 matcher、不进旧目录。",
+        note: "步骤来自家庭口述整理，标「待补」：尚无固定克数与电饭煲对照；先能做，再靠吃光/剩了补账本。",
+        amounts: [
+          "剩饭：够女儿一碗（约 150–200g 熟饭，按家量）",
+          "汤底：清水或清鸡汤约 300–400ml",
+          "配料（任选现有）：青菜一小把 · 豆腐几块 · 可选蛋花",
+          "调味：少盐；女儿口轻则出锅后再微调"
+        ],
+        steps: [
+          "小锅烧汤；豆腐切块下锅，煮开至热透。",
+          "青菜洗净切段，烫至断生变软。",
+          "（可选）淋入打散蛋液成蛋花。",
+          "碗里放剩饭，浇热汤与配料；饭要被汤淹没、烫热即可。",
+          "待补：固定克数、是否用高汤块、女儿偏好咸淡——实做后写反馈。"
+        ]
+      }
+    ];
+
+    const STORAGE_KEY = "yiguochu-family-surface-s1-feedback-v1";
+
+    function loadLog() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+      catch { return []; }
+    }
+    function saveLog(rows) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
+      renderLog();
+    }
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 2200);
+    }
+    function nowTaipei() {
+      return new Intl.DateTimeFormat("zh-CN", {
+        timeZone: "Asia/Taipei",
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hour12: false
+      }).format(new Date()).replace(/\//g, "-");
+    }
+    function renderLog() {
+      const rows = loadLog();
+      const el = document.getElementById("log");
+      if (!rows.length) { el.textContent = "暂无记录"; return; }
+      el.textContent = rows.map(r =>
+        `${r.at} | ${r.name} | ${r.result}${r.reason ? " · " + r.reason : ""}${r.note ? " · " + r.note : ""}`
+      ).join("\n");
+    }
+    function toMarkdown(rows) {
+      const lines = [
+        "# 一锅出 · 女儿早餐反馈（S1 本地导出）",
+        "",
+        "时区：Asia/Taipei",
+        "",
+        "| 时间 | 菜名 | 结果 | 原因 | 备注 |",
+        "|---|---|---|---|---|"
+      ];
+      for (const r of rows) {
+        lines.push(`| ${r.at} | ${r.name} | ${r.result} | ${r.reason || ""} | ${(r.note || "").replace(/\|/g, "/")} |`);
+      }
+      lines.push("");
+      return lines.join("\n");
+    }
+
+    function record(dish, result, reason, note) {
+      const rows = loadLog();
+      rows.unshift({
+        at: nowTaipei(),
+        dishId: dish.id,
+        name: dish.name,
+        result,
+        reason: reason || "",
+        note: note || ""
+      });
+      saveLog(rows);
+      toast(`已记：${dish.name} · ${result}`);
+    }
+
+    function renderCards() {
+      const root = document.getElementById("cards");
+      root.innerHTML = "";
+      DISHES.forEach((dish, idx) => {
+        const card = document.createElement("article");
+        card.className = "card" + (idx === 0 ? " open active" : "");
+        card.tabIndex = 0;
+        card.dataset.id = dish.id;
+        card.innerHTML = `
+          <div class="row">
+            <div>
+              <h3 class="title">${dish.name}</h3>
+              <p class="why">${dish.why}</p>
+              <div class="tags">
+                <span class="tag">${dish.form}</span>
+                <span class="tag">${dish.time}</span>
+              </div>
+            </div>
+            <span class="badge ${dish.badgeClass}">${dish.badge}</span>
+          </div>
+          <div class="detail">
+            <p class="note ${dish.badgeClass === "trial" ? "warn" : ""}">${dish.note}</p>
+            <p class="block-title">用量（最小可用）</p>
+            <ul class="amounts">${dish.amounts.map(a => `<li>${a}</li>`).join("")}</ul>
+            <p class="block-title">现在动手</p>
+            <ol class="steps">${dish.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+            <p class="block-title">吃完了</p>
+            <div class="feedback" data-dish="${dish.id}">
+              <div class="feedback-actions">
+                <button type="button" class="btn-ok" data-result="吃光">吃光</button>
+                <button type="button" class="btn-left" data-result="剩了">剩了</button>
+                <button type="button" class="btn-miss" data-result="没做成">没做成</button>
+              </div>
+              <div class="feedback-extra" data-extra>
+                <select data-reason>
+                  <option value="">选原因（可选）</option>
+                  <option>太慢</option>
+                  <option>缺料</option>
+                  <option>不想吃</option>
+                  <option>口感不合适</option>
+                  <option>其它</option>
+                </select>
+                <textarea data-note placeholder="一句话备注（可选）"></textarea>
+                <button type="button" class="btn-ghost" data-save>写入本机账本</button>
+              </div>
+            </div>
+          </div>
+        `;
+        const toggle = () => {
+          document.querySelectorAll(".card").forEach(c => c.classList.remove("open", "active"));
+          card.classList.add("open", "active");
+          card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        };
+        card.addEventListener("click", (e) => {
+          if (e.target.closest(".feedback")) return;
+          toggle();
+        });
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+        });
+
+        const fb = card.querySelector(".feedback");
+        const extra = fb.querySelector("[data-extra]");
+        let pending = null;
+        fb.querySelectorAll("[data-result]").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            pending = btn.dataset.result;
+            extra.classList.add("show");
+            if (pending === "吃光") {
+              // quick path still asks optional note but can save immediately with empty reason
+            }
+            toast(`已选「${pending}」，可补原因后写入`);
+          });
+        });
+        fb.querySelector("[data-save]").addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (!pending) { toast("请先点 吃光 / 剩了 / 没做成"); return; }
+          const reason = fb.querySelector("[data-reason]").value;
+          const note = fb.querySelector("[data-note]").value.trim();
+          record(dish, pending, reason, note);
+          pending = null;
+          extra.classList.remove("show");
+          fb.querySelector("[data-reason]").value = "";
+          fb.querySelector("[data-note]").value = "";
+        });
+        root.appendChild(card);
+      });
+    }
+
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      const rows = loadLog();
+      const blob = new Blob([toMarkdown(rows)], { type: "text/markdown;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `family-surface-feedback-${nowTaipei().slice(0,10)}.md`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast(rows.length ? "已导出 md" : "空账本也已导出");
+    });
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      if (!confirm("清空本机反馈记录？")) return;
+      saveLog([]);
+      toast("已清空");
+    });
+
+    renderCards();
+    renderLog();
+  </script>
+</body>
+</html>
