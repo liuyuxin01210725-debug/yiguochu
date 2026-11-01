@@ -1,5 +1,25 @@
 # 一锅出 — 项目说明（AI agent 与开发者必读）
 
+## 2026-11 家庭重启阶段（本周置顶 · 唯一有效目标）
+
+**唯一目标：家庭自用。** 对标「声间」——本机可开、本周能做、家里真吃。不以线上、不以全量门禁、不以研究扩张当进度。
+
+本周允许：
+- 本地 `family-restart` 分支改动；双击 `start.command` 起 `ready` 范围 dist + 8081
+- 家庭验收主路径；代理仅在 UI 强依赖时「最小保留」（见 `start.command` 头注释）
+- 文档置顶与入口收窄；≤2 道待试菜、真实做饭与二元反馈（另任务）
+
+本周禁止：
+- `wrangler deploy` / 推生产 / 合 `main` / rebase 338
+- DeepSeek 调用当主线、全量门禁、923、`/lab`、商业化与规划平台回潮
+- 把 `preview_ready` 标成「家庭已验证」；不得用 `/health` 冒充端到端做饭
+
+权威终案：`/home/box/shared/yiguochu/triad-final-2026-11-01.md`（仓外）。执行时以该终案与本置顶段为准；下文历史原则**仍然有效作红线与资产说明，但不作为本周任务目标**。
+
+---
+
+## 历史说明 / 非本周目标（旧段降级保留，不删）
+
 按需打开的家常一锅主餐 PWA：用户选择这次做饭目的、份数、现有食材和忌口，快速得到一锅/一碗方案；不做每日打卡、周营养累计或长期饮食追踪。Legacy 菜谱路径由 LLM(DeepSeek) 生成；Pantry Planner V2 的 Preview 默认使用确定性受控文案，LLM 表达路径仅作为可逆开关保留。营养走**两层权威查表纠偏**：① worker 端用台湾食药署全量库(2181 条)覆盖命中食材 → ② 前端本地 `FOODS` 库兜底 → ③ 都没命中才标 AI 估算。
 - 前端：`index.html`（单文件，含本地 `FOODS` 库 + 三层取值逻辑）
 - 云端代理：`worker/src/worker.js`（Cloudflare Pages Functions，持 DeepSeek key + 第二层台湾库兜底 `enrichWithTw`）
