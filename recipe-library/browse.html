@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>一锅出 · 菜谱库</title>
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --card: #fffdf8;
+      --ink: #1c1917;
+      --muted: #78716c;
+      --line: #e7e0d5;
+      --accent: #b45309;
+      --ok: #166534;
+      --warn: #a16207;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    header {
+      padding: 1.25rem 1rem 0.75rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    header h1 { font-size: 1.35rem; margin: 0 0 0.25rem; }
+    header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: #ffedd5;
+      color: var(--accent);
+      margin-left: 0.35rem;
+      vertical-align: middle;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 0.5rem 1rem 3rem; }
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      margin: 0.75rem 0 1rem;
+    }
+    .filters button {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 999px;
+      padding: 0.3rem 0.7rem;
+      font: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .filters button.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .list { display: grid; gap: 0.65rem; }
+    .card-row {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      font: inherit;
+      color: inherit;
+    }
+    .card-row:hover { border-color: #d6d3d1; }
+    .card-row .top {
+      display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline;
+    }
+    .card-row h2 { font-size: 1.05rem; margin: 0; }
+    .meta { color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem; }
+    .status-待试 { color: var(--warn); }
+    .status-已验证 { color: var(--ok); }
+    #detail[hidden] { display: none !important; }
+    #detail {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.1rem 1.25rem;
+    }
+    #detail h2 { margin: 0 0 0.35rem; font-size: 1.25rem; }
+    #detail .back {
+      border: none; background: transparent; color: var(--accent);
+      font: inherit; cursor: pointer; padding: 0; margin-bottom: 0.75rem;
+    }
+    #detail section { margin-top: 0.9rem; }
+    #detail h3 { font-size: 0.95rem; margin: 0 0 0.35rem; }
+    #detail ol { margin: 0; padding-left: 1.2rem; }
+    #detail ol li { margin: 0.35rem 0; }
+    #detail ul { margin: 0; padding-left: 1.2rem; }
+    .props { display: grid; gap: 0.35rem; font-size: 0.9rem; }
+    .props div span { color: var(--muted); }
+    .err { color: #b91c1c; padding: 1rem; }
+    footer {
+      max-width: 720px; margin: 0 auto; padding: 0 1rem 2rem;
+      color: var(--muted); font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>一锅出 · 菜谱库 <span class="badge">P0</span></h1>
+    <p>独立可执行卡 · 不接 plan-meal · 先为我所用</p>
+    <div class="filters" id="filters"></div>
+  </header>
+  <main>
+    <div id="list" class="list"></div>
+    <article id="detail" hidden></article>
+    <p id="err" class="err" hidden></p>
+  </main>
+  <footer>
+    来源字段须诚实标注；<code>待试</code> 未经家里实做反馈不得改为 <code>已验证</code>。
+    收录新卡见同目录 <code>README.md</code> / <code>python3 cli.py new …</code>
+  </footer>
+  <script>
+    const FORMS = ["全部", "菜饭", "焖饭", "汤泡饭", "咖喱一锅", "手抓饭", "煲类一锅", "其他一锅"];
+    let indexCards = [];
+    let activeForm = "全部";
+
+    const $list = document.getElementById("list");
+    const $detail = document.getElementById("detail");
+    const $err = document.getElementById("err");
+    const $filters = document.getElementById("filters");
+
+    function showError(msg) {
+      $err.hidden = false;
+      $err.textContent = msg;
+    }
+
+    function renderFilters() {
+      $filters.innerHTML = "";
+      FORMS.forEach((f) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = f;
+        if (f === activeForm) b.classList.add("active");
+        b.addEventListener("click", () => {
+          activeForm = f;
+          renderFilters();
+          renderList();
+        });
+        $filters.appendChild(b);
+      });
+    }
+
+    function renderList() {
+      $detail.hidden = true;
+      $list.hidden = false;
+      $list.innerHTML = "";
+      const rows = indexCards.filter((c) => activeForm === "全部" || c.form === activeForm);
+      if (!rows.length) {
+        $list.innerHTML = "<p class='meta'>此形态暂无卡。</p>";
+        return;
+      }
+      rows.forEach((c) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "card-row";
+        btn.innerHTML = `
+          <div class="top">
+            <h2>${escapeHtml(c.name)}</h2>
+            <span class="status-${escapeHtml(c.status)}">${escapeHtml(c.status)}</span>
+          </div>
+          <div class="meta">${escapeHtml(c.form)} · ${c.packable ? "适合打包" : "不适打包"} · 约 ${c.time_total ?? "?"} 分钟</div>
+        `;
+        btn.addEventListener("click", () => openCard(c.id));
+        $list.appendChild(btn);
+      });
+    }
+
+    async function openCard(id) {
+      try {
+        const res = await fetch("./cards/" + encodeURIComponent(id) + ".json");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const card = await res.json();
+        $list.hidden = true;
+        $detail.hidden = false;
+        const src = card.source || {};
+        const tm = card.time_minutes || {};
+        const serv = card.servings || {};
+        $detail.innerHTML = `
+          <button type="button" class="back" id="back">← 返回列表</button>
+          <h2>${escapeHtml(card.name)}</h2>
+          <div class="meta">${escapeHtml(card.form)} · <span class="status-${escapeHtml(card.status)}">${escapeHtml(card.status)}</span></div>
+          <section class="props">
+            <div><span>份量</span> · ${escapeHtml(serv.summary || "")}</div>
+            <div><span>耗时</span> · 动手 ${tm.active ?? "?"} / 合计 ${tm.total ?? "?"} 分钟</div>
+            <div><span>打包</span> · ${card.packable ? "适合" : "不适合"}${card.pack_notes ? " — " + escapeHtml(card.pack_notes) : ""}</div>
+            <div><span>来源</span> · ${escapeHtml(src.label || "")}</div>
+          </section>
+          ${card.ingredients && card.ingredients.length ? `
+          <section>
+            <h3>食材</h3>
+            <ul>${card.ingredients.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+          </section>` : ""}
+          <section>
+            <h3>现在动手</h3>
+            <ol>${(card.steps_now || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ol>
+          </section>
+          ${card.prep_optional && card.prep_optional.length ? `
+          <section>
+            <h3>可折叠准备</h3>
+            <ul>${card.prep_optional.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+          </section>` : ""}
+          ${card.notes ? `<section><h3>备注</h3><p>${escapeHtml(card.notes)}</p></section>` : ""}
+        `;
+        document.getElementById("back").addEventListener("click", renderList);
+        history.replaceState(null, "", "#"+id);
+      } catch (e) {
+        showError("打开失败：" + e.message + "（请用 http.server 打开，勿直接 file://）");
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (ch) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[ch]);
+    }
+
+    async function boot() {
+      renderFilters();
+      try {
+        const res = await fetch("./index.json");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        indexCards = data.cards || [];
+        renderList();
+        const hash = location.hash.replace(/^#/, "");
+        if (hash) openCard(hash);
+      } catch (e) {
+        showError("无法加载 index.json：" + e.message + "。请运行 ./serve.command 或 python3 -m http.server 8092");
+      }
+    }
+    boot();
+  </script>
+</body>
+</html>

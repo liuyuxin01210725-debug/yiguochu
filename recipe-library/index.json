@@ -1,0 +1,52 @@
+{
+  "schema_version": "yiguochu-recipe-library-v0",
+  "title": "一锅出 · 菜谱库",
+  "branch_note": "独立于 plan-meal / 旧 matcher；family-restart P0",
+  "cards": [
+    {
+      "id": "baicai-doufu-menfan",
+      "name": "白菜豆腐焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/baicai-doufu-menfan.json"
+    },
+    {
+      "id": "roumi-qingcai-fan",
+      "name": "肉糜青菜饭",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 50,
+      "file": "cards/roumi-qingcai-fan.json"
+    },
+    {
+      "id": "qingcai-doufu-tangpaofan",
+      "name": "青菜豆腐汤泡饭",
+      "form": "汤泡饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 20,
+      "file": "cards/qingcai-doufu-tangpaofan.json"
+    },
+    {
+      "id": "jirou-galidou-yiguo",
+      "name": "鸡肉咖喱一锅饭",
+      "form": "咖喱一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 55,
+      "file": "cards/jirou-galidou-yiguo.json"
+    },
+    {
+      "id": "jirou-shouzhafan",
+      "name": "鸡肉手抓饭（家常一锅简化）",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 60,
+      "file": "cards/jirou-shouzhafan.json"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "yiguochu-recipe-card-v0",
+  "title": "一锅出 · 可执行菜谱卡 v0",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "form",
+    "servings",
+    "steps_now",
+    "time_minutes",
+    "packable",
+    "source",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "短横线英文 id，文件名同 id.json"
+    },
+    "name": {
+      "type": "string",
+      "description": "中文菜名"
+    },
+    "form": {
+      "type": "string",
+      "enum": [
+        "菜饭",
+        "焖饭",
+        "汤泡饭",
+        "咖喱一锅",
+        "手抓饭",
+        "煲类一锅",
+        "其他一锅"
+      ],
+      "description": "形态标签（制作方式，非菜系国籍）"
+    },
+    "servings": {
+      "type": "object",
+      "required": [
+        "summary"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "份量一句话（家用量或克数）"
+        },
+        "rice": {
+          "type": "string"
+        },
+        "people": {
+          "type": "string"
+        }
+      }
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "食材清单，家用量优先"
+    },
+    "steps_now": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "description": "现在动手步骤（早晨可跟；顺序清楚）"
+    },
+    "prep_optional": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "可折叠的预浸泡/前夜准备"
+    },
+    "time_minutes": {
+      "type": "object",
+      "required": [
+        "total"
+      ],
+      "properties": {
+        "active": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "packable": {
+      "type": "boolean"
+    },
+    "pack_notes": {
+      "type": "string",
+      "description": "耐放/复热说明"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "诚实来源一句话"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "家庭口述",
+            "自己试成",
+            "书/可靠食谱改写",
+            "目录候选未验证",
+            "网络常见做法改写"
+          ]
+        },
+        "refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "待试",
+        "已验证"
+      ],
+      "description": "已验证 = 家里实做过且有吃光/剩了等反馈；禁止用 preview_ready 冒充"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
