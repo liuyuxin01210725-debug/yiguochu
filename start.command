@@ -1,5 +1,5 @@
 #!/bin/bash
-# 双击启动「一锅出」本地家庭入口：构建 ready 范围 dist、拉起本地网页，并打开页面。
+# 双击启动「一锅出」本地家庭入口：构建 ready 范围 dist、拉起局域网可访问网页，并打开页面。
 #
 # 2026-11 家庭重启阶段约定（见终案 triad-final）：
 # - 构建必须用 --rice-catalog-scope ready（禁止 calibration，避免冲垮家庭可见白名单）
@@ -35,6 +35,19 @@ if ! "$NODE_BIN" tools/build-dist.mjs --out-dir dist --build-id "$LOCAL_BUILD_ID
   exit 1
 fi
 
+# 家庭局域网：手机同 WiFi 可打开（勿只绑 127.0.0.1）。见 docs/mobile-pwa.md
+LAN_IP="$(ipconfig getifaddr en0 2>/dev/null || true)"
+if [ -z "$LAN_IP" ]; then
+  LAN_IP="$(ipconfig getifaddr en1 2>/dev/null || true)"
+fi
+export YIGUOCHU_FAMILY_LAN=1
+export HOST=0.0.0.0
+if [ -n "$LAN_IP" ]; then
+  export ALLOW_ORIGIN="http://${LAN_IP}:8081,http://localhost:8081,http://127.0.0.1:8081"
+else
+  export ALLOW_ORIGIN="http://localhost:8081,http://127.0.0.1:8081"
+fi
+
 # 清掉可能残留的本地端口（8081 必清；8765 仅在最小保留代理时复用）
 lsof -ti :8081 2>/dev/null | xargs kill -9 2>/dev/null
 lsof -ti :8765 2>/dev/null | xargs kill -9 2>/dev/null
@@ -58,10 +71,10 @@ else
   done
 fi
 
-# 通过 localhost 提供本次构建产物，避免 raw index.html 的构建占位符回退 legacy 产品。
-nohup python3 -m http.server 8081 --bind 127.0.0.1 --directory dist > static.log 2>&1 &
+# 绑定 0.0.0.0，同 WiFi 手机可访问；本机仍用 localhost 打开。
+nohup python3 -m http.server 8081 --bind 0.0.0.0 --directory dist > static.log 2>&1 &
 STATIC_PID=$!
-echo "网页服务启动中 (PID $STATIC_PID), 日志: static.log"
+echo "网页服务启动中 (PID $STATIC_PID), 日志: static.log · 绑定 0.0.0.0:8081"
 
 # 等本地网页服务就绪 (最多 5 秒)
 for i in 1 2 3 4 5 6 7 8 9 10; do
@@ -79,7 +92,14 @@ echo "✅ 启动完成。Terminal 窗口可以关掉，本地服务会继续在�
 if [ "${YIGUOCHU_DISABLE_AI_PROXY:-0}" = "1" ]; then
   echo "构建范围: ready · generationMode: deterministic · 代理: 已关闭（推荐菜饭主路径不可用）"
 else
-  echo "构建范围: ready · generationMode: deterministic · 代理: 最小保留（关键路径仍需 8765）"
+  echo "构建范围: ready · generationMode: deterministic · 代理: 最小保留（家庭 LAN 可达 :8765）"
+fi
+if [ -n "$LAN_IP" ]; then
+  echo "📱 手机同 WiFi 打开: http://${LAN_IP}:8081"
+  echo "   Safari → 分享 → 添加到主屏幕（步骤见 docs/mobile-pwa.md）"
+  echo "   推荐菜饭走代理: http://${LAN_IP}:8765 （已随家庭 LAN 打开；静态浏览可不依赖）"
+else
+  echo "⚠ 未检测到局域网 IP（en0/en1）。手机暂无法访问；检查 Wi‑Fi 后重跑本脚本。"
 fi
 echo "想停止网页: lsof -ti :8081 | xargs kill -9"
 echo "若代理残留可杀: lsof -ti :8765 | xargs kill -9"

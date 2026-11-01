@@ -3262,6 +3262,45 @@ for _o in ALLOW_ORIGIN_ENV.split(','):
     _o = _o.strip()
     if _o and _o != '*':
         ALLOWED_ORIGINS.add(_o)
+
+
+def _is_private_lan_origin(origin):
+    """家庭同网段 http://192.168/10/172.16-31.*:port — 仅配合 YIGUOCHU_FAMILY_LAN。"""
+    from urllib.parse import urlparse
+    try:
+        parsed = urlparse(origin)
+    except Exception:
+        return False
+    if parsed.scheme != 'http' or not parsed.hostname:
+        return False
+    host = parsed.hostname
+    parts = host.split('.')
+    if len(parts) != 4 or not all(p.isdigit() for p in parts):
+        return False
+    a, b = int(parts[0]), int(parts[1])
+    if a == 10:
+        return True
+    if a == 192 and b == 168:
+        return True
+    if a == 172 and 16 <= b <= 31:
+        return True
+    return False
+
+
+def _family_lan_env_on():
+    raw = os.environ.get('YIGUOCHU_FAMILY_LAN')
+    if raw is None:
+        raw = _env.get('YIGUOCHU_FAMILY_LAN')
+    return str(raw or '').strip().lower() in ('1', 'true', 'yes', 'on')
+
+
+def _origin_allowed(origin):
+    if not origin:
+        return True
+    if ALLOW_ALL_ORIGINS or origin in ALLOWED_ORIGINS:
+        return True
+    return _family_lan_env_on() and _is_private_lan_origin(origin)
+
 # 可选限流(托管必开): RATE_LIMIT=每 IP 每天次数; 0=不限(本地默认)
 import time as _time
 RATE_LIMIT = int(os.environ.get('RATE_LIMIT', '0'))
@@ -3331,12 +3370,18 @@ def _planner_hosted_mode():
     return str(raw or '').strip().lower() in ('1', 'true', 'yes', 'on')
 
 
+def _family_lan_mode():
+    """start.command 家庭局域网：HOST=0.0.0.0 时仍允许本地菜饭开发回退（不部署、不合 main）。"""
+    return _family_lan_env_on()
+
+
 def _planner_explicit_loopback_dev():
-    return (
-        _planner_product_focus() == 'rice-meal-v1'
-        and _is_loopback_host(HOST)
-        and not _planner_hosted_mode()
-    )
+    if _planner_product_focus() != 'rice-meal-v1' or _planner_hosted_mode():
+        return False
+    if _is_loopback_host(HOST):
+        return True
+    # Family LAN binds 0.0.0.0 so phones can reach :8765; keep local rice-meal secret.
+    return _family_lan_mode() and HOST in ('0.0.0.0', '::', '[::]')
 
 
 def _planner_rice_meal_plan_secret():
@@ -3428,11 +3473,11 @@ def _bridge_error_payload(error):
 
 class Handler(http.server.BaseHTTPRequestHandler):
     def _send_cors_headers(self):
-        # V6.1: 只允许本地 origin, 不再用 *
+        # V6.1: 只允许本地 / 明确 ALLOW_ORIGIN；家庭 LAN 另放行私网 Origin
         origin = self.headers.get('Origin', '')
         if ALLOW_ALL_ORIGINS:
             self.send_header('Access-Control-Allow-Origin', origin or '*')
-        elif origin in ALLOWED_ORIGINS:
+        elif origin and _origin_allowed(origin):
             self.send_header('Access-Control-Allow-Origin', origin)
         elif origin == '':
             # 无 Origin header (curl 等), 允许
@@ -3471,7 +3516,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     def do_POST(self):
         origin = self.headers.get('Origin')
-        if origin is not None and not ALLOW_ALL_ORIGINS and origin not in ALLOWED_ORIGINS:
+        if origin is not None and not _origin_allowed(origin):
             self._send_json(403, {
                 'error': '请求来源不允许',
                 'code': 'origin_forbidden',
