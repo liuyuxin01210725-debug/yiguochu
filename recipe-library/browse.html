@@ -123,7 +123,7 @@
       min-height: 44px; border: 0; background: transparent;
       padding: 0 8px; font-size: 16px; cursor: pointer;
     }
-    .sheet { padding: 0 max(16px, env(safe-area-inset-right)) calc(96px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+    .sheet { padding: 0 max(16px, env(safe-area-inset-right)) calc(148px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
     .sheet h2 { margin: 0 0 2px; font-size: 30px; line-height: 1.2; font-weight: 760; }
     .sheet .meta { margin: 0; font-size: 15px; }
     .pack {
@@ -143,14 +143,26 @@
       font-size: 13px; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
     }
+    .week { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+    .log { margin-top: 16px; }
+    .log-label { margin: 0 0 4px; color: var(--muted); font-size: 14px; font-weight: 650; }
+    .log ul { list-style: none; margin: 0; padding: 0; }
+    .log li { padding: 8px 0; border-top: 1px solid var(--line); font-size: 15px; }
     .actions {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
-      display: flex; gap: 10px;
-      padding: 10px max(16px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      display: flex; flex-direction: column; gap: 8px;
+      max-width: 480px; margin-left: auto; margin-right: auto;
+      padding: 8px max(16px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
       background: rgba(246, 241, 232, 0.96);
     }
-    .actions { max-width: 480px; margin-left: auto; margin-right: auto; }
-    .actions button {
+    .who, .result-row { display: flex; gap: 8px; }
+    .who button {
+      flex: 1; min-height: 44px; border-radius: 12px;
+      border: 1px solid var(--line); background: #fff;
+      font-size: 15px; font-weight: 650; cursor: pointer;
+    }
+    .who button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .result-row button {
       flex: 1; min-height: 52px; border-radius: 14px;
       font-size: 17px; font-weight: 720; cursor: pointer;
     }
@@ -174,6 +186,7 @@
       <div class="filters" id="filters" role="toolbar" aria-label="形态"></div>
     </header>
     <main>
+      <p id="week" class="week" hidden></p>
       <section id="pin-section" hidden>
         <h2 class="pin-label">本周待试</h2>
         <div class="list" id="pins"></div>
@@ -192,6 +205,8 @@
     const SHELF_FORMS = new Set(["汤泡饭", "菜饭", "焖饭"]);
     const PIN_ORDER = ["baicai-doufu-menfan", "roumi-qingcai-fan"];
     const FB_KEY = "yiguochu-recipe-library-feedback-v1";
+    const LOG_KEY = "yiguochu-recipe-library-log-v1";
+    const WHO = ["女儿", "本人", "全家"];
     const UI_KEY = "yiguochu-browse-ui-v1";
     const COLLATOR = new Intl.Collator("zh-Hans");
     const LIBRARY_FAIL = "菜谱库没打开。用刚才那个地址再开一次。";
@@ -236,6 +251,69 @@
     }
     function saveFeedback(map) {
       localStorage.setItem(FB_KEY, JSON.stringify(map));
+    }
+    function addDays(dayStr, n) {
+      const [y, m, d] = dayStr.split("-").map(Number);
+      return new Date(Date.UTC(y, m - 1, d) + n * 86400000).toISOString().slice(0, 10);
+    }
+    function weekStart(dayStr) {
+      const [y, m, d] = dayStr.split("-").map(Number);
+      const wd = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+      return addDays(dayStr, wd === 0 ? -6 : 1 - wd);
+    }
+    function inThisWeek(dayStr) {
+      const start = weekStart(today());
+      return dayStr >= start && dayStr <= addDays(start, 6);
+    }
+    function inLast14(dayStr) {
+      return dayStr >= addDays(today(), -13) && dayStr <= today();
+    }
+    function loadLog() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(LOG_KEY) || "null");
+        return Array.isArray(raw) ? raw : null;
+      } catch { return null; }
+    }
+    function saveLog(rows) {
+      localStorage.setItem(LOG_KEY, JSON.stringify(rows));
+    }
+    function ensureLog() {
+      const existing = loadLog();
+      if (existing) return existing;
+      const seeded = [];
+      Object.entries(loadFeedback()).forEach(([id, row]) => {
+        if (!row || (row.result !== "吃光" && row.result !== "剩了") || !row.day) return;
+        seeded.push({ id, name: "", day: row.day, result: row.result, who: row.who || "" });
+      });
+      saveLog(seeded);
+      return seeded;
+    }
+    function upsertLog(entry) {
+      const rows = ensureLog().filter((row) => !(row.id === entry.id && row.day === entry.day));
+      rows.push({ id: entry.id, name: entry.name || "", day: entry.day, result: entry.result, who: entry.who || "" });
+      const cutoff = addDays(today(), -60);
+      saveLog(rows.filter((row) => row.day >= cutoff).slice(-200));
+    }
+    function removeLog(id, day) {
+      saveLog(ensureLog().filter((row) => !(row.id === id && row.day === day)));
+    }
+    function weekCounts() {
+      const rows = ensureLog().filter((row) => inThisWeek(row.day));
+      return {
+        ate: rows.filter((row) => row.result === "吃光").length,
+        left: rows.filter((row) => row.result === "剩了").length
+      };
+    }
+    function paintWeek() {
+      const $week = document.getElementById("week");
+      const counts = weekCounts();
+      if (!counts.ate && !counts.left) {
+        $week.hidden = true;
+        $week.textContent = "";
+        return;
+      }
+      $week.hidden = false;
+      $week.textContent = `本周 吃光 ${counts.ate} · 剩了 ${counts.left}`;
     }
     function loggedToday(id) {
       const row = loadFeedback()[id];
@@ -401,6 +479,7 @@
         $empty.hidden = shownPins.length + hits.length !== 0;
       }
       $empty.textContent = EMPTY;
+      paintWeek();
     }
     function showError(msg) {
       $err.hidden = false;
@@ -456,21 +535,56 @@
           ${summary ? `<p class="portion">${escapeHtml(summary)}</p>` : ""}
           ${ingredients.length ? `<h3>食材</h3><div class="box">${ingredients.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}</div>` : ""}
           ${steps.length ? `<h3>现在动手</h3><div class="box" id="steps">${steps.map((line, i) => `<div class="step"><span class="num">${i + 1}</span><span>${escapeHtml(line)}</span></div>`).join("")}</div>` : ""}
+          <div id="dish-log"></div>
         </div>
         <div class="actions">
-          <button type="button" class="btn-eat" data-result="吃光">吃光</button>
-          <button type="button" class="btn-left" data-result="剩了">剩了</button>
+          <div class="who" role="group" aria-label="谁吃">
+            ${WHO.map((who) => `<button type="button" data-who="${who}">${who}</button>`).join("")}
+          </div>
+          <div class="result-row">
+            <button type="button" class="btn-eat" data-result="吃光">吃光</button>
+            <button type="button" class="btn-left" data-result="剩了">剩了</button>
+          </div>
         </div>`;
+      let draftWho = "";
+      function savedToday() {
+        const row = loadFeedback()[card.id];
+        return row && row.day === today() ? row : null;
+      }
       function paintChosen() {
         const row = loadFeedback()[card.id];
-        const picked = !!(row && (row.result === "吃光" || row.result === "剩了"));
+        const picked = !!(row && row.day === today() && (row.result === "吃光" || row.result === "剩了"));
         $detail.querySelector(".actions").classList.toggle("picked", picked);
         $detail.querySelectorAll("[data-result]").forEach((btn) => {
-          btn.classList.toggle("chosen", !!(row && row.result === btn.dataset.result));
-          btn.setAttribute("aria-pressed", row && row.result === btn.dataset.result ? "true" : "false");
+          const on = !!(row && row.day === today() && row.result === btn.dataset.result);
+          btn.classList.toggle("chosen", on);
+          btn.setAttribute("aria-pressed", on ? "true" : "false");
         });
       }
+      function paintWho() {
+        const row = savedToday();
+        const who = row && row.who ? row.who : draftWho;
+        $detail.querySelectorAll("[data-who]").forEach((btn) => {
+          btn.setAttribute("aria-pressed", btn.dataset.who === who ? "true" : "false");
+        });
+      }
+      function paintDishLog() {
+        const lines = ensureLog()
+          .filter((row) => row.id === card.id && inLast14(row.day))
+          .sort((a, b) => (a.day < b.day ? 1 : a.day > b.day ? -1 : 0));
+        const box = document.getElementById("dish-log");
+        if (!lines.length) {
+          box.innerHTML = "";
+          return;
+        }
+        box.innerHTML = `<div class="log"><p class="log-label">近两周</p><ul>${lines.map((row) => {
+          const who = row.who ? ` · ${escapeHtml(row.who)}` : "";
+          return `<li>${escapeHtml(row.day.slice(5))} ${escapeHtml(row.result)}${who}</li>`;
+        }).join("")}</ul></div>`;
+      }
       paintChosen();
+      paintWho();
+      paintDishLog();
       document.getElementById("back").addEventListener("click", () => {
         const snap = JSON.parse(sessionStorage.getItem(UI_KEY) || "{}");
         query = snap.q || "";
@@ -481,13 +595,43 @@
         if (location.hash) history.back();
         else showBrowse();
       });
+      $detail.querySelectorAll("[data-who]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const who = btn.dataset.who;
+          const map = loadFeedback();
+          const row = map[card.id];
+          if (row && row.day === today()) {
+            row.who = row.who === who ? "" : who;
+            draftWho = row.who;
+            saveFeedback(map);
+            upsertLog({ id: card.id, name: card.name, day: row.day, result: row.result, who: row.who });
+          } else {
+            draftWho = draftWho === who ? "" : who;
+          }
+          paintWho();
+          paintDishLog();
+        });
+      });
       $detail.querySelectorAll("[data-result]").forEach((btn) => {
         btn.addEventListener("click", () => {
           const map = loadFeedback();
-          if (map[card.id] && map[card.id].result === btn.dataset.result) delete map[card.id];
-          else map[card.id] = { result: btn.dataset.result, day: today() };
-          saveFeedback(map);
+          const day = today();
+          const prev = map[card.id];
+          if (prev && prev.day === day && prev.result === btn.dataset.result) {
+            delete map[card.id];
+            draftWho = "";
+            saveFeedback(map);
+            removeLog(card.id, day);
+          } else {
+            const who = (prev && prev.day === day && prev.who) || draftWho || "";
+            map[card.id] = who ? { result: btn.dataset.result, day, who } : { result: btn.dataset.result, day };
+            draftWho = who;
+            saveFeedback(map);
+            upsertLog({ id: card.id, name: card.name, day, result: btn.dataset.result, who });
+          }
           paintChosen();
+          paintWho();
+          paintDishLog();
           renderList();
         });
       });
