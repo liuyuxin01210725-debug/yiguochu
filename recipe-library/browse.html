@@ -34,26 +34,46 @@
     }
     #browse, #detail { max-width: 480px; margin: 0 auto; }
     .top {
-      padding: calc(8px + env(safe-area-inset-top)) 16px 8px;
+      padding: calc(8px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 4px max(16px, env(safe-area-inset-left));
     }
-    h1 { margin: 0 0 12px; font-size: 34px; line-height: 1.15; font-weight: 760; letter-spacing: -0.02em; }
+    h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.15; font-weight: 760; letter-spacing: -0.02em; }
+    .search {
+      position: sticky; top: env(safe-area-inset-top); z-index: 6;
+      display: block; background: rgba(246, 241, 232, 0.96);
+      padding: 4px 0 8px;
+    }
     .search input {
       width: 100%; min-height: 48px; font-size: 16px;
-      border: 0; border-radius: 14px; padding: 0 14px;
+      border: 0; border-radius: 14px; padding: 0 48px 0 14px;
       background: #fff; outline: none;
       box-shadow: 0 1px 0 rgba(28, 25, 23, 0.04);
     }
+    .search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+    #clear {
+      position: absolute; right: 2px; top: 6px;
+      width: 44px; height: 44px; border: 0; border-radius: 12px;
+      background: transparent; color: #44403c; font-size: 22px; line-height: 1;
+      cursor: pointer;
+    }
     .filters {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      padding: 12px 0 4px;
+      display: flex; flex-wrap: wrap; align-content: flex-start;
+      gap: 8px; width: 100%; overflow: visible;
+      padding: 8px 0 2px;
     }
     .filters button {
+      flex: 0 0 auto; white-space: nowrap;
       min-height: 44px; border: 0; background: var(--chip);
       border-radius: 999px; padding: 0 14px; font-size: 15px; cursor: pointer;
     }
     .filters button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-    main { padding: 8px 16px calc(24px + env(safe-area-inset-bottom)); }
-    .pin-label { margin: 14px 0 8px; font-size: 15px; font-weight: 650; }
+    main { padding: 8px max(16px, env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+    #pin-section {
+      margin: 10px 0 0;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #d9cfc3;
+    }
+    #pin-section + .list { margin-top: 14px; }
+    .pin-label { margin: 4px 0 8px; font-size: 15px; font-weight: 650; }
     .list { display: grid; gap: 10px; }
     .card-row, .more {
       display: block; width: 100%; text-align: left;
@@ -62,20 +82,34 @@
     }
     .card-row { min-height: 44px; }
     .card-row.primary {
-      border: 1.5px solid var(--orange-line);
+      border: 2px solid var(--orange-line);
       background: var(--peach);
     }
-    .card-row h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 720; }
+    .title-row { display: flex; align-items: baseline; gap: 10px; }
+    .card-row h3 { margin: 0; flex: 1; min-width: 0; font-size: 18px; line-height: 1.3; font-weight: 720; }
     .card-row.primary h3 { font-size: 22px; }
-    .also { margin-left: 8px; font-size: 14px; font-weight: 500; color: #a8a29e; }
+    .also {
+      flex: none; font-size: 13px; font-weight: 500; line-height: 1.2;
+      color: #57534e; background: #f3efe8; border-radius: 999px; padding: 3px 8px;
+    }
     .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
     .why { margin: 2px 0 0; color: var(--orange); font-size: 14px; }
-    .mark { color: var(--orange); font-weight: 700; }
+    .mark {
+      flex: none; margin-top: 2px; border-radius: 999px;
+      padding: 2px 8px; font-size: 13px; font-weight: 700; line-height: 1.4;
+    }
+    .mark.ate { background: #dcfce7; color: #166534; }
+    .mark.left { background: #ffedd5; color: #9a3412; }
     .more {
       min-height: 52px; display: flex; align-items: center; justify-content: space-between;
       font-size: 16px; font-weight: 650; padding: 0 16px;
     }
-    .more span.chev { color: #a8a29e; font-weight: 400; }
+    .more .chev {
+      width: 10px; height: 10px; margin-top: -4px;
+      border-right: 2px solid #44403c; border-bottom: 2px solid #44403c;
+      transform: rotate(45deg);
+    }
+    .more[aria-expanded="true"] .chev { transform: rotate(-135deg); margin-top: 6px; }
     .empty, .err {
       margin: 12px 0 0; padding: 16px; border-radius: 16px;
       background: var(--card); color: var(--ink); font-size: 16px;
@@ -89,15 +123,19 @@
       min-height: 44px; border: 0; background: transparent;
       padding: 0 8px; font-size: 16px; cursor: pointer;
     }
-    .sheet { padding: 0 16px calc(96px + env(safe-area-inset-bottom)); }
-    .sheet h2 { margin: 4px 0 4px; font-size: 32px; line-height: 1.2; font-weight: 760; }
-    .sheet .meta { font-size: 15px; }
-    .portion { margin: 8px 0 0; font-size: 16px; }
-    .sheet h3 { margin: 18px 0 8px; font-size: 16px; font-weight: 720; }
-    .box {
-      background: #fff; border-radius: 16px; padding: 12px 14px;
+    .sheet { padding: 0 max(16px, env(safe-area-inset-right)) calc(96px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+    .sheet h2 { margin: 0 0 2px; font-size: 30px; line-height: 1.2; font-weight: 760; }
+    .sheet .meta { margin: 0; font-size: 15px; }
+    .pack {
+      margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .box p, .step { margin: 0; padding: 7px 0; font-size: 16px; }
+    .portion { margin: 4px 0 0; font-size: 15px; }
+    .sheet h3 { margin: 12px 0 6px; font-size: 16px; font-weight: 720; }
+    .box {
+      background: #fff; border-radius: 16px; padding: 4px 14px;
+    }
+    .box p, .step { margin: 0; padding: 4px 0; font-size: 16px; }
     .step { display: flex; gap: 10px; align-items: flex-start; }
     .num {
       flex: none; width: 22px; height: 22px; margin-top: 1px;
@@ -108,7 +146,7 @@
     .actions {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
       display: flex; gap: 10px;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      padding: 10px max(16px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
       background: rgba(246, 241, 232, 0.96);
     }
     .actions { max-width: 480px; margin-left: auto; margin-right: auto; }
@@ -118,7 +156,10 @@
     }
     .btn-eat { background: var(--orange); color: #fff; border: 1.5px solid var(--orange); }
     .btn-left { background: #fff; color: var(--orange); border: 1.5px solid var(--orange); }
-    .actions button.chosen { box-shadow: inset 0 0 0 2px #1c1917; }
+    .actions.picked .btn-eat:not(.chosen) { background: #fff; color: var(--orange); }
+    .btn-eat.chosen { background: #9a3412; }
+    .btn-left.chosen { background: var(--orange); color: #fff; }
+    .actions button.chosen::before { content: "✓\00a0"; }
   </style>
 </head>
 <body>
@@ -128,6 +169,7 @@
       <label class="search">
         <span class="sr">搜索</span>
         <input id="q" type="search" enterkeyhint="search" placeholder="搜菜名、形态、食材" autocomplete="off" autocapitalize="off" />
+        <button type="button" id="clear" hidden aria-label="清空">×</button>
       </label>
       <div class="filters" id="filters" role="toolbar" aria-label="形态"></div>
     </header>
@@ -175,6 +217,8 @@
     const $empty = document.getElementById("empty");
     const $err = document.getElementById("err");
     const $q = document.getElementById("q");
+    const $clear = document.getElementById("clear");
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
     function escapeHtml(s) {
       return String(s ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -255,13 +299,15 @@
     function pinInfo(id) {
       return pinMeta.find((p) => p.id === id) || null;
     }
+    function todayResult(id) {
+      const row = loadFeedback()[id];
+      if (!row || row.day !== today()) return "";
+      return row.result === "吃光" || row.result === "剩了" ? row.result : "";
+    }
     function metaLine(card) {
       const pack = card.packable ? "可打包" : "不打包";
       const time = card.time_total != null ? `${card.time_total} 分钟` : "";
-      const mark = loadFeedback()[card.id];
-      const tail = mark && (mark.result === "吃光" || mark.result === "剩了")
-        ? ` · <span class="mark">${escapeHtml(mark.result)}</span>` : "";
-      return `${escapeHtml(card.form)} · ${escapeHtml(time)} · ${pack}${tail}`;
+      return `${escapeHtml(card.form)} · ${escapeHtml(time)} · ${pack}`;
     }
     function cardButton(card, role) {
       const btn = document.createElement("button");
@@ -271,9 +317,23 @@
       const info = pinInfo(card.id);
       const also = role === "secondary" ? `<span class="also">也可</span>` : "";
       const why = role === "primary" && info && info.why ? `<p class="why">${escapeHtml(info.why)}</p>` : "";
-      btn.innerHTML = `<h3>${escapeHtml(card.name)}${also}</h3><p class="meta">${metaLine(card)}</p>${why}`;
+      const mark = todayResult(card.id);
+      const markHtml = mark ? `<span class="mark ${mark === "吃光" ? "ate" : "left"}">${escapeHtml(mark)}</span>` : "";
+      btn.innerHTML = `<div class="title-row"><h3>${escapeHtml(card.name)}</h3>${also}${markHtml}</div><p class="meta">${metaLine(card)}</p>${why}`;
       btn.addEventListener("click", () => openCard(card.id, true));
       return btn;
+    }
+    function paintClear() {
+      $clear.hidden = !query.trim();
+    }
+    function onQuery() {
+      query = $q.value;
+      othersOpen = false;
+      renderFilters();
+      renderList();
+      window.scrollTo(0, 0);
+      remember();
+      paintClear();
     }
     function remember() {
       sessionStorage.setItem(UI_KEY, JSON.stringify({
@@ -301,6 +361,7 @@
           othersOpen = false;
           renderFilters();
           renderList();
+          window.scrollTo(0, 0);
           remember();
         });
         $filters.appendChild(b);
@@ -320,15 +381,15 @@
       $folded.innerHTML = "";
       $pinSection.hidden = shownPins.length === 0;
       shownPins.forEach((card, index) => {
-        const role = card.id === PIN_ORDER[0] ? "primary" : "secondary";
-        $pins.appendChild(cardButton(card, role));
+        $pins.appendChild(cardButton(card, index === 0 ? "primary" : "secondary"));
       });
       if (foldedMode()) {
         const shelf = hits.filter((card) => card.time_total <= 45 && card.packable && SHELF_FORMS.has(card.form)).sort(byShelf);
         const others = hits.filter((card) => !shelf.includes(card)).sort(byShelf);
         shelf.forEach((card) => $list.appendChild(cardButton(card, "shelf")));
         $more.hidden = others.length === 0;
-        $more.innerHTML = `<span>其他菜 ${others.length}</span><span class="chev">${othersOpen ? "˅" : "›"}</span>`;
+        $more.setAttribute("aria-expanded", othersOpen ? "true" : "false");
+        $more.innerHTML = `<span>其他菜 ${others.length}</span><span class="chev" aria-hidden="true"></span>`;
         $folded.hidden = !othersOpen;
         if (othersOpen) others.forEach((card) => $folded.appendChild(cardButton(card, "shelf")));
         $empty.hidden = shownPins.length + shelf.length + others.length !== 0;
@@ -353,6 +414,7 @@
       renderList();
       const y = restoreY;
       restoreY = 0;
+      paintClear();
       requestAnimationFrame(() => window.scrollTo(0, y));
     }
     async function openCard(id, push) {
@@ -377,10 +439,11 @@
     function paintDetail(card) {
       const tm = card.time_minutes || {};
       const total = tm.total != null ? tm.total : card.time_total;
-      const pack = card.packable ? "可打包" : "不打包";
-      const packNote = card.pack_notes && !isDirty(card.pack_notes) ? " " + card.pack_notes : "";
-      const summary = card.servings && card.servings.summary && !isDirty(card.servings.summary)
-        ? card.servings.summary : "";
+          const pack = card.packable ? "可打包" : "不打包";
+          const rawPack = card.pack_notes && !isDirty(card.pack_notes) ? String(card.pack_notes).trim() : "";
+          const packNote = rawPack ? rawPack.split(/[。！？]/)[0].trim() : "";
+          const summary = card.servings && card.servings.summary && !isDirty(card.servings.summary)
+            ? card.servings.summary : "";
       const ingredients = cleanLines(card.ingredients);
       const steps = cleanLines(card.steps_now);
       const chosen = loadFeedback()[card.id];
@@ -388,7 +451,8 @@
         <div class="detail-bar"><button type="button" class="back" id="back">‹ 返回</button></div>
         <div class="sheet">
           <h2>${escapeHtml(card.name)}</h2>
-          <p class="meta">${escapeHtml(card.form)} · ${escapeHtml(total)} 分钟 · ${pack}${escapeHtml(packNote)}</p>
+          <p class="meta">${escapeHtml(card.form)} · ${escapeHtml(total)} 分钟 · ${pack}</p>
+          ${packNote ? `<p class="pack">${escapeHtml(packNote)}</p>` : ""}
           ${summary ? `<p class="portion">${escapeHtml(summary)}</p>` : ""}
           ${ingredients.length ? `<h3>食材</h3><div class="box">${ingredients.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}</div>` : ""}
           ${steps.length ? `<h3>现在动手</h3><div class="box" id="steps">${steps.map((line, i) => `<div class="step"><span class="num">${i + 1}</span><span>${escapeHtml(line)}</span></div>`).join("")}</div>` : ""}
@@ -399,6 +463,8 @@
         </div>`;
       function paintChosen() {
         const row = loadFeedback()[card.id];
+        const picked = !!(row && (row.result === "吃光" || row.result === "剩了"));
+        $detail.querySelector(".actions").classList.toggle("picked", picked);
         $detail.querySelectorAll("[data-result]").forEach((btn) => {
           btn.classList.toggle("chosen", !!(row && row.result === btn.dataset.result));
           btn.setAttribute("aria-pressed", row && row.result === btn.dataset.result ? "true" : "false");
@@ -431,11 +497,12 @@
       renderList();
       remember();
     });
-    $q.addEventListener("input", () => {
-      query = $q.value;
-      renderFilters();
-      renderList();
-      remember();
+    $q.addEventListener("input", onQuery);
+    $q.addEventListener("search", onQuery);
+    $clear.addEventListener("click", () => {
+      $q.value = "";
+      $q.focus();
+      onQuery();
     });
     window.addEventListener("popstate", () => {
       const id = decodeURIComponent(location.hash.replace(/^#/, ""));
@@ -469,6 +536,7 @@
         pinMeta = Array.isArray(data.weekly_pins) ? data.weekly_pins : [];
         renderFilters();
         renderList();
+        paintClear();
         if (restoreY) {
           const y = restoreY;
           restoreY = 0;
