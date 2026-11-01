@@ -10,7 +10,7 @@
 
 手机主界面是 `recipe-library` 整库浏览（`browse.html`）。仓库根目录 `./start.command` 只开这个页面（局域网 `0.0.0.0:8081`），不再默认进入 rice-meal / plan-meal。
 
-本周待试仍是下面两道，浏览页置顶并标「本周待试」（`index.json` 的 `weekly_pins`）：
+本周待试仍是下面两道，浏览页置顶并标「本周待试」（`index.json` 的 `weekly_pins`）。轮换规则见 `docs/pin-rotation.md`，本周不自动换菜：
 
 1. 白菜豆腐焖饭（`baicai-doufu-menfan`）
 2. 肉糜青菜饭（`roumi-qingcai-fan`）
