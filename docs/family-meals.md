@@ -6,6 +6,17 @@
 **数据源：** `tools/data/rice-meal-catalog.v1.json`（`catalog_version`: `rice-meal-catalog-v1-20260802-r7`）  
 **纪律：** `preview_ready` ≠ 家庭已验证；本周不补 catalog 代码、不合 main、不部署。
 
+## 0. 手机入口（已改）
+
+手机主界面是 `recipe-library` 整库浏览（`browse.html`）。仓库根目录 `./start.command` 只开这个页面（局域网 `0.0.0.0:8081`），不再默认进入 rice-meal / plan-meal。
+
+本周待试仍是下面两道，浏览页置顶并标「本周待试」（`index.json` 的 `weekly_pins`）：
+
+1. 白菜豆腐焖饭（`baicai-doufu-menfan`）
+2. 肉糜青菜饭（`roumi-qingcai-fan`）
+
+库里其余卡可搜可翻。`preview_ready` 仍不等于家里已验证。
+
 ---
 
 ## 1. 真实在吃 / 常吃（先写家，再对照目录）
@@ -76,7 +87,7 @@
 
 现状：
 
-- `start.command` 已锁 `--rice-catalog-scope ready`（相对 calibration 已收窄到 8 道）。
+- 旧 `start.command` 曾锁 `--rice-catalog-scope ready`（相对 calibration 收窄到 8 道）。2026-11 手机入口已改：`start.command` 不再构建该 ready 集，改为打开菜谱库整库浏览。下面关于 selector 收窄的决定只约束旧推荐代码，不把它拉回手机主路径。
 - `worker/src/rice-meal-selector.js` / `rice-meal-compiler.js` 仅认识 `ready` | `calibration` 两档 status 集合；**没有** variant_id 白名单或「家庭可见 ≤2」开关。
 
 若要把 UI 真只露出本周 2 道，需要改 selector/compiler（或新 scope / 新过滤配置）并回归契约测试——属 **schema/runtime 级**，超出「最小改动」。

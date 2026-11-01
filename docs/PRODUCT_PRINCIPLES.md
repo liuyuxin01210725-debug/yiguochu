@@ -6,7 +6,7 @@
 
 本周禁止：部署（含 wrangler）、全量门禁、923、`/lab`、商业化回潮、DeepSeek 当主线、把 `preview_ready` 叫成已验证。
 
-本周入口：本地 `start.command` → `ready` 目录 + 确定性路径；代理默认应关，仅在 UI 仍强依赖 `localhost:8765` 时最小保留并写明依赖点。
+本周入口：本地 `start.command` → `recipe-library/browse.html`（局域网 `0.0.0.0:8081`）。整库可搜可翻，本周待试置顶。不启动推荐代理，不把 plan-meal / generate-plan 当手机主路径。
 
 下文为历史产品原则与目录交付表述，**不删只降级**——仍约束营养/来源诚实，但不把「目录扩张 / Planner 平台」当作本周目标。
 

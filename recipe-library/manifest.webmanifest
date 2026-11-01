@@ -1,0 +1,9 @@
+{
+  "name": "一锅出 · 菜谱库",
+  "short_name": "一锅出",
+  "start_url": "./browse.html",
+  "display": "standalone",
+  "background_color": "#f6f1e8",
+  "theme_color": "#f6f1e8",
+  "lang": "zh-Hans"
+}
