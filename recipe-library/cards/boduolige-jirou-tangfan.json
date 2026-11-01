@@ -1,0 +1,43 @@
+{
+  "id": "boduolige-jirou-tangfan",
+  "name": "波多黎各鸡肉汤泡饭（Asopao）",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "米 3/4 杯 + 鸡胸约 250g；约 2–3 人",
+    "rice": "长粒米 3/4 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "鸡胸 250g 切条",
+    "蒜 2 瓣、面粉 2 大勺、牛至、盐、黑胡椒、辣椒粉少许",
+    "油 2 大勺",
+    "洋葱 1/2、青椒 1/2",
+    "米 3/4 杯",
+    "番茄罐头 400g",
+    "鸡汤约 500ml",
+    "柠檬汁少许、欧芹"
+  ],
+  "steps_now": [
+    "鸡肉用面粉、蒜和香料抓匀。",
+    "锅中油煎鸡至上色，盛出。",
+    "同锅炒洋葱青椒至软，下米、番茄、鸡汤和少许柠檬汁。",
+    "盖上小火约 12 分钟，鸡回锅再盖煮至鸡熟、米仍带汤。",
+    "撒欧芹。按汤泡饭装盒。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "汤饭要密封防漏；复热可能要补汤。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Puerto Rican Chicken Soup (Asopao)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Puerto_Rican_Chicken_Soup_(Asopao)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文有白酒去锅底，家用可省，用水或汤代替。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

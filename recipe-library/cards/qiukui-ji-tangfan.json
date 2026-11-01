@@ -1,0 +1,44 @@
+{
+  "id": "qiukui-ji-tangfan",
+  "name": "秋葵鸡汤泡饭",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "米 1 杯 + 鸡腿 2 只；约 3 人",
+    "rice": "米 1 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "鸡腿 2 只切块",
+    "火腿或培根 40g",
+    "洋葱 1 个、欧芹、百里香",
+    "番茄 2 个切碎",
+    "秋葵 150g 切片",
+    "油 1 大勺",
+    "辣椒、盐",
+    "米 1 杯",
+    "热水"
+  ],
+  "steps_now": [
+    "油煎鸡和火腿约 8 分钟。",
+    "下洋葱、香草、番茄和秋葵，炒到秋葵不那么滑。",
+    "加热水约 600ml，小火 20 分钟。",
+    "下米，再煮约 18 分钟，保持汤泡饭的稀稠，不要收成干饭。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 55
+  },
+  "packable": true,
+  "pack_notes": "秋葵会黏，盒要盖紧。当天吃完。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Okra Gumbo》（Creole）",
+    "refs": [
+      "https://archive.org/details/cu31924073878708",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原书秋葵炖汤配另煮白饭。本卡在汤里下米，做成汤泡饭，避免两口锅。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "demoxi-xiangchang-menfan",
+  "name": "德州墨式香肠焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "黄油或油 1 大勺",
+    "洋葱 1 个、蒜 2 瓣、青椒 1/2、小辣椒 1 个",
+    "墨西哥香肠或广式腊肠 40g 去衣切碎",
+    "熟鸡肉或猪肉碎约 50g（可省）",
+    "米 1.5 杯",
+    "鸡汤约 2.5 杯",
+    "香叶 2 片",
+    "香菜碎"
+  ],
+  "steps_now": [
+    "黄油炒洋葱、辣椒、蒜、香肠和米，直到米和肠微黄。",
+    "倒鸡汤，下香叶，煮开后小火至汤干米熟。",
+    "拣香叶，撒香菜。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "干香焖饭适合带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Spanish Rice；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Spanish_Rice"
+    ]
+  },
+  "status": "待试",
+  "notes": "这是德州墨式焖饭，不是西班牙海鲜饭。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

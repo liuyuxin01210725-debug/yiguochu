@@ -1,0 +1,41 @@
+{
+  "id": "zhongdong-biandou-fan",
+  "name": "中东扁豆饭（Mejadra）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "扁豆 1 杯 + 米 1/2 杯；约 2–3 人",
+    "rice": "米 1/2 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "干扁豆 1 杯",
+    "米 1/2 杯",
+    "橄榄油",
+    "洋葱 1 个切细丝",
+    "孜然、小豆蔻粉、综合香料或咖喱粉少许",
+    "盐、胡椒",
+    "水"
+  ],
+  "steps_now": [
+    "同锅油炸洋葱丝至深金黄，盛出。",
+    "扁豆在余油里炒 3 分钟，加香料、盐和水约 2 杯，盖煮约 15 分钟。",
+    "下米再加水约 1 杯，盖煮至米熟、水干；若扁豆还硬就再补水。",
+    "拌入炸洋葱。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 50
+  },
+  "packable": true,
+  "pack_notes": "扁豆饭耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Rice and Lentils (Mejadra)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Rice_and_Lentils_(Mejadra)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文扁豆和米分两锅再混合。本卡同一口锅先洋葱、后扁豆、再下米。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

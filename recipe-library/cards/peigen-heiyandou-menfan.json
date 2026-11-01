@@ -1,0 +1,41 @@
+{
+  "id": "peigen-heiyandou-menfan",
+  "name": "培根黑眼豆焖饭（Hoppin John）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1 杯 + 黑眼豆 1 罐；约 2–3 人",
+    "rice": "长粒米 1 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "培根 2 片切丁",
+    "洋葱 1/2 个、芹菜 1 小段、青椒 1/2 个，切丁",
+    "长粒米 1 杯",
+    "黑眼豆罐头 1 罐，沥水",
+    "水 1.5–1.75 杯",
+    "小米椒 1 个去籽切丁（可省）",
+    "盐少许"
+  ],
+  "steps_now": [
+    "厚底锅煎培根至出油，肉盛出，留约 1 大勺油。",
+    "下洋葱、芹菜、青椒炒约 5 分钟。",
+    "下米、黑眼豆和水，轻盐；煮开后盖严小火约 18–20 分钟至水收干。",
+    "拌回培根与小米椒，再盖 5 分钟。松散后分装。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "豆饭耐放，复热加一勺水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Hoppin John；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Hoppin_John"
+    ]
+  },
+  "status": "待试",
+  "notes": "家用从原文约 8 人份缩到 2–3 人；原文调味包改为盐。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

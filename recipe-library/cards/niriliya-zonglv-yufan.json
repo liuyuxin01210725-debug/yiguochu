@@ -1,0 +1,41 @@
+{
+  "id": "niriliya-zonglv-yufan",
+  "name": "尼日利亚棕榈鱼焖饭（Banga Rice）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 熏鱼 1 条；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "棕榈浓汤或罐装棕榈果提取约 200ml（无则用椰奶 150ml 代替，风味不同）",
+    "米 1.5 杯，洗净",
+    "洋葱 1/2、新鲜辣椒 1 个",
+    "虾皮或干虾仁 1 大勺",
+    "咖喱粉 1 小勺、盐、高汤块 1/2 块",
+    "熏鱼或罐头鲭鱼 1 小条，去刺撕碎",
+    "罗勒或九层塔叶一小把（可省）"
+  ],
+  "steps_now": [
+    "棕榈汤加水，使总液体大约是米的 2 倍体积。",
+    "洋葱与辣椒打成粗酱，倒入煮开；加虾皮、咖喱粉、高汤块和盐。",
+    "下米，中火煮至变软，水少就补一点。",
+    "拌入熏鱼和香叶，再收干余水。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "鱼当天吃完更稳妥；饭盒密封。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Banga Rice；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Banga_Rice"
+    ]
+  },
+  "status": "待试",
+  "notes": "无棕榈提取时用椰奶代替须在家里试味，不假装是原味。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

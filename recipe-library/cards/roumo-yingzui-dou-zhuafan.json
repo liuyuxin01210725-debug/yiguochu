@@ -1,0 +1,46 @@
+{
+  "id": "roumo-yingzui-dou-zhuafan",
+  "name": "肉末鹰嘴豆抓饭",
+  "form": "手抓饭",
+  "servings": {
+    "summary": "香米约 300ml 杯 + 肉末 200g；约 3 人",
+    "rice": "印度香米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "印度香米 1.5 杯，浸泡",
+    "洋葱 1 个",
+    "油或酥油",
+    "蒜 1 瓣、盐",
+    "加拉马萨拉或孜然+香菜籽粉 1 小勺",
+    "番茄 1 个",
+    "羊肉末或牛肉末 200g",
+    "鹰嘴豆罐头 1 罐，沥水",
+    "热水约 500ml",
+    "冻豌豆一小把（可省）"
+  ],
+  "steps_now": [
+    "米浸泡时，油小火把洋葱炒到深黄，至少 15 分钟，勤翻。",
+    "下蒜和香料，再下番茄炒 1 分钟，肉末炒散至变色。",
+    "下沥干的米裹油，加热水、鹰嘴豆和盐。煮开后盖严最小火 20 分钟，不揭盖。",
+    "可撒豌豆，关火焖 5 分钟。"
+  ],
+  "prep_optional": [
+    "米浸泡。"
+  ],
+  "time_minutes": {
+    "active": 25,
+    "total": 55
+  },
+  "packable": true,
+  "pack_notes": "干抓饭好带。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Traditional Pilau Rice；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Traditional_Pilau_Rice"
+    ]
+  },
+  "status": "待试",
+  "notes": "衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

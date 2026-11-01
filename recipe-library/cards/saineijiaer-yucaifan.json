@@ -1,0 +1,42 @@
+{
+  "id": "saineijiaer-yucaifan",
+  "name": "塞内加尔鱼菜饭（Boule-Di）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 鱼约 350g；约 3 人",
+    "rice": "长粒米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "鱼柳约 350g，切块擦干",
+    "植物油 2 大勺",
+    "洋葱 1 个、蒜 3 瓣",
+    "番茄罐头 1 小罐、番茄膏 1 大勺",
+    "红绿甜椒各 1/2、胡萝卜 1 根、秋葵一小把",
+    "红椒粉、卡宴或辣椒粉、百里香、黑胡椒、盐",
+    "米 1.5 杯",
+    "鱼汤或水约 3 杯"
+  ],
+  "steps_now": [
+    "油炒洋葱蒜至软，下番茄、甜椒、胡萝卜、秋葵和香料炒匀。",
+    "鱼块铺上，再铺米。",
+    "倒汤，液面大约高出一指；煮开后转小火盖 20–25 分钟。",
+    "离火焖 5 分钟，拌匀，看鱼是否全熟。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 50
+  },
+  "packable": true,
+  "pack_notes": "有秋葵，汤汁略黏；饭盒盖紧。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Boule-Di (Senegalese Fish and Rice)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Boule-Di_(Senegalese_Fish_and_Rice)"
+    ]
+  },
+  "status": "待试",
+  "notes": "衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

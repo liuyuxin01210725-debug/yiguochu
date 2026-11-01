@@ -1,0 +1,39 @@
+{
+  "id": "feilvbin-keke-nuomizhou",
+  "name": "菲律宾可可糯米粥（Champorado）",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "糯米 1 杯；约 2–3 碗早餐",
+    "rice": "糯米 1 杯",
+    "people": "约 2–3 人早餐"
+  },
+  "ingredients": [
+    "糯米 1 杯，洗两遍",
+    "水约 5 杯",
+    "无糖可可粉 1 大勺",
+    "糖 2–3 大勺",
+    "淡奶或蒸发奶半杯"
+  ],
+  "steps_now": [
+    "糯米和水煮开。",
+    "下可可粉和糖，搅匀。",
+    "小火常搅，煮到米化、粥稠。",
+    "拌入淡奶。可配少量咸鱼或咸菜解甜。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 10,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "甜粥可复热，会变厚，加热水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Champorado (Chocolate Rice Porridge)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Champorado_(Chocolate_Rice_Porridge)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文糖与米几乎等量（各约 500g），家用改为少糖。仍是甜早餐粥，不是咸味主菜。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

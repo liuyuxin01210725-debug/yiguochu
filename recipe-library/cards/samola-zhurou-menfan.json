@@ -1,0 +1,43 @@
+{
+  "id": "samola-zhurou-menfan",
+  "name": "萨莫拉猪肉焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 猪肩肉约 300g；约 3–4 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3–4 人"
+  },
+  "ingredients": [
+    "猪油或油 1 大勺",
+    "洋葱 1 个、白萝卜 1 小段",
+    "蒜 3 瓣、欧芹、牛至、百里香",
+    "甜椒粉",
+    "猪肩肉 300g 切小块（原文用蹄、耳、口条，家用肩肉）",
+    "火腿 50g",
+    "水、盐",
+    "米 1.5 杯"
+  ],
+  "steps_now": [
+    "油炒洋葱和萝卜，下蒜和香草、甜椒粉。",
+    "下猪肉和火腿，加水没过，小火约 40 分钟至肉软。",
+    "汤要够，下米，先开后小火至米半熟。",
+    "盖严最小火或进 160°C 烤箱约 20 分钟至米干。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 100
+  },
+  "packable": true,
+  "pack_notes": "猪肉焖饭耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Arroz a la Zamorana》（El Practicón，1894）",
+    "refs": [
+      "https://archive.org/details/elpracticntrat00muro",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文用猪蹄耳炖约四小时，再盖炭火。本卡改猪肩肉，缩短时间，仍是肉与米同锅。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

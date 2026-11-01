@@ -1,0 +1,46 @@
+{
+  "id": "yingshi-xunyu-jidanfan",
+  "name": "英式熏鱼蛋饭（Kedgeree）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1 杯 + 熏鱼约 250g + 蛋 3 个；约 2–3 人",
+    "rice": "长粒米或印度香米 1 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "米 1 杯",
+    "鸡汤或水 1.5 杯",
+    "香叶 1 片",
+    "熏鱼或熏鳕约 250g（无熏鱼可用煎熟的白鱼）",
+    "洋葱或红葱 1 个",
+    "黄油 1 大勺、蒜 1 瓣",
+    "水煮蛋 3 个切碎",
+    "芥末 1 小勺、欧芹、黑胡椒、盐",
+    "淡奶油 2 大勺（可省）",
+    "咖喱粉一小撮（可省）"
+  ],
+  "steps_now": [
+    "米、鸡汤和香叶煮开，小火盖至熟；去掉香叶。",
+    "熏鱼放在热饭上，盖严再蒸约 15 分钟。取出撕碎，挑尽刺。",
+    "饭先盛出。同锅用黄油把洋葱炒到浅黄，加蒜 1 分钟。",
+    "饭和鱼回锅，下切碎的蛋、芥末、欧芹、胡椒和少量奶油，轻轻拌匀。试盐。"
+  ],
+  "prep_optional": [
+    "蛋可前夜煮好。"
+  ],
+  "time_minutes": {
+    "active": 20,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "原文写明可稍后吃、能放；复热用小火，奶油可省以免盒里出水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Kedgeree；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Kedgeree"
+    ]
+  },
+  "status": "待试",
+  "notes": "适合当早餐。熏鱼必须去刺。步骤把洋葱收进同一锅，避免另起饭锅。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

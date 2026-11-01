@@ -1,0 +1,44 @@
+{
+  "id": "alikante-yufan",
+  "name": "阿利坎特鱼菜饭",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 鱼约 300g；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "橄榄油",
+    "干辣椒 2 个",
+    "蒜 2 瓣、番茄 1 个",
+    "青豆或洋蓟心一小把（应季就用）",
+    "米 1.5 杯",
+    "藏红花一小撮、甜红椒粉少许",
+    "鱼块约 300g",
+    "水"
+  ],
+  "steps_now": [
+    "油快速煎干辣椒后盛出，避免煎黑。",
+    "同油炒蒜、番茄和青豆。",
+    "下米略拌，加藏红花和红椒粉，加水没过。",
+    "水开后下鱼，少翻，中火煮到米熟鱼透。",
+    "干辣椒捣碎用一点水化开，拌进饭里。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "鱼饭当天吃。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Arroz a la Alicantina》（El Practicón，1894）",
+    "refs": [
+      "https://archive.org/details/elpracticntrat00muro",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "与已有西班牙海鲜饭不同：以鱼和干辣椒为主，没有鸡鸭。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

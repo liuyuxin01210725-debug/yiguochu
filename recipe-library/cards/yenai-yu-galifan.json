@@ -1,0 +1,43 @@
+{
+  "id": "yenai-yu-galifan",
+  "name": "椰奶鱼咖喱饭",
+  "form": "咖喱一锅",
+  "servings": {
+    "summary": "米 1 杯 + 鱼约 300g；约 2–3 人",
+    "rice": "米 1 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "鱼块 300g",
+    "盐、姜黄少许",
+    "油",
+    "洋葱 1/2、蒜 2 瓣、干辣椒 1 个",
+    "椰奶 200ml",
+    "姜少许、醋 1 小勺、胡椒",
+    "米 1 杯",
+    "水约半杯"
+  ],
+  "steps_now": [
+    "鱼抹盐和姜黄，少油煎两面盛出。",
+    "同锅炒洋葱、蒜、辣椒。",
+    "倒椰奶、姜、醋、盐，下米，再加水至刚没过米。",
+    "鱼放回表面，小火盖约 18 分钟至米熟鱼透。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "鱼咖喱当天吃。与已有斯里兰卡鱼咖喱不同：这张用椰奶和醋，米必须同锅。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Fish Curry with Cocoa-nut》",
+    "refs": [
+      "https://archive.org/details/cu31924059630735",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原书做成浓椰奶鱼汤。本卡加入米，收成一锅咖喱饭。杏仁和裹面包糠的炸鱼步骤省去。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

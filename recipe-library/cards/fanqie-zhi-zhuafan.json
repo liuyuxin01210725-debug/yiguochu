@@ -1,0 +1,39 @@
+{
+  "id": "fanqie-zhi-zhuafan",
+  "name": "番茄汁抓饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1 杯；约 2 人",
+    "rice": "米 1 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "米 1 杯，洗净",
+    "水 1 杯",
+    "番茄 2 个去皮挤汁，或番茄汁半杯",
+    "盐",
+    "黄油或油 1 小块"
+  ],
+  "steps_now": [
+    "水和番茄汁、盐煮开。",
+    "下米，小火至水干。",
+    "拌入黄油，盖着保温几分钟，粒粒分开再吃。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 10,
+    "total": 30
+  },
+  "packable": true,
+  "pack_notes": "很干，适合带饭。味道淡，可加蛋。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Pilaf》（犹太家常食谱集，open-recipe-archive / jewish-kitchen）",
+    "refs": [
+      "https://archive.org/details/cu31924003580952",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "步骤极短，适合试手。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

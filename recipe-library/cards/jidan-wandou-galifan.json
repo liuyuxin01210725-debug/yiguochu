@@ -1,0 +1,46 @@
+{
+  "id": "jidan-wandou-galifan",
+  "name": "鸡蛋豌豆咖喱饭",
+  "form": "咖喱一锅",
+  "servings": {
+    "summary": "米 1 杯 + 蛋 4 个 + 豌豆 1 杯；约 2–3 人",
+    "rice": "米 1 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "蛋 4 个",
+    "洋葱 1 个",
+    "油或黄油 1 大勺",
+    "咖喱粉 1 大勺",
+    "蒜 1 瓣、姜少许",
+    "豌豆 1 杯",
+    "米 1 杯",
+    "水约 1.5 杯",
+    "盐"
+  ],
+  "steps_now": [
+    "蛋煮熟剥壳，对半。",
+    "同锅油炒洋葱至黄，下咖喱粉、蒜姜。",
+    "下豌豆和米，加水、盐。",
+    "盖焖约 15 分钟。蛋埋进饭里再盖 3 分钟。"
+  ],
+  "prep_optional": [
+    "蛋可前夜煮好。"
+  ],
+  "time_minutes": {
+    "active": 20,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "咖喱饭好带。蛋已煮熟，不要再煮老。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Egg Curry with Green Peas》（Indian Cookery Book）",
+    "refs": [
+      "https://archive.org/details/indiancookeryboo00unse",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原书是蛋与豌豆的咖喱、不带米。本卡米下进同一锅，方便带饭。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

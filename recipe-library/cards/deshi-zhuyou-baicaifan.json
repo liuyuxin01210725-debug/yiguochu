@@ -1,0 +1,41 @@
+{
+  "id": "deshi-zhuyou-baicaifan",
+  "name": "德式猪油卷心菜饭",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 卷心菜 1/2 棵；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "卷心菜 1/2 棵切碎",
+    "猪油或油 1 大勺",
+    "米 1.5 杯",
+    "水或汤约 2.5 杯",
+    "盐",
+    "可选：煎肠作配，不另起菜锅"
+  ],
+  "steps_now": [
+    "猪油把卷心菜炒到边缘微黄。",
+    "下米和盐，倒水。",
+    "盖焖至米熟。",
+    "拌匀。可把香肠片在同一锅最后煎热。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "干香，适合带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Reis mit Kraut》（维也纳食谱）",
+    "refs": [
+      "https://archive.org/details/bub_gb_oP8yAQAAMAAJ",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文把炒菜拌进已经蒸好的抓饭。本卡米与菜同锅焖。与白菜豆腐焖饭不是同一道。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

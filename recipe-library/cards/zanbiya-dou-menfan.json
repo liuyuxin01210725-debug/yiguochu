@@ -1,0 +1,43 @@
+{
+  "id": "zanbiya-dou-menfan",
+  "name": "赞比亚番茄豆焖饭",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1 杯 + 浸泡豆 1 杯；约 3 人",
+    "rice": "米 1 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "干豆 1 杯，浸泡过夜并沥干",
+    "油 2 大勺",
+    "洋葱 1 个、蒜 2 瓣",
+    "番茄 1 个、辣椒 1 个",
+    "水约 4 杯，随后给米再留水",
+    "米 1 杯",
+    "盐"
+  ],
+  "steps_now": [
+    "油炒洋葱蒜，下番茄和辣椒炒软。",
+    "下泡好的豆和约 4 杯水、盐，盖煮 60–80 分钟至豆软。",
+    "下米，补水至高出米约 1cm，再盖煮约 18 分钟。",
+    "可压碎少许豆子拌匀，使饭更黏。"
+  ],
+  "prep_optional": [
+    "豆前夜浸泡。"
+  ],
+  "time_minutes": {
+    "active": 15,
+    "total": 110
+  },
+  "packable": true,
+  "pack_notes": "豆要泡过。耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Zambian Beans and Rice；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Zambian_Beans_and_Rice"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文米饭另煮再并盘。本卡豆软后把米下进同一锅。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

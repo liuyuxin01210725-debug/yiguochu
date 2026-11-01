@@ -1,0 +1,44 @@
+{
+  "id": "pushi-bohe-jifan",
+  "name": "葡式薄荷香菜鸡饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 2 杯 + 鸡腿 4 只；约 4 人",
+    "rice": "米 2 杯",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "鸡腿 4 只",
+    "火腿或培根 50g",
+    "洋葱 1 个",
+    "丁香 2 粒、鼠尾草或香叶",
+    "热水",
+    "醋 1 小勺",
+    "薄荷叶、香菜各一小把",
+    "米 2 杯",
+    "盐"
+  ],
+  "steps_now": [
+    "鸡腿、火腿、洋葱、丁香和香叶干煎至上色粘锅，再加热水，小火煮到鸡快熟。",
+    "捞出鸡，汤过滤，加醋、薄荷和香菜煮开。",
+    "下米，汤量大约是米的两倍不到一点，小火焖到米干而整。",
+    "鸡回锅盖热，或饭铺在鸡上。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 70
+  },
+  "packable": true,
+  "pack_notes": "鸡要全熟。香菜薄荷是这道和古巴鸡饭的差别。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Galinhas com Arroz à Portuguesa》",
+    "refs": [
+      "https://archive.org/details/b28764626",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文还加一大块牛肉熬汤。家用省去牛肉，只用鸡和火腿。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

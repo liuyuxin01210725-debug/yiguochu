@@ -1,0 +1,42 @@
+{
+  "id": "xihulu-huifan",
+  "name": "西葫芦烩饭",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "米 1 杯 + 西葫芦等重；约 2 人",
+    "rice": "米 1 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "小西葫芦约 200g 切丁",
+    "黄油或油",
+    "盐、胡椒",
+    "米 1 杯",
+    "汤或水",
+    "番茄酱 2 大勺（可省）",
+    "硬奶酪"
+  ],
+  "steps_now": [
+    "西葫芦用黄油略煎，撒盐胡椒，盛出时仍要脆。",
+    "同锅按烩饭下米，分次加热汤。",
+    "米半熟时倒回西葫芦；若用清水就加番茄酱。",
+    "收成略带汤，拌奶酪。西葫芦不要煮化。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 40
+  },
+  "packable": false,
+  "pack_notes": "出锅吃。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Riso con Zucchini》（Artusi，1891）",
+    "refs": [
+      "https://www.gutenberg.org/ebooks/59047",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

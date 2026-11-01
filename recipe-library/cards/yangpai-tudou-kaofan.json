@@ -1,0 +1,41 @@
+{
+  "id": "yangpai-tudou-kaofan",
+  "name": "羊排土豆藏红花烤饭",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "米 1 杯 + 羊排约 400g + 土豆 2 个；约 3 人",
+    "rice": "米 1 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "羊排或羊腿肉 400g 切块，去掉大块肥油",
+    "洋葱 1 个切片",
+    "盐、胡椒、藏红花一小撮",
+    "米 1 杯，洗净",
+    "土豆 2 个切块",
+    "水",
+    "欧芹、马郁兰或牛至"
+  ],
+  "steps_now": [
+    "烤箱 180°C。深烤盘底铺洋葱，撒盐胡椒和藏红花。",
+    "铺米和土豆，放羊肉，加水至将近没过。",
+    "撒香草，加盖或加锡纸，烤约 70–80 分钟至米熟肉软。中途若干了补热水。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 95
+  },
+  "packable": true,
+  "pack_notes": "烤盘分装即可。羊肉看软不软。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Breast of Mutton Baked with Rice and Potatoes》",
+    "refs": [
+      "https://archive.org/details/b2807967x",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

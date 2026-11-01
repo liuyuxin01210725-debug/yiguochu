@@ -1,0 +1,44 @@
+{
+  "id": "tuerqi-jirou-fanqie-zhuafan",
+  "name": "土耳其番茄鸡肉抓饭",
+  "form": "手抓饭",
+  "servings": {
+    "summary": "米 1 杯 + 鸡块约 250g；约 2–3 人",
+    "rice": "米 1 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "米 1 杯，可泡 30 分钟",
+    "鸡汤 2 杯",
+    "洋葱 1/4 个",
+    "番茄罐头半罐",
+    "橄榄油或鸡油 2 大勺",
+    "鸡腿块约 250g",
+    "盐、胡椒"
+  ],
+  "steps_now": [
+    "米沥干，与鸡汤、洋葱小火煮到汤被吸干，盛出。",
+    "同锅把番茄煮浓，加油、盐、胡椒，拌回米饭。",
+    "鸡块用少油煎上色（生鸡要先煎熟表面）。",
+    "在饭中留一个坑放入鸡，再盖焖到鸡全熟、饭还湿润。"
+  ],
+  "prep_optional": [
+    "米可浸泡 30 分钟。"
+  ],
+  "time_minutes": {
+    "active": 25,
+    "total": 55
+  },
+  "packable": true,
+  "pack_notes": "鸡必须全熟。汁比干饭多，盒要盖紧。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Pilaf (Turkish Style)》（open-recipe-archive / jewish-kitchen）",
+    "refs": [
+      "https://archive.org/details/cu31924003580952",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

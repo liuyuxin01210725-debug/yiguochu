@@ -1,0 +1,41 @@
+{
+  "id": "haixian-huifan",
+  "name": "虾仁鱿鱼烩饭",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "意大利米 1.5 杯 + 虾和鱿鱼约 300g；约 3 人",
+    "rice": "意大利米约 280g",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "鱿鱼约 100g 切圈、虾仁 150g",
+    "洋葱 1/2、蒜 1 瓣",
+    "橄榄油",
+    "意大利米 280g",
+    "鱼汤或水约 800ml",
+    "白酒 50ml（可省）",
+    "黄油一小块、欧芹、盐胡椒"
+  ],
+  "steps_now": [
+    "汤烧热备用。油小火炒洋葱蒜，下米炒到半透明。",
+    "倒酒收干后分次加热汤，搅拌约 15 分钟。",
+    "结束前 5 分钟下虾和鱿鱼，煮到刚熟。",
+    "关火拌黄油和欧芹。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 30,
+    "total": 40
+  },
+  "packable": false,
+  "pack_notes": "海鲜烩饭不耐放，不建议带饭隔几小时。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Seafood Risotto；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Seafood_Risotto"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文有扇贝和腌制；家用虾与鱿鱼即可。扇贝可换成同样重量的虾。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

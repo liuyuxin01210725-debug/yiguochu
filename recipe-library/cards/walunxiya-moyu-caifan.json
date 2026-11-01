@@ -1,0 +1,43 @@
+{
+  "id": "walunxiya-moyu-caifan",
+  "name": "瓦伦西亚墨鱼汁菜饭",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 鱿鱼约 250g；约 3 人",
+    "rice": "中短粒米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "橄榄油",
+    "青椒 1 个切条",
+    "鱿鱼约 250g 切块",
+    "蒜 3 瓣",
+    "米 1.5 杯",
+    "甜红椒粉 1 小勺",
+    "热汤 3 杯",
+    "墨鱼汁 1 小包",
+    "盐"
+  ],
+  "steps_now": [
+    "油炒青椒至软，下鱿鱼 2 分钟，再下蒜。",
+    "下米裹油，撒红椒粉立刻倒热汤，避免糊粉。",
+    "墨鱼汁化开拌入，试盐。煮开后中小火约 18–20 分钟，米不要煮烂。",
+    "离火盖巾静置几分钟。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "黑色酱汁会染色；饭盒垫一层米饭或用深色盒。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Arroz Negro (Valencian Squid Rice)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Arroz_Negro_(Valencian_Squid_Rice)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文另煮一锅蟹与鱼头高汤。家用改一锅：汤用清水或先用虾壳在同锅煮 10 分钟捞出。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

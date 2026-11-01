@@ -94,9 +94,10 @@ python3 -m http.server 8092 --bind 0.0.0.0
 
 ## 当前库规模（均为待试，除非另标）
 
-截至 2026-11-01 Asia/Shanghai：`python3 cli.py validate` → **57 张卡**。
+截至 2026-11-01 Asia/Shanghai：`python3 cli.py validate` → **106 张卡**（首批 57 + 本批新增 49），全部 `待试`。
 
-本批大量条目改编自开源数据集（UniTools CC BY-SA 4.0、Wikibooks Cookbook CC BY-SA 3.0）及家常网络常见做法改写；`source.refs` 含 URL/slug。详见 box：`/home/box/shared/yiguochu/recipe-sources-2026-11-01.md`。
+- 首批：UniTools CC BY-SA 4.0、Wikibooks、家常改写。详见 `recipe-sources-2026-11-01.md`。
+- 本批 49：Wikibooks Cookbook **30**（CC BY-SA 3.0，`source.label` + `refs`，notes 提醒 ShareAlike）+ open-recipe-archive 公有领域历史食谱 **19**（家用改写，附原始书 URL）。未整库导入。部分原书是分锅或配白饭，卡片 notes 写明改成同锅。
 
 ### 最初骨架样例
 

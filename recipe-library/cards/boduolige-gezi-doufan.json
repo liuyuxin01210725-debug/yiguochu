@@ -1,0 +1,44 @@
+{
+  "id": "boduolige-gezi-doufan",
+  "name": "波多黎各鸽子豆饭（Arroz con Gandules）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 2 杯 + 鸽子豆 1 罐；约 4 人",
+    "rice": "中粒米 2 杯",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "橄榄油 3 大勺",
+    "胭脂树籽 1 小勺（没有可省，只少了红油）",
+    "洋葱 1 个、青椒 1 个、蒜 3 瓣、番茄 1 个、香菜一把，切碎或打成粗酱",
+    "橄榄或酸豆 2 大勺（可省）",
+    "孜然 1 小勺、盐",
+    "中粒米 2 杯，不要洗",
+    "鸽子豆罐头 1 罐连汁，或冷冻木豆",
+    "鸡汤或水约 2.5 杯",
+    "香叶 2 片",
+    "火腿或香肠丁 80g（可省）"
+  ],
+  "steps_now": [
+    "油小火与胭脂树籽略热后捞出籽，油倒入厚锅。",
+    "下洋葱青椒蒜番茄香菜炒成酱，加香肠、橄榄、孜然和盐。",
+    "下米拌匀，倒豆和汤、香叶。煮开后小火盖约 20 分钟。",
+    "离火焖 10 分钟再翻。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 50
+  },
+  "packable": true,
+  "pack_notes": "豆饭适合带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Arroz con Gandules (Puerto Rican Rice and Pigeon Peas)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Arroz_con_Gandules_(Puerto_Rican_Rice_and_Pigeon_Peas)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文 sofrito 是宴会大份并另含车前草叶。本卡用常见蔬菜打成一小碗酱，份量缩到约 4 人。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

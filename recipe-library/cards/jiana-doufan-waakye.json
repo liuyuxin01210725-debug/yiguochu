@@ -1,0 +1,41 @@
+{
+  "id": "jiana-doufan-waakye",
+  "name": "加纳豆饭（Waakye）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 2 杯 + 干豆约 1 杯；约 3 人",
+    "rice": "米 2 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "干红腰豆或黑眼豆 1 杯，洗净",
+    "米 2 杯，洗净",
+    "水",
+    "盐",
+    "可选：高粱叶或红茶叶 1 小把（染色，没有可省）"
+  ],
+  "steps_now": [
+    "锅中水半满，可放高粱叶或红茶，煮开后下豆。",
+    "小火煮 40–45 分钟，豆轻按能裂开。",
+    "下米和盐，水量保持刚没过；不够就加热水。",
+    "小火盖煮至米和豆都软、水基本收干。可配煎蛋或鱼。"
+  ],
+  "prep_optional": [
+    "豆可前夜浸泡，次日煮的时间可缩短约 15 分钟。"
+  ],
+  "time_minutes": {
+    "active": 15,
+    "total": 75
+  },
+  "packable": true,
+  "pack_notes": "豆饭隔夜更入味；复热补水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Waakye (Ghanian Rice and Beans)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Waakye_(Ghanian_Rice_and_Beans)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文配 shito、炸鱼等另做小菜；本卡只收同锅豆饭。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

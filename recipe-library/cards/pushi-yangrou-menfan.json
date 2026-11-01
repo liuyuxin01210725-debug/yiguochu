@@ -1,0 +1,43 @@
+{
+  "id": "pushi-yangrou-menfan",
+  "name": "葡式藏红花羊肉焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 羊肉约 400g；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "羊肉 400g 切块",
+    "培根 40g",
+    "蒜 4 瓣",
+    "肉桂一小段、胡椒、丁香 1 粒、姜粉少许",
+    "白葡萄酒 2 大勺、醋 1 小勺",
+    "香草碎",
+    "藏红花一小撮",
+    "米 1.5 杯",
+    "水"
+  ],
+  "steps_now": [
+    "羊肉、培根、蒜、香料、酒、醋和香草加水，小火煮至羊肉过半熟。",
+    "加藏红花试盐。",
+    "下米，盖严，小火烤或焖至水干米熟。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 80
+  },
+  "packable": true,
+  "pack_notes": "羊肉看软硬。醋味收干后不会太冲。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Carneiro com Arroz》",
+    "refs": [
+      "https://archive.org/details/b22024700",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}
