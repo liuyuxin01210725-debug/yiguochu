@@ -6,12 +6,12 @@
     {
       "id": "baicai-doufu-menfan",
       "label": "本周待试",
-      "why": "步骤少、无中途开盖。家里还没实做。"
+      "why": "中途不开盖，熟后翻拌。"
     },
     {
       "id": "roumi-qingcai-fan",
       "label": "本周待试",
-      "why": "贴近青菜、肉和饭。家里还没实做。"
+      "why": "肉糜先炒至变色，再铺在饭上。"
     }
   ],
   "cards": [
@@ -23,7 +23,22 @@
       "packable": true,
       "time_total": 155,
       "file": "cards/afuhan-putaogan-shouzhafan.json",
-      "keywords": "干果米饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Kabuli pulao」（kabuli-pulao）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 羊肉 on the bone 1kg 印度香米 700g 胡萝卜s 500g（{'ru': 'тонкой соломкой', 'en': 'in fine matchsticks'}） 葡萄干 150g Almonds 80g（{'ru': 'лепестками', 'en': 'slivered'}） Pistachios 50g 洋葱s 2piece 糖 4tbsp Char masala 2tsp 孜然 seed 1tsp 豆蔻 6piece 植物油 150ml 盐 and pepper 米可浸泡。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Soak the rice in salted water for two hours and rinse it until the water runs clear.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "干果米饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Kabuli pulao」（kabuli-pulao）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 羊肉 on the bone 1kg 印度香米 700g 胡萝卜s 500g（{'ru': 'тонкой соломкой', 'en': 'in fine matchsticks'}） 葡萄干 150g Almonds 80g（{'ru': 'лепестками', 'en': 'slivered'}） Pistachios 50g 洋葱s 2piece 糖 4tbsp Char masala 2tsp 孜然 seed 1tsp 豆蔻 6piece 植物油 150ml 盐 and pepper 米可浸泡。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Soak the rice in salted water for two hours and rinse it until the water runs clear.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "羊肉 on the bone 1kg",
+        "印度香米 700g",
+        "胡萝卜s 500g（{'ru': 'тонкой соломкой', 'en': 'in fine matchsticks'}）",
+        "葡萄干 150g",
+        "Almonds 80g（{'ru': 'лепестками', 'en': 'slivered'}）",
+        "Pistachios 50g",
+        "洋葱s 2piece",
+        "糖 4tbsp",
+        "Char masala 2tsp",
+        "孜然 seed 1tsp",
+        "豆蔻 6piece",
+        "植物油 150ml",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "aierlan-yangrou-dun",
@@ -33,7 +48,17 @@
       "packable": true,
       "time_total": 170,
       "file": "cards/aierlan-yangrou-dun.json",
-      "keywords": "炖菜耐放；可配土豆或饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Irish stew」（irish-stew）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 羊肉 neck or shoulder 1.2kg（{'ru': 'на кости, крупными кусками', 'en': 'on the bone, in large pieces'}） 土豆（Floury potatoes） 500g（{'ru': 'первая партия', 'en': 'first lot'}） 土豆（Waxy potatoes） 700g（{'ru': 'вторая партия', 'en': 'second lot'}） 洋葱s 3piece 胡萝卜s 3piece 高汤（Lamb or vegetable stock） 1.2l 欧芹 20g 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Put the meat into the pot raw, add the onion, carrot and the first lot of potatoes cut large.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "炖菜耐放；可配土豆或饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Irish stew」（irish-stew）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 羊肉 neck or shoulder 1.2kg（{'ru': 'на кости, крупными кусками', 'en': 'on the bone, in large pieces'}） 土豆（Floury potatoes） 500g（{'ru': 'первая партия', 'en': 'first lot'}） 土豆（Waxy potatoes） 700g（{'ru': 'вторая партия', 'en': 'second lot'}） 洋葱s 3piece 胡萝卜s 3piece 高汤（Lamb or vegetable stock） 1.2l 欧芹 20g 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Put the meat into the pot raw, add the onion, carrot and the first lot of potatoes cut large.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "羊肉 neck or shoulder 1.2kg（{'ru': 'на кости, крупными кусками', 'en': 'on the bone, in large pieces'}）",
+        "土豆（Floury potatoes） 500g（{'ru': 'первая партия', 'en': 'first lot'}）",
+        "土豆（Waxy potatoes） 700g（{'ru': 'вторая партия', 'en': 'second lot'}）",
+        "洋葱s 3piece",
+        "胡萝卜s 3piece",
+        "高汤（Lamb or vegetable stock） 1.2l",
+        "欧芹 20g",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "aiji-fanqie-yufan",
@@ -43,7 +68,16 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/aiji-fanqie-yufan.json",
-      "keywords": "鱼饭当天分装，复热不要煮到散。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Sayadeya (Egyptian Fish with Rice)；CC BY-SA 3.0 白鱼柳约 300g，切块 米 1.5 杯 橄榄油 2 大勺 洋葱 1 个、蒜 2 瓣 番茄酱 150ml 或番茄罐头半罐 孜然 1 小勺、红椒粉 1/2 小勺、香菜籽粉少许 盐、黑胡椒、香菜碎、柠檬角 米可提前浸泡。 米浸泡约 15 分钟后沥干。 油炒洋葱蒜至透明，下米拌匀裹油。 倒番茄酱和香料、盐胡椒，再加热水至高过米约 1cm。 鱼块铺在面上，盖严小火 20–25 分钟至米熟鱼透。 撒香菜，挤柠檬。"
+      "keywords": "鱼饭当天分装，复热不要煮到散。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Sayadeya (Egyptian Fish with Rice)；CC BY-SA 3.0 白鱼柳约 300g，切块 米 1.5 杯 橄榄油 2 大勺 洋葱 1 个、蒜 2 瓣 番茄酱 150ml 或番茄罐头半罐 孜然 1 小勺、红椒粉 1/2 小勺、香菜籽粉少许 盐、黑胡椒、香菜碎、柠檬角 米可提前浸泡。 米浸泡约 15 分钟后沥干。 油炒洋葱蒜至透明，下米拌匀裹油。 倒番茄酱和香料、盐胡椒，再加热水至高过米约 1cm。 鱼块铺在面上，盖严小火 20–25 分钟至米熟鱼透。 撒香菜，挤柠檬。",
+      "ingredients": [
+        "白鱼柳约 300g，切块",
+        "米 1.5 杯",
+        "橄榄油 2 大勺",
+        "洋葱 1 个、蒜 2 瓣",
+        "番茄酱 150ml 或番茄罐头半罐",
+        "孜然 1 小勺、红椒粉 1/2 小勺、香菜籽粉少许",
+        "盐、黑胡椒、香菜碎、柠檬角"
+      ]
     },
     {
       "id": "aiji-mifan-biandou-yiguo",
@@ -53,7 +87,21 @@
       "packable": true,
       "time_total": 90,
       "file": "cards/aiji-mifan-biandou-yiguo.json",
-      "keywords": "碳水足，饭盒分层放酱。 书/可靠食谱改写 改编自 UniTools World Recipes「Koshari」（koshari）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Short-grain rice） 300g 扁豆（Brown lentils） 200g Small pasta 200g 鹰嘴豆 200g（{'ru': 'варёный', 'en': 'cooked'}） 洋葱s 4piece（{'ru': 'тонкими кольцами', 'en': 'in thin rings'}） 番茄（Tinned tomatoes） 800g 蒜 6clove 醋（White vinegar） 4tbsp 孜然（Ground cumin） 2tsp Chilli flakes 1tsp Neutral oil 200ml 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Fry the onion in the oil over medium heat for twenty-five minutes to a deep brown, stirring. Drain it on paper; it crisp…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "碳水足，饭盒分层放酱。 书/可靠食谱改写 改编自 UniTools World Recipes「Koshari」（koshari）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Short-grain rice） 300g 扁豆（Brown lentils） 200g Small pasta 200g 鹰嘴豆 200g（{'ru': 'варёный', 'en': 'cooked'}） 洋葱s 4piece（{'ru': 'тонкими кольцами', 'en': 'in thin rings'}） 番茄（Tinned tomatoes） 800g 蒜 6clove 醋（White vinegar） 4tbsp 孜然（Ground cumin） 2tsp Chilli flakes 1tsp Neutral oil 200ml 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Fry the onion in the oil over medium heat for twenty-five minutes to a deep brown, stirring. Drain it on paper; it crisp…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "大米（Short-grain rice） 300g",
+        "扁豆（Brown lentils） 200g",
+        "Small pasta 200g",
+        "鹰嘴豆 200g（{'ru': 'варёный', 'en': 'cooked'}）",
+        "洋葱s 4piece（{'ru': 'тонкими кольцами', 'en': 'in thin rings'}）",
+        "番茄（Tinned tomatoes） 800g",
+        "蒜 6clove",
+        "醋（White vinegar） 4tbsp",
+        "孜然（Ground cumin） 2tsp",
+        "Chilli flakes 1tsp",
+        "Neutral oil 200ml",
+        "盐"
+      ]
     },
     {
       "id": "alabo-xiangliao-shouzhafan",
@@ -63,7 +111,23 @@
       "packable": true,
       "time_total": 105,
       "file": "cards/alabo-xiangliao-shouzhafan.json",
-      "keywords": "香料饭+肉分装；复热加少许汤。 书/可靠食谱改写 改编自 UniTools World Recipes「Kabsa」（kabsa）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.6kg（{'ru': 'кусками', 'en': 'in pieces'}） 印度香米 600g 洋葱s 2piece 番茄es 4piece 番茄酱 2tbsp 青柠（Dried lime） 3piece 胡萝卜s 2piece Kabsa baharat 1tbsp 豆蔻 pods 6piece 肉桂 stick 1piece 蒜 5clove 葡萄干 60g Almonds 60g Ghee 80g 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the rice until the water runs clear and soak it twenty minutes.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "香料饭+肉分装；复热加少许汤。 书/可靠食谱改写 改编自 UniTools World Recipes「Kabsa」（kabsa）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.6kg（{'ru': 'кусками', 'en': 'in pieces'}） 印度香米 600g 洋葱s 2piece 番茄es 4piece 番茄酱 2tbsp 青柠（Dried lime） 3piece 胡萝卜s 2piece Kabsa baharat 1tbsp 豆蔻 pods 6piece 肉桂 stick 1piece 蒜 5clove 葡萄干 60g Almonds 60g Ghee 80g 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the rice until the water runs clear and soak it twenty minutes.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉 1.6kg（{'ru': 'кусками', 'en': 'in pieces'}）",
+        "印度香米 600g",
+        "洋葱s 2piece",
+        "番茄es 4piece",
+        "番茄酱 2tbsp",
+        "青柠（Dried lime） 3piece",
+        "胡萝卜s 2piece",
+        "Kabsa baharat 1tbsp",
+        "豆蔻 pods 6piece",
+        "肉桂 stick 1piece",
+        "蒜 5clove",
+        "葡萄干 60g",
+        "Almonds 60g",
+        "Ghee 80g"
+      ]
     },
     {
       "id": "alikante-yufan",
@@ -73,7 +137,17 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/alikante-yufan.json",
-      "keywords": "鱼饭当天吃。 书/可靠食谱改写 改编自公有领域《Arroz a la Alicantina》（El Practicón，1894） 橄榄油 干辣椒 2 个 蒜 2 瓣、番茄 1 个 青豆或洋蓟心一小把（应季就用） 米 1.5 杯 藏红花一小撮、甜红椒粉少许 鱼块约 300g 水 油快速煎干辣椒后盛出，避免煎黑。 同油炒蒜、番茄和青豆。 下米略拌，加藏红花和红椒粉，加水没过。 水开后下鱼，少翻，中火煮到米熟鱼透。 干辣椒捣碎用一点水化开，拌进饭里。"
+      "keywords": "鱼饭当天吃。 书/可靠食谱改写 改编自公有领域《Arroz a la Alicantina》（El Practicón，1894） 橄榄油 干辣椒 2 个 蒜 2 瓣、番茄 1 个 青豆或洋蓟心一小把（应季就用） 米 1.5 杯 藏红花一小撮、甜红椒粉少许 鱼块约 300g 水 油快速煎干辣椒后盛出，避免煎黑。 同油炒蒜、番茄和青豆。 下米略拌，加藏红花和红椒粉，加水没过。 水开后下鱼，少翻，中火煮到米熟鱼透。 干辣椒捣碎用一点水化开，拌进饭里。",
+      "ingredients": [
+        "橄榄油",
+        "干辣椒 2 个",
+        "蒜 2 瓣、番茄 1 个",
+        "青豆或洋蓟心一小把（应季就用）",
+        "米 1.5 杯",
+        "藏红花一小撮、甜红椒粉少许",
+        "鱼块约 300g",
+        "水"
+      ]
     },
     {
       "id": "asaibaijiang-shouzhafan",
@@ -83,7 +157,20 @@
       "packable": true,
       "time_total": 115,
       "file": "cards/asaibaijiang-shouzhafan.json",
-      "keywords": "干香饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Shah plov」（shah-plov）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 印度香米 600g 羊肉 700g（{'ru': 'мякоть, кубиками', 'en': 'boneless, in cubes'}） Thin lavash 3piece 洋葱 2piece Chestnuts 200g（{'ru': 'очищенные', 'en': 'peeled'}） Dried apricots 100g 葡萄干 80g 黄油（Clarified butter） 180g 藏红花 1pinch 姜黄 1tsp 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Soak the rice in salted water for an hour, then boil it seven minutes in plenty of water and drain.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "干香饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Shah plov」（shah-plov）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 印度香米 600g 羊肉 700g（{'ru': 'мякоть, кубиками', 'en': 'boneless, in cubes'}） Thin lavash 3piece 洋葱 2piece Chestnuts 200g（{'ru': 'очищенные', 'en': 'peeled'}） Dried apricots 100g 葡萄干 80g 黄油（Clarified butter） 180g 藏红花 1pinch 姜黄 1tsp 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Soak the rice in salted water for an hour, then boil it seven minutes in plenty of water and drain.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "印度香米 600g",
+        "羊肉 700g（{'ru': 'мякоть, кубиками', 'en': 'boneless, in cubes'}）",
+        "Thin lavash 3piece",
+        "洋葱 2piece",
+        "Chestnuts 200g（{'ru': 'очищенные', 'en': 'peeled'}）",
+        "Dried apricots 100g",
+        "葡萄干 80g",
+        "黄油（Clarified butter） 180g",
+        "藏红花 1pinch",
+        "姜黄 1tsp",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "baicai-doufu-menfan",
@@ -93,7 +180,14 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/baicai-doufu-menfan.json",
-      "keywords": "密封饭盒；午间复热加一小勺水防干。豆腐块尽量完整少碎。 目录候选未验证 对照旧仓 catalog preview_ready「白菜豆腐焖饭」整理成可跟步骤；家里尚未实做验证 大米 1.5 杯，洗净 大白菜约 200–250g，粗切 北豆腐 1/2 块，切块 葱姜末少许；盐、生抽、香油各适量 清水：按电饭煲「米:水」习惯略减（菜会出水） 前夜可把白菜洗净沥干冷藏；豆腐可提前切好。 米淘洗后入电饭煲内胆，加水至平时煮饭水位略低半指。 白菜与豆腐码在米上；撒葱姜、盐、生抽；表面滴几滴香油。 盖盖选普通米饭键；中途不开盖。 结束后静置 5 分钟，翻拌均匀；女儿装盘，大人分装带走。"
+      "keywords": "密封饭盒；午间复热加一小勺水防干。豆腐块尽量完整少碎。 目录候选未验证 对照旧仓 catalog preview_ready「白菜豆腐焖饭」整理成可跟步骤；家里尚未实做验证 大米 1.5 杯，洗净 大白菜约 200–250g，粗切 北豆腐 1/2 块，切块 葱姜末少许；盐、生抽、香油各适量 清水：按电饭煲「米:水」习惯略减（菜会出水） 前夜可把白菜洗净沥干冷藏；豆腐可提前切好。 米淘洗后入电饭煲内胆，加水至平时煮饭水位略低半指。 白菜与豆腐码在米上；撒葱姜、盐、生抽；表面滴几滴香油。 盖盖选普通米饭键；中途不开盖。 结束后静置 5 分钟，翻拌均匀；女儿装盘，大人分装带走。",
+      "ingredients": [
+        "大米 1.5 杯，洗净",
+        "大白菜约 200–250g，粗切",
+        "北豆腐 1/2 块，切块",
+        "葱姜末少许；盐、生抽、香油各适量",
+        "清水：按电饭煲「米:水」习惯略减（菜会出水）"
+      ]
     },
     {
       "id": "baxi-heidou-dun",
@@ -103,7 +197,21 @@
       "packable": true,
       "time_total": 220,
       "file": "cards/baxi-heidou-dun.json",
-      "keywords": "豆肉极耐放；米饭另装。 书/可靠食谱改写 改编自 UniTools World Recipes「Feijoada」（feijoada）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 豆（Black beans） 700g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}） 盐ed pork 400g（{'ru': 'вымочить 12 часов', 'en': 'soaked 12 hours'}） 猪肉（Smoked pork ribs） 500g Smoked sausage 300g 猪肉 belly 300g 洋葱s 2piece 蒜 6clove Bay leaves 3piece Oranges 2piece Collard greens 300g（{'ru': 'тонкой соломкой', 'en': 'shredded fine'}） 大米（Cooked rice） 600g Neutral oil 2tbsp 干豆提前浸泡。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Boil the salted meat in fresh water for twenty minutes and drain: the last stage of getting the salt out.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "豆肉极耐放；米饭另装。 书/可靠食谱改写 改编自 UniTools World Recipes「Feijoada」（feijoada）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 豆（Black beans） 700g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}） 盐ed pork 400g（{'ru': 'вымочить 12 часов', 'en': 'soaked 12 hours'}） 猪肉（Smoked pork ribs） 500g Smoked sausage 300g 猪肉 belly 300g 洋葱s 2piece 蒜 6clove Bay leaves 3piece Oranges 2piece Collard greens 300g（{'ru': 'тонкой соломкой', 'en': 'shredded fine'}） 大米（Cooked rice） 600g Neutral oil 2tbsp 干豆提前浸泡。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Boil the salted meat in fresh water for twenty minutes and drain: the last stage of getting the salt out.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "豆（Black beans） 700g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}）",
+        "盐ed pork 400g（{'ru': 'вымочить 12 часов', 'en': 'soaked 12 hours'}）",
+        "猪肉（Smoked pork ribs） 500g",
+        "Smoked sausage 300g",
+        "猪肉 belly 300g",
+        "洋葱s 2piece",
+        "蒜 6clove",
+        "Bay leaves 3piece",
+        "Oranges 2piece",
+        "Collard greens 300g（{'ru': 'тонкой соломкой', 'en': 'shredded fine'}）",
+        "大米（Cooked rice） 600g",
+        "Neutral oil 2tbsp"
+      ]
     },
     {
       "id": "benachin-wikibooks",
@@ -113,7 +221,17 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/benachin-wikibooks.json",
-      "keywords": "肉菜饭耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Benachin；CC BY-SA 3.0 油 2 大勺 洋葱 1、蒜 2 鸡/牛/鱼约 500g 番茄酱 2 大勺 红椒粉、百里香、咖喱粉各 1 小勺 红绿甜椒、胡萝卜、其他蔬菜适量 长粒米 2 杯 鸡汤约 2 杯；盐胡椒 油炒洋葱蒜；下肉煸至上色。 加番茄酱与香料略炒；下甜椒胡萝卜等蔬菜。 米淘净入锅裹匀；倒汤煮开后勿猛搅，小火焖至米熟。 松饭调味装盘。"
+      "keywords": "肉菜饭耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Benachin；CC BY-SA 3.0 油 2 大勺 洋葱 1、蒜 2 鸡/牛/鱼约 500g 番茄酱 2 大勺 红椒粉、百里香、咖喱粉各 1 小勺 红绿甜椒、胡萝卜、其他蔬菜适量 长粒米 2 杯 鸡汤约 2 杯；盐胡椒 油炒洋葱蒜；下肉煸至上色。 加番茄酱与香料略炒；下甜椒胡萝卜等蔬菜。 米淘净入锅裹匀；倒汤煮开后勿猛搅，小火焖至米熟。 松饭调味装盘。",
+      "ingredients": [
+        "油 2 大勺",
+        "洋葱 1、蒜 2",
+        "鸡/牛/鱼约 500g",
+        "番茄酱 2 大勺",
+        "红椒粉、百里香、咖喱粉各 1 小勺",
+        "红绿甜椒、胡萝卜、其他蔬菜适量",
+        "长粒米 2 杯",
+        "鸡汤约 2 杯；盐胡椒"
+      ]
     },
     {
       "id": "biandou-fan-yiguo",
@@ -123,7 +241,21 @@
       "packable": true,
       "time_total": 65,
       "file": "cards/biandou-fan-yiguo.json",
-      "keywords": "扁豆饭软，适合早餐/带饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Dal bhat」（dal-bhat）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 扁豆（Yellow lentils） 250g 大米 400g 姜黄 1tsp Ghee 3tbsp Ajwain seeds 1tsp 孜然 seeds 1tsp Dried chillies 2piece 蒜 4clove 土豆 and cauliflower 500g 洋葱 1piece Spinach or mustard greens 200g 盐 扁豆提前浸泡更好。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the lentils and boil them in a litre of water with the turmeric for thirty minutes, until they collapse completely…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "扁豆饭软，适合早餐/带饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Dal bhat」（dal-bhat）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 扁豆（Yellow lentils） 250g 大米 400g 姜黄 1tsp Ghee 3tbsp Ajwain seeds 1tsp 孜然 seeds 1tsp Dried chillies 2piece 蒜 4clove 土豆 and cauliflower 500g 洋葱 1piece Spinach or mustard greens 200g 盐 扁豆提前浸泡更好。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the lentils and boil them in a litre of water with the turmeric for thirty minutes, until they collapse completely…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "扁豆（Yellow lentils） 250g",
+        "大米 400g",
+        "姜黄 1tsp",
+        "Ghee 3tbsp",
+        "Ajwain seeds 1tsp",
+        "孜然 seeds 1tsp",
+        "Dried chillies 2piece",
+        "蒜 4clove",
+        "土豆 and cauliflower 500g",
+        "洋葱 1piece",
+        "Spinach or mustard greens 200g",
+        "盐"
+      ]
     },
     {
       "id": "boduolige-gezi-doufan",
@@ -133,7 +265,19 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/boduolige-gezi-doufan.json",
-      "keywords": "豆饭适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Arroz con Gandules (Puerto Rican Rice and Pigeon Peas)；CC BY-SA 3.0 橄榄油 3 大勺 胭脂树籽 1 小勺（没有可省，只少了红油） 洋葱 1 个、青椒 1 个、蒜 3 瓣、番茄 1 个、香菜一把，切碎或打成粗酱 橄榄或酸豆 2 大勺（可省） 孜然 1 小勺、盐 中粒米 2 杯，不要洗 鸽子豆罐头 1 罐连汁，或冷冻木豆 鸡汤或水约 2.5 杯 香叶 2 片 火腿或香肠丁 80g（可省） 油小火与胭脂树籽略热后捞出籽，油倒入厚锅。 下洋葱青椒蒜番茄香菜炒成酱，加香肠、橄榄、孜然和盐。 下米拌匀，倒豆和汤、香叶。煮开后小火盖约 20 分钟。 离火焖 10 分钟再翻。"
+      "keywords": "豆饭适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Arroz con Gandules (Puerto Rican Rice and Pigeon Peas)；CC BY-SA 3.0 橄榄油 3 大勺 胭脂树籽 1 小勺（没有可省，只少了红油） 洋葱 1 个、青椒 1 个、蒜 3 瓣、番茄 1 个、香菜一把，切碎或打成粗酱 橄榄或酸豆 2 大勺（可省） 孜然 1 小勺、盐 中粒米 2 杯，不要洗 鸽子豆罐头 1 罐连汁，或冷冻木豆 鸡汤或水约 2.5 杯 香叶 2 片 火腿或香肠丁 80g（可省） 油小火与胭脂树籽略热后捞出籽，油倒入厚锅。 下洋葱青椒蒜番茄香菜炒成酱，加香肠、橄榄、孜然和盐。 下米拌匀，倒豆和汤、香叶。煮开后小火盖约 20 分钟。 离火焖 10 分钟再翻。",
+      "ingredients": [
+        "橄榄油 3 大勺",
+        "胭脂树籽 1 小勺（没有可省，只少了红油）",
+        "洋葱 1 个、青椒 1 个、蒜 3 瓣、番茄 1 个、香菜一把，切碎或打成粗酱",
+        "橄榄或酸豆 2 大勺（可省）",
+        "孜然 1 小勺、盐",
+        "中粒米 2 杯，不要洗",
+        "鸽子豆罐头 1 罐连汁，或冷冻木豆",
+        "鸡汤或水约 2.5 杯",
+        "香叶 2 片",
+        "火腿或香肠丁 80g（可省）"
+      ]
     },
     {
       "id": "boduolige-jirou-tangfan",
@@ -143,7 +287,17 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/boduolige-jirou-tangfan.json",
-      "keywords": "汤饭要密封防漏；复热可能要补汤。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Puerto Rican Chicken Soup (Asopao)；CC BY-SA 3.0 鸡胸 250g 切条 蒜 2 瓣、面粉 2 大勺、牛至、盐、黑胡椒、辣椒粉少许 油 2 大勺 洋葱 1/2、青椒 1/2 米 3/4 杯 番茄罐头 400g 鸡汤约 500ml 柠檬汁少许、欧芹 鸡肉用面粉、蒜和香料抓匀。 锅中油煎鸡至上色，盛出。 同锅炒洋葱青椒至软，下米、番茄、鸡汤和少许柠檬汁。 盖上小火约 12 分钟，鸡回锅再盖煮至鸡熟、米仍带汤。 撒欧芹。按汤泡饭装盒。"
+      "keywords": "汤饭要密封防漏；复热可能要补汤。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Puerto Rican Chicken Soup (Asopao)；CC BY-SA 3.0 鸡胸 250g 切条 蒜 2 瓣、面粉 2 大勺、牛至、盐、黑胡椒、辣椒粉少许 油 2 大勺 洋葱 1/2、青椒 1/2 米 3/4 杯 番茄罐头 400g 鸡汤约 500ml 柠檬汁少许、欧芹 鸡肉用面粉、蒜和香料抓匀。 锅中油煎鸡至上色，盛出。 同锅炒洋葱青椒至软，下米、番茄、鸡汤和少许柠檬汁。 盖上小火约 12 分钟，鸡回锅再盖煮至鸡熟、米仍带汤。 撒欧芹。按汤泡饭装盒。",
+      "ingredients": [
+        "鸡胸 250g 切条",
+        "蒜 2 瓣、面粉 2 大勺、牛至、盐、黑胡椒、辣椒粉少许",
+        "油 2 大勺",
+        "洋葱 1/2、青椒 1/2",
+        "米 3/4 杯",
+        "番茄罐头 400g",
+        "鸡汤约 500ml",
+        "柠檬汁少许、欧芹"
+      ]
     },
     {
       "id": "demoxi-xiangchang-menfan",
@@ -153,7 +307,17 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/demoxi-xiangchang-menfan.json",
-      "keywords": "干香焖饭适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Spanish Rice；CC BY-SA 3.0 黄油或油 1 大勺 洋葱 1 个、蒜 2 瓣、青椒 1/2、小辣椒 1 个 墨西哥香肠或广式腊肠 40g 去衣切碎 熟鸡肉或猪肉碎约 50g（可省） 米 1.5 杯 鸡汤约 2.5 杯 香叶 2 片 香菜碎 黄油炒洋葱、辣椒、蒜、香肠和米，直到米和肠微黄。 倒鸡汤，下香叶，煮开后小火至汤干米熟。 拣香叶，撒香菜。"
+      "keywords": "干香焖饭适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Spanish Rice；CC BY-SA 3.0 黄油或油 1 大勺 洋葱 1 个、蒜 2 瓣、青椒 1/2、小辣椒 1 个 墨西哥香肠或广式腊肠 40g 去衣切碎 熟鸡肉或猪肉碎约 50g（可省） 米 1.5 杯 鸡汤约 2.5 杯 香叶 2 片 香菜碎 黄油炒洋葱、辣椒、蒜、香肠和米，直到米和肠微黄。 倒鸡汤，下香叶，煮开后小火至汤干米熟。 拣香叶，撒香菜。",
+      "ingredients": [
+        "黄油或油 1 大勺",
+        "洋葱 1 个、蒜 2 瓣、青椒 1/2、小辣椒 1 个",
+        "墨西哥香肠或广式腊肠 40g 去衣切碎",
+        "熟鸡肉或猪肉碎约 50g（可省）",
+        "米 1.5 杯",
+        "鸡汤约 2.5 杯",
+        "香叶 2 片",
+        "香菜碎"
+      ]
     },
     {
       "id": "deshi-zhuyou-baicaifan",
@@ -163,7 +327,15 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/deshi-zhuyou-baicaifan.json",
-      "keywords": "干香，适合带饭。 书/可靠食谱改写 改编自公有领域《Reis mit Kraut》（维也纳食谱） 卷心菜 1/2 棵切碎 猪油或油 1 大勺 米 1.5 杯 水或汤约 2.5 杯 盐 可选：煎肠作配，不另起菜锅 猪油把卷心菜炒到边缘微黄。 下米和盐，倒水。 盖焖至米熟。 拌匀。可把香肠片在同一锅最后煎热。"
+      "keywords": "干香，适合带饭。 书/可靠食谱改写 改编自公有领域《Reis mit Kraut》（维也纳食谱） 卷心菜 1/2 棵切碎 猪油或油 1 大勺 米 1.5 杯 水或汤约 2.5 杯 盐 可选：煎肠作配，不另起菜锅 猪油把卷心菜炒到边缘微黄。 下米和盐，倒水。 盖焖至米熟。 拌匀。可把香肠片在同一锅最后煎热。",
+      "ingredients": [
+        "卷心菜 1/2 棵切碎",
+        "猪油或油 1 大勺",
+        "米 1.5 杯",
+        "水或汤约 2.5 杯",
+        "盐",
+        "可选：煎肠作配，不另起菜锅"
+      ]
     },
     {
       "id": "dongfei-niurou-zhuafan",
@@ -173,17 +345,33 @@
       "packable": true,
       "time_total": 80,
       "file": "cards/dongfei-niurou-zhuafan.json",
-      "keywords": "抓饭耐放；肉块要先煮软再下米。 书/可靠食谱改写 改编自 Wikibooks Cookbook:East African Beef Pilaf；CC BY-SA 3.0 牛腿肉 250g 切块 姜蒜泥 1 大勺、盐 番茄 1 个、洋葱 1 个擦丝或切碎 油 孜然、小豆蔻、黑胡椒、肉桂一小段、丁香 2 粒 姜黄、香菜籽粉各 1/2 小勺 米 300g 浸泡 10 分钟 香菜碎 米浸泡 10 分钟。 牛肉加没过的水、姜蒜泥、盐、擦碎的番茄和洋葱，煮至肉软，捞出肉，汤留下。 同锅放油，爆孜然、豆蔻、胡椒、肉桂、丁香。 下洋葱炒软，加姜黄和香菜籽粉，再下蒜泥和肉翻 2 分钟。 倒回肉汤，试盐后下米，中火约 3 分钟再盖严，小火至汤被吸干。 最小火再蒸 5 分钟。拨散。"
+      "keywords": "抓饭耐放；肉块要先煮软再下米。 书/可靠食谱改写 改编自 Wikibooks Cookbook:East African Beef Pilaf；CC BY-SA 3.0 牛腿肉 250g 切块 姜蒜泥 1 大勺、盐 番茄 1 个、洋葱 1 个擦丝或切碎 油 孜然、小豆蔻、黑胡椒、肉桂一小段、丁香 2 粒 姜黄、香菜籽粉各 1/2 小勺 米 300g 浸泡 10 分钟 香菜碎 米浸泡 10 分钟。 牛肉加没过的水、姜蒜泥、盐、擦碎的番茄和洋葱，煮至肉软，捞出肉，汤留下。 同锅放油，爆孜然、豆蔻、胡椒、肉桂、丁香。 下洋葱炒软，加姜黄和香菜籽粉，再下蒜泥和肉翻 2 分钟。 倒回肉汤，试盐后下米，中火约 3 分钟再盖严，小火至汤被吸干。 最小火再蒸 5 分钟。拨散。",
+      "ingredients": [
+        "牛腿肉 250g 切块",
+        "姜蒜泥 1 大勺、盐",
+        "番茄 1 个、洋葱 1 个擦丝或切碎",
+        "油",
+        "孜然、小豆蔻、黑胡椒、肉桂一小段、丁香 2 粒",
+        "姜黄、香菜籽粉各 1/2 小勺",
+        "米 300g 浸泡 10 分钟",
+        "香菜碎"
+      ]
     },
     {
       "id": "fanqie-jidan-gaifan",
       "name": "番茄鸡蛋盖饭",
-      "form": "汤泡饭",
+      "form": "其他一锅",
       "status": "待试",
       "packable": true,
       "time_total": 20,
       "file": "cards/fanqie-jidan-gaifan.json",
-      "keywords": "酱与饭分装更佳。 网络常见做法改写 家常番茄炒蛋浇饭常见做法整理；非某一站点原文 熟米饭 2 碗 番茄 2 个，块 鸡蛋 2–3 个 葱花、盐、糖少许、油 热锅少油炒蛋盛出。 余油炒番茄出汁，加少许盐糖与水煮开，倒回蛋液略收。 浇在米饭上，撒葱花。"
+      "keywords": "酱与饭分装更佳。 网络常见做法改写 家常番茄炒蛋浇饭常见做法整理；非某一站点原文 熟米饭 2 碗 番茄 2 个，块 鸡蛋 2–3 个 葱花、盐、糖少许、油 热锅少油炒蛋盛出。 余油炒番茄出汁，加少许盐糖与水煮开，倒回蛋液略收。 浇在米饭上，撒葱花。",
+      "ingredients": [
+        "熟米饭 2 碗",
+        "番茄 2 个，块",
+        "鸡蛋 2–3 个",
+        "葱花、盐、糖少许、油"
+      ]
     },
     {
       "id": "fanqie-niunan-menfan",
@@ -193,7 +381,13 @@
       "packable": true,
       "time_total": 90,
       "file": "cards/fanqie-niunan-menfan.json",
-      "keywords": "耐放。 网络常见做法改写 番茄牛腩饭常见家常改写 大米 1.5 杯 牛腩块约 250g（可先炖软） 番茄块、洋葱、姜 生抽、盐、油 牛腩前夜炖好冷藏。 牛腩焯水后先炖至近软（或压力锅）。 米入胆；铺牛腩番茄洋葱，淋生抽。 煮饭焖透；翻拌装盘。"
+      "keywords": "耐放。 网络常见做法改写 番茄牛腩饭常见家常改写 大米 1.5 杯 牛腩块约 250g（可先炖软） 番茄块、洋葱、姜 生抽、盐、油 牛腩前夜炖好冷藏。 牛腩焯水后先炖至近软（或压力锅）。 米入胆；铺牛腩番茄洋葱，淋生抽。 煮饭焖透；翻拌装盘。",
+      "ingredients": [
+        "大米 1.5 杯",
+        "牛腩块约 250g（可先炖软）",
+        "番茄块、洋葱、姜",
+        "生抽、盐、油"
+      ]
     },
     {
       "id": "fanqie-zhi-zhuafan",
@@ -203,7 +397,14 @@
       "packable": true,
       "time_total": 30,
       "file": "cards/fanqie-zhi-zhuafan.json",
-      "keywords": "很干，适合带饭。味道淡，可加蛋。 书/可靠食谱改写 改编自公有领域《Pilaf》（犹太家常食谱集，open-recipe-archive / jewish-kitchen） 米 1 杯，洗净 水 1 杯 番茄 2 个去皮挤汁，或番茄汁半杯 盐 黄油或油 1 小块 水和番茄汁、盐煮开。 下米，小火至水干。 拌入黄油，盖着保温几分钟，粒粒分开再吃。"
+      "keywords": "很干，适合带饭。味道淡，可加蛋。 书/可靠食谱改写 改编自公有领域《Pilaf》（犹太家常食谱集，open-recipe-archive / jewish-kitchen） 米 1 杯，洗净 水 1 杯 番茄 2 个去皮挤汁，或番茄汁半杯 盐 黄油或油 1 小块 水和番茄汁、盐煮开。 下米，小火至水干。 拌入黄油，盖着保温几分钟，粒粒分开再吃。",
+      "ingredients": [
+        "米 1 杯，洗净",
+        "水 1 杯",
+        "番茄 2 个去皮挤汁，或番茄汁半杯",
+        "盐",
+        "黄油或油 1 小块"
+      ]
     },
     {
       "id": "fanzhuan-gaifan",
@@ -213,7 +414,21 @@
       "packable": true,
       "time_total": 135,
       "file": "cards/fanzhuan-gaifan.json",
-      "keywords": "整锅翻转后分装。 书/可靠食谱改写 改编自 UniTools World Recipes「Maqluba」（maqluba）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.2kg（{'ru': 'кусками', 'en': 'in pieces'}） 长粒米 500g Aubergines 3piece Cauliflower 500g 土豆es 3piece 洋葱 1piece Baharat 1tbsp 姜黄 1tsp 肉桂 stick 1piece Pine nuts 60g 植物油 200ml 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Simmer the chicken with the onion, cinnamon and baharat for forty minutes. Lift out the meat and strain the broth.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "整锅翻转后分装。 书/可靠食谱改写 改编自 UniTools World Recipes「Maqluba」（maqluba）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.2kg（{'ru': 'кусками', 'en': 'in pieces'}） 长粒米 500g Aubergines 3piece Cauliflower 500g 土豆es 3piece 洋葱 1piece Baharat 1tbsp 姜黄 1tsp 肉桂 stick 1piece Pine nuts 60g 植物油 200ml 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Simmer the chicken with the onion, cinnamon and baharat for forty minutes. Lift out the meat and strain the broth.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉 1.2kg（{'ru': 'кусками', 'en': 'in pieces'}）",
+        "长粒米 500g",
+        "Aubergines 3piece",
+        "Cauliflower 500g",
+        "土豆es 3piece",
+        "洋葱 1piece",
+        "Baharat 1tbsp",
+        "姜黄 1tsp",
+        "肉桂 stick 1piece",
+        "Pine nuts 60g",
+        "植物油 200ml",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "feilvbin-cu-jiangyou-menji",
@@ -223,7 +438,19 @@
       "packable": true,
       "time_total": 60,
       "file": "cards/feilvbin-cu-jiangyou-menji.json",
-      "keywords": "酱汁米饭分装；鸡块耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken adobo」（adobo）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡腿肉 1kg 酱油 120ml 大米（Cane or rice vinegar） 120ml 蒜 10clove Bay leaves 4piece 黑胡椒corns 1tsp 糖（Cane sugar） 1tbsp 水 200ml Neutral oil 2tbsp 大米（Cooked rice） 400g 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Marinate the chicken in the soy with the crushed garlic and peppercorns for thirty minutes.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "酱汁米饭分装；鸡块耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken adobo」（adobo）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡腿肉 1kg 酱油 120ml 大米（Cane or rice vinegar） 120ml 蒜 10clove Bay leaves 4piece 黑胡椒corns 1tsp 糖（Cane sugar） 1tbsp 水 200ml Neutral oil 2tbsp 大米（Cooked rice） 400g 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Marinate the chicken in the soy with the crushed garlic and peppercorns for thirty minutes.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡腿肉 1kg",
+        "酱油 120ml",
+        "大米（Cane or rice vinegar） 120ml",
+        "蒜 10clove",
+        "Bay leaves 4piece",
+        "黑胡椒corns 1tsp",
+        "糖（Cane sugar） 1tbsp",
+        "水 200ml",
+        "Neutral oil 2tbsp",
+        "大米（Cooked rice） 400g"
+      ]
     },
     {
       "id": "feilvbin-keke-nuomizhou",
@@ -233,7 +460,14 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/feilvbin-keke-nuomizhou.json",
-      "keywords": "甜粥可复热，会变厚，加热水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Champorado (Chocolate Rice Porridge)；CC BY-SA 3.0 糯米 1 杯，洗两遍 水约 5 杯 无糖可可粉 1 大勺 糖 2–3 大勺 淡奶或蒸发奶半杯 糯米和水煮开。 下可可粉和糖，搅匀。 小火常搅，煮到米化、粥稠。 拌入淡奶。可配少量咸鱼或咸菜解甜。"
+      "keywords": "甜粥可复热，会变厚，加热水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Champorado (Chocolate Rice Porridge)；CC BY-SA 3.0 糯米 1 杯，洗两遍 水约 5 杯 无糖可可粉 1 大勺 糖 2–3 大勺 淡奶或蒸发奶半杯 糯米和水煮开。 下可可粉和糖，搅匀。 小火常搅，煮到米化、粥稠。 拌入淡奶。可配少量咸鱼或咸菜解甜。",
+      "ingredients": [
+        "糯米 1 杯，洗两遍",
+        "水约 5 杯",
+        "无糖可可粉 1 大勺",
+        "糖 2–3 大勺",
+        "淡奶或蒸发奶半杯"
+      ]
     },
     {
       "id": "galidou-tudou-niurou",
@@ -243,7 +477,13 @@
       "packable": true,
       "time_total": 70,
       "file": "cards/galidou-tudou-niurou.json",
-      "keywords": "咖喱耐放。 网络常见做法改写 家常咖喱牛肉常见做法改写 牛腩或瘦牛肉块约 300g 土豆、胡萝卜、洋葱 日式咖喱块 1/2–1 块 油、水 牛肉可压力锅先炖。 牛肉焯水或煸香；下洋葱土豆胡萝卜翻炒。 加水没过材料，小火炖软；咖喱块化开收汁。 配米饭装盘或米肉同锅最后收干。"
+      "keywords": "咖喱耐放。 网络常见做法改写 家常咖喱牛肉常见做法改写 牛腩或瘦牛肉块约 300g 土豆、胡萝卜、洋葱 日式咖喱块 1/2–1 块 油、水 牛肉可压力锅先炖。 牛肉焯水或煸香；下洋葱土豆胡萝卜翻炒。 加水没过材料，小火炖软；咖喱块化开收汁。 配米饭装盘或米肉同锅最后收干。",
+      "ingredients": [
+        "牛腩或瘦牛肉块约 300g",
+        "土豆、胡萝卜、洋葱",
+        "日式咖喱块 1/2–1 块",
+        "油、水"
+      ]
     },
     {
       "id": "galifen-putao-ganfan",
@@ -253,7 +493,16 @@
       "packable": true,
       "time_total": 30,
       "file": "cards/galifen-putao-ganfan.json",
-      "keywords": "干饭好带；葡萄干孩子一般接受。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Curried Rice；CC BY-SA 3.0 黄油 1 大勺 洋葱 1/2 咖喱粉 1 小勺 米 1 杯 葡萄干 2 大勺 水 2 杯 高汤块 1 小块或盐 黄油炒洋葱至微黄，下咖喱粉炒 1 分钟。 下米、葡萄干、水和汤块。 盖严，小火约 15 分钟至水干。拨散。"
+      "keywords": "干饭好带；葡萄干孩子一般接受。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Curried Rice；CC BY-SA 3.0 黄油 1 大勺 洋葱 1/2 咖喱粉 1 小勺 米 1 杯 葡萄干 2 大勺 水 2 杯 高汤块 1 小块或盐 黄油炒洋葱至微黄，下咖喱粉炒 1 分钟。 下米、葡萄干、水和汤块。 盖严，小火约 15 分钟至水干。拨散。",
+      "ingredients": [
+        "黄油 1 大勺",
+        "洋葱 1/2",
+        "咖喱粉 1 小勺",
+        "米 1 杯",
+        "葡萄干 2 大勺",
+        "水 2 杯",
+        "高汤块 1 小块或盐"
+      ]
     },
     {
       "id": "gelunbiya-zaza-tangfan",
@@ -263,7 +512,23 @@
       "packable": true,
       "time_total": 140,
       "file": "cards/gelunbiya-zaza-tangfan.json",
-      "keywords": "汤耐放；米饭另装浇汤。 书/可靠食谱改写 改编自 UniTools World Recipes「Colombian sancocho」（sancocho-colombiano）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 2kg（{'ru': 'домашняя, кусками', 'en': 'free-range, in pieces'}） Cassava 600g Green plantains 2piece Corn cobs 3piece 土豆es 600g 洋葱s 2piece 洋葱（Spring onions） 5piece 番茄es 4piece 香菜 50g 蒜 6clove 孜然（Ground cumin） 1tsp Achiote 1tsp 大米 400g（{'ru': 'к подаче', 'en': 'to serve'}） Avocado 2piece（{'ru': 'к подаче', 'en': 'to serve'}） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Fry the finely chopped onion, spring onion, tomato and garlic with the cumin and achiote down to a paste.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "汤耐放；米饭另装浇汤。 书/可靠食谱改写 改编自 UniTools World Recipes「Colombian sancocho」（sancocho-colombiano）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 2kg（{'ru': 'домашняя, кусками', 'en': 'free-range, in pieces'}） Cassava 600g Green plantains 2piece Corn cobs 3piece 土豆es 600g 洋葱s 2piece 洋葱（Spring onions） 5piece 番茄es 4piece 香菜 50g 蒜 6clove 孜然（Ground cumin） 1tsp Achiote 1tsp 大米 400g（{'ru': 'к подаче', 'en': 'to serve'}） Avocado 2piece（{'ru': 'к подаче', 'en': 'to serve'}） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Fry the finely chopped onion, spring onion, tomato and garlic with the cumin and achiote down to a paste.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉 2kg（{'ru': 'домашняя, кусками', 'en': 'free-range, in pieces'}）",
+        "Cassava 600g",
+        "Green plantains 2piece",
+        "Corn cobs 3piece",
+        "土豆es 600g",
+        "洋葱s 2piece",
+        "洋葱（Spring onions） 5piece",
+        "番茄es 4piece",
+        "香菜 50g",
+        "蒜 6clove",
+        "孜然（Ground cumin） 1tsp",
+        "Achiote 1tsp",
+        "大米 400g（{'ru': 'к подаче', 'en': 'to serve'}）",
+        "Avocado 2piece（{'ru': 'к подаче', 'en': 'to serve'}）"
+      ]
     },
     {
       "id": "guba-jifan-caifan",
@@ -273,7 +538,23 @@
       "packable": true,
       "time_total": 90,
       "file": "cards/guba-jifan-caifan.json",
-      "keywords": "密封饭盒；鸡块去骨更易复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Arroz con pollo」（arroz-con-pollo-cubano）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.5kg（{'ru': 'кусками', 'en': 'in pieces'}） 大米（Medium-grain rice） 500g 啤酒（Pale beer） 350ml 鸡汤 700ml 洋葱s 2piece 甜椒s 2piece 蒜 6clove 番茄 sauce 200ml 藏红花 1pinch 孜然（Ground cumin） 1tsp Oregano 1tsp 豌豆 200g Olives 80g 青柠s 2piece 米可提前淘洗沥干。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rub the chicken with salt, pepper, cumin, oregano, garlic and lime juice and leave it half an hour.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "密封饭盒；鸡块去骨更易复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Arroz con pollo」（arroz-con-pollo-cubano）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.5kg（{'ru': 'кусками', 'en': 'in pieces'}） 大米（Medium-grain rice） 500g 啤酒（Pale beer） 350ml 鸡汤 700ml 洋葱s 2piece 甜椒s 2piece 蒜 6clove 番茄 sauce 200ml 藏红花 1pinch 孜然（Ground cumin） 1tsp Oregano 1tsp 豌豆 200g Olives 80g 青柠s 2piece 米可提前淘洗沥干。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rub the chicken with salt, pepper, cumin, oregano, garlic and lime juice and leave it half an hour.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉 1.5kg（{'ru': 'кусками', 'en': 'in pieces'}）",
+        "大米（Medium-grain rice） 500g",
+        "啤酒（Pale beer） 350ml",
+        "鸡汤 700ml",
+        "洋葱s 2piece",
+        "甜椒s 2piece",
+        "蒜 6clove",
+        "番茄 sauce 200ml",
+        "藏红花 1pinch",
+        "孜然（Ground cumin） 1tsp",
+        "Oregano 1tsp",
+        "豌豆 200g",
+        "Olives 80g",
+        "青柠s 2piece"
+      ]
     },
     {
       "id": "hainan-jifan-jiacchang",
@@ -283,7 +564,21 @@
       "packable": true,
       "time_total": 90,
       "file": "cards/hainan-jifan-jiacchang.json",
-      "keywords": "鸡与饭分装；鸡汤可另盒。 书/可靠食谱改写 改编自 UniTools World Recipes「Hainanese chicken rice」（hainanese-chicken-rice）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉（Whole chicken） 1.6kg 大米（Jasmine rice） 400g 姜 80g 蒜 8clove 洋葱（Spring onions） 6piece Sesame oil 3tbsp 酱油 4tbsp Red chillies 6piece 青柠 2piece Cucumber 1piece Pandan leaf 2piece（{'ru': 'по желанию', 'en': 'optional'}） 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rub the chicken with salt inside and out and stuff the cavity with half the ginger and the spring onions.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "鸡与饭分装；鸡汤可另盒。 书/可靠食谱改写 改编自 UniTools World Recipes「Hainanese chicken rice」（hainanese-chicken-rice）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉（Whole chicken） 1.6kg 大米（Jasmine rice） 400g 姜 80g 蒜 8clove 洋葱（Spring onions） 6piece Sesame oil 3tbsp 酱油 4tbsp Red chillies 6piece 青柠 2piece Cucumber 1piece Pandan leaf 2piece（{'ru': 'по желанию', 'en': 'optional'}） 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rub the chicken with salt inside and out and stuff the cavity with half the ginger and the spring onions.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉（Whole chicken） 1.6kg",
+        "大米（Jasmine rice） 400g",
+        "姜 80g",
+        "蒜 8clove",
+        "洋葱（Spring onions） 6piece",
+        "Sesame oil 3tbsp",
+        "酱油 4tbsp",
+        "Red chillies 6piece",
+        "青柠 2piece",
+        "Cucumber 1piece",
+        "Pandan leaf 2piece（{'ru': 'по желанию', 'en': 'optional'}）",
+        "盐"
+      ]
     },
     {
       "id": "haiwan-xiangliao-menfan",
@@ -293,7 +588,22 @@
       "packable": true,
       "time_total": 75,
       "file": "cards/haiwan-xiangliao-menfan.json",
-      "keywords": "香料饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Machboos」（machboos）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 Prawns 800g（{'ru': 'крупные, очищенные', 'en': 'large, peeled'}） 印度香米 500g 洋葱s 3piece 番茄es 3piece 青柠（Dried lime loomi） 3piece Bizar spice mix 1tbsp 姜黄 2tsp 蒜 5clove 姜 30g 香菜 40g Green chilli 2piece Ghee 80g 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the rice until the water runs clear and soak it twenty minutes.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "香料饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Machboos」（machboos）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 Prawns 800g（{'ru': 'крупные, очищенные', 'en': 'large, peeled'}） 印度香米 500g 洋葱s 3piece 番茄es 3piece 青柠（Dried lime loomi） 3piece Bizar spice mix 1tbsp 姜黄 2tsp 蒜 5clove 姜 30g 香菜 40g Green chilli 2piece Ghee 80g 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the rice until the water runs clear and soak it twenty minutes.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "Prawns 800g（{'ru': 'крупные, очищенные', 'en': 'large, peeled'}）",
+        "印度香米 500g",
+        "洋葱s 3piece",
+        "番茄es 3piece",
+        "青柠（Dried lime loomi） 3piece",
+        "Bizar spice mix 1tbsp",
+        "姜黄 2tsp",
+        "蒜 5clove",
+        "姜 30g",
+        "香菜 40g",
+        "Green chilli 2piece",
+        "Ghee 80g",
+        "盐"
+      ]
     },
     {
       "id": "haixian-huifan",
@@ -303,7 +613,16 @@
       "packable": false,
       "time_total": 40,
       "file": "cards/haixian-huifan.json",
-      "keywords": "海鲜烩饭不耐放，不建议带饭隔几小时。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Seafood Risotto；CC BY-SA 3.0 鱿鱼约 100g 切圈、虾仁 150g 洋葱 1/2、蒜 1 瓣 橄榄油 意大利米 280g 鱼汤或水约 800ml 白酒 50ml（可省） 黄油一小块、欧芹、盐胡椒 汤烧热备用。油小火炒洋葱蒜，下米炒到半透明。 倒酒收干后分次加热汤，搅拌约 15 分钟。 结束前 5 分钟下虾和鱿鱼，煮到刚熟。 关火拌黄油和欧芹。"
+      "keywords": "海鲜烩饭不耐放，不建议带饭隔几小时。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Seafood Risotto；CC BY-SA 3.0 鱿鱼约 100g 切圈、虾仁 150g 洋葱 1/2、蒜 1 瓣 橄榄油 意大利米 280g 鱼汤或水约 800ml 白酒 50ml（可省） 黄油一小块、欧芹、盐胡椒 汤烧热备用。油小火炒洋葱蒜，下米炒到半透明。 倒酒收干后分次加热汤，搅拌约 15 分钟。 结束前 5 分钟下虾和鱿鱼，煮到刚熟。 关火拌黄油和欧芹。",
+      "ingredients": [
+        "鱿鱼约 100g 切圈、虾仁 150g",
+        "洋葱 1/2、蒜 1 瓣",
+        "橄榄油",
+        "意大利米 280g",
+        "鱼汤或水约 800ml",
+        "白酒 50ml（可省）",
+        "黄油一小块、欧芹、盐胡椒"
+      ]
     },
     {
       "id": "hongdou-mifan",
@@ -313,7 +632,20 @@
       "packable": true,
       "time_total": 35,
       "file": "cards/hongdou-mifan.json",
-      "keywords": "经典带饭；略炒香更耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Gallo pinto」（gallo-pinto）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Cooked rice） 600g（{'ru': 'вчерашний, холодный', 'en': 'day-old, cold'}） 豆（Black beans） 400g（{'ru': 'варёная, с отваром', 'en': 'cooked, with liquid'}） 洋葱 1piece 甜椒 1piece 蒜 3clove Salsa Lizano 3tbsp 香菜 30g 植物油 40ml 鸡蛋s 4piece（{'ru': 'к подаче', 'en': 'to serve'}） Plantain 2piece（{'ru': 'к подаче', 'en': 'to serve'}） 盐 and pepper 可用隔夜米饭。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Fry the finely chopped onion, pepper and garlic in oil until soft, five minutes.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "经典带饭；略炒香更耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Gallo pinto」（gallo-pinto）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Cooked rice） 600g（{'ru': 'вчерашний, холодный', 'en': 'day-old, cold'}） 豆（Black beans） 400g（{'ru': 'варёная, с отваром', 'en': 'cooked, with liquid'}） 洋葱 1piece 甜椒 1piece 蒜 3clove Salsa Lizano 3tbsp 香菜 30g 植物油 40ml 鸡蛋s 4piece（{'ru': 'к подаче', 'en': 'to serve'}） Plantain 2piece（{'ru': 'к подаче', 'en': 'to serve'}） 盐 and pepper 可用隔夜米饭。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Fry the finely chopped onion, pepper and garlic in oil until soft, five minutes.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "大米（Cooked rice） 600g（{'ru': 'вчерашний, холодный', 'en': 'day-old, cold'}）",
+        "豆（Black beans） 400g（{'ru': 'варёная, с отваром', 'en': 'cooked, with liquid'}）",
+        "洋葱 1piece",
+        "甜椒 1piece",
+        "蒜 3clove",
+        "Salsa Lizano 3tbsp",
+        "香菜 30g",
+        "植物油 40ml",
+        "鸡蛋s 4piece（{'ru': 'к подаче', 'en': 'to serve'}）",
+        "Plantain 2piece（{'ru': 'к подаче', 'en': 'to serve'}）",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "huifan-jichu-wikibooks",
@@ -323,7 +655,15 @@
       "packable": false,
       "time_total": 40,
       "file": "cards/huifan-jichu-wikibooks.json",
-      "keywords": "烩饭宜现做；带饭可略煮硬并少汤。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Risotto (Basic)；CC BY-SA 3.0；家常中文改写 烩饭米（Arborio 等）约 400g 洋葱 1 个，末 干白葡萄酒 1 杯 黄油约 25g 热高汤约 1L（多备） 盐、黑胡椒；帕玛森芝士适量 高汤保持微沸备用。 中火黄油/橄榄油慢炒洋葱至软不焦。 下米炒至半透明，加盐胡椒；倒入白葡萄酒，蒸出酒精并收浓。 分次加入热高汤，边煮边搅，米勿完全淹没；约 15–20 分钟至米芯略有咬劲。 离火静置约 1 分钟，分次搅入黄油与芝士；立即装盘。"
+      "keywords": "烩饭宜现做；带饭可略煮硬并少汤。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Risotto (Basic)；CC BY-SA 3.0；家常中文改写 烩饭米（Arborio 等）约 400g 洋葱 1 个，末 干白葡萄酒 1 杯 黄油约 25g 热高汤约 1L（多备） 盐、黑胡椒；帕玛森芝士适量 高汤保持微沸备用。 中火黄油/橄榄油慢炒洋葱至软不焦。 下米炒至半透明，加盐胡椒；倒入白葡萄酒，蒸出酒精并收浓。 分次加入热高汤，边煮边搅，米勿完全淹没；约 15–20 分钟至米芯略有咬劲。 离火静置约 1 分钟，分次搅入黄油与芝士；立即装盘。",
+      "ingredients": [
+        "烩饭米（Arborio 等）约 400g",
+        "洋葱 1 个，末",
+        "干白葡萄酒 1 杯",
+        "黄油约 25g",
+        "热高汤约 1L（多备）",
+        "盐、黑胡椒；帕玛森芝士适量"
+      ]
     },
     {
       "id": "jambalaya-wikibooks",
@@ -333,7 +673,16 @@
       "packable": true,
       "time_total": 60,
       "file": "cards/jambalaya-wikibooks.json",
-      "keywords": "什锦饭耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Jambalaya I；CC BY-SA 3.0 香叶、香草、盐、罗勒、百里香、孜然适量 芹菜末约 1/3 杯 黄油少许 罐装番茄约 400g 长粒米 2/3 杯 鸡汤约 1.5 杯 熟鸡/火鸡肉约 2 杯；可选蘑菇片 可用隔夜熟肉。 香料磨匀；番茄撕碎留汁。 宽锅黄油软化芹菜不焦。 下全部材料（肉与罗勒可稍后），煮开后盖盖焖约 20 分钟至米吸干汤。 弃香叶；装盘。"
+      "keywords": "什锦饭耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Jambalaya I；CC BY-SA 3.0 香叶、香草、盐、罗勒、百里香、孜然适量 芹菜末约 1/3 杯 黄油少许 罐装番茄约 400g 长粒米 2/3 杯 鸡汤约 1.5 杯 熟鸡/火鸡肉约 2 杯；可选蘑菇片 可用隔夜熟肉。 香料磨匀；番茄撕碎留汁。 宽锅黄油软化芹菜不焦。 下全部材料（肉与罗勒可稍后），煮开后盖盖焖约 20 分钟至米吸干汤。 弃香叶；装盘。",
+      "ingredients": [
+        "香叶、香草、盐、罗勒、百里香、孜然适量",
+        "芹菜末约 1/3 杯",
+        "黄油少许",
+        "罐装番茄约 400g",
+        "长粒米 2/3 杯",
+        "鸡汤约 1.5 杯",
+        "熟鸡/火鸡肉约 2 杯；可选蘑菇片"
+      ]
     },
     {
       "id": "jiana-doufan-waakye",
@@ -343,7 +692,14 @@
       "packable": true,
       "time_total": 75,
       "file": "cards/jiana-doufan-waakye.json",
-      "keywords": "豆饭隔夜更入味；复热补水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Waakye (Ghanian Rice and Beans)；CC BY-SA 3.0 干红腰豆或黑眼豆 1 杯，洗净 米 2 杯，洗净 水 盐 可选：高粱叶或红茶叶 1 小把（染色，没有可省） 豆可前夜浸泡，次日煮的时间可缩短约 15 分钟。 锅中水半满，可放高粱叶或红茶，煮开后下豆。 小火煮 40–45 分钟，豆轻按能裂开。 下米和盐，水量保持刚没过；不够就加热水。 小火盖煮至米和豆都软、水基本收干。可配煎蛋或鱼。"
+      "keywords": "豆饭隔夜更入味；复热补水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Waakye (Ghanian Rice and Beans)；CC BY-SA 3.0 干红腰豆或黑眼豆 1 杯，洗净 米 2 杯，洗净 水 盐 可选：高粱叶或红茶叶 1 小把（染色，没有可省） 豆可前夜浸泡，次日煮的时间可缩短约 15 分钟。 锅中水半满，可放高粱叶或红茶，煮开后下豆。 小火煮 40–45 分钟，豆轻按能裂开。 下米和盐，水量保持刚没过；不够就加热水。 小火盖煮至米和豆都软、水基本收干。可配煎蛋或鱼。",
+      "ingredients": [
+        "干红腰豆或黑眼豆 1 杯，洗净",
+        "米 2 杯，洗净",
+        "水",
+        "盐",
+        "可选：高粱叶或红茶叶 1 小把（染色，没有可省）"
+      ]
     },
     {
       "id": "jiandan-biryani-wikibooks",
@@ -353,7 +709,18 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/jiandan-biryani-wikibooks.json",
-      "keywords": "香饭耐放；复热略洒水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Simple Biryani；CC BY-SA 3.0 印度香米 300g（温水泡 30 分钟） 鸡肉 600g，块 洋葱 1 大个 黄油 30g 香叶 1、豆蔻 3、肉桂棒 1 姜黄 1 小勺、咖喱酱 4 大勺 葡萄干 100g 鸡汤约 850ml 香菜末 米浸泡 30 分钟。 米洗净；黄油炒洋葱与香料约 10 分钟。 下鸡块、姜黄、咖喱酱再炒约 5 分钟。 下米与葡萄干，倒入鸡汤；盖紧大火煮开后小火 5 分钟。 离火焖 10 分钟吸干汤汁；拌入一半香菜，其余撒面。"
+      "keywords": "香饭耐放；复热略洒水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Simple Biryani；CC BY-SA 3.0 印度香米 300g（温水泡 30 分钟） 鸡肉 600g，块 洋葱 1 大个 黄油 30g 香叶 1、豆蔻 3、肉桂棒 1 姜黄 1 小勺、咖喱酱 4 大勺 葡萄干 100g 鸡汤约 850ml 香菜末 米浸泡 30 分钟。 米洗净；黄油炒洋葱与香料约 10 分钟。 下鸡块、姜黄、咖喱酱再炒约 5 分钟。 下米与葡萄干，倒入鸡汤；盖紧大火煮开后小火 5 分钟。 离火焖 10 分钟吸干汤汁；拌入一半香菜，其余撒面。",
+      "ingredients": [
+        "印度香米 300g（温水泡 30 分钟）",
+        "鸡肉 600g，块",
+        "洋葱 1 大个",
+        "黄油 30g",
+        "香叶 1、豆蔻 3、肉桂棒 1",
+        "姜黄 1 小勺、咖喱酱 4 大勺",
+        "葡萄干 100g",
+        "鸡汤约 850ml",
+        "香菜末"
+      ]
     },
     {
       "id": "jidan-wandou-galifan",
@@ -363,7 +730,18 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/jidan-wandou-galifan.json",
-      "keywords": "咖喱饭好带。蛋已煮熟，不要再煮老。 书/可靠食谱改写 改编自公有领域《Egg Curry with Green Peas》（Indian Cookery Book） 蛋 4 个 洋葱 1 个 油或黄油 1 大勺 咖喱粉 1 大勺 蒜 1 瓣、姜少许 豌豆 1 杯 米 1 杯 水约 1.5 杯 盐 蛋可前夜煮好。 蛋煮熟剥壳，对半。 同锅油炒洋葱至黄，下咖喱粉、蒜姜。 下豌豆和米，加水、盐。 盖焖约 15 分钟。蛋埋进饭里再盖 3 分钟。"
+      "keywords": "咖喱饭好带。蛋已煮熟，不要再煮老。 书/可靠食谱改写 改编自公有领域《Egg Curry with Green Peas》（Indian Cookery Book） 蛋 4 个 洋葱 1 个 油或黄油 1 大勺 咖喱粉 1 大勺 蒜 1 瓣、姜少许 豌豆 1 杯 米 1 杯 水约 1.5 杯 盐 蛋可前夜煮好。 蛋煮熟剥壳，对半。 同锅油炒洋葱至黄，下咖喱粉、蒜姜。 下豌豆和米，加水、盐。 盖焖约 15 分钟。蛋埋进饭里再盖 3 分钟。",
+      "ingredients": [
+        "蛋 4 个",
+        "洋葱 1 个",
+        "油或黄油 1 大勺",
+        "咖喱粉 1 大勺",
+        "蒜 1 瓣、姜少许",
+        "豌豆 1 杯",
+        "米 1 杯",
+        "水约 1.5 杯",
+        "盐"
+      ]
     },
     {
       "id": "jieke-xunrou-wandoufan",
@@ -373,7 +751,15 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/jieke-xunrou-wandoufan.json",
-      "keywords": "熏肉饭耐放。 书/可靠食谱改写 改编自公有领域《Mladý hrášek s rýží a uzeninou》（Česká kuchařka） 熏肉或培根 80g 切丁 黄油一小块 米 1.5 杯 牛肉汤或水约 2.5 杯 豌豆 1 杯 盐、糖一小撮 熏肉用黄油煎出香。 下米略拌，倒汤。 煮开后下豌豆，盖小火至米熟。 试盐。糖只放一点点。"
+      "keywords": "熏肉饭耐放。 书/可靠食谱改写 改编自公有领域《Mladý hrášek s rýží a uzeninou》（Česká kuchařka） 熏肉或培根 80g 切丁 黄油一小块 米 1.5 杯 牛肉汤或水约 2.5 杯 豌豆 1 杯 盐、糖一小撮 熏肉用黄油煎出香。 下米略拌，倒汤。 煮开后下豌豆，盖小火至米熟。 试盐。糖只放一点点。",
+      "ingredients": [
+        "熏肉或培根 80g 切丁",
+        "黄油一小块",
+        "米 1.5 杯",
+        "牛肉汤或水约 2.5 杯",
+        "豌豆 1 杯",
+        "盐、糖一小撮"
+      ]
     },
     {
       "id": "jinqiangyu-wandou-nailaofan",
@@ -383,7 +769,16 @@
       "packable": true,
       "time_total": 30,
       "file": "cards/jinqiangyu-wandou-nailaofan.json",
-      "keywords": "奶酪冷却会结，复热加一勺水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Tuna Rice Casserole；CC BY-SA 3.0 米 1 杯 水 1.5 杯 豌豆一小把 金枪鱼罐头 1 罐，沥油 盐少许 切达碎或奶酪浓汤 3 大勺 洋葱碎 1 小勺（可省） 米、水、豌豆、金枪鱼和少许盐下锅，盖焖约 15–18 分钟。 关火拌入奶酪至化开。 分装。"
+      "keywords": "奶酪冷却会结，复热加一勺水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Tuna Rice Casserole；CC BY-SA 3.0 米 1 杯 水 1.5 杯 豌豆一小把 金枪鱼罐头 1 罐，沥油 盐少许 切达碎或奶酪浓汤 3 大勺 洋葱碎 1 小勺（可省） 米、水、豌豆、金枪鱼和少许盐下锅，盖焖约 15–18 分钟。 关火拌入奶酪至化开。 分装。",
+      "ingredients": [
+        "米 1 杯",
+        "水 1.5 杯",
+        "豌豆一小把",
+        "金枪鱼罐头 1 罐，沥油",
+        "盐少许",
+        "切达碎或奶酪浓汤 3 大勺",
+        "洋葱碎 1 小勺（可省）"
+      ]
     },
     {
       "id": "jirou-chorizo-zanghonghua-fan",
@@ -393,7 +788,14 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/jirou-chorizo-zanghonghua-fan.json",
-      "keywords": "湿饭带汁，盒盖紧。 书/可靠食谱改写 改编自公有领域《Fowls Stewed with Rice and Chorisa》 鸡腿 2 只 水或高汤 米 1 杯 香肠 150g 切段 白胡椒、盐、藏红花一小撮 鸡腿加水煮开，撇沫，约 10 分钟。 下米、香肠、胡椒、盐和藏红花。 小火盖煮至米熟、汤几乎收干，饭要湿润但不是清汤。 尝鸡是否全熟。"
+      "keywords": "湿饭带汁，盒盖紧。 书/可靠食谱改写 改编自公有领域《Fowls Stewed with Rice and Chorisa》 鸡腿 2 只 水或高汤 米 1 杯 香肠 150g 切段 白胡椒、盐、藏红花一小撮 鸡腿加水煮开，撇沫，约 10 分钟。 下米、香肠、胡椒、盐和藏红花。 小火盖煮至米熟、汤几乎收干，饭要湿润但不是清汤。 尝鸡是否全熟。",
+      "ingredients": [
+        "鸡腿 2 只",
+        "水或高汤",
+        "米 1 杯",
+        "香肠 150g 切段",
+        "白胡椒、盐、藏红花一小撮"
+      ]
     },
     {
       "id": "jirou-galidou-yiguo",
@@ -403,7 +805,14 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/jirou-galidou-yiguo.json",
-      "keywords": "耐放、复热友好；汤汁多可垫一点米饭吸汁。注意盒密封防漏。 网络常见做法改写 按常见「电饭煲咖喱鸡饭」家常流程改写的可执行卡；非某品牌官网/某书原文照抄；未在本家厨房验证 大米 1.5 杯，洗净 去骨鸡腿肉约 250g，切块 洋葱 1/2 个、胡萝卜 1 小根、土豆 1 小个，滚刀块 日式咖喱块 1/2–1 块（按包装与口味） 油少许；清水至米水位（菜肉会出水，可略少） 蔬菜前夜切好冷藏；咖喱块按家中常买品牌固定半块起步试咸淡。 可选：锅内少油将鸡块表面略煎上色（无此步也可，直接生放）。 米入胆加水；铺洋葱胡萝卜土豆与鸡块。 咖喱块掰碎埋在食材缝里（勿直接大块砸在发热盘感位置）；盖盖煮饭/混合饭键。 好后充分翻拌至汤汁裹匀；装盘；大人饭盒分装。"
+      "keywords": "耐放、复热友好；汤汁多可垫一点米饭吸汁。注意盒密封防漏。 网络常见做法改写 按常见「电饭煲咖喱鸡饭」家常流程改写的可执行卡；非某品牌官网/某书原文照抄；未在本家厨房验证 大米 1.5 杯，洗净 去骨鸡腿肉约 250g，切块 洋葱 1/2 个、胡萝卜 1 小根、土豆 1 小个，滚刀块 日式咖喱块 1/2–1 块（按包装与口味） 油少许；清水至米水位（菜肉会出水，可略少） 蔬菜前夜切好冷藏；咖喱块按家中常买品牌固定半块起步试咸淡。 可选：锅内少油将鸡块表面略煎上色（无此步也可，直接生放）。 米入胆加水；铺洋葱胡萝卜土豆与鸡块。 咖喱块掰碎埋在食材缝里（勿直接大块砸在发热盘感位置）；盖盖煮饭/混合饭键。 好后充分翻拌至汤汁裹匀；装盘；大人饭盒分装。",
+      "ingredients": [
+        "大米 1.5 杯，洗净",
+        "去骨鸡腿肉约 250g，切块",
+        "洋葱 1/2 个、胡萝卜 1 小根、土豆 1 小个，滚刀块",
+        "日式咖喱块 1/2–1 块（按包装与口味）",
+        "油少许；清水至米水位（菜肉会出水，可略少）"
+      ]
     },
     {
       "id": "jirou-shouzhafan",
@@ -413,7 +822,14 @@
       "packable": true,
       "time_total": 60,
       "file": "cards/jirou-shouzhafan.json",
-      "keywords": "偏干，饭盒不易洒；复热喷/加少许水。孜然味隔夜仍明显。 网络常见做法改写 中亚/新疆手抓饭方向的家常简化一锅版；非餐厅配方、非某食谱书原文；步骤为骨架示范，待家里试火候与水量 大米 2 杯，洗净沥干 鸡腿/鸡块约 300g 胡萝卜 1 根，粗条；洋葱 1/2 个，切瓣 孜然、盐、黑胡椒适量；可选葡萄干一小把 油 1–2 勺；热水（非冷水）至刚没过食材 米可浸 20 分钟再沥干（可折叠）；鸡块提前解冻。 厚底锅或电饭煲：热油，鸡块煎至表面变色；下洋葱胡萝卜略炒，撒盐与孜然。 铺入沥干米，轻轻摊平，勿猛搅；倒热水至刚没过米层约半指。 盖盖中小火焖至水干米熟（电饭煲用煮饭键）；前 25 分钟尽量不开盖。 好后用铲从底部翻松；装盘。大人可分装；口味偏干香，复热加点清水。"
+      "keywords": "偏干，饭盒不易洒；复热喷/加少许水。孜然味隔夜仍明显。 网络常见做法改写 中亚/新疆手抓饭方向的家常简化一锅版；非餐厅配方、非某食谱书原文；步骤为骨架示范，待家里试火候与水量 大米 2 杯，洗净沥干 鸡腿/鸡块约 300g 胡萝卜 1 根，粗条；洋葱 1/2 个，切瓣 孜然、盐、黑胡椒适量；可选葡萄干一小把 油 1–2 勺；热水（非冷水）至刚没过食材 米可浸 20 分钟再沥干（可折叠）；鸡块提前解冻。 厚底锅或电饭煲：热油，鸡块煎至表面变色；下洋葱胡萝卜略炒，撒盐与孜然。 铺入沥干米，轻轻摊平，勿猛搅；倒热水至刚没过米层约半指。 盖盖中小火焖至水干米熟（电饭煲用煮饭键）；前 25 分钟尽量不开盖。 好后用铲从底部翻松；装盘。大人可分装；口味偏干香，复热加点清水。",
+      "ingredients": [
+        "大米 2 杯，洗净沥干",
+        "鸡腿/鸡块约 300g",
+        "胡萝卜 1 根，粗条；洋葱 1/2 个，切瓣",
+        "孜然、盐、黑胡椒适量；可选葡萄干一小把",
+        "油 1–2 勺；热水（非冷水）至刚没过食材"
+      ]
     },
     {
       "id": "jirou-tudou-mifan-tang",
@@ -423,7 +839,18 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/jirou-tudou-mifan-tang.json",
-      "keywords": "汤多，盒要防漏。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Chicken Soup with Rice and Potatoes；CC BY-SA 3.0 鸡腿 2 只或鸡块约 400g 米 3/4 杯 洋葱 1/2 切碎 白萝卜或芜菁 1 小段切丁（没有就多放土豆） 土豆 2 个切块 水约 1.2 升 马郁兰或牛至一小撮、盐、胡椒 欧芹 辣椒按口味 鸡块、米、洋葱、萝卜、香草、盐胡椒和水下锅，煮开后小火约 25 分钟。 下土豆再煮约 20 分钟，至鸡熟、米开花、土豆软。 加欧芹，试咸淡。 舀汤带米装碗或饭盒。"
+      "keywords": "汤多，盒要防漏。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Chicken Soup with Rice and Potatoes；CC BY-SA 3.0 鸡腿 2 只或鸡块约 400g 米 3/4 杯 洋葱 1/2 切碎 白萝卜或芜菁 1 小段切丁（没有就多放土豆） 土豆 2 个切块 水约 1.2 升 马郁兰或牛至一小撮、盐、胡椒 欧芹 辣椒按口味 鸡块、米、洋葱、萝卜、香草、盐胡椒和水下锅，煮开后小火约 25 分钟。 下土豆再煮约 20 分钟，至鸡熟、米开花、土豆软。 加欧芹，试咸淡。 舀汤带米装碗或饭盒。",
+      "ingredients": [
+        "鸡腿 2 只或鸡块约 400g",
+        "米 3/4 杯",
+        "洋葱 1/2 切碎",
+        "白萝卜或芜菁 1 小段切丁（没有就多放土豆）",
+        "土豆 2 个切块",
+        "水约 1.2 升",
+        "马郁兰或牛至一小撮、盐、胡椒",
+        "欧芹",
+        "辣椒按口味"
+      ]
     },
     {
       "id": "jirou-xiangfan-jiacchang",
@@ -433,7 +860,23 @@
       "packable": true,
       "time_total": 105,
       "file": "cards/jirou-xiangfan-jiacchang.json",
-      "keywords": "分装保留上层肉与香料。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken biryani」（chicken-biryani）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 印度香米 500g（{'ru': 'замочить на 30 минут', 'en': 'soaked 30 minutes'}） 鸡肉 on the bone 1kg Thick yoghurt 250g 洋葱s 3piece（{'ru': 'тонкими кольцами', 'en': 'thinly sliced'}） 姜 30g 蒜 6clove Garam masala 2tsp Chilli powder 1tsp 姜黄 0.5tsp 肉桂（Cardamom, cloves, cinnamon, bay） 1tbsp 藏红花 1pinch 牛奶（Warm milk） 60ml 香菜（Mint and coriander） 1sprig 黄油（Ghee or butter） 60g 米可浸泡 20–30 分钟。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Fry the onions in ghee to a deep gold — twenty minutes over medium heat. Set half aside: that is the birista, and the ma…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "分装保留上层肉与香料。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken biryani」（chicken-biryani）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 印度香米 500g（{'ru': 'замочить на 30 минут', 'en': 'soaked 30 minutes'}） 鸡肉 on the bone 1kg Thick yoghurt 250g 洋葱s 3piece（{'ru': 'тонкими кольцами', 'en': 'thinly sliced'}） 姜 30g 蒜 6clove Garam masala 2tsp Chilli powder 1tsp 姜黄 0.5tsp 肉桂（Cardamom, cloves, cinnamon, bay） 1tbsp 藏红花 1pinch 牛奶（Warm milk） 60ml 香菜（Mint and coriander） 1sprig 黄油（Ghee or butter） 60g 米可浸泡 20–30 分钟。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Fry the onions in ghee to a deep gold — twenty minutes over medium heat. Set half aside: that is the birista, and the ma…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "印度香米 500g（{'ru': 'замочить на 30 минут', 'en': 'soaked 30 minutes'}）",
+        "鸡肉 on the bone 1kg",
+        "Thick yoghurt 250g",
+        "洋葱s 3piece（{'ru': 'тонкими кольцами', 'en': 'thinly sliced'}）",
+        "姜 30g",
+        "蒜 6clove",
+        "Garam masala 2tsp",
+        "Chilli powder 1tsp",
+        "姜黄 0.5tsp",
+        "肉桂（Cardamom, cloves, cinnamon, bay） 1tbsp",
+        "藏红花 1pinch",
+        "牛奶（Warm milk） 60ml",
+        "香菜（Mint and coriander） 1sprig",
+        "黄油（Ghee or butter） 60g"
+      ]
     },
     {
       "id": "jollof-tchari-wikibooks",
@@ -443,7 +886,17 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/jollof-tchari-wikibooks.json",
-      "keywords": "番茄焖饭适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Tchari (Jollof Rice)；CC BY-SA 3.0 植物油 2 大勺 洋葱 1 大个 蒜 3 瓣、姜 1 小勺 番茄 3–4 个打碎、红绿甜椒、辣椒适量 百里香、咖喱粉、红椒粉、肉豆蔻、香叶 长粒米 2 杯 鸡汤或水 2–3 杯 冻混合蔬菜 1 杯；盐胡椒；可选黄油 米淘至水清。 油炒洋葱至透明，加蒜姜 1 分钟；下番茄甜椒辣椒糊，煮 10–15 分钟至出油。 加香料拌匀；米淘净入锅裹酱。 倒汤至高过米约 2–3cm，调味；煮开后小火盖紧 20–25 分钟至米熟。 拌入冻菜与可选黄油，焖几分钟；松散装盘。"
+      "keywords": "番茄焖饭适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Tchari (Jollof Rice)；CC BY-SA 3.0 植物油 2 大勺 洋葱 1 大个 蒜 3 瓣、姜 1 小勺 番茄 3–4 个打碎、红绿甜椒、辣椒适量 百里香、咖喱粉、红椒粉、肉豆蔻、香叶 长粒米 2 杯 鸡汤或水 2–3 杯 冻混合蔬菜 1 杯；盐胡椒；可选黄油 米淘至水清。 油炒洋葱至透明，加蒜姜 1 分钟；下番茄甜椒辣椒糊，煮 10–15 分钟至出油。 加香料拌匀；米淘净入锅裹酱。 倒汤至高过米约 2–3cm，调味；煮开后小火盖紧 20–25 分钟至米熟。 拌入冻菜与可选黄油，焖几分钟；松散装盘。",
+      "ingredients": [
+        "植物油 2 大勺",
+        "洋葱 1 大个",
+        "蒜 3 瓣、姜 1 小勺",
+        "番茄 3–4 个打碎、红绿甜椒、辣椒适量",
+        "百里香、咖喱粉、红椒粉、肉豆蔻、香叶",
+        "长粒米 2 杯",
+        "鸡汤或水 2–3 杯",
+        "冻混合蔬菜 1 杯；盐胡椒；可选黄油"
+      ]
     },
     {
       "id": "kaoxiang-doucai-jufan",
@@ -453,7 +906,16 @@
       "packable": true,
       "time_total": 90,
       "file": "cards/kaoxiang-doucai-jufan.json",
-      "keywords": "焗饭适合分装，汁少一点再盖盒。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Bean and Rice Bake；CC BY-SA 3.0 橄榄油 2 大勺 洋葱 1 个、番茄 2 个、胡萝卜 1 根、西葫芦或青椒少许，切块 鹰嘴豆或黑豆罐头 1 罐 蒜 3 瓣 咖喱粉 1 小勺、孜然、红椒粉 米 1 杯 水或淡红酒加起来没过食材 烤箱 160°C。少油把咖喱粉和米炒约 3 分钟。 所有蔬菜、豆、蒜、香料和米放进有盖烤盘，倒液体至刚没过。 盖上烤约 70 分钟，中途看米是否软，太干加热水。"
+      "keywords": "焗饭适合分装，汁少一点再盖盒。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Bean and Rice Bake；CC BY-SA 3.0 橄榄油 2 大勺 洋葱 1 个、番茄 2 个、胡萝卜 1 根、西葫芦或青椒少许，切块 鹰嘴豆或黑豆罐头 1 罐 蒜 3 瓣 咖喱粉 1 小勺、孜然、红椒粉 米 1 杯 水或淡红酒加起来没过食材 烤箱 160°C。少油把咖喱粉和米炒约 3 分钟。 所有蔬菜、豆、蒜、香料和米放进有盖烤盘，倒液体至刚没过。 盖上烤约 70 分钟，中途看米是否软，太干加热水。",
+      "ingredients": [
+        "橄榄油 2 大勺",
+        "洋葱 1 个、番茄 2 个、胡萝卜 1 根、西葫芦或青椒少许，切块",
+        "鹰嘴豆或黑豆罐头 1 罐",
+        "蒜 3 瓣",
+        "咖喱粉 1 小勺、孜然、红椒粉",
+        "米 1 杯",
+        "水或淡红酒加起来没过食材"
+      ]
     },
     {
       "id": "kediwowa-menji-fan",
@@ -463,7 +925,21 @@
       "packable": true,
       "time_total": 100,
       "file": "cards/kediwowa-menji-fan.json",
-      "keywords": "焖鸡耐放；米饭另盒或同锅。 书/可靠食谱改写 改编自 UniTools World Recipes「Kedjenou」（kedjenou）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.4kg（{'ru': 'кусками', 'en': 'in pieces'}） 洋葱s 3piece 番茄es 5piece African aubergines 200g 甜椒 1piece 蒜 5clove 姜 30g Scotch bonnet 1piece Bay leaves 2piece Thyme 3sprig 大米（Attiéké or rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}） 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Cut the onion, tomatoes, aubergines and pepper into large pieces.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "焖鸡耐放；米饭另盒或同锅。 书/可靠食谱改写 改编自 UniTools World Recipes「Kedjenou」（kedjenou）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.4kg（{'ru': 'кусками', 'en': 'in pieces'}） 洋葱s 3piece 番茄es 5piece African aubergines 200g 甜椒 1piece 蒜 5clove 姜 30g Scotch bonnet 1piece Bay leaves 2piece Thyme 3sprig 大米（Attiéké or rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}） 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Cut the onion, tomatoes, aubergines and pepper into large pieces.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉 1.4kg（{'ru': 'кусками', 'en': 'in pieces'}）",
+        "洋葱s 3piece",
+        "番茄es 5piece",
+        "African aubergines 200g",
+        "甜椒 1piece",
+        "蒜 5clove",
+        "姜 30g",
+        "Scotch bonnet 1piece",
+        "Bay leaves 2piece",
+        "Thyme 3sprig",
+        "大米（Attiéké or rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}）",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "lachang-qingdou-menfan",
@@ -473,7 +949,13 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/lachang-qingdou-menfan.json",
-      "keywords": "偏咸，少盐。 网络常见做法改写 腊肠焖饭常见电饭煲改写 大米 1.5 杯 腊肠斜切 青豆、胡萝卜丁 生抽少许、油 米淘洗入胆加水略减。 铺腊肠与蔬菜，淋几滴生抽。 煮饭；翻拌分装。"
+      "keywords": "偏咸，少盐。 网络常见做法改写 腊肠焖饭常见电饭煲改写 大米 1.5 杯 腊肠斜切 青豆、胡萝卜丁 生抽少许、油 米淘洗入胆加水略减。 铺腊肠与蔬菜，淋几滴生抽。 煮饭；翻拌分装。",
+      "ingredients": [
+        "大米 1.5 杯",
+        "腊肠斜切",
+        "青豆、胡萝卜丁",
+        "生抽少许、油"
+      ]
     },
     {
       "id": "lajiao-nailao-peifan",
@@ -483,7 +965,17 @@
       "packable": true,
       "time_total": 35,
       "file": "cards/lajiao-nailao-peifan.json",
-      "keywords": "奶酪酱粘，单独盒装米饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Ema datshi」（ema-datshi）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 Green chillies 400g（{'ru': 'крупный, не жгучий сорт', 'en': 'large, milder variety'}） 奶酪（Datshi or feta cheese） 300g 洋葱 1piece 蒜 5clove 番茄 1piece 黄油 30g 大米（Red rice） 350g（{'ru': 'к подаче', 'en': 'to serve'}） 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。 最后搅入黄油/芝士或海鲜等；立即装盘。 烩饭类宜现做；带饭则略做硬一点并少装汤。 要点对照来源：Quarter the chillies lengthways. The seeds stay in; in Bhutan they are not removed.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "奶酪酱粘，单独盒装米饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Ema datshi」（ema-datshi）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 Green chillies 400g（{'ru': 'крупный, не жгучий сорт', 'en': 'large, milder variety'}） 奶酪（Datshi or feta cheese） 300g 洋葱 1piece 蒜 5clove 番茄 1piece 黄油 30g 大米（Red rice） 350g（{'ru': 'к подаче', 'en': 'to serve'}） 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。 最后搅入黄油/芝士或海鲜等；立即装盘。 烩饭类宜现做；带饭则略做硬一点并少装汤。 要点对照来源：Quarter the chillies lengthways. The seeds stay in; in Bhutan they are not removed.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "Green chillies 400g（{'ru': 'крупный, не жгучий сорт', 'en': 'large, milder variety'}）",
+        "奶酪（Datshi or feta cheese） 300g",
+        "洋葱 1piece",
+        "蒜 5clove",
+        "番茄 1piece",
+        "黄油 30g",
+        "大米（Red rice） 350g（{'ru': 'к подаче', 'en': 'to serve'}）",
+        "盐"
+      ]
     },
     {
       "id": "luroufan",
@@ -493,7 +985,23 @@
       "packable": true,
       "time_total": 125,
       "file": "cards/luroufan.json",
-      "keywords": "卤肉耐放，米饭另装浇汁。 书/可靠食谱改写 改编自 UniTools World Recipes「Lu rou fan」（lu-rou-fan）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 猪肉 belly 700g（{'ru': 'мелким кубиком', 'en': 'finely diced'}） Shallots 6piece 酱油 100ml 酱油（Dark soy sauce） 1tbsp 酒（Shaoxing wine） 80ml 糖（Rock sugar） 30g Five-spice powder 1tsp Star anise 2piece 蒜 5clove 鸡蛋s 4piece（{'ru': 'варёные, к подаче', 'en': 'boiled, to serve'}） 大米 400g Bok choy 300g 植物油 40ml 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Dice the belly into one-centimetre cubes, keeping the fat with the meat.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "卤肉耐放，米饭另装浇汁。 书/可靠食谱改写 改编自 UniTools World Recipes「Lu rou fan」（lu-rou-fan）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 猪肉 belly 700g（{'ru': 'мелким кубиком', 'en': 'finely diced'}） Shallots 6piece 酱油 100ml 酱油（Dark soy sauce） 1tbsp 酒（Shaoxing wine） 80ml 糖（Rock sugar） 30g Five-spice powder 1tsp Star anise 2piece 蒜 5clove 鸡蛋s 4piece（{'ru': 'варёные, к подаче', 'en': 'boiled, to serve'}） 大米 400g Bok choy 300g 植物油 40ml 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Dice the belly into one-centimetre cubes, keeping the fat with the meat.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "猪肉 belly 700g（{'ru': 'мелким кубиком', 'en': 'finely diced'}）",
+        "Shallots 6piece",
+        "酱油 100ml",
+        "酱油（Dark soy sauce） 1tbsp",
+        "酒（Shaoxing wine） 80ml",
+        "糖（Rock sugar） 30g",
+        "Five-spice powder 1tsp",
+        "Star anise 2piece",
+        "蒜 5clove",
+        "鸡蛋s 4piece（{'ru': 'варёные, к подаче', 'en': 'boiled, to serve'}）",
+        "大米 400g",
+        "Bok choy 300g",
+        "植物油 40ml",
+        "盐"
+      ]
     },
     {
       "id": "luzhuan-neizang-mifan",
@@ -503,7 +1011,17 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/luzhuan-neizang-mifan.json",
-      "keywords": "肝要新鲜，当天吃完。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Dirty Rice；CC BY-SA 3.0 猪油或油 1 大勺 猪肉末 80g 鸡肝 80g 切碎（不吃内脏可改成全部肉末） 洋葱 1/2、芹菜 1 根、青椒 1/2、蒜 1 瓣 红椒粉、芥末粉、孜然、百里香、牛至各一小撮 月桂 1 片、辣酱几滴、盐 米 1 杯 高汤 1.5 杯 油炒肉末和肝至变色。 下洋葱、芹菜、青椒、蒜和香料，炒约 5 分钟。 下米和高汤，盖焖约 18 分钟。 拣掉月桂，拨散。"
+      "keywords": "肝要新鲜，当天吃完。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Dirty Rice；CC BY-SA 3.0 猪油或油 1 大勺 猪肉末 80g 鸡肝 80g 切碎（不吃内脏可改成全部肉末） 洋葱 1/2、芹菜 1 根、青椒 1/2、蒜 1 瓣 红椒粉、芥末粉、孜然、百里香、牛至各一小撮 月桂 1 片、辣酱几滴、盐 米 1 杯 高汤 1.5 杯 油炒肉末和肝至变色。 下洋葱、芹菜、青椒、蒜和香料，炒约 5 分钟。 下米和高汤，盖焖约 18 分钟。 拣掉月桂，拨散。",
+      "ingredients": [
+        "猪油或油 1 大勺",
+        "猪肉末 80g",
+        "鸡肝 80g 切碎（不吃内脏可改成全部肉末）",
+        "洋葱 1/2、芹菜 1 根、青椒 1/2、蒜 1 瓣",
+        "红椒粉、芥末粉、孜然、百里香、牛至各一小撮",
+        "月桂 1 片、辣酱几滴、盐",
+        "米 1 杯",
+        "高汤 1.5 杯"
+      ]
     },
     {
       "id": "maerta-fanqie-rouji-kaofan",
@@ -513,7 +1031,18 @@
       "packable": true,
       "time_total": 90,
       "file": "cards/maerta-fanqie-rouji-kaofan.json",
-      "keywords": "原文写明放凉切块也好吃，适合野餐盒。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Rice Cooked in Tomato Meat Sauce (Ross il-Forn)；CC BY-SA 3.0 洋葱 1/2、油少许、培根或腊肉 40g 蒜 1 瓣、番茄膏 1 大勺 牛肉末 200g 去皮番茄罐头 1 罐 米 300g 水约 500ml 蛋 2 个 硬奶酪碎约 60g 盐、胡椒 烤箱 180°C。油炒洋葱、培根和蒜，下番茄膏和肉末炒散，倒番茄煮到酱汁不生。 烤盘抹油，放入米、大约一半酱、1 个打散的蛋、大半奶酪和水，轻轻拌匀。 烤约 30 分钟，取出翻一下；若太干补几勺水。 剩下的蛋和奶酪铺面，再烤 25–35 分钟至表面上色、米熟。"
+      "keywords": "原文写明放凉切块也好吃，适合野餐盒。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Rice Cooked in Tomato Meat Sauce (Ross il-Forn)；CC BY-SA 3.0 洋葱 1/2、油少许、培根或腊肉 40g 蒜 1 瓣、番茄膏 1 大勺 牛肉末 200g 去皮番茄罐头 1 罐 米 300g 水约 500ml 蛋 2 个 硬奶酪碎约 60g 盐、胡椒 烤箱 180°C。油炒洋葱、培根和蒜，下番茄膏和肉末炒散，倒番茄煮到酱汁不生。 烤盘抹油，放入米、大约一半酱、1 个打散的蛋、大半奶酪和水，轻轻拌匀。 烤约 30 分钟，取出翻一下；若太干补几勺水。 剩下的蛋和奶酪铺面，再烤 25–35 分钟至表面上色、米熟。",
+      "ingredients": [
+        "洋葱 1/2、油少许、培根或腊肉 40g",
+        "蒜 1 瓣、番茄膏 1 大勺",
+        "牛肉末 200g",
+        "去皮番茄罐头 1 罐",
+        "米 300g",
+        "水约 500ml",
+        "蛋 2 个",
+        "硬奶酪碎约 60g",
+        "盐、胡椒"
+      ]
     },
     {
       "id": "mashaman-galidou-yiguo",
@@ -523,7 +1052,22 @@
       "packable": true,
       "time_total": 115,
       "file": "cards/mashaman-galidou-yiguo.json",
-      "keywords": "咖喱耐放，米饭可同焖或另装。 书/可靠食谱改写 改编自 UniTools World Recipes「Massaman curry」（massaman-curry）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 牛肉 900g（{'ru': 'крупными кусками', 'en': 'in large pieces'}） Massaman curry paste 5tbsp 椰奶 800ml 土豆es 500g 洋葱s 2piece Roasted peanuts 100g Tamarind paste 3tbsp 糖（Palm sugar） 3tbsp 鱼 sauce 3tbsp 肉桂 stick 1piece 豆蔻 pods 4piece Bay leaves 2piece 大米（Jasmine rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中少油炒香洋葱姜蒜与香料；下肉/土豆等翻匀。 倒入椰奶或汤、咖喱酱/块，小火炖至软烂；可同时电饭煲煮米，或米与咖喱同锅收汁。 试味调盐；装饭浇咖喱，或一锅拌匀后分装。 要点对照来源：Heat the thick part of the coconut milk without stirring until the oil separates.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "咖喱耐放，米饭可同焖或另装。 书/可靠食谱改写 改编自 UniTools World Recipes「Massaman curry」（massaman-curry）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 牛肉 900g（{'ru': 'крупными кусками', 'en': 'in large pieces'}） Massaman curry paste 5tbsp 椰奶 800ml 土豆es 500g 洋葱s 2piece Roasted peanuts 100g Tamarind paste 3tbsp 糖（Palm sugar） 3tbsp 鱼 sauce 3tbsp 肉桂 stick 1piece 豆蔻 pods 4piece Bay leaves 2piece 大米（Jasmine rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中少油炒香洋葱姜蒜与香料；下肉/土豆等翻匀。 倒入椰奶或汤、咖喱酱/块，小火炖至软烂；可同时电饭煲煮米，或米与咖喱同锅收汁。 试味调盐；装饭浇咖喱，或一锅拌匀后分装。 要点对照来源：Heat the thick part of the coconut milk without stirring until the oil separates.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "牛肉 900g（{'ru': 'крупными кусками', 'en': 'in large pieces'}）",
+        "Massaman curry paste 5tbsp",
+        "椰奶 800ml",
+        "土豆es 500g",
+        "洋葱s 2piece",
+        "Roasted peanuts 100g",
+        "Tamarind paste 3tbsp",
+        "糖（Palm sugar） 3tbsp",
+        "鱼 sauce 3tbsp",
+        "肉桂 stick 1piece",
+        "豆蔻 pods 4piece",
+        "Bay leaves 2piece",
+        "大米（Jasmine rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}）"
+      ]
     },
     {
       "id": "meishi-jirou-maifan",
@@ -533,7 +1077,15 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/meishi-jirou-maifan.json",
-      "keywords": "一锅埋熟，适合分装。检查鸡骨附近是否全熟。 书/可靠食谱改写 改编自公有领域《A Pilau》（Gutenberg 美国家常书，open-recipe-archive） 鸡腿 4 只或小童子鸡切块 火腿或培根 2 片 洋葱 1 个切片 白胡椒、肉豆蔻少许 米 2 杯，洗净浸泡 水刚好没过 米浸泡。 鸡块表面贴火腿片，与洋葱、胡椒、肉豆蔻放进锅。 泡好的米盖在鸡上。 加热水至没过，盖严，小火约 30 分钟至鸡熟米干。 可把饭堆在鸡周围装盘。"
+      "keywords": "一锅埋熟，适合分装。检查鸡骨附近是否全熟。 书/可靠食谱改写 改编自公有领域《A Pilau》（Gutenberg 美国家常书，open-recipe-archive） 鸡腿 4 只或小童子鸡切块 火腿或培根 2 片 洋葱 1 个切片 白胡椒、肉豆蔻少许 米 2 杯，洗净浸泡 水刚好没过 米浸泡。 鸡块表面贴火腿片，与洋葱、胡椒、肉豆蔻放进锅。 泡好的米盖在鸡上。 加热水至没过，盖严，小火约 30 分钟至鸡熟米干。 可把饭堆在鸡周围装盘。",
+      "ingredients": [
+        "鸡腿 4 只或小童子鸡切块",
+        "火腿或培根 2 片",
+        "洋葱 1 个切片",
+        "白胡椒、肉豆蔻少许",
+        "米 2 杯，洗净浸泡",
+        "水刚好没过"
+      ]
     },
     {
       "id": "mengjiala-xiangchao-zafan",
@@ -543,7 +1095,22 @@
       "packable": true,
       "time_total": 65,
       "file": "cards/mengjiala-xiangchao-zafan.json",
-      "keywords": "偏软烂，饭盒加少许水复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Bhuna khichuri」（bhuna-khichuri）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Short-grain rice） 400g Moong dal 250g 洋葱s 2piece 姜 40g Green chillies 5piece 姜黄 2tsp 孜然（Ground cumin） 2tsp Bay leaves 3piece 肉桂 stick 1piece 豆蔻 pods 5piece Ghee 80g 土豆es 3piece 盐 扁豆可提前浸泡。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Dry-roast the moong dal for five minutes, to a nutty smell, and rinse it.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "偏软烂，饭盒加少许水复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Bhuna khichuri」（bhuna-khichuri）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Short-grain rice） 400g Moong dal 250g 洋葱s 2piece 姜 40g Green chillies 5piece 姜黄 2tsp 孜然（Ground cumin） 2tsp Bay leaves 3piece 肉桂 stick 1piece 豆蔻 pods 5piece Ghee 80g 土豆es 3piece 盐 扁豆可提前浸泡。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Dry-roast the moong dal for five minutes, to a nutty smell, and rinse it.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "大米（Short-grain rice） 400g",
+        "Moong dal 250g",
+        "洋葱s 2piece",
+        "姜 40g",
+        "Green chillies 5piece",
+        "姜黄 2tsp",
+        "孜然（Ground cumin） 2tsp",
+        "Bay leaves 3piece",
+        "肉桂 stick 1piece",
+        "豆蔻 pods 5piece",
+        "Ghee 80g",
+        "土豆es 3piece",
+        "盐"
+      ]
     },
     {
       "id": "milan-huifan",
@@ -553,7 +1120,17 @@
       "packable": false,
       "time_total": 35,
       "file": "cards/milan-huifan.json",
-      "keywords": "烩饭宜现做，隔夜口感变差。 书/可靠食谱改写 改编自 UniTools World Recipes「Risotto alla milanese」（risotto-alla-milanese）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Carnaroli rice） 320g 高汤 1.2l（{'ru': 'горячий', 'en': 'kept hot'}） 洋葱 1piece（{'ru': 'мелко нарезать', 'en': 'finely chopped'}） 酒（Dry white wine） 120ml 黄油 80g（{'ru': 'холодное', 'en': 'cold'}） Parmesan 80g（{'ru': 'натереть', 'en': 'grated'}） 藏红花 1pinch 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。 最后搅入黄油/芝士或海鲜等；立即装盘。 烩饭类宜现做；带饭则略做硬一点并少装汤。 要点对照来源：Steep the saffron in a ladle of hot stock and set it aside. Keep the rest of the stock at a bare simmer — cold stock sto…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "烩饭宜现做，隔夜口感变差。 书/可靠食谱改写 改编自 UniTools World Recipes「Risotto alla milanese」（risotto-alla-milanese）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Carnaroli rice） 320g 高汤 1.2l（{'ru': 'горячий', 'en': 'kept hot'}） 洋葱 1piece（{'ru': 'мелко нарезать', 'en': 'finely chopped'}） 酒（Dry white wine） 120ml 黄油 80g（{'ru': 'холодное', 'en': 'cold'}） Parmesan 80g（{'ru': 'натереть', 'en': 'grated'}） 藏红花 1pinch 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。 最后搅入黄油/芝士或海鲜等；立即装盘。 烩饭类宜现做；带饭则略做硬一点并少装汤。 要点对照来源：Steep the saffron in a ladle of hot stock and set it aside. Keep the rest of the stock at a bare simmer — cold stock sto…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "大米（Carnaroli rice） 320g",
+        "高汤 1.2l（{'ru': 'горячий', 'en': 'kept hot'}）",
+        "洋葱 1piece（{'ru': 'мелко нарезать', 'en': 'finely chopped'}）",
+        "酒（Dry white wine） 120ml",
+        "黄油 80g（{'ru': 'холодное', 'en': 'cold'}）",
+        "Parmesan 80g（{'ru': 'натереть', 'en': 'grated'}）",
+        "藏红花 1pinch",
+        "盐"
+      ]
     },
     {
       "id": "mogu-huifan",
@@ -563,7 +1140,16 @@
       "packable": false,
       "time_total": 40,
       "file": "cards/mogu-huifan.json",
-      "keywords": "出锅就吃；放凉结块。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Risotto ai Funghi；CC BY-SA 3.0 意大利米 200g 黄油一小块 洋葱 1/2、蒜 1 瓣 鸡汤或蔬菜汤约 500ml 鲜蘑菇 150g 或干蘑 15g 泡软 干白葡萄酒小半杯（可省） 欧芹、帕玛森约 30g 干蘑菇可提前泡。 干蘑先泡 20 分钟，泡水留着、沉渣不要。鲜蘑切片。 黄油炒洋葱蒜至透明，下米炒半分钟。 有酒就倒入烧干；分次加热汤和蘑汁，常搅，约 15–18 分钟。 中途下蘑菇。米还有一点芯时关火，拌奶酪和欧芹。"
+      "keywords": "出锅就吃；放凉结块。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Risotto ai Funghi；CC BY-SA 3.0 意大利米 200g 黄油一小块 洋葱 1/2、蒜 1 瓣 鸡汤或蔬菜汤约 500ml 鲜蘑菇 150g 或干蘑 15g 泡软 干白葡萄酒小半杯（可省） 欧芹、帕玛森约 30g 干蘑菇可提前泡。 干蘑先泡 20 分钟，泡水留着、沉渣不要。鲜蘑切片。 黄油炒洋葱蒜至透明，下米炒半分钟。 有酒就倒入烧干；分次加热汤和蘑汁，常搅，约 15–18 分钟。 中途下蘑菇。米还有一点芯时关火，拌奶酪和欧芹。",
+      "ingredients": [
+        "意大利米 200g",
+        "黄油一小块",
+        "洋葱 1/2、蒜 1 瓣",
+        "鸡汤或蔬菜汤约 500ml",
+        "鲜蘑菇 150g 或干蘑 15g 泡软",
+        "干白葡萄酒小半杯（可省）",
+        "欧芹、帕玛森约 30g"
+      ]
     },
     {
       "id": "moji-huifan",
@@ -573,7 +1159,20 @@
       "packable": true,
       "time_total": 75,
       "file": "cards/moji-huifan.json",
-      "keywords": "海鲜易腥，当餐最好；隔夜慎复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Black risotto」（crni-rizot）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鱼（Cuttlefish） 700g（{'ru': 'кольцами', 'en': 'in rings'}） 鱼（Cuttlefish ink） 3tbsp 意式烩饭米 320g 洋葱 1piece 蒜 4clove 酒（Dry white wine） 150ml 高汤（Fish stock） 1l 番茄酱 1tbsp 欧芹 20g 橄榄油 60ml 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。 最后搅入黄油/芝士或海鲜等；立即装盘。 烩饭类宜现做；带饭则略做硬一点并少装汤。 要点对照来源：Fry the onion and garlic in olive oil until soft, add the cuttlefish and cook five minutes; it releases water.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "海鲜易腥，当餐最好；隔夜慎复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Black risotto」（crni-rizot）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鱼（Cuttlefish） 700g（{'ru': 'кольцами', 'en': 'in rings'}） 鱼（Cuttlefish ink） 3tbsp 意式烩饭米 320g 洋葱 1piece 蒜 4clove 酒（Dry white wine） 150ml 高汤（Fish stock） 1l 番茄酱 1tbsp 欧芹 20g 橄榄油 60ml 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。 最后搅入黄油/芝士或海鲜等；立即装盘。 烩饭类宜现做；带饭则略做硬一点并少装汤。 要点对照来源：Fry the onion and garlic in olive oil until soft, add the cuttlefish and cook five minutes; it releases water.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鱼（Cuttlefish） 700g（{'ru': 'кольцами', 'en': 'in rings'}）",
+        "鱼（Cuttlefish ink） 3tbsp",
+        "意式烩饭米 320g",
+        "洋葱 1piece",
+        "蒜 4clove",
+        "酒（Dry white wine） 150ml",
+        "高汤（Fish stock） 1l",
+        "番茄酱 1tbsp",
+        "欧芹 20g",
+        "橄榄油 60ml",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "nanguang-huifan",
@@ -583,7 +1182,17 @@
       "packable": false,
       "time_total": 45,
       "file": "cards/nanguang-huifan.json",
-      "keywords": "烩饭静置会变糊，不适合久放带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Pumpkin Risotto；CC BY-SA 3.0 南瓜或冬瓜约 300g 去籽切块 橄榄油、盐、胡椒、蒜 1 瓣 意大利米 1 杯 洋葱 1/2 鸡汤或蔬菜汤约 700ml，热着 黄油 1 小块 帕玛森或硬奶酪 40g 白酒 2 大勺（可省） 南瓜可先蒸软或与饭同锅后下。洋葱用油炒软，下米炒到透亮。 有酒就倒入收干；然后一勺勺加热汤，中火搅拌到米还有一点嚼劲。 下南瓜块（蒸过的直接拌，生的要更早下并多给几分钟）和黄油、奶酪。 立刻吃。"
+      "keywords": "烩饭静置会变糊，不适合久放带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Pumpkin Risotto；CC BY-SA 3.0 南瓜或冬瓜约 300g 去籽切块 橄榄油、盐、胡椒、蒜 1 瓣 意大利米 1 杯 洋葱 1/2 鸡汤或蔬菜汤约 700ml，热着 黄油 1 小块 帕玛森或硬奶酪 40g 白酒 2 大勺（可省） 南瓜可先蒸软或与饭同锅后下。洋葱用油炒软，下米炒到透亮。 有酒就倒入收干；然后一勺勺加热汤，中火搅拌到米还有一点嚼劲。 下南瓜块（蒸过的直接拌，生的要更早下并多给几分钟）和黄油、奶酪。 立刻吃。",
+      "ingredients": [
+        "南瓜或冬瓜约 300g 去籽切块",
+        "橄榄油、盐、胡椒、蒜 1 瓣",
+        "意大利米 1 杯",
+        "洋葱 1/2",
+        "鸡汤或蔬菜汤约 700ml，热着",
+        "黄油 1 小块",
+        "帕玛森或硬奶酪 40g",
+        "白酒 2 大勺（可省）"
+      ]
     },
     {
       "id": "nigerian-jollof-wikibooks",
@@ -593,7 +1202,14 @@
       "packable": true,
       "time_total": 80,
       "file": "cards/nigerian-jollof-wikibooks.json",
-      "keywords": "适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Nigerian Jollof Rice；CC BY-SA 3.0 番茄 5、甜椒 4、辣椒若干、洋葱 牛/鸡肉若干 花生油适量、番茄酱、高汤块、香叶 咖喱粉、百里香、肉桂姜蒜等 生米约 500g；盐 肉可提前腌煮。 番茄甜椒洋葱打成酱；肉先煮或炸备用。 热油炒洋葱末与番茄酱，下菜酱与香料、部分肉汤，炒约 10 分钟。 加水煮开；米淘净下锅搅匀，视情况补水，小火焖至熟。 配炸肉装盘。"
+      "keywords": "适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Nigerian Jollof Rice；CC BY-SA 3.0 番茄 5、甜椒 4、辣椒若干、洋葱 牛/鸡肉若干 花生油适量、番茄酱、高汤块、香叶 咖喱粉、百里香、肉桂姜蒜等 生米约 500g；盐 肉可提前腌煮。 番茄甜椒洋葱打成酱；肉先煮或炸备用。 热油炒洋葱末与番茄酱，下菜酱与香料、部分肉汤，炒约 10 分钟。 加水煮开；米淘净下锅搅匀，视情况补水，小火焖至熟。 配炸肉装盘。",
+      "ingredients": [
+        "番茄 5、甜椒 4、辣椒若干、洋葱",
+        "牛/鸡肉若干",
+        "花生油适量、番茄酱、高汤块、香叶",
+        "咖喱粉、百里香、肉桂姜蒜等",
+        "生米约 500g；盐"
+      ]
     },
     {
       "id": "ningmeng-ji-taji",
@@ -603,7 +1219,21 @@
       "packable": true,
       "time_total": 95,
       "file": "cards/ningmeng-ji-taji.json",
-      "keywords": "炖鸡耐放；米饭另装或同锅couscous改米。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken tagine with preserved lemon」（tagine-de-poulet）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉, jointed 1.4kg 柠檬（Preserved lemon） 2piece（{'ru': 'только кожура', 'en': 'peel only'}） Green olives 150g 洋葱s 2piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}） 蒜 4clove 姜（Ground ginger） 1tsp 姜黄 1tsp 藏红花 1pinch 香菜 and parsley 6sprig 橄榄油 60ml 水 200ml 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Grind the garlic, ginger, turmeric, saffron, chopped herbs, oil, salt and pepper into a paste. Rub it over the chicken a…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "炖鸡耐放；米饭另装或同锅couscous改米。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken tagine with preserved lemon」（tagine-de-poulet）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉, jointed 1.4kg 柠檬（Preserved lemon） 2piece（{'ru': 'только кожура', 'en': 'peel only'}） Green olives 150g 洋葱s 2piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}） 蒜 4clove 姜（Ground ginger） 1tsp 姜黄 1tsp 藏红花 1pinch 香菜 and parsley 6sprig 橄榄油 60ml 水 200ml 盐 and pepper 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Grind the garlic, ginger, turmeric, saffron, chopped herbs, oil, salt and pepper into a paste. Rub it over the chicken a…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉, jointed 1.4kg",
+        "柠檬（Preserved lemon） 2piece（{'ru': 'только кожура', 'en': 'peel only'}）",
+        "Green olives 150g",
+        "洋葱s 2piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}）",
+        "蒜 4clove",
+        "姜（Ground ginger） 1tsp",
+        "姜黄 1tsp",
+        "藏红花 1pinch",
+        "香菜 and parsley 6sprig",
+        "橄榄油 60ml",
+        "水 200ml",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "niriliya-zonglv-yufan",
@@ -613,17 +1243,38 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/niriliya-zonglv-yufan.json",
-      "keywords": "鱼当天吃完更稳妥；饭盒密封。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Banga Rice；CC BY-SA 3.0 棕榈浓汤或罐装棕榈果提取约 200ml（无则用椰奶 150ml 代替，风味不同） 米 1.5 杯，洗净 洋葱 1/2、新鲜辣椒 1 个 虾皮或干虾仁 1 大勺 咖喱粉 1 小勺、盐、高汤块 1/2 块 熏鱼或罐头鲭鱼 1 小条，去刺撕碎 罗勒或九层塔叶一小把（可省） 棕榈汤加水，使总液体大约是米的 2 倍体积。 洋葱与辣椒打成粗酱，倒入煮开；加虾皮、咖喱粉、高汤块和盐。 下米，中火煮至变软，水少就补一点。 拌入熏鱼和香叶，再收干余水。"
+      "keywords": "鱼当天吃完更稳妥；饭盒密封。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Banga Rice；CC BY-SA 3.0 棕榈浓汤或罐装棕榈果提取约 200ml（无则用椰奶 150ml 代替，风味不同） 米 1.5 杯，洗净 洋葱 1/2、新鲜辣椒 1 个 虾皮或干虾仁 1 大勺 咖喱粉 1 小勺、盐、高汤块 1/2 块 熏鱼或罐头鲭鱼 1 小条，去刺撕碎 罗勒或九层塔叶一小把（可省） 棕榈汤加水，使总液体大约是米的 2 倍体积。 洋葱与辣椒打成粗酱，倒入煮开；加虾皮、咖喱粉、高汤块和盐。 下米，中火煮至变软，水少就补一点。 拌入熏鱼和香叶，再收干余水。",
+      "ingredients": [
+        "棕榈浓汤或罐装棕榈果提取约 200ml（无则用椰奶 150ml 代替，风味不同）",
+        "米 1.5 杯，洗净",
+        "洋葱 1/2、新鲜辣椒 1 个",
+        "虾皮或干虾仁 1 大勺",
+        "咖喱粉 1 小勺、盐、高汤块 1/2 块",
+        "熏鱼或罐头鲭鱼 1 小条，去刺撕碎",
+        "罗勒或九层塔叶一小把（可省）"
+      ]
     },
     {
       "id": "niudon-gaifan",
       "name": "日式牛丼盖饭",
-      "form": "汤泡饭",
+      "form": "其他一锅",
       "status": "待试",
       "packable": true,
       "time_total": 25,
       "file": "cards/niudon-gaifan.json",
-      "keywords": "汤汁米饭分装，午间复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Gyudon」（gyudon）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 牛肉 300g（{'ru': 'нарезать почти прозрачно', 'en': 'sliced almost transparent'}） 洋葱 1piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}） Dashi 200ml 酱油 3tbsp Mirin 3tbsp Sake 2tbsp 糖 1tbsp 姜 10g 大米（Cooked rice） 400g 姜（Beni shoga pickled ginger） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Bring the dashi with the soy, mirin, sake, sugar and grated ginger to the boil in a wide pan.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "汤汁米饭分装，午间复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Gyudon」（gyudon）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 牛肉 300g（{'ru': 'нарезать почти прозрачно', 'en': 'sliced almost transparent'}） 洋葱 1piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}） Dashi 200ml 酱油 3tbsp Mirin 3tbsp Sake 2tbsp 糖 1tbsp 姜 10g 大米（Cooked rice） 400g 姜（Beni shoga pickled ginger） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Bring the dashi with the soy, mirin, sake, sugar and grated ginger to the boil in a wide pan.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "牛肉 300g（{'ru': 'нарезать почти прозрачно', 'en': 'sliced almost transparent'}）",
+        "洋葱 1piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}）",
+        "Dashi 200ml",
+        "酱油 3tbsp",
+        "Mirin 3tbsp",
+        "Sake 2tbsp",
+        "糖 1tbsp",
+        "姜 10g",
+        "大米（Cooked rice） 400g",
+        "姜（Beni shoga pickled ginger）"
+      ]
     },
     {
       "id": "niurou-mifan-tang",
@@ -633,7 +1284,15 @@
       "packable": true,
       "time_total": 70,
       "file": "cards/niurou-mifan-tang.json",
-      "keywords": "汤饭防漏。肉切小才赶得上早晨。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Rice and Beef Soup；CC BY-SA 3.0 牛肉 300g 切小块 水约 1.5 升 米 1 杯 欧芹、香葱、迷迭香少许 肉桂粉一小撮 盐、胡椒 牛肉冷水下锅，煮开撇沫，小火约 40 分钟至开始软。 下米、香草、肉桂和胡椒，再煮约 20 分钟至米软。 试盐。连汤带米装走。"
+      "keywords": "汤饭防漏。肉切小才赶得上早晨。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Rice and Beef Soup；CC BY-SA 3.0 牛肉 300g 切小块 水约 1.5 升 米 1 杯 欧芹、香葱、迷迭香少许 肉桂粉一小撮 盐、胡椒 牛肉冷水下锅，煮开撇沫，小火约 40 分钟至开始软。 下米、香草、肉桂和胡椒，再煮约 20 分钟至米软。 试盐。连汤带米装走。",
+      "ingredients": [
+        "牛肉 300g 切小块",
+        "水约 1.5 升",
+        "米 1 杯",
+        "欧芹、香葱、迷迭香少许",
+        "肉桂粉一小撮",
+        "盐、胡椒"
+      ]
     },
     {
       "id": "paigu-yumi-menfan",
@@ -643,7 +1302,13 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/paigu-yumi-menfan.json",
-      "keywords": "骨头注意分装安全。 网络常见做法改写 排骨玉米饭常见电饭煲做法改写 大米 1.5 杯 肋排约 250g，段 玉米段、姜片 生抽、料酒、盐、油 排骨可前夜腌。 排骨焯水；可选少油略煎。 米入胆加水；码排骨玉米姜，淋生抽料酒。 煮饭键；好后焖 5 分钟翻拌。"
+      "keywords": "骨头注意分装安全。 网络常见做法改写 排骨玉米饭常见电饭煲做法改写 大米 1.5 杯 肋排约 250g，段 玉米段、姜片 生抽、料酒、盐、油 排骨可前夜腌。 排骨焯水；可选少油略煎。 米入胆加水；码排骨玉米姜，淋生抽料酒。 煮饭键；好后焖 5 分钟翻拌。",
+      "ingredients": [
+        "大米 1.5 杯",
+        "肋排约 250g，段",
+        "玉米段、姜片",
+        "生抽、料酒、盐、油"
+      ]
     },
     {
       "id": "paocai-tang-paofan",
@@ -653,7 +1318,19 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/paocai-tang-paofan.json",
-      "keywords": "汤与饭分装；午间合热。 书/可靠食谱改写 改编自 UniTools World Recipes「Kimchi jjigae」（kimchi-jjigae）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 泡菜（Over-fermented kimchi） 400g（{'ru': 'с соком', 'en': 'with its liquid'}） 猪肉 belly 300g（{'ru': 'ломтиками', 'en': 'sliced'}） 豆腐 300g（{'ru': 'толстыми ломтями', 'en': 'in thick slabs'}） 洋葱 1piece Gochugaru flakes 1tbsp Gochujang 1tbsp 蒜 3clove 水 or anchovy stock 700ml 洋葱（Spring onion） 3piece Sesame oil 1tbsp 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Fry the pork in the sesame oil over medium heat until the fat has rendered and the meat has colour, about five minutes.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "汤与饭分装；午间合热。 书/可靠食谱改写 改编自 UniTools World Recipes「Kimchi jjigae」（kimchi-jjigae）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 泡菜（Over-fermented kimchi） 400g（{'ru': 'с соком', 'en': 'with its liquid'}） 猪肉 belly 300g（{'ru': 'ломтиками', 'en': 'sliced'}） 豆腐 300g（{'ru': 'толстыми ломтями', 'en': 'in thick slabs'}） 洋葱 1piece Gochugaru flakes 1tbsp Gochujang 1tbsp 蒜 3clove 水 or anchovy stock 700ml 洋葱（Spring onion） 3piece Sesame oil 1tbsp 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Fry the pork in the sesame oil over medium heat until the fat has rendered and the meat has colour, about five minutes.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "泡菜（Over-fermented kimchi） 400g（{'ru': 'с соком', 'en': 'with its liquid'}）",
+        "猪肉 belly 300g（{'ru': 'ломтиками', 'en': 'sliced'}）",
+        "豆腐 300g（{'ru': 'толстыми ломтями', 'en': 'in thick slabs'}）",
+        "洋葱 1piece",
+        "Gochugaru flakes 1tbsp",
+        "Gochujang 1tbsp",
+        "蒜 3clove",
+        "水 or anchovy stock 700ml",
+        "洋葱（Spring onion） 3piece",
+        "Sesame oil 1tbsp"
+      ]
     },
     {
       "id": "peigen-heiyandou-menfan",
@@ -663,7 +1340,16 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/peigen-heiyandou-menfan.json",
-      "keywords": "豆饭耐放，复热加一勺水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Hoppin John；CC BY-SA 3.0 培根 2 片切丁 洋葱 1/2 个、芹菜 1 小段、青椒 1/2 个，切丁 长粒米 1 杯 黑眼豆罐头 1 罐，沥水 水 1.5–1.75 杯 小米椒 1 个去籽切丁（可省） 盐少许 厚底锅煎培根至出油，肉盛出，留约 1 大勺油。 下洋葱、芹菜、青椒炒约 5 分钟。 下米、黑眼豆和水，轻盐；煮开后盖严小火约 18–20 分钟至水收干。 拌回培根与小米椒，再盖 5 分钟。松散后分装。"
+      "keywords": "豆饭耐放，复热加一勺水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Hoppin John；CC BY-SA 3.0 培根 2 片切丁 洋葱 1/2 个、芹菜 1 小段、青椒 1/2 个，切丁 长粒米 1 杯 黑眼豆罐头 1 罐，沥水 水 1.5–1.75 杯 小米椒 1 个去籽切丁（可省） 盐少许 厚底锅煎培根至出油，肉盛出，留约 1 大勺油。 下洋葱、芹菜、青椒炒约 5 分钟。 下米、黑眼豆和水，轻盐；煮开后盖严小火约 18–20 分钟至水收干。 拌回培根与小米椒，再盖 5 分钟。松散后分装。",
+      "ingredients": [
+        "培根 2 片切丁",
+        "洋葱 1/2 个、芹菜 1 小段、青椒 1/2 个，切丁",
+        "长粒米 1 杯",
+        "黑眼豆罐头 1 罐，沥水",
+        "水 1.5–1.75 杯",
+        "小米椒 1 个去籽切丁（可省）",
+        "盐少许"
+      ]
     },
     {
       "id": "pidan-shourou-zhou",
@@ -673,7 +1359,12 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/pidan-shourou-zhou.json",
-      "keywords": "粥复热加水。 网络常见做法改写 皮蛋瘦肉粥常见家常改写 大米半杯 瘦肉丝、皮蛋切块 姜丝、盐、胡椒、香油、葱花 米可浸泡。 米加水大火煮开转小火。 下肉丝姜丝煮至米开花；下皮蛋再煮 5–10 分钟。 调味淋香油撒葱花。"
+      "keywords": "粥复热加水。 网络常见做法改写 皮蛋瘦肉粥常见家常改写 大米半杯 瘦肉丝、皮蛋切块 姜丝、盐、胡椒、香油、葱花 米可浸泡。 米加水大火煮开转小火。 下肉丝姜丝煮至米开花；下皮蛋再煮 5–10 分钟。 调味淋香油撒葱花。",
+      "ingredients": [
+        "大米半杯",
+        "瘦肉丝、皮蛋切块",
+        "姜丝、盐、胡椒、香油、葱花"
+      ]
     },
     {
       "id": "pijiu-nailao-huifan",
@@ -683,7 +1374,16 @@
       "packable": false,
       "time_total": 35,
       "file": "cards/pijiu-nailao-huifan.json",
-      "keywords": "奶酪烩饭放凉会结，不适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Beer Cheese Risotto；CC BY-SA 3.0 洋葱 1/2 切丁 橄榄油 1 大勺 意大利米 1 杯 淡啤酒半杯 热蔬菜汤约 350ml 帕玛森 2 大勺、切达碎 2 大勺 盐 洋葱用油炒至透明，下米炒到每粒裹油。 倒啤酒，搅到基本吸干。 分次加热汤，大约 20 分钟，米软、汤变稠。 关火拌两种奶酪至化。"
+      "keywords": "奶酪烩饭放凉会结，不适合带饭。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Beer Cheese Risotto；CC BY-SA 3.0 洋葱 1/2 切丁 橄榄油 1 大勺 意大利米 1 杯 淡啤酒半杯 热蔬菜汤约 350ml 帕玛森 2 大勺、切达碎 2 大勺 盐 洋葱用油炒至透明，下米炒到每粒裹油。 倒啤酒，搅到基本吸干。 分次加热汤，大约 20 分钟，米软、汤变稠。 关火拌两种奶酪至化。",
+      "ingredients": [
+        "洋葱 1/2 切丁",
+        "橄榄油 1 大勺",
+        "意大利米 1 杯",
+        "淡啤酒半杯",
+        "热蔬菜汤约 350ml",
+        "帕玛森 2 大勺、切达碎 2 大勺",
+        "盐"
+      ]
     },
     {
       "id": "pushi-bohe-jifan",
@@ -693,7 +1393,18 @@
       "packable": true,
       "time_total": 70,
       "file": "cards/pushi-bohe-jifan.json",
-      "keywords": "鸡要全熟。香菜薄荷是这道和古巴鸡饭的差别。 书/可靠食谱改写 改编自公有领域《Galinhas com Arroz à Portuguesa》 鸡腿 4 只 火腿或培根 50g 洋葱 1 个 丁香 2 粒、鼠尾草或香叶 热水 醋 1 小勺 薄荷叶、香菜各一小把 米 2 杯 盐 鸡腿、火腿、洋葱、丁香和香叶干煎至上色粘锅，再加热水，小火煮到鸡快熟。 捞出鸡，汤过滤，加醋、薄荷和香菜煮开。 下米，汤量大约是米的两倍不到一点，小火焖到米干而整。 鸡回锅盖热，或饭铺在鸡上。"
+      "keywords": "鸡要全熟。香菜薄荷是这道和古巴鸡饭的差别。 书/可靠食谱改写 改编自公有领域《Galinhas com Arroz à Portuguesa》 鸡腿 4 只 火腿或培根 50g 洋葱 1 个 丁香 2 粒、鼠尾草或香叶 热水 醋 1 小勺 薄荷叶、香菜各一小把 米 2 杯 盐 鸡腿、火腿、洋葱、丁香和香叶干煎至上色粘锅，再加热水，小火煮到鸡快熟。 捞出鸡，汤过滤，加醋、薄荷和香菜煮开。 下米，汤量大约是米的两倍不到一点，小火焖到米干而整。 鸡回锅盖热，或饭铺在鸡上。",
+      "ingredients": [
+        "鸡腿 4 只",
+        "火腿或培根 50g",
+        "洋葱 1 个",
+        "丁香 2 粒、鼠尾草或香叶",
+        "热水",
+        "醋 1 小勺",
+        "薄荷叶、香菜各一小把",
+        "米 2 杯",
+        "盐"
+      ]
     },
     {
       "id": "pushi-yangrou-menfan",
@@ -703,7 +1414,18 @@
       "packable": true,
       "time_total": 80,
       "file": "cards/pushi-yangrou-menfan.json",
-      "keywords": "羊肉看软硬。醋味收干后不会太冲。 书/可靠食谱改写 改编自公有领域《Carneiro com Arroz》 羊肉 400g 切块 培根 40g 蒜 4 瓣 肉桂一小段、胡椒、丁香 1 粒、姜粉少许 白葡萄酒 2 大勺、醋 1 小勺 香草碎 藏红花一小撮 米 1.5 杯 水 羊肉、培根、蒜、香料、酒、醋和香草加水，小火煮至羊肉过半熟。 加藏红花试盐。 下米，盖严，小火烤或焖至水干米熟。"
+      "keywords": "羊肉看软硬。醋味收干后不会太冲。 书/可靠食谱改写 改编自公有领域《Carneiro com Arroz》 羊肉 400g 切块 培根 40g 蒜 4 瓣 肉桂一小段、胡椒、丁香 1 粒、姜粉少许 白葡萄酒 2 大勺、醋 1 小勺 香草碎 藏红花一小撮 米 1.5 杯 水 羊肉、培根、蒜、香料、酒、醋和香草加水，小火煮至羊肉过半熟。 加藏红花试盐。 下米，盖严，小火烤或焖至水干米熟。",
+      "ingredients": [
+        "羊肉 400g 切块",
+        "培根 40g",
+        "蒜 4 瓣",
+        "肉桂一小段、胡椒、丁香 1 粒、姜粉少许",
+        "白葡萄酒 2 大勺、醋 1 小勺",
+        "香草碎",
+        "藏红花一小撮",
+        "米 1.5 杯",
+        "水"
+      ]
     },
     {
       "id": "qiezi-roumo-menfan",
@@ -713,7 +1435,13 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/qiezi-roumo-menfan.json",
-      "keywords": "茄子易出水，水位略减。 网络常见做法改写 茄子肉末饭常见改写 大米 1.5 杯 猪肉末约 120g 茄子滚刀块 蒜末、生抽、蚝油、油 少油炒肉末蒜末，加生抽蚝油。 米入胆加水；铺茄子与肉末。 煮饭；翻拌（茄子软烂入味）。"
+      "keywords": "茄子易出水，水位略减。 网络常见做法改写 茄子肉末饭常见改写 大米 1.5 杯 猪肉末约 120g 茄子滚刀块 蒜末、生抽、蚝油、油 少油炒肉末蒜末，加生抽蚝油。 米入胆加水；铺茄子与肉末。 煮饭；翻拌（茄子软烂入味）。",
+      "ingredients": [
+        "大米 1.5 杯",
+        "猪肉末约 120g",
+        "茄子滚刀块",
+        "蒜末、生抽、蚝油、油"
+      ]
     },
     {
       "id": "qingcai-doufu-tangpaofan",
@@ -723,7 +1451,14 @@
       "packable": true,
       "time_total": 20,
       "file": "cards/qingcai-doufu-tangpaofan.json",
-      "keywords": "汤饭合装易糊、易洒；建议汤、饭分盒。非典型「耐放焖饭」，但可双用。 家庭口述 家庭真实常吃形态（蔬菜汤泡饭）；步骤为口述整理的家常做法，无固定祖传配方、未称克实测 熟米饭约 2 碗（隔夜冷饭亦可） 青菜一把，切段 嫩豆腐或北豆腐约 1/3–1/2 块，切小块 清水或淡高汤约 800–1000ml 盐、白胡椒、香油、葱花适量；可选一小撮虾皮 前夜多煮半锅饭冷藏；早晨只煮汤。 锅中加水/汤烧开；下豆腐小火煮 2–3 分钟。 下青菜烫至断生；盐、白胡椒调味，关火前滴香油、撒葱花。 碗中放米饭，浇上热汤与菜豆腐；软口即可吃。 大人若带饭：汤与饭分装（汤单独密封），午间再合或只带干菜饭。"
+      "keywords": "汤饭合装易糊、易洒；建议汤、饭分盒。非典型「耐放焖饭」，但可双用。 家庭口述 家庭真实常吃形态（蔬菜汤泡饭）；步骤为口述整理的家常做法，无固定祖传配方、未称克实测 熟米饭约 2 碗（隔夜冷饭亦可） 青菜一把，切段 嫩豆腐或北豆腐约 1/3–1/2 块，切小块 清水或淡高汤约 800–1000ml 盐、白胡椒、香油、葱花适量；可选一小撮虾皮 前夜多煮半锅饭冷藏；早晨只煮汤。 锅中加水/汤烧开；下豆腐小火煮 2–3 分钟。 下青菜烫至断生；盐、白胡椒调味，关火前滴香油、撒葱花。 碗中放米饭，浇上热汤与菜豆腐；软口即可吃。 大人若带饭：汤与饭分装（汤单独密封），午间再合或只带干菜饭。",
+      "ingredients": [
+        "熟米饭约 2 碗（隔夜冷饭亦可）",
+        "青菜一把，切段",
+        "嫩豆腐或北豆腐约 1/3–1/2 块，切小块",
+        "清水或淡高汤约 800–1000ml",
+        "盐、白胡椒、香油、葱花适量；可选一小撮虾皮"
+      ]
     },
     {
       "id": "qiukui-ji-tangfan",
@@ -733,7 +1468,18 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/qiukui-ji-tangfan.json",
-      "keywords": "秋葵会黏，盒要盖紧。当天吃完。 书/可靠食谱改写 改编自公有领域《Okra Gumbo》（Creole） 鸡腿 2 只切块 火腿或培根 40g 洋葱 1 个、欧芹、百里香 番茄 2 个切碎 秋葵 150g 切片 油 1 大勺 辣椒、盐 米 1 杯 热水 油煎鸡和火腿约 8 分钟。 下洋葱、香草、番茄和秋葵，炒到秋葵不那么滑。 加热水约 600ml，小火 20 分钟。 下米，再煮约 18 分钟，保持汤泡饭的稀稠，不要收成干饭。"
+      "keywords": "秋葵会黏，盒要盖紧。当天吃完。 书/可靠食谱改写 改编自公有领域《Okra Gumbo》（Creole） 鸡腿 2 只切块 火腿或培根 40g 洋葱 1 个、欧芹、百里香 番茄 2 个切碎 秋葵 150g 切片 油 1 大勺 辣椒、盐 米 1 杯 热水 油煎鸡和火腿约 8 分钟。 下洋葱、香草、番茄和秋葵，炒到秋葵不那么滑。 加热水约 600ml，小火 20 分钟。 下米，再煮约 18 分钟，保持汤泡饭的稀稠，不要收成干饭。",
+      "ingredients": [
+        "鸡腿 2 只切块",
+        "火腿或培根 40g",
+        "洋葱 1 个、欧芹、百里香",
+        "番茄 2 个切碎",
+        "秋葵 150g 切片",
+        "油 1 大勺",
+        "辣椒、盐",
+        "米 1 杯",
+        "热水"
+      ]
     },
     {
       "id": "roumi-qingcai-fan",
@@ -743,7 +1489,14 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/roumi-qingcai-fan.json",
-      "keywords": "复热时翻拌；青菜易出水，饭盒勿装太满。 目录候选未验证 对照旧仓 catalog preview_ready「肉糜青菜饭」改写；锅外炒肉糜有晨间成本，待家里试 大米 1.5 杯，洗净 猪肉糜约 120–150g 青菜（小白菜/青菜）约 150–200g，粗切 蒜末/姜末少许；盐、生抽、料酒适量 油少许；清水按饭量略减 肉糜可前夜调味冷藏；青菜洗净沥干。 小锅或电饭煲可炒档：热锅少油，肉糜加料酒、生抽、姜蒜炒至变色（无炒档则用平底锅，炒好盛出）。 米入胆加水；肉糜铺开，青菜放最上；轻盐。 盖盖煮饭；中途不开盖。 好后翻拌；装盘 + 分装。"
+      "keywords": "复热时翻拌；青菜易出水，饭盒勿装太满。 目录候选未验证 对照旧仓 catalog preview_ready「肉糜青菜饭」改写；锅外炒肉糜有晨间成本，待家里试 大米 1.5 杯，洗净 猪肉糜约 120–150g 青菜（小白菜/青菜）约 150–200g，粗切 蒜末/姜末少许；盐、生抽、料酒适量 油少许；清水按饭量略减 肉糜可前夜调味冷藏；青菜洗净沥干。 小锅或电饭煲可炒档：热锅少油，肉糜加料酒、生抽、姜蒜炒至变色（无炒档则用平底锅，炒好盛出）。 米入胆加水；肉糜铺开，青菜放最上；轻盐。 盖盖煮饭；中途不开盖。 好后翻拌；装盘 + 分装。",
+      "ingredients": [
+        "大米 1.5 杯，洗净",
+        "猪肉糜约 120–150g",
+        "青菜（小白菜/青菜）约 150–200g，粗切",
+        "蒜末/姜末少许；盐、生抽、料酒适量",
+        "油少许；清水按饭量略减"
+      ]
     },
     {
       "id": "roumo-yingzui-dou-zhuafan",
@@ -753,7 +1506,19 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/roumo-yingzui-dou-zhuafan.json",
-      "keywords": "干抓饭好带。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Traditional Pilau Rice；CC BY-SA 3.0 印度香米 1.5 杯，浸泡 洋葱 1 个 油或酥油 蒜 1 瓣、盐 加拉马萨拉或孜然+香菜籽粉 1 小勺 番茄 1 个 羊肉末或牛肉末 200g 鹰嘴豆罐头 1 罐，沥水 热水约 500ml 冻豌豆一小把（可省） 米浸泡。 米浸泡时，油小火把洋葱炒到深黄，至少 15 分钟，勤翻。 下蒜和香料，再下番茄炒 1 分钟，肉末炒散至变色。 下沥干的米裹油，加热水、鹰嘴豆和盐。煮开后盖严最小火 20 分钟，不揭盖。 可撒豌豆，关火焖 5 分钟。"
+      "keywords": "干抓饭好带。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Traditional Pilau Rice；CC BY-SA 3.0 印度香米 1.5 杯，浸泡 洋葱 1 个 油或酥油 蒜 1 瓣、盐 加拉马萨拉或孜然+香菜籽粉 1 小勺 番茄 1 个 羊肉末或牛肉末 200g 鹰嘴豆罐头 1 罐，沥水 热水约 500ml 冻豌豆一小把（可省） 米浸泡。 米浸泡时，油小火把洋葱炒到深黄，至少 15 分钟，勤翻。 下蒜和香料，再下番茄炒 1 分钟，肉末炒散至变色。 下沥干的米裹油，加热水、鹰嘴豆和盐。煮开后盖严最小火 20 分钟，不揭盖。 可撒豌豆，关火焖 5 分钟。",
+      "ingredients": [
+        "印度香米 1.5 杯，浸泡",
+        "洋葱 1 个",
+        "油或酥油",
+        "蒜 1 瓣、盐",
+        "加拉马萨拉或孜然+香菜籽粉 1 小勺",
+        "番茄 1 个",
+        "羊肉末或牛肉末 200g",
+        "鹰嘴豆罐头 1 罐，沥水",
+        "热水约 500ml",
+        "冻豌豆一小把（可省）"
+      ]
     },
     {
       "id": "saineijiaer-yucaifan",
@@ -763,7 +1528,17 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/saineijiaer-yucaifan.json",
-      "keywords": "有秋葵，汤汁略黏；饭盒盖紧。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Boule-Di (Senegalese Fish and Rice)；CC BY-SA 3.0 鱼柳约 350g，切块擦干 植物油 2 大勺 洋葱 1 个、蒜 3 瓣 番茄罐头 1 小罐、番茄膏 1 大勺 红绿甜椒各 1/2、胡萝卜 1 根、秋葵一小把 红椒粉、卡宴或辣椒粉、百里香、黑胡椒、盐 米 1.5 杯 鱼汤或水约 3 杯 油炒洋葱蒜至软，下番茄、甜椒、胡萝卜、秋葵和香料炒匀。 鱼块铺上，再铺米。 倒汤，液面大约高出一指；煮开后转小火盖 20–25 分钟。 离火焖 5 分钟，拌匀，看鱼是否全熟。"
+      "keywords": "有秋葵，汤汁略黏；饭盒盖紧。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Boule-Di (Senegalese Fish and Rice)；CC BY-SA 3.0 鱼柳约 350g，切块擦干 植物油 2 大勺 洋葱 1 个、蒜 3 瓣 番茄罐头 1 小罐、番茄膏 1 大勺 红绿甜椒各 1/2、胡萝卜 1 根、秋葵一小把 红椒粉、卡宴或辣椒粉、百里香、黑胡椒、盐 米 1.5 杯 鱼汤或水约 3 杯 油炒洋葱蒜至软，下番茄、甜椒、胡萝卜、秋葵和香料炒匀。 鱼块铺上，再铺米。 倒汤，液面大约高出一指；煮开后转小火盖 20–25 分钟。 离火焖 5 分钟，拌匀，看鱼是否全熟。",
+      "ingredients": [
+        "鱼柳约 350g，切块擦干",
+        "植物油 2 大勺",
+        "洋葱 1 个、蒜 3 瓣",
+        "番茄罐头 1 小罐、番茄膏 1 大勺",
+        "红绿甜椒各 1/2、胡萝卜 1 根、秋葵一小把",
+        "红椒粉、卡宴或辣椒粉、百里香、黑胡椒、盐",
+        "米 1.5 杯",
+        "鱼汤或水约 3 杯"
+      ]
     },
     {
       "id": "samola-zhurou-menfan",
@@ -773,7 +1548,17 @@
       "packable": true,
       "time_total": 100,
       "file": "cards/samola-zhurou-menfan.json",
-      "keywords": "猪肉焖饭耐放。 书/可靠食谱改写 改编自公有领域《Arroz a la Zamorana》（El Practicón，1894） 猪油或油 1 大勺 洋葱 1 个、白萝卜 1 小段 蒜 3 瓣、欧芹、牛至、百里香 甜椒粉 猪肩肉 300g 切小块（原文用蹄、耳、口条，家用肩肉） 火腿 50g 水、盐 米 1.5 杯 油炒洋葱和萝卜，下蒜和香草、甜椒粉。 下猪肉和火腿，加水没过，小火约 40 分钟至肉软。 汤要够，下米，先开后小火至米半熟。 盖严最小火或进 160°C 烤箱约 20 分钟至米干。"
+      "keywords": "猪肉焖饭耐放。 书/可靠食谱改写 改编自公有领域《Arroz a la Zamorana》（El Practicón，1894） 猪油或油 1 大勺 洋葱 1 个、白萝卜 1 小段 蒜 3 瓣、欧芹、牛至、百里香 甜椒粉 猪肩肉 300g 切小块（原文用蹄、耳、口条，家用肩肉） 火腿 50g 水、盐 米 1.5 杯 油炒洋葱和萝卜，下蒜和香草、甜椒粉。 下猪肉和火腿，加水没过，小火约 40 分钟至肉软。 汤要够，下米，先开后小火至米半熟。 盖严最小火或进 160°C 烤箱约 20 分钟至米干。",
+      "ingredients": [
+        "猪油或油 1 大勺",
+        "洋葱 1 个、白萝卜 1 小段",
+        "蒜 3 瓣、欧芹、牛至、百里香",
+        "甜椒粉",
+        "猪肩肉 300g 切小块（原文用蹄、耳、口条，家用肩肉）",
+        "火腿 50g",
+        "水、盐",
+        "米 1.5 杯"
+      ]
     },
     {
       "id": "sililanka-yu-galidou",
@@ -783,7 +1568,23 @@
       "packable": true,
       "time_total": 65,
       "file": "cards/sililanka-yu-galidou.json",
-      "keywords": "鱼肉慎久放；当天分装。 书/可靠食谱改写 改编自 UniTools World Recipes「Sri Lankan fish curry」（sri-lankan-fish-curry）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 Tuna or mackerel 900g（{'ru': 'стейками', 'en': 'in steaks'}） Goraka or tamarind 3piece 椰奶 500ml 咖喱粉（Roasted curry powder） 3tbsp Chilli powder 2tsp 姜黄 1tsp 洋葱s 2piece 蒜 6clove 姜 30g Curry leaves 15piece Pandan leaf 1piece 肉桂 stick 1piece Fenugreek seeds 1tsp 大米（Red rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中少油炒香洋葱姜蒜与香料；下肉/土豆等翻匀。 倒入椰奶或汤、咖喱酱/块，小火炖至软烂；可同时电饭煲煮米，或米与咖喱同锅收汁。 试味调盐；装饭浇咖喱，或一锅拌匀后分装。 要点对照来源：Soak the goraka in a cup of warm water for twenty minutes and keep the water.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "鱼肉慎久放；当天分装。 书/可靠食谱改写 改编自 UniTools World Recipes「Sri Lankan fish curry」（sri-lankan-fish-curry）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 Tuna or mackerel 900g（{'ru': 'стейками', 'en': 'in steaks'}） Goraka or tamarind 3piece 椰奶 500ml 咖喱粉（Roasted curry powder） 3tbsp Chilli powder 2tsp 姜黄 1tsp 洋葱s 2piece 蒜 6clove 姜 30g Curry leaves 15piece Pandan leaf 1piece 肉桂 stick 1piece Fenugreek seeds 1tsp 大米（Red rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}） 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中少油炒香洋葱姜蒜与香料；下肉/土豆等翻匀。 倒入椰奶或汤、咖喱酱/块，小火炖至软烂；可同时电饭煲煮米，或米与咖喱同锅收汁。 试味调盐；装饭浇咖喱，或一锅拌匀后分装。 要点对照来源：Soak the goraka in a cup of warm water for twenty minutes and keep the water.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "Tuna or mackerel 900g（{'ru': 'стейками', 'en': 'in steaks'}）",
+        "Goraka or tamarind 3piece",
+        "椰奶 500ml",
+        "咖喱粉（Roasted curry powder） 3tbsp",
+        "Chilli powder 2tsp",
+        "姜黄 1tsp",
+        "洋葱s 2piece",
+        "蒜 6clove",
+        "姜 30g",
+        "Curry leaves 15piece",
+        "Pandan leaf 1piece",
+        "肉桂 stick 1piece",
+        "Fenugreek seeds 1tsp",
+        "大米（Red rice） 400g（{'ru': 'к подаче', 'en': 'to serve'}）"
+      ]
     },
     {
       "id": "tuerqi-jirou-fanqie-zhuafan",
@@ -793,7 +1594,16 @@
       "packable": true,
       "time_total": 55,
       "file": "cards/tuerqi-jirou-fanqie-zhuafan.json",
-      "keywords": "鸡必须全熟。汁比干饭多，盒要盖紧。 书/可靠食谱改写 改编自公有领域《Pilaf (Turkish Style)》（open-recipe-archive / jewish-kitchen） 米 1 杯，可泡 30 分钟 鸡汤 2 杯 洋葱 1/4 个 番茄罐头半罐 橄榄油或鸡油 2 大勺 鸡腿块约 250g 盐、胡椒 米可浸泡 30 分钟。 米沥干，与鸡汤、洋葱小火煮到汤被吸干，盛出。 同锅把番茄煮浓，加油、盐、胡椒，拌回米饭。 鸡块用少油煎上色（生鸡要先煎熟表面）。 在饭中留一个坑放入鸡，再盖焖到鸡全熟、饭还湿润。"
+      "keywords": "鸡必须全熟。汁比干饭多，盒要盖紧。 书/可靠食谱改写 改编自公有领域《Pilaf (Turkish Style)》（open-recipe-archive / jewish-kitchen） 米 1 杯，可泡 30 分钟 鸡汤 2 杯 洋葱 1/4 个 番茄罐头半罐 橄榄油或鸡油 2 大勺 鸡腿块约 250g 盐、胡椒 米可浸泡 30 分钟。 米沥干，与鸡汤、洋葱小火煮到汤被吸干，盛出。 同锅把番茄煮浓，加油、盐、胡椒，拌回米饭。 鸡块用少油煎上色（生鸡要先煎熟表面）。 在饭中留一个坑放入鸡，再盖焖到鸡全熟、饭还湿润。",
+      "ingredients": [
+        "米 1 杯，可泡 30 分钟",
+        "鸡汤 2 杯",
+        "洋葱 1/4 个",
+        "番茄罐头半罐",
+        "橄榄油或鸡油 2 大勺",
+        "鸡腿块约 250g",
+        "盐、胡椒"
+      ]
     },
     {
       "id": "walunxiya-moyu-caifan",
@@ -803,7 +1613,18 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/walunxiya-moyu-caifan.json",
-      "keywords": "黑色酱汁会染色；饭盒垫一层米饭或用深色盒。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Arroz Negro (Valencian Squid Rice)；CC BY-SA 3.0 橄榄油 青椒 1 个切条 鱿鱼约 250g 切块 蒜 3 瓣 米 1.5 杯 甜红椒粉 1 小勺 热汤 3 杯 墨鱼汁 1 小包 盐 油炒青椒至软，下鱿鱼 2 分钟，再下蒜。 下米裹油，撒红椒粉立刻倒热汤，避免糊粉。 墨鱼汁化开拌入，试盐。煮开后中小火约 18–20 分钟，米不要煮烂。 离火盖巾静置几分钟。"
+      "keywords": "黑色酱汁会染色；饭盒垫一层米饭或用深色盒。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Arroz Negro (Valencian Squid Rice)；CC BY-SA 3.0 橄榄油 青椒 1 个切条 鱿鱼约 250g 切块 蒜 3 瓣 米 1.5 杯 甜红椒粉 1 小勺 热汤 3 杯 墨鱼汁 1 小包 盐 油炒青椒至软，下鱿鱼 2 分钟，再下蒜。 下米裹油，撒红椒粉立刻倒热汤，避免糊粉。 墨鱼汁化开拌入，试盐。煮开后中小火约 18–20 分钟，米不要煮烂。 离火盖巾静置几分钟。",
+      "ingredients": [
+        "橄榄油",
+        "青椒 1 个切条",
+        "鱿鱼约 250g 切块",
+        "蒜 3 瓣",
+        "米 1.5 杯",
+        "甜红椒粉 1 小勺",
+        "热汤 3 杯",
+        "墨鱼汁 1 小包",
+        "盐"
+      ]
     },
     {
       "id": "wandou-nailao-huifan",
@@ -813,7 +1634,16 @@
       "packable": false,
       "time_total": 35,
       "file": "cards/wandou-nailao-huifan.json",
-      "keywords": "带汤烩饭不适合久放。 书/可靠食谱改写 改编自公有领域《Risotto coi piselli》（Artusi，1891） 米 1 杯 洋葱 1/2 切碎 黄油 1 小块 热汤或热水 鲜豌豆或冻豌豆 1 杯 盐 硬奶酪 2 大勺 黄油把洋葱炒到微黄，下米炒至吸干。 分次加热汤，搅拌，米保持略带汤。 半熟时下豌豆，一起煮到豌豆刚熟、米还有一点芯。 关火拌奶酪。"
+      "keywords": "带汤烩饭不适合久放。 书/可靠食谱改写 改编自公有领域《Risotto coi piselli》（Artusi，1891） 米 1 杯 洋葱 1/2 切碎 黄油 1 小块 热汤或热水 鲜豌豆或冻豌豆 1 杯 盐 硬奶酪 2 大勺 黄油把洋葱炒到微黄，下米炒至吸干。 分次加热汤，搅拌，米保持略带汤。 半熟时下豌豆，一起煮到豌豆刚熟、米还有一点芯。 关火拌奶酪。",
+      "ingredients": [
+        "米 1 杯",
+        "洋葱 1/2 切碎",
+        "黄油 1 小块",
+        "热汤或热水",
+        "鲜豌豆或冻豌豆 1 杯",
+        "盐",
+        "硬奶酪 2 大勺"
+      ]
     },
     {
       "id": "wuzibieke-shouzhafan",
@@ -823,7 +1653,20 @@
       "packable": true,
       "time_total": 130,
       "file": "cards/wuzibieke-shouzhafan.json",
-      "keywords": "经典带饭；复热略洒水。 书/可靠食谱改写 改编自 UniTools World Recipes「Uzbek plov」（plov-uzbekskiy）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 羊肉 on the bone 800g 羊肉 tail fat 100g（{'ru': 'или растительное масло', 'en': 'or vegetable oil'}） 大米（Devzira or another firm rice） 700g 胡萝卜（Yellow and red carrot） 700g（{'ru': 'брусочками', 'en': 'in batons'}） 洋葱s 3piece 蒜 bulbs 2piece 孜然 seeds 1tbsp Barberries 2tbsp 鹰嘴豆 100g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}） Whole chilli 1piece 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the rice until the water runs clear and cover it with warm salted water for as long as the zirvak takes.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "经典带饭；复热略洒水。 书/可靠食谱改写 改编自 UniTools World Recipes「Uzbek plov」（plov-uzbekskiy）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 羊肉 on the bone 800g 羊肉 tail fat 100g（{'ru': 'или растительное масло', 'en': 'or vegetable oil'}） 大米（Devzira or another firm rice） 700g 胡萝卜（Yellow and red carrot） 700g（{'ru': 'брусочками', 'en': 'in batons'}） 洋葱s 3piece 蒜 bulbs 2piece 孜然 seeds 1tbsp Barberries 2tbsp 鹰嘴豆 100g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}） Whole chilli 1piece 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Rinse the rice until the water runs clear and cover it with warm salted water for as long as the zirvak takes.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "羊肉 on the bone 800g",
+        "羊肉 tail fat 100g（{'ru': 'или растительное масло', 'en': 'or vegetable oil'}）",
+        "大米（Devzira or another firm rice） 700g",
+        "胡萝卜（Yellow and red carrot） 700g（{'ru': 'брусочками', 'en': 'in batons'}）",
+        "洋葱s 3piece",
+        "蒜 bulbs 2piece",
+        "孜然 seeds 1tbsp",
+        "Barberries 2tbsp",
+        "鹰嘴豆 100g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}）",
+        "Whole chilli 1piece",
+        "盐"
+      ]
     },
     {
       "id": "xiangchang-tudou-menfan",
@@ -833,7 +1676,13 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/xiangchang-tudou-menfan.json",
-      "keywords": "耐放。 网络常见做法改写 电饭煲香肠土豆焖饭常见家常改写 大米 1.5 杯 火腿肠/香肠切片 土豆丁、胡萝卜丁、豌豆适量 油、盐、黑胡椒 蔬菜可前夜切丁。 米入胆加水略减。 铺香肠与蔬菜丁，轻盐胡椒。 电饭煲煮饭；好后翻拌分装。"
+      "keywords": "耐放。 网络常见做法改写 电饭煲香肠土豆焖饭常见家常改写 大米 1.5 杯 火腿肠/香肠切片 土豆丁、胡萝卜丁、豌豆适量 油、盐、黑胡椒 蔬菜可前夜切丁。 米入胆加水略减。 铺香肠与蔬菜丁，轻盐胡椒。 电饭煲煮饭；好后翻拌分装。",
+      "ingredients": [
+        "大米 1.5 杯",
+        "火腿肠/香肠切片",
+        "土豆丁、胡萝卜丁、豌豆适量",
+        "油、盐、黑胡椒"
+      ]
     },
     {
       "id": "xiaren-xiancai-menfan",
@@ -843,7 +1692,13 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/xiaren-xiancai-menfan.json",
-      "keywords": "海鲜当天吃完更好。 网络常见做法改写 虾仁焖饭常见家常改写 大米 1.5 杯 虾仁约 150g 青豆/玉米粒、胡萝卜丁 姜丝、料酒、盐、香油 虾仁料酒姜丝略腌。 米加水入胆；铺蔬菜与虾仁，轻盐滴香油。 煮饭；好后翻拌即食。"
+      "keywords": "海鲜当天吃完更好。 网络常见做法改写 虾仁焖饭常见家常改写 大米 1.5 杯 虾仁约 150g 青豆/玉米粒、胡萝卜丁 姜丝、料酒、盐、香油 虾仁料酒姜丝略腌。 米加水入胆；铺蔬菜与虾仁，轻盐滴香油。 煮饭；好后翻拌即食。",
+      "ingredients": [
+        "大米 1.5 杯",
+        "虾仁约 150g",
+        "青豆/玉米粒、胡萝卜丁",
+        "姜丝、料酒、盐、香油"
+      ]
     },
     {
       "id": "xibanya-paella-jianhua",
@@ -853,7 +1708,21 @@
       "packable": true,
       "time_total": 70,
       "file": "cards/xibanya-paella-jianhua.json",
-      "keywords": "当餐最佳；隔夜米饭偏硬可加汤复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Paella valenciana」（paella-valenciana）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Bomba rice, or another short grain） 320g 鸡肉, in pieces 400g Rabbit, in pieces 300g（{'ru': 'можно заменить курицей', 'en': 'chicken will do instead'}） 豆（Flat green beans） 200g 豆（Large white beans） 100g（{'ru': 'варёная', 'en': 'cooked'}） 番茄 1piece（{'ru': 'натереть на тёрке', 'en': 'grated'}） 橄榄油 60ml Sweet paprika 1tsp 藏红花 1pinch Rosemary 1sprig 鸡肉 stock or water 900ml 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Heat the oil in a wide pan and brown the chicken and rabbit on every side. This is not a five-minute job: it takes a goo…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "当餐最佳；隔夜米饭偏硬可加汤复热。 书/可靠食谱改写 改编自 UniTools World Recipes「Paella valenciana」（paella-valenciana）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 大米（Bomba rice, or another short grain） 320g 鸡肉, in pieces 400g Rabbit, in pieces 300g（{'ru': 'можно заменить курицей', 'en': 'chicken will do instead'}） 豆（Flat green beans） 200g 豆（Large white beans） 100g（{'ru': 'варёная', 'en': 'cooked'}） 番茄 1piece（{'ru': 'натереть на тёрке', 'en': 'grated'}） 橄榄油 60ml Sweet paprika 1tsp 藏红花 1pinch Rosemary 1sprig 鸡肉 stock or water 900ml 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Heat the oil in a wide pan and brown the chicken and rabbit on every side. This is not a five-minute job: it takes a goo…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "大米（Bomba rice, or another short grain） 320g",
+        "鸡肉, in pieces 400g",
+        "Rabbit, in pieces 300g（{'ru': 'можно заменить курицей', 'en': 'chicken will do instead'}）",
+        "豆（Flat green beans） 200g",
+        "豆（Large white beans） 100g（{'ru': 'варёная', 'en': 'cooked'}）",
+        "番茄 1piece（{'ru': 'натереть на тёрке', 'en': 'grated'}）",
+        "橄榄油 60ml",
+        "Sweet paprika 1tsp",
+        "藏红花 1pinch",
+        "Rosemary 1sprig",
+        "鸡肉 stock or water 900ml",
+        "盐"
+      ]
     },
     {
       "id": "xifei-fanqie-menfan",
@@ -863,7 +1732,21 @@
       "packable": true,
       "time_total": 80,
       "file": "cards/xifei-fanqie-menfan.json",
-      "keywords": "番茄焖饭耐放，适合带饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Jollof rice」（jollof-rice）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 长粒米 500g（{'ru': 'промыть', 'en': 'rinsed'}） 番茄es 600g Red peppers 2piece 洋葱s 2piece Scotch bonnet 1piece 番茄酱 3tbsp 咖喱粉 2tsp Dried thyme 1tsp Bay leaves 2piece 鸡汤 600ml Neutral oil 100ml 盐 米淘至水清。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Blend the tomatoes, peppers, one onion and the scotch bonnet until smooth.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "番茄焖饭耐放，适合带饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Jollof rice」（jollof-rice）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 长粒米 500g（{'ru': 'промыть', 'en': 'rinsed'}） 番茄es 600g Red peppers 2piece 洋葱s 2piece Scotch bonnet 1piece 番茄酱 3tbsp 咖喱粉 2tsp Dried thyme 1tsp Bay leaves 2piece 鸡汤 600ml Neutral oil 100ml 盐 米淘至水清。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Blend the tomatoes, peppers, one onion and the scotch bonnet until smooth.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "长粒米 500g（{'ru': 'промыть', 'en': 'rinsed'}）",
+        "番茄es 600g",
+        "Red peppers 2piece",
+        "洋葱s 2piece",
+        "Scotch bonnet 1piece",
+        "番茄酱 3tbsp",
+        "咖喱粉 2tsp",
+        "Dried thyme 1tsp",
+        "Bay leaves 2piece",
+        "鸡汤 600ml",
+        "Neutral oil 100ml",
+        "盐"
+      ]
     },
     {
       "id": "xihulu-huifan",
@@ -873,7 +1756,16 @@
       "packable": false,
       "time_total": 40,
       "file": "cards/xihulu-huifan.json",
-      "keywords": "出锅吃。 书/可靠食谱改写 改编自公有领域《Riso con Zucchini》（Artusi，1891） 小西葫芦约 200g 切丁 黄油或油 盐、胡椒 米 1 杯 汤或水 番茄酱 2 大勺（可省） 硬奶酪 西葫芦用黄油略煎，撒盐胡椒，盛出时仍要脆。 同锅按烩饭下米，分次加热汤。 米半熟时倒回西葫芦；若用清水就加番茄酱。 收成略带汤，拌奶酪。西葫芦不要煮化。"
+      "keywords": "出锅吃。 书/可靠食谱改写 改编自公有领域《Riso con Zucchini》（Artusi，1891） 小西葫芦约 200g 切丁 黄油或油 盐、胡椒 米 1 杯 汤或水 番茄酱 2 大勺（可省） 硬奶酪 西葫芦用黄油略煎，撒盐胡椒，盛出时仍要脆。 同锅按烩饭下米，分次加热汤。 米半熟时倒回西葫芦；若用清水就加番茄酱。 收成略带汤，拌奶酪。西葫芦不要煮化。",
+      "ingredients": [
+        "小西葫芦约 200g 切丁",
+        "黄油或油",
+        "盐、胡椒",
+        "米 1 杯",
+        "汤或水",
+        "番茄酱 2 大勺（可省）",
+        "硬奶酪"
+      ]
     },
     {
       "id": "xinaoerliang-xiaren-menfan",
@@ -883,7 +1775,15 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/xinaoerliang-xiaren-menfan.json",
-      "keywords": "虾不要反复煮老。与已有什锦饭不同：没有香肠和鸡。 书/可靠食谱改写 改编自公有领域《New Orleans Jambalaya》（虾仁版，菲律宾厨房藏书转录） 虾 200g 洋葱 1 个切碎 猪油或油 1 大勺 米 1 杯，洗净 百里香、香叶、欧芹、胡椒、盐 水 虾煮至刚变色，剥壳；虾汤留下。 同锅油炒洋葱，下米不停翻到微黄。 加香草和盐胡椒，倒虾汤加热水，总量大约没过米 1cm。 煮到米熟，拌入虾。"
+      "keywords": "虾不要反复煮老。与已有什锦饭不同：没有香肠和鸡。 书/可靠食谱改写 改编自公有领域《New Orleans Jambalaya》（虾仁版，菲律宾厨房藏书转录） 虾 200g 洋葱 1 个切碎 猪油或油 1 大勺 米 1 杯，洗净 百里香、香叶、欧芹、胡椒、盐 水 虾煮至刚变色，剥壳；虾汤留下。 同锅油炒洋葱，下米不停翻到微黄。 加香草和盐胡椒，倒虾汤加热水，总量大约没过米 1cm。 煮到米熟，拌入虾。",
+      "ingredients": [
+        "虾 200g",
+        "洋葱 1 个切碎",
+        "猪油或油 1 大勺",
+        "米 1 杯，洗净",
+        "百里香、香叶、欧芹、胡椒、盐",
+        "水"
+      ]
     },
     {
       "id": "xiongyali-dunrou",
@@ -893,7 +1793,19 @@
       "packable": true,
       "time_total": 170,
       "file": "cards/xiongyali-dunrou.json",
-      "keywords": "炖肉耐放；可浇饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Goulash」（goulash）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 牛肉 shin or shoulder 1kg（{'ru': 'кубиком 3 см', 'en': 'in 3 cm cubes'}） 洋葱s 1kg（{'ru': 'мелко нарезать', 'en': 'finely chopped'}） Sweet paprika 3tbsp Caraway seeds 1tsp Sweet peppers 2piece 番茄es 2piece 土豆es 400g 蒜 3clove Lard or oil 3tbsp 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Sweat the onion in the lard over a low flame for twenty minutes, until soft and golden. It feels long and pointless, and…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "炖肉耐放；可浇饭。 书/可靠食谱改写 改编自 UniTools World Recipes「Goulash」（goulash）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 牛肉 shin or shoulder 1kg（{'ru': 'кубиком 3 см', 'en': 'in 3 cm cubes'}） 洋葱s 1kg（{'ru': 'мелко нарезать', 'en': 'finely chopped'}） Sweet paprika 3tbsp Caraway seeds 1tsp Sweet peppers 2piece 番茄es 2piece 土豆es 400g 蒜 3clove Lard or oil 3tbsp 盐 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅：肉块焯水或煸香，下洋葱香料与液体。 小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。 配白饭或土豆同出；分装带饭。 要点对照来源：Sweat the onion in the lard over a low flame for twenty minutes, until soft and golden. It feels long and pointless, and…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "牛肉 shin or shoulder 1kg（{'ru': 'кубиком 3 см', 'en': 'in 3 cm cubes'}）",
+        "洋葱s 1kg（{'ru': 'мелко нарезать', 'en': 'finely chopped'}）",
+        "Sweet paprika 3tbsp",
+        "Caraway seeds 1tsp",
+        "Sweet peppers 2piece",
+        "番茄es 2piece",
+        "土豆es 400g",
+        "蒜 3clove",
+        "Lard or oil 3tbsp",
+        "盐"
+      ]
     },
     {
       "id": "yamaijia-yeixiang-hongdoufan",
@@ -903,7 +1815,18 @@
       "packable": true,
       "time_total": 110,
       "file": "cards/yamaijia-yeixiang-hongdoufan.json",
-      "keywords": "椰香豆饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Rice and peas」（rice-and-peas）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 豆（Red kidney beans） 250g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}） 长粒米 500g 椰奶 400ml Scotch bonnet 1piece Thyme 6sprig 洋葱（Spring onions） 4piece 蒜 4clove Allspice berries 6piece 盐 干豆需提前泡煮，或用罐头豆。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Boil the soaked beans in a litre and a half of water for an hour, until soft.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "椰香豆饭耐放。 书/可靠食谱改写 改编自 UniTools World Recipes「Rice and peas」（rice-and-peas）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 豆（Red kidney beans） 250g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}） 长粒米 500g 椰奶 400ml Scotch bonnet 1piece Thyme 6sprig 洋葱（Spring onions） 4piece 蒜 4clove Allspice berries 6piece 盐 干豆需提前泡煮，或用罐头豆。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Boil the soaked beans in a litre and a half of water for an hour, until soft.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "豆（Red kidney beans） 250g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}）",
+        "长粒米 500g",
+        "椰奶 400ml",
+        "Scotch bonnet 1piece",
+        "Thyme 6sprig",
+        "洋葱（Spring onions） 4piece",
+        "蒜 4clove",
+        "Allspice berries 6piece",
+        "盐"
+      ]
     },
     {
       "id": "yangcong-ningmeng-ji-fan",
@@ -913,7 +1836,20 @@
       "packable": true,
       "time_total": 100,
       "file": "cards/yangcong-ningmeng-ji-fan.json",
-      "keywords": "洋葱酱多，饭盒带汤防干。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken yassa」（yassa-poulet）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.4kg（{'ru': 'кусками', 'en': 'in pieces'}） 洋葱s 1.5kg（{'ru': 'тонкими перьями', 'en': 'thinly sliced'}） 柠檬s 5piece Dijon mustard 3tbsp 蒜 6clove Scotch bonnet chilli 1piece Bay leaves 2piece 植物油 80ml 鸡汤 300ml 大米 400g（{'ru': 'к подаче', 'en': 'to serve'}） 盐 and pepper 鸡块可前夜用柠檬洋葱腌。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Mix the lemon juice, mustard, garlic, salt and pepper, pour it over the chicken and onions and chill for at least four h…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "洋葱酱多，饭盒带汤防干。 书/可靠食谱改写 改编自 UniTools World Recipes「Chicken yassa」（yassa-poulet）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 鸡肉 1.4kg（{'ru': 'кусками', 'en': 'in pieces'}） 洋葱s 1.5kg（{'ru': 'тонкими перьями', 'en': 'thinly sliced'}） 柠檬s 5piece Dijon mustard 3tbsp 蒜 6clove Scotch bonnet chilli 1piece Bay leaves 2piece 植物油 80ml 鸡汤 300ml 大米 400g（{'ru': 'к подаче', 'en': 'to serve'}） 盐 and pepper 鸡块可前夜用柠檬洋葱腌。 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Mix the lemon juice, mustard, garlic, salt and pepper, pour it over the chicken and onions and chill for at least four h…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "鸡肉 1.4kg（{'ru': 'кусками', 'en': 'in pieces'}）",
+        "洋葱s 1.5kg（{'ru': 'тонкими перьями', 'en': 'thinly sliced'}）",
+        "柠檬s 5piece",
+        "Dijon mustard 3tbsp",
+        "蒜 6clove",
+        "Scotch bonnet chilli 1piece",
+        "Bay leaves 2piece",
+        "植物油 80ml",
+        "鸡汤 300ml",
+        "大米 400g（{'ru': 'к подаче', 'en': 'to serve'}）",
+        "盐 and pepper"
+      ]
     },
     {
       "id": "yangpai-tudou-kaofan",
@@ -923,7 +1859,16 @@
       "packable": true,
       "time_total": 95,
       "file": "cards/yangpai-tudou-kaofan.json",
-      "keywords": "烤盘分装即可。羊肉看软不软。 书/可靠食谱改写 改编自公有领域《Breast of Mutton Baked with Rice and Potatoes》 羊排或羊腿肉 400g 切块，去掉大块肥油 洋葱 1 个切片 盐、胡椒、藏红花一小撮 米 1 杯，洗净 土豆 2 个切块 水 欧芹、马郁兰或牛至 烤箱 180°C。深烤盘底铺洋葱，撒盐胡椒和藏红花。 铺米和土豆，放羊肉，加水至将近没过。 撒香草，加盖或加锡纸，烤约 70–80 分钟至米熟肉软。中途若干了补热水。"
+      "keywords": "烤盘分装即可。羊肉看软不软。 书/可靠食谱改写 改编自公有领域《Breast of Mutton Baked with Rice and Potatoes》 羊排或羊腿肉 400g 切块，去掉大块肥油 洋葱 1 个切片 盐、胡椒、藏红花一小撮 米 1 杯，洗净 土豆 2 个切块 水 欧芹、马郁兰或牛至 烤箱 180°C。深烤盘底铺洋葱，撒盐胡椒和藏红花。 铺米和土豆，放羊肉，加水至将近没过。 撒香草，加盖或加锡纸，烤约 70–80 分钟至米熟肉软。中途若干了补热水。",
+      "ingredients": [
+        "羊排或羊腿肉 400g 切块，去掉大块肥油",
+        "洋葱 1 个切片",
+        "盐、胡椒、藏红花一小撮",
+        "米 1 杯，洗净",
+        "土豆 2 个切块",
+        "水",
+        "欧芹、马郁兰或牛至"
+      ]
     },
     {
       "id": "yenai-yu-galifan",
@@ -933,7 +1878,17 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/yenai-yu-galifan.json",
-      "keywords": "鱼咖喱当天吃。与已有斯里兰卡鱼咖喱不同：这张用椰奶和醋，米必须同锅。 书/可靠食谱改写 改编自公有领域《Fish Curry with Cocoa-nut》 鱼块 300g 盐、姜黄少许 油 洋葱 1/2、蒜 2 瓣、干辣椒 1 个 椰奶 200ml 姜少许、醋 1 小勺、胡椒 米 1 杯 水约半杯 鱼抹盐和姜黄，少油煎两面盛出。 同锅炒洋葱、蒜、辣椒。 倒椰奶、姜、醋、盐，下米，再加水至刚没过米。 鱼放回表面，小火盖约 18 分钟至米熟鱼透。"
+      "keywords": "鱼咖喱当天吃。与已有斯里兰卡鱼咖喱不同：这张用椰奶和醋，米必须同锅。 书/可靠食谱改写 改编自公有领域《Fish Curry with Cocoa-nut》 鱼块 300g 盐、姜黄少许 油 洋葱 1/2、蒜 2 瓣、干辣椒 1 个 椰奶 200ml 姜少许、醋 1 小勺、胡椒 米 1 杯 水约半杯 鱼抹盐和姜黄，少油煎两面盛出。 同锅炒洋葱、蒜、辣椒。 倒椰奶、姜、醋、盐，下米，再加水至刚没过米。 鱼放回表面，小火盖约 18 分钟至米熟鱼透。",
+      "ingredients": [
+        "鱼块 300g",
+        "盐、姜黄少许",
+        "油",
+        "洋葱 1/2、蒜 2 瓣、干辣椒 1 个",
+        "椰奶 200ml",
+        "姜少许、醋 1 小勺、胡椒",
+        "米 1 杯",
+        "水约半杯"
+      ]
     },
     {
       "id": "yexiang-mifan",
@@ -943,7 +1898,15 @@
       "packable": true,
       "time_total": 60,
       "file": "cards/yexiang-mifan.json",
-      "keywords": "椰香米饭耐放；复热略加椰奶或水。 书/可靠食谱改写 改编自 UniTools World Recipes「Coconut rice」（arroz-con-coco）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 长粒米 500g 椰奶 800ml（{'ru': 'жирное', 'en': 'full-fat'}） 水 400ml 糖 2tbsp 葡萄干 80g（{'ru': 'по желанию', 'en': 'optional'}） 盐 1.5tsp 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Pour the coconut milk into a heavy pot and cook it over medium heat, stirring.…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "椰香米饭耐放；复热略加椰奶或水。 书/可靠食谱改写 改编自 UniTools World Recipes「Coconut rice」（arroz-con-coco）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 长粒米 500g 椰奶 800ml（{'ru': 'жирное', 'en': 'full-fat'}） 水 400ml 糖 2tbsp 葡萄干 80g（{'ru': 'по желанию', 'en': 'optional'}） 盐 1.5tsp 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。 大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。 关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。 要点对照来源：Pour the coconut milk into a heavy pot and cook it over medium heat, stirring.…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "长粒米 500g",
+        "椰奶 800ml（{'ru': 'жирное', 'en': 'full-fat'}）",
+        "水 400ml",
+        "糖 2tbsp",
+        "葡萄干 80g（{'ru': 'по желанию', 'en': 'optional'}）",
+        "盐 1.5tsp"
+      ]
     },
     {
       "id": "yilang-xiaobo-jifan",
@@ -953,7 +1916,16 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/yilang-xiaobo-jifan.json",
-      "keywords": "干饭好带。没有小檗就不要用大量葡萄干冒充，可先不做这张。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Zereshk Palau (Iranian Rice with Barberries) I；CC BY-SA 3.0 小檗干或红醋栗干 2 大勺 洋葱 1/2、油 糖一小撮 香米 1.5 杯 熟鸡丁或生鸡丁 150g 藏红花几丝用 1 勺温水泡开 盐 小檗泡 20 分钟，拣掉杂质。 油炒洋葱，下小檗和糖略炒，盛出。 同锅放米和水（电饭煲普通水位）、盐；鸡丁铺在上面，淋藏红花水。煮饭或小火盖焖至熟。 拌入小檗洋葱，拨散。"
+      "keywords": "干饭好带。没有小檗就不要用大量葡萄干冒充，可先不做这张。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Zereshk Palau (Iranian Rice with Barberries) I；CC BY-SA 3.0 小檗干或红醋栗干 2 大勺 洋葱 1/2、油 糖一小撮 香米 1.5 杯 熟鸡丁或生鸡丁 150g 藏红花几丝用 1 勺温水泡开 盐 小檗泡 20 分钟，拣掉杂质。 油炒洋葱，下小檗和糖略炒，盛出。 同锅放米和水（电饭煲普通水位）、盐；鸡丁铺在上面，淋藏红花水。煮饭或小火盖焖至熟。 拌入小檗洋葱，拨散。",
+      "ingredients": [
+        "小檗干或红醋栗干 2 大勺",
+        "洋葱 1/2、油",
+        "糖一小撮",
+        "香米 1.5 杯",
+        "熟鸡丁或生鸡丁 150g",
+        "藏红花几丝用 1 勺温水泡开",
+        "盐"
+      ]
     },
     {
       "id": "yindu-huangyou-biandoufan",
@@ -963,7 +1935,15 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/yindu-huangyou-biandoufan.json",
-      "keywords": "扁豆饭耐放。与已有孟加拉杂粮饭不同：这张先炸洋葱、米豆一起吸黄油。 书/可靠食谱改写 改编自公有领域《Bhoonee Kitcheeree》（Indian Cookery Book） 洋葱 2 个切细丝 黄油或酥油 2 大勺 米 1 杯、红扁豆或绿豆 1/2 杯，洗净沥干 姜 3 片、胡椒粒、盐 丁香 2 粒、小豆蔻 2 个、香叶 1 片、肉桂一小段 水刚没过 黄油把洋葱丝炸到深褐，盛出。 同锅下米和扁豆，炒到吸干油脂。 加姜、香料和盐，拌匀。 加水刚没过，盖严小火，偶尔晃锅，至水干、扁豆和米都熟。 撒回炸洋葱。"
+      "keywords": "扁豆饭耐放。与已有孟加拉杂粮饭不同：这张先炸洋葱、米豆一起吸黄油。 书/可靠食谱改写 改编自公有领域《Bhoonee Kitcheeree》（Indian Cookery Book） 洋葱 2 个切细丝 黄油或酥油 2 大勺 米 1 杯、红扁豆或绿豆 1/2 杯，洗净沥干 姜 3 片、胡椒粒、盐 丁香 2 粒、小豆蔻 2 个、香叶 1 片、肉桂一小段 水刚没过 黄油把洋葱丝炸到深褐，盛出。 同锅下米和扁豆，炒到吸干油脂。 加姜、香料和盐，拌匀。 加水刚没过，盖严小火，偶尔晃锅，至水干、扁豆和米都熟。 撒回炸洋葱。",
+      "ingredients": [
+        "洋葱 2 个切细丝",
+        "黄油或酥油 2 大勺",
+        "米 1 杯、红扁豆或绿豆 1/2 杯，洗净沥干",
+        "姜 3 片、胡椒粒、盐",
+        "丁香 2 粒、小豆蔻 2 个、香叶 1 片、肉桂一小段",
+        "水刚没过"
+      ]
     },
     {
       "id": "yindu-luowangzi-fan",
@@ -973,7 +1953,16 @@
       "packable": true,
       "time_total": 35,
       "file": "cards/yindu-luowangzi-fan.json",
-      "keywords": "酸饭耐放，不要久留室温。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Puliyodarai (South Indian Tamarind Rice)；CC BY-SA 3.0 米 1.5 杯 罗望子膏 1 大勺化在水里，总液体约 2 杯 姜黄 1/4 小勺、盐 芝麻油或植物油 2 大勺 芥末籽 1 小勺、干辣椒 2 个、咖喱叶少许 花生 1 大勺 阿魏粉一小撮（可省） 米、罗望子水、姜黄和盐下锅，盖焖至水干米熟。 同锅或在饭拨到一边后，热油炸花生、芥末籽和干辣椒，出香后拌进饭里。 试酸咸。可配酸奶。"
+      "keywords": "酸饭耐放，不要久留室温。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Puliyodarai (South Indian Tamarind Rice)；CC BY-SA 3.0 米 1.5 杯 罗望子膏 1 大勺化在水里，总液体约 2 杯 姜黄 1/4 小勺、盐 芝麻油或植物油 2 大勺 芥末籽 1 小勺、干辣椒 2 个、咖喱叶少许 花生 1 大勺 阿魏粉一小撮（可省） 米、罗望子水、姜黄和盐下锅，盖焖至水干米熟。 同锅或在饭拨到一边后，热油炸花生、芥末籽和干辣椒，出香后拌进饭里。 试酸咸。可配酸奶。",
+      "ingredients": [
+        "米 1.5 杯",
+        "罗望子膏 1 大勺化在水里，总液体约 2 杯",
+        "姜黄 1/4 小勺、盐",
+        "芝麻油或植物油 2 大勺",
+        "芥末籽 1 小勺、干辣椒 2 个、咖喱叶少许",
+        "花生 1 大勺",
+        "阿魏粉一小撮（可省）"
+      ]
     },
     {
       "id": "yingshi-xunyu-jidanfan",
@@ -983,7 +1972,19 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/yingshi-xunyu-jidanfan.json",
-      "keywords": "原文写明可稍后吃、能放；复热用小火，奶油可省以免盒里出水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Kedgeree；CC BY-SA 3.0 米 1 杯 鸡汤或水 1.5 杯 香叶 1 片 熏鱼或熏鳕约 250g（无熏鱼可用煎熟的白鱼） 洋葱或红葱 1 个 黄油 1 大勺、蒜 1 瓣 水煮蛋 3 个切碎 芥末 1 小勺、欧芹、黑胡椒、盐 淡奶油 2 大勺（可省） 咖喱粉一小撮（可省） 蛋可前夜煮好。 米、鸡汤和香叶煮开，小火盖至熟；去掉香叶。 熏鱼放在热饭上，盖严再蒸约 15 分钟。取出撕碎，挑尽刺。 饭先盛出。同锅用黄油把洋葱炒到浅黄，加蒜 1 分钟。 饭和鱼回锅，下切碎的蛋、芥末、欧芹、胡椒和少量奶油，轻轻拌匀。试盐。"
+      "keywords": "原文写明可稍后吃、能放；复热用小火，奶油可省以免盒里出水。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Kedgeree；CC BY-SA 3.0 米 1 杯 鸡汤或水 1.5 杯 香叶 1 片 熏鱼或熏鳕约 250g（无熏鱼可用煎熟的白鱼） 洋葱或红葱 1 个 黄油 1 大勺、蒜 1 瓣 水煮蛋 3 个切碎 芥末 1 小勺、欧芹、黑胡椒、盐 淡奶油 2 大勺（可省） 咖喱粉一小撮（可省） 蛋可前夜煮好。 米、鸡汤和香叶煮开，小火盖至熟；去掉香叶。 熏鱼放在热饭上，盖严再蒸约 15 分钟。取出撕碎，挑尽刺。 饭先盛出。同锅用黄油把洋葱炒到浅黄，加蒜 1 分钟。 饭和鱼回锅，下切碎的蛋、芥末、欧芹、胡椒和少量奶油，轻轻拌匀。试盐。",
+      "ingredients": [
+        "米 1 杯",
+        "鸡汤或水 1.5 杯",
+        "香叶 1 片",
+        "熏鱼或熏鳕约 250g（无熏鱼可用煎熟的白鱼）",
+        "洋葱或红葱 1 个",
+        "黄油 1 大勺、蒜 1 瓣",
+        "水煮蛋 3 个切碎",
+        "芥末 1 小勺、欧芹、黑胡椒、盐",
+        "淡奶油 2 大勺（可省）",
+        "咖喱粉一小撮（可省）"
+      ]
     },
     {
       "id": "yinian-doufu-menfan",
@@ -993,7 +1994,13 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/yinian-doufu-menfan.json",
-      "keywords": "素食友好。 网络常见做法改写 香菇豆腐焖饭常见改写 大米 1.5 杯 北豆腐块 干香菇泡发切片 生抽、香油、盐 香菇提前泡发。 米入胆加水略减。 铺香菇豆腐，淋生抽香油。 煮饭；翻拌装盘。"
+      "keywords": "素食友好。 网络常见做法改写 香菇豆腐焖饭常见改写 大米 1.5 杯 北豆腐块 干香菇泡发切片 生抽、香油、盐 香菇提前泡发。 米入胆加水略减。 铺香菇豆腐，淋生抽香油。 煮饭；翻拌装盘。",
+      "ingredients": [
+        "大米 1.5 杯",
+        "北豆腐块",
+        "干香菇泡发切片",
+        "生抽、香油、盐"
+      ]
     },
     {
       "id": "yishi-mifan-pilaf-wikibooks",
@@ -1003,7 +2010,17 @@
       "packable": true,
       "time_total": 45,
       "file": "cards/yishi-mifan-pilaf-wikibooks.json",
-      "keywords": "焖饭可复热。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Italian Rice Pilaf；CC BY-SA 3.0 白米 2 杯 黄油 2 大勺 盐、黑胡椒各 1/2 小勺 低钠鸡汤 2.5 杯 红酒约 1 杯 香叶 3、蒜 7 瓣拍碎 新鲜百里香、迷迭香若干 洋葱 1 大个，末 黄油中火炒米与洋葱至米金黄。 另器混合其余液体与香料；米炒香后倒入煮开。 下米煮约 30 分钟至软硬合适，偶尔轻搅。 热食；可配简单蔬菜。"
+      "keywords": "焖饭可复热。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Italian Rice Pilaf；CC BY-SA 3.0 白米 2 杯 黄油 2 大勺 盐、黑胡椒各 1/2 小勺 低钠鸡汤 2.5 杯 红酒约 1 杯 香叶 3、蒜 7 瓣拍碎 新鲜百里香、迷迭香若干 洋葱 1 大个，末 黄油中火炒米与洋葱至米金黄。 另器混合其余液体与香料；米炒香后倒入煮开。 下米煮约 30 分钟至软硬合适，偶尔轻搅。 热食；可配简单蔬菜。",
+      "ingredients": [
+        "白米 2 杯",
+        "黄油 2 大勺",
+        "盐、黑胡椒各 1/2 小勺",
+        "低钠鸡汤 2.5 杯",
+        "红酒约 1 杯",
+        "香叶 3、蒜 7 瓣拍碎",
+        "新鲜百里香、迷迭香若干",
+        "洋葱 1 大个，末"
+      ]
     },
     {
       "id": "yishi-xiangchang-baicai-fan",
@@ -1013,7 +2030,16 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/yishi-xiangchang-baicai-fan.json",
-      "keywords": "干饭好带。与家常腊肠青豆饭不同：用卷心菜和奶酪收尾。 书/可靠食谱改写 改编自公有领域《Risi e Luganighe》（Artusi，1891） 米 1.5 杯 卷心菜 1/4 棵切丝 香肠 2 根剥皮切小段 黄油或油 1 小块 鸡汤或水约 3 杯 盐、胡椒 硬奶酪碎 2 大勺 油炒卷心菜至变软，下香肠煎出油。 下米拌匀，倒汤。 小火盖焖至米熟汤收。 关火拌奶酪。"
+      "keywords": "干饭好带。与家常腊肠青豆饭不同：用卷心菜和奶酪收尾。 书/可靠食谱改写 改编自公有领域《Risi e Luganighe》（Artusi，1891） 米 1.5 杯 卷心菜 1/4 棵切丝 香肠 2 根剥皮切小段 黄油或油 1 小块 鸡汤或水约 3 杯 盐、胡椒 硬奶酪碎 2 大勺 油炒卷心菜至变软，下香肠煎出油。 下米拌匀，倒汤。 小火盖焖至米熟汤收。 关火拌奶酪。",
+      "ingredients": [
+        "米 1.5 杯",
+        "卷心菜 1/4 棵切丝",
+        "香肠 2 根剥皮切小段",
+        "黄油或油 1 小块",
+        "鸡汤或水约 3 杯",
+        "盐、胡椒",
+        "硬奶酪碎 2 大勺"
+      ]
     },
     {
       "id": "yoruba-zongyou-mifan",
@@ -1023,7 +2049,18 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/yoruba-zongyou-mifan.json",
-      "keywords": "棕榈油味重，密封。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Iresi Eyin (Yoruba Palm Oil Native Rice)；CC BY-SA 3.0 米 2 杯 棕榈油 2 大勺（无则先不做，不要用普通油假装） 洋葱 1/2 番茄膏 1 大勺 辣椒粉 虾皮 1 大勺 熏鱼或鱼干一小块泡软撕碎 胡萝卜丁、豌豆少许 盐、水 米煮 8 分钟后沥干。 同锅烧热棕榈油至颜色变深。 下洋葱、番茄膏、辣椒粉、虾皮和少许水，炒香约 5 分钟。 倒回米、鱼、胡萝卜和豌豆，加水刚没过，中小火盖 20–25 分钟至水干。"
+      "keywords": "棕榈油味重，密封。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Iresi Eyin (Yoruba Palm Oil Native Rice)；CC BY-SA 3.0 米 2 杯 棕榈油 2 大勺（无则先不做，不要用普通油假装） 洋葱 1/2 番茄膏 1 大勺 辣椒粉 虾皮 1 大勺 熏鱼或鱼干一小块泡软撕碎 胡萝卜丁、豌豆少许 盐、水 米煮 8 分钟后沥干。 同锅烧热棕榈油至颜色变深。 下洋葱、番茄膏、辣椒粉、虾皮和少许水，炒香约 5 分钟。 倒回米、鱼、胡萝卜和豌豆，加水刚没过，中小火盖 20–25 分钟至水干。",
+      "ingredients": [
+        "米 2 杯",
+        "棕榈油 2 大勺（无则先不做，不要用普通油假装）",
+        "洋葱 1/2",
+        "番茄膏 1 大勺",
+        "辣椒粉",
+        "虾皮 1 大勺",
+        "熏鱼或鱼干一小块泡软撕碎",
+        "胡萝卜丁、豌豆少许",
+        "盐、水"
+      ]
     },
     {
       "id": "zanbiya-dou-menfan",
@@ -1033,7 +2070,16 @@
       "packable": true,
       "time_total": 110,
       "file": "cards/zanbiya-dou-menfan.json",
-      "keywords": "豆要泡过。耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Zambian Beans and Rice；CC BY-SA 3.0 干豆 1 杯，浸泡过夜并沥干 油 2 大勺 洋葱 1 个、蒜 2 瓣 番茄 1 个、辣椒 1 个 水约 4 杯，随后给米再留水 米 1 杯 盐 豆前夜浸泡。 油炒洋葱蒜，下番茄和辣椒炒软。 下泡好的豆和约 4 杯水、盐，盖煮 60–80 分钟至豆软。 下米，补水至高出米约 1cm，再盖煮约 18 分钟。 可压碎少许豆子拌匀，使饭更黏。"
+      "keywords": "豆要泡过。耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Zambian Beans and Rice；CC BY-SA 3.0 干豆 1 杯，浸泡过夜并沥干 油 2 大勺 洋葱 1 个、蒜 2 瓣 番茄 1 个、辣椒 1 个 水约 4 杯，随后给米再留水 米 1 杯 盐 豆前夜浸泡。 油炒洋葱蒜，下番茄和辣椒炒软。 下泡好的豆和约 4 杯水、盐，盖煮 60–80 分钟至豆软。 下米，补水至高出米约 1cm，再盖煮约 18 分钟。 可压碎少许豆子拌匀，使饭更黏。",
+      "ingredients": [
+        "干豆 1 杯，浸泡过夜并沥干",
+        "油 2 大勺",
+        "洋葱 1 个、蒜 2 瓣",
+        "番茄 1 个、辣椒 1 个",
+        "水约 4 杯，随后给米再留水",
+        "米 1 杯",
+        "盐"
+      ]
     },
     {
       "id": "zhade-xiangliao-fanqiefan",
@@ -1043,7 +2089,17 @@
       "packable": true,
       "time_total": 40,
       "file": "cards/zhade-xiangliao-fanqiefan.json",
-      "keywords": "素饭耐放。可加鸡蛋或剩鸡。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Diri Na Njar (Chadian Spiced Rice with Vegetables)；CC BY-SA 3.0 长粒米 1.5 杯，淘至水清 油 2 大勺 洋葱 1 个、蒜 2 瓣 番茄 2 个、番茄膏 1 小勺 红椒粉、姜粉、孜然、香菜籽粉各 1/2 小勺 盐、黑胡椒 水或鸡汤约 3 杯 香菜或欧芹碎 油炒洋葱至微黄，下蒜 1 分钟。 下番茄和番茄膏，炒至出汁。 加香料和盐，下米拌匀裹上。 倒汤，高出米约 1cm；煮开后小火盖 15–20 分钟，不要揭盖。 离火再焖 5 分钟，用叉拨散，撒香菜。"
+      "keywords": "素饭耐放。可加鸡蛋或剩鸡。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Diri Na Njar (Chadian Spiced Rice with Vegetables)；CC BY-SA 3.0 长粒米 1.5 杯，淘至水清 油 2 大勺 洋葱 1 个、蒜 2 瓣 番茄 2 个、番茄膏 1 小勺 红椒粉、姜粉、孜然、香菜籽粉各 1/2 小勺 盐、黑胡椒 水或鸡汤约 3 杯 香菜或欧芹碎 油炒洋葱至微黄，下蒜 1 分钟。 下番茄和番茄膏，炒至出汁。 加香料和盐，下米拌匀裹上。 倒汤，高出米约 1cm；煮开后小火盖 15–20 分钟，不要揭盖。 离火再焖 5 分钟，用叉拨散，撒香菜。",
+      "ingredients": [
+        "长粒米 1.5 杯，淘至水清",
+        "油 2 大勺",
+        "洋葱 1 个、蒜 2 瓣",
+        "番茄 2 个、番茄膏 1 小勺",
+        "红椒粉、姜粉、孜然、香菜籽粉各 1/2 小勺",
+        "盐、黑胡椒",
+        "水或鸡汤约 3 杯",
+        "香菜或欧芹碎"
+      ]
     },
     {
       "id": "zhongdong-biandou-fan",
@@ -1053,7 +2109,16 @@
       "packable": true,
       "time_total": 50,
       "file": "cards/zhongdong-biandou-fan.json",
-      "keywords": "扁豆饭耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Rice and Lentils (Mejadra)；CC BY-SA 3.0 干扁豆 1 杯 米 1/2 杯 橄榄油 洋葱 1 个切细丝 孜然、小豆蔻粉、综合香料或咖喱粉少许 盐、胡椒 水 同锅油炸洋葱丝至深金黄，盛出。 扁豆在余油里炒 3 分钟，加香料、盐和水约 2 杯，盖煮约 15 分钟。 下米再加水约 1 杯，盖煮至米熟、水干；若扁豆还硬就再补水。 拌入炸洋葱。"
+      "keywords": "扁豆饭耐放。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Rice and Lentils (Mejadra)；CC BY-SA 3.0 干扁豆 1 杯 米 1/2 杯 橄榄油 洋葱 1 个切细丝 孜然、小豆蔻粉、综合香料或咖喱粉少许 盐、胡椒 水 同锅油炸洋葱丝至深金黄，盛出。 扁豆在余油里炒 3 分钟，加香料、盐和水约 2 杯，盖煮约 15 分钟。 下米再加水约 1 杯，盖煮至米熟、水干；若扁豆还硬就再补水。 拌入炸洋葱。",
+      "ingredients": [
+        "干扁豆 1 杯",
+        "米 1/2 杯",
+        "橄榄油",
+        "洋葱 1 个切细丝",
+        "孜然、小豆蔻粉、综合香料或咖喱粉少许",
+        "盐、胡椒",
+        "水"
+      ]
     },
     {
       "id": "zhou-congee-wikibooks",
@@ -1063,17 +2128,37 @@
       "packable": true,
       "time_total": 120,
       "file": "cards/zhou-congee-wikibooks.json",
-      "keywords": "粥耐放；复热加水打散。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Chinese Rice Porridge (Congee)；CC BY-SA 3.0 圆粒米约 220g，洗净沥干 水或鸡汤约 2.5L 生抽、香油、白胡椒按口味 葱花、香菜、姜丝、芝麻适量作浇头 可加鸡架/筒骨同煮增鲜（先焯洗）。 米入锅加水/汤，大火煮开。 转小火煮约 1 小时 45 分–2 小时至米开花成粥（急用可先少水后补）。 加生抽香油白胡椒调味；分碗加葱姜香菜等浇头。"
+      "keywords": "粥耐放；复热加水打散。 书/可靠食谱改写 改编自 Wikibooks Cookbook:Chinese Rice Porridge (Congee)；CC BY-SA 3.0 圆粒米约 220g，洗净沥干 水或鸡汤约 2.5L 生抽、香油、白胡椒按口味 葱花、香菜、姜丝、芝麻适量作浇头 可加鸡架/筒骨同煮增鲜（先焯洗）。 米入锅加水/汤，大火煮开。 转小火煮约 1 小时 45 分–2 小时至米开花成粥（急用可先少水后补）。 加生抽香油白胡椒调味；分碗加葱姜香菜等浇头。",
+      "ingredients": [
+        "圆粒米约 220g，洗净沥干",
+        "水或鸡汤约 2.5L",
+        "生抽、香油、白胡椒按口味",
+        "葱花、香菜、姜丝、芝麻适量作浇头"
+      ]
     },
     {
       "id": "zhupaigaifan",
       "name": "猪排盖饭（家常简化）",
-      "form": "汤泡饭",
+      "form": "其他一锅",
       "status": "待试",
       "packable": false,
       "time_total": 40,
       "file": "cards/zhupaigaifan.json",
-      "keywords": "炸猪排最好现做；可改成煎猪排放饭上浇汁。 书/可靠食谱改写 改编自 UniTools World Recipes「Katsudon」（katsudon）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 猪肉 loin 2piece（{'ru': 'по 150 г, отбить', 'en': '150 g each, beaten flat'}） 面粉（Plain flour） 40g 鸡蛋 for coating 1piece Panko breadcrumbs 80g 洋葱 1piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}） Dashi 200ml 酱油 3tbsp Mirin 3tbsp 糖 1tbsp 鸡蛋s for the broth 3piece 大米（Cooked rice） 400g Oil for frying 500ml 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Nick the fat rim of each cutlet in a few places so they do not curl, season them and coat in flour, then egg, then panko…（完整英文步骤见 UniTools 原条目）"
+      "keywords": "炸猪排最好现做；可改成煎猪排放饭上浇汁。 书/可靠食谱改写 改编自 UniTools World Recipes「Katsudon」（katsudon）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文 猪肉 loin 2piece（{'ru': 'по 150 г, отбить', 'en': '150 g each, beaten flat'}） 面粉（Plain flour） 40g 鸡蛋 for coating 1piece Panko breadcrumbs 80g 洋葱 1piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}） Dashi 200ml 酱油 3tbsp Mirin 3tbsp 糖 1tbsp 鸡蛋s for the broth 3piece 大米（Cooked rice） 400g Oil for frying 500ml 备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。 锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。 碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。 需要打包时：汤与饭分盒，食用前合热。 要点对照来源：Nick the fat rim of each cutlet in a few places so they do not curl, season them and coat in flour, then egg, then panko…（完整英文步骤见 UniTools 原条目）",
+      "ingredients": [
+        "猪肉 loin 2piece（{'ru': 'по 150 г, отбить', 'en': '150 g each, beaten flat'}）",
+        "面粉（Plain flour） 40g",
+        "鸡蛋 for coating 1piece",
+        "Panko breadcrumbs 80g",
+        "洋葱 1piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}）",
+        "Dashi 200ml",
+        "酱油 3tbsp",
+        "Mirin 3tbsp",
+        "糖 1tbsp",
+        "鸡蛋s for the broth 3piece",
+        "大米（Cooked rice） 400g",
+        "Oil for frying 500ml"
+      ]
     }
   ]
 }

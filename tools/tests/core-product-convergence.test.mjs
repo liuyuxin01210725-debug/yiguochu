@@ -100,15 +100,19 @@ test('start.command opens browse.html without plan-meal or the legacy proxy', ()
 test('phone browse pins this week and does not call the planner', () => {
   const html = read('recipe-library/browse.html');
   assert.match(html, /本周待试/);
-  assert.match(html, /ingredients/);
-  assert.match(html, /steps_now/);
-  assert.match(html, /yiguochu-recipe-library-feedback-v1/);
-  assert.doesNotMatch(html, /plan-meal|generate-plan|ai_proxy/);
+  assert.match(html, /没有这道菜。/);
+  assert.match(html, /菜谱库没打开。用刚才那个地址再开一次。/);
+  assert.match(html, /这道菜没打开。返回再点一次。/);
+  assert.match(html, /morning_shelf|FORM_RANK|SHELF_FORMS/);
+  assert.doesNotMatch(html, /plan-meal|generate-plan|ai_proxy|FALLBACK_PINS/);
+  assert.doesNotMatch(html, /家里还没实做|eyebrow|lead/);
   const index = JSON.parse(read('recipe-library/index.json'));
   assert.deepEqual(index.weekly_pins.map((pin) => pin.id), ['baicai-doufu-menfan', 'roumi-qingcai-fan']);
-  assert.equal(index.weekly_pins.every((pin) => pin.label === '本周待试'), true);
+  assert.equal(index.weekly_pins.length, 2);
   assert.equal(index.cards.length, 106);
-  assert.equal(index.cards.every((card) => card.keywords), true);
+  for (const id of ['fanqie-jidan-gaifan', 'niudon-gaifan', 'zhupaigaifan']) {
+    assert.equal(index.cards.find((card) => card.id === id).form, '其他一锅');
+  }
 });
 
 test('deployment documentation uses the canonical build script without manual copy steps', () => {

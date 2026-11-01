@@ -80,6 +80,9 @@ def summary_row(card: dict) -> dict:
     keywords = search_keywords(card)
     if keywords:
         row["keywords"] = keywords
+    ingredients = card.get("ingredients") or []
+    if isinstance(ingredients, list):
+        row["ingredients"] = [str(item).strip() for item in ingredients if str(item).strip()]
     return row
 
 
@@ -174,13 +177,27 @@ def cmd_validate(_: argparse.Namespace) -> None:
     for extra in sorted(index_ids - file_ids):
         errs.append(f"index.json 有幽灵条目 {extra}")
     pins = idx.get("weekly_pins") or []
-    if pins and not isinstance(pins, list):
+    frozen = ["baicai-doufu-menfan", "roumi-qingcai-fan"]
+    if not isinstance(pins, list):
         errs.append("weekly_pins 须为数组")
-    elif isinstance(pins, list):
+    else:
+        pin_ids = []
         for pin in pins:
             pid = pin.get("id") if isinstance(pin, dict) else pin
+            pin_ids.append(pid)
             if not isinstance(pid, str) or pid not in file_ids:
                 errs.append(f"weekly_pins 指向不存在的卡 {pid}")
+            if isinstance(pin, dict):
+                why = pin.get("why") or ""
+                if why and ("家里还没实做" in why or "待试" in why):
+                    errs.append(f"weekly_pins {pid} 的 why 只能是做饭事实")
+        if pin_ids != frozen:
+            errs.append("weekly_pins 须按顺序冻结为 baicai-doufu-menfan, roumi-qingcai-fan")
+    for row in idx.get("cards") or []:
+        if row.get("form") not in FORMS:
+            errs.append(f"index {row.get('id')} form 未知")
+        if not isinstance(row.get("time_total"), int):
+            errs.append(f"index {row.get('id')} 缺 time_total")
     if errs:
         print("校验失败：")
         for e in errs:

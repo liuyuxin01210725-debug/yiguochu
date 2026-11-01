@@ -9,184 +9,159 @@
   <meta name="apple-mobile-web-app-title" content="一锅出" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <title>一锅出 · 菜谱库</title>
+  <title>一锅出</title>
   <style>
     :root {
       --bg: #f6f1e8;
-      --card: #fffdf8;
+      --card: #fffcf8;
       --ink: #1c1917;
-      --muted: #78716c;
+      --muted: #8a8178;
       --line: #e7e0d5;
-      --accent: #9a3412;
-      --accent-soft: #ffedd5;
-      --ok: #166534;
-      --ok-soft: #dcfce7;
-      --left: #991b1b;
-      --left-soft: #fee2e2;
-      --shadow: 0 8px 24px rgba(28, 25, 23, 0.05);
-      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+      --orange: #c4551a;
+      --orange-line: #e08a4f;
+      --peach: #f8e6d6;
+      --chip: #f3efe8;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
     }
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html, body { margin: 0; background: var(--bg); color: var(--ink); }
-    body { min-height: 100vh; line-height: 1.45; }
+    body { line-height: 1.4; }
     button, input { font: inherit; color: inherit; }
     .sr {
       position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0,0,0,0); border: 0;
+      overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
     }
-    #browse, #detail { max-width: 640px; margin: 0 auto; }
+    #browse, #detail { max-width: 480px; margin: 0 auto; }
     .top {
-      position: sticky; top: 0; z-index: 5;
-      padding: calc(12px + env(safe-area-inset-top)) 16px 10px;
-      background: rgba(246, 241, 232, 0.94);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid transparent;
+      padding: calc(8px + env(safe-area-inset-top)) 16px 8px;
     }
-    .eyebrow {
-      margin: 0; font-size: 12px; letter-spacing: 0.04em; color: var(--accent); font-weight: 700;
-    }
-    h1 { margin: 2px 0 4px; font-size: 28px; line-height: 1.15; }
-    .lead { margin: 0 0 12px; color: #57534e; font-size: 14px; }
+    h1 { margin: 0 0 12px; font-size: 34px; line-height: 1.15; font-weight: 760; letter-spacing: -0.02em; }
     .search input {
       width: 100%; min-height: 48px; font-size: 16px;
-      border: 1px solid var(--line); border-radius: 14px;
-      padding: 0 14px; background: #fff; outline: none;
+      border: 0; border-radius: 14px; padding: 0 14px;
+      background: #fff; outline: none;
+      box-shadow: 0 1px 0 rgba(28, 25, 23, 0.04);
     }
-    .search input:focus { border-color: #fdba74; box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.25); }
     .filters {
-      display: flex; gap: 8px; overflow-x: auto;
-      padding: 12px 0 2px; scrollbar-width: none;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 12px 0 4px;
     }
-    .filters::-webkit-scrollbar { display: none; }
     .filters button {
-      flex: none; min-height: 40px; border: 1px solid var(--line);
-      background: var(--card); border-radius: 999px; padding: 0 14px;
-      cursor: pointer;
+      min-height: 44px; border: 0; background: var(--chip);
+      border-radius: 999px; padding: 0 14px; font-size: 15px; cursor: pointer;
     }
-    .filters button[aria-pressed="true"] {
-      background: var(--ink); color: #fff; border-color: var(--ink);
-    }
-    .count { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
-    main { padding: 8px 16px calc(28px + env(safe-area-inset-bottom)); }
-    .section-head { margin: 16px 0 8px; }
-    .section-head h2 { margin: 0; font-size: 16px; }
-    .section-head p { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+    .filters button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+    main { padding: 8px 16px calc(24px + env(safe-area-inset-bottom)); }
+    .pin-label { margin: 14px 0 8px; font-size: 15px; font-weight: 650; }
     .list { display: grid; gap: 10px; }
-    .card-row {
+    .card-row, .more {
       display: block; width: 100%; text-align: left;
       background: var(--card); border: 1px solid var(--line);
-      border-radius: 16px; padding: 14px 14px 12px;
-      box-shadow: var(--shadow); cursor: pointer;
+      border-radius: 16px; padding: 14px 14px 12px; cursor: pointer;
     }
-    .card-row.pin { border-color: #fdba74; background: linear-gradient(180deg, #fff7ed, #fffdf8); }
-    .card-row:active { transform: scale(0.99); }
-    .top-line { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
-    .card-row h3 { margin: 0; font-size: 18px; line-height: 1.3; }
-    .why { margin: 6px 0 0; color: #57534e; font-size: 13px; }
-    .meta { margin-top: 8px; color: var(--muted); font-size: 13px; }
-    .badge {
-      flex: none; font-size: 12px; font-weight: 700;
-      background: var(--accent-soft); color: var(--accent);
-      border-radius: 999px; padding: 4px 8px;
+    .card-row { min-height: 44px; }
+    .card-row.primary {
+      border: 1.5px solid var(--orange-line);
+      background: var(--peach);
     }
-    .ate { color: var(--ok); font-weight: 700; }
-    .left { color: var(--left); font-weight: 700; }
+    .card-row h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 720; }
+    .card-row.primary h3 { font-size: 22px; }
+    .also { margin-left: 8px; font-size: 14px; font-weight: 500; color: #a8a29e; }
+    .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+    .why { margin: 2px 0 0; color: var(--orange); font-size: 14px; }
+    .mark { color: var(--orange); font-weight: 700; }
+    .more {
+      min-height: 52px; display: flex; align-items: center; justify-content: space-between;
+      font-size: 16px; font-weight: 650; padding: 0 16px;
+    }
+    .more span.chev { color: #a8a29e; font-weight: 400; }
     .empty, .err {
-      background: var(--card); border: 1px dashed var(--line);
-      border-radius: 16px; padding: 16px; color: var(--muted);
-    }
-    .err { color: #b91c1c; border-style: solid; }
-    footer.note {
-      margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.5;
+      margin: 12px 0 0; padding: 16px; border-radius: 16px;
+      background: var(--card); color: var(--ink); font-size: 16px;
     }
     .detail-bar {
-      position: sticky; top: 0; z-index: 6;
-      display: flex; align-items: center; gap: 8px;
-      padding: calc(8px + env(safe-area-inset-top)) 8px 8px;
-      background: rgba(246, 241, 232, 0.94);
-      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 4;
+      padding: calc(4px + env(safe-area-inset-top)) 8px 0;
+      background: var(--bg);
     }
     .back {
       min-height: 44px; border: 0; background: transparent;
-      color: var(--accent); font-weight: 700; cursor: pointer; padding: 0 8px;
+      padding: 0 8px; font-size: 16px; cursor: pointer;
     }
-    .sheet {
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: 18px; padding: 16px 16px 8px; margin: 0 16px 16px;
-      box-shadow: var(--shadow);
+    .sheet { padding: 0 16px calc(96px + env(safe-area-inset-bottom)); }
+    .sheet h2 { margin: 4px 0 4px; font-size: 32px; line-height: 1.2; font-weight: 760; }
+    .sheet .meta { font-size: 15px; }
+    .portion { margin: 8px 0 0; font-size: 16px; }
+    .sheet h3 { margin: 18px 0 8px; font-size: 16px; font-weight: 720; }
+    .box {
+      background: #fff; border-radius: 16px; padding: 12px 14px;
     }
-    .sheet h2 { margin: 8px 0 6px; font-size: 26px; line-height: 1.25; }
-    .props { display: grid; gap: 8px; margin: 12px 0; font-size: 15px; }
-    .props div { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
-    .props span { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
-    .sheet h3 { margin: 16px 0 8px; font-size: 15px; }
-    .sheet ul, .sheet ol { margin: 0 0 8px; padding-left: 1.2rem; }
-    .sheet li { margin: 0 0 8px; font-size: 16px; }
-    .sheet ol li { font-size: 17px; line-height: 1.45; }
-    details { margin: 8px 0 12px; }
-    details summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
-    .src { font-size: 14px; color: #44403c; }
-    .src a { color: var(--accent); }
-    .fb { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 12px; }
-    .fb button {
-      min-height: 48px; border-radius: 14px; border: 1px solid transparent;
-      font-weight: 700; cursor: pointer;
+    .box p, .step { margin: 0; padding: 7px 0; font-size: 16px; }
+    .step { display: flex; gap: 10px; align-items: flex-start; }
+    .num {
+      flex: none; width: 22px; height: 22px; margin-top: 1px;
+      border-radius: 999px; background: #f3d2bc; color: var(--orange);
+      font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
     }
-    .fb .ok { background: var(--ok-soft); color: var(--ok); }
-    .fb .no { background: var(--left-soft); color: var(--left); }
-    .fb button.on { outline: 2px solid currentColor; }
-    .fb-status { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
-    #detail { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+    .actions {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
+      display: flex; gap: 10px;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(246, 241, 232, 0.96);
+    }
+    .actions { max-width: 480px; margin-left: auto; margin-right: auto; }
+    .actions button {
+      flex: 1; min-height: 52px; border-radius: 14px;
+      font-size: 17px; font-weight: 720; cursor: pointer;
+    }
+    .btn-eat { background: var(--orange); color: #fff; border: 1.5px solid var(--orange); }
+    .btn-left { background: #fff; color: var(--orange); border: 1.5px solid var(--orange); }
+    .actions button.chosen { box-shadow: inset 0 0 0 2px #1c1917; }
   </style>
 </head>
 <body>
   <div id="browse">
     <header class="top">
-      <p class="eyebrow">家里自用 · 整库浏览</p>
       <h1>一锅出</h1>
-      <p class="lead" id="lead">正在打开菜谱库…</p>
       <label class="search">
-        <span class="sr">搜索菜名、形态或食材</span>
+        <span class="sr">搜索</span>
         <input id="q" type="search" enterkeyhint="search" placeholder="搜菜名、形态、食材" autocomplete="off" autocapitalize="off" />
       </label>
-      <div class="filters" id="filters" role="toolbar" aria-label="按形态筛选"></div>
-      <p class="count" id="count" aria-live="polite"></p>
+      <div class="filters" id="filters" role="toolbar" aria-label="形态"></div>
     </header>
     <main>
       <section id="pin-section" hidden>
-        <div class="section-head">
-          <h2>本周待试</h2>
-          <p>家里这周先做这两道。状态仍是待试，做过再记吃光或剩了。</p>
-        </div>
+        <h2 class="pin-label">本周待试</h2>
         <div class="list" id="pins"></div>
       </section>
-      <section id="rest-section">
-        <div class="section-head">
-          <h2 id="rest-title">全部</h2>
-        </div>
-        <div class="list" id="list"></div>
-      </section>
-      <p id="empty" class="empty" hidden>没有符合的菜。换个词，或改成「全部」。</p>
+      <div class="list" id="list"></div>
+      <button type="button" class="more" id="more" hidden></button>
+      <div class="list" id="folded" hidden></div>
+      <p id="empty" class="empty" hidden>没有这道菜。</p>
       <p id="err" class="err" hidden></p>
-      <footer class="note">
-        点开即可看食材和现在动手的步骤。来源按每张卡原文显示。家里实做并记下吃光或剩了之前，状态保持待试。
-      </footer>
     </main>
   </div>
   <article id="detail" hidden></article>
   <script>
-    const FORMS = ["全部", "菜饭", "焖饭", "汤泡饭", "咖喱一锅", "手抓饭", "煲类一锅", "其他一锅"];
-    const FALLBACK_PINS = [
-      { id: "baicai-doufu-menfan", label: "本周待试", why: "步骤少、无中途开盖。家里还没实做。" },
-      { id: "roumi-qingcai-fan", label: "本周待试", why: "贴近青菜、肉和饭。家里还没实做。" }
-    ];
+    const FORM_RANK = { "汤泡饭": 0, "菜饭": 1, "焖饭": 2, "咖喱一锅": 3, "其他一锅": 4, "手抓饭": 5, "煲类一锅": 6 };
+    const FORM_ORDER = ["汤泡饭", "菜饭", "焖饭", "咖喱一锅", "其他一锅", "手抓饭", "煲类一锅"];
+    const SHELF_FORMS = new Set(["汤泡饭", "菜饭", "焖饭"]);
+    const PIN_ORDER = ["baicai-doufu-menfan", "roumi-qingcai-fan"];
     const FB_KEY = "yiguochu-recipe-library-feedback-v1";
+    const UI_KEY = "yiguochu-browse-ui-v1";
+    const COLLATOR = new Intl.Collator("zh-Hans");
+    const LIBRARY_FAIL = "菜谱库没打开。用刚才那个地址再开一次。";
+    const CARD_FAIL = "这道菜没打开。返回再点一次。";
+    const EMPTY = "没有这道菜。";
 
     let cards = [];
-    let pinMeta = FALLBACK_PINS.slice();
-    let activeForm = "全部";
+    let pinMeta = [];
     let query = "";
-    let browseScroll = 0;
+    let activeForm = "全部";
+    let othersOpen = false;
+    let restoreY = 0;
     let openToken = 0;
 
     const $browse = document.getElementById("browse");
@@ -195,11 +170,10 @@
     const $pins = document.getElementById("pins");
     const $pinSection = document.getElementById("pin-section");
     const $list = document.getElementById("list");
-    const $restTitle = document.getElementById("rest-title");
+    const $more = document.getElementById("more");
+    const $folded = document.getElementById("folded");
     const $empty = document.getElementById("empty");
     const $err = document.getElementById("err");
-    const $count = document.getElementById("count");
-    const $lead = document.getElementById("lead");
     const $q = document.getElementById("q");
 
     function escapeHtml(s) {
@@ -207,7 +181,11 @@
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
       })[ch]);
     }
-
+    function today() {
+      return new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit"
+      }).format(new Date());
+    }
     function loadFeedback() {
       try { return JSON.parse(localStorage.getItem(FB_KEY) || "{}"); }
       catch { return {}; }
@@ -215,230 +193,293 @@
     function saveFeedback(map) {
       localStorage.setItem(FB_KEY, JSON.stringify(map));
     }
-    function stamp() {
-      return new Intl.DateTimeFormat("zh-CN", {
-        timeZone: "Asia/Shanghai",
-        month: "2-digit", day: "2-digit",
-        hour: "2-digit", minute: "2-digit", hour12: false
-      }).format(new Date()).replace(/\//g, "-");
+    function loggedToday(id) {
+      const row = loadFeedback()[id];
+      return !!(row && row.day === today() && (row.result === "吃光" || row.result === "剩了"));
     }
-
-    function pinById(id) {
-      return pinMeta.find((p) => p.id === id) || null;
+    function isDirty(line) {
+      const s = String(line ?? "");
+      return s.includes("{'ru'") || s.includes('{"ru"') || s.includes("要点对照来源")
+        || s.includes("preview_ready") || s.includes("docs/")
+        || s.includes("start.command") || s.includes("serve.command")
+        || s.includes("http://") || s.includes("https://");
     }
-
-    function matches(card) {
-      if (activeForm !== "全部" && card.form !== activeForm) return false;
+    function cleanLines(list) {
+      return (list || []).map((x) => String(x).trim()).filter((x) => x && !isDirty(x));
+    }
+    function ingredientBlob(card) {
+      const lines = Array.isArray(card.ingredients) ? card.ingredients : [];
+      return lines.join("\n");
+    }
+    function shelfKey(card) {
+      const time = Number(card.time_total);
+      const bucket = time <= 45 ? 0 : 1;
+      const pack = card.packable ? 0 : 1;
+      return [bucket, FORM_RANK[card.form], pack, time];
+    }
+    function byShelf(a, b) {
+      const ka = shelfKey(a);
+      const kb = shelfKey(b);
+      for (let i = 0; i < ka.length; i++) if (ka[i] !== kb[i]) return ka[i] - kb[i];
+      const name = COLLATOR.compare(a.name, b.name);
+      if (name) return name;
+      return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+    }
+    function bySearch(a, b) {
+      const q = query.trim().toLowerCase();
+      const rank = (card) => {
+        const name = String(card.name || "").toLowerCase();
+        return [(name.startsWith(q) ? 0 : 1), (name.includes(q) ? 0 : 1)];
+      };
+      const ra = rank(a);
+      const rb = rank(b);
+      if (ra[0] !== rb[0]) return ra[0] - rb[0];
+      if (ra[1] !== rb[1]) return ra[1] - rb[1];
+      return byShelf(a, b);
+    }
+    function matchesQuery(card) {
       const q = query.trim().toLowerCase();
       if (!q) return true;
-      const blob = [card.name, card.form, card.id, card.keywords, card.status].join("\n").toLowerCase();
-      const compact = blob.replace(/\s+/g, "");
-      return q.split(/\s+/).filter(Boolean).every((token) => blob.includes(token) || compact.includes(token));
+      const blob = [card.name, card.form, ingredientBlob(card)].join("\n").toLowerCase();
+      return q.split(/\s+/).filter(Boolean).every((token) => blob.includes(token));
     }
-
-    function feedbackMark(id) {
-      const row = loadFeedback()[id];
-      if (!row) return "";
-      const cls = row.result === "吃光" ? "ate" : "left";
-      return ` · <span class="${cls}">已记${escapeHtml(row.result)}</span>`;
+    function matchesForm(card) {
+      return activeForm === "全部" || card.form === activeForm;
     }
-
-    function cardButton(card, pinned) {
-      const pin = pinned ? pinById(card.id) : null;
+    function foldedMode() {
+      return !query.trim() && activeForm === "全部";
+    }
+    function activePinIds() {
+      return PIN_ORDER.filter((id) => pinMeta.some((p) => p.id === id) && !loggedToday(id));
+    }
+    function pinInfo(id) {
+      return pinMeta.find((p) => p.id === id) || null;
+    }
+    function metaLine(card) {
+      const pack = card.packable ? "可打包" : "不打包";
+      const time = card.time_total != null ? `${card.time_total} 分钟` : "";
+      const mark = loadFeedback()[card.id];
+      const tail = mark && (mark.result === "吃光" || mark.result === "剩了")
+        ? ` · <span class="mark">${escapeHtml(mark.result)}</span>` : "";
+      return `${escapeHtml(card.form)} · ${escapeHtml(time)} · ${pack}${tail}`;
+    }
+    function cardButton(card, role) {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "card-row" + (pinned ? " pin" : "");
+      btn.className = "card-row" + (role === "primary" ? " primary" : "");
       btn.dataset.id = card.id;
-      const pack = card.packable ? "可打包" : "不打包";
-      const minutes = card.time_total != null ? `约 ${card.time_total} 分钟` : "时间见步骤";
-      btn.innerHTML = `
-        <div class="top-line">
-          <h3>${escapeHtml(card.name)}</h3>
-          ${pinned ? `<span class="badge">${escapeHtml(pin && pin.label ? pin.label : "本周待试")}</span>` : ""}
-        </div>
-        ${pin && pin.why ? `<p class="why">${escapeHtml(pin.why)}</p>` : ""}
-        <div class="meta">${escapeHtml(card.form)} · ${minutes} · ${pack}${feedbackMark(card.id)}</div>
-      `;
+      const info = pinInfo(card.id);
+      const also = role === "secondary" ? `<span class="also">也可</span>` : "";
+      const why = role === "primary" && info && info.why ? `<p class="why">${escapeHtml(info.why)}</p>` : "";
+      btn.innerHTML = `<h3>${escapeHtml(card.name)}${also}</h3><p class="meta">${metaLine(card)}</p>${why}`;
       btn.addEventListener("click", () => openCard(card.id, true));
       return btn;
     }
-
+    function remember() {
+      sessionStorage.setItem(UI_KEY, JSON.stringify({
+        q: query, form: activeForm, y: window.scrollY, othersOpen
+      }));
+    }
     function renderFilters() {
-      const counts = {};
-      cards.forEach((c) => { counts[c.form] = (counts[c.form] || 0) + 1; });
+      const counts = { "全部": 0 };
+      cards.forEach((card) => {
+        if (!matchesQuery(card)) return;
+        counts["全部"] += 1;
+        counts[card.form] = (counts[card.form] || 0) + 1;
+      });
+      if (activeForm !== "全部" && !counts[activeForm]) activeForm = "全部";
       $filters.innerHTML = "";
-      FORMS.forEach((form) => {
-        if (form !== "全部" && !counts[form]) return;
+      const forms = ["全部"].concat(FORM_ORDER.filter((form) => counts[form]));
+      forms.forEach((form) => {
         const b = document.createElement("button");
         b.type = "button";
-        b.textContent = form === "全部" ? `全部 ${cards.length}` : `${form} ${counts[form]}`;
+        const n = form === "全部" ? counts["全部"] : counts[form];
+        b.textContent = `${form} ${n}`;
         b.setAttribute("aria-pressed", form === activeForm ? "true" : "false");
         b.addEventListener("click", () => {
           activeForm = form;
+          othersOpen = false;
           renderFilters();
           renderList();
+          remember();
         });
         $filters.appendChild(b);
       });
     }
-
     function renderList() {
-      const pinIds = new Set(pinMeta.map((p) => p.id));
+      $err.hidden = true;
       const byId = new Map(cards.map((c) => [c.id, c]));
-      const pinned = pinMeta.map((p) => byId.get(p.id)).filter((c) => c && matches(c));
-      const rest = cards.filter((c) => matches(c) && !pinIds.has(c.id));
-      const shown = pinned.length + rest.length;
-
+      const pinIds = new Set(PIN_ORDER);
+      const shownPins = activePinIds()
+        .map((id) => byId.get(id))
+        .filter((card) => card && matchesQuery(card) && matchesForm(card));
+      const rest = cards.filter((card) => !pinIds.has(card.id) || loggedToday(card.id));
+      const hits = rest.filter((card) => matchesQuery(card) && matchesForm(card));
       $pins.innerHTML = "";
       $list.innerHTML = "";
-      $pinSection.hidden = pinned.length === 0;
-      pinned.forEach((c) => $pins.appendChild(cardButton(c, true)));
-      rest.forEach((c) => $list.appendChild(cardButton(c, false)));
-      $restTitle.textContent = query || activeForm !== "全部" ? "其他符合的菜" : "全部";
-      document.getElementById("rest-section").hidden = rest.length === 0;
-      $empty.hidden = shown !== 0;
-      $count.textContent = cards.length ? `显示 ${shown} / ${cards.length}` : "";
+      $folded.innerHTML = "";
+      $pinSection.hidden = shownPins.length === 0;
+      shownPins.forEach((card, index) => {
+        const role = card.id === PIN_ORDER[0] ? "primary" : "secondary";
+        $pins.appendChild(cardButton(card, role));
+      });
+      if (foldedMode()) {
+        const shelf = hits.filter((card) => card.time_total <= 45 && card.packable && SHELF_FORMS.has(card.form)).sort(byShelf);
+        const others = hits.filter((card) => !shelf.includes(card)).sort(byShelf);
+        shelf.forEach((card) => $list.appendChild(cardButton(card, "shelf")));
+        $more.hidden = others.length === 0;
+        $more.innerHTML = `<span>其他菜 ${others.length}</span><span class="chev">${othersOpen ? "˅" : "›"}</span>`;
+        $folded.hidden = !othersOpen;
+        if (othersOpen) others.forEach((card) => $folded.appendChild(cardButton(card, "shelf")));
+        $empty.hidden = shownPins.length + shelf.length + others.length !== 0;
+      } else {
+        hits.sort(bySearch);
+        hits.forEach((card) => $list.appendChild(cardButton(card, "shelf")));
+        $more.hidden = true;
+        $folded.hidden = true;
+        $empty.hidden = shownPins.length + hits.length !== 0;
+      }
+      $empty.textContent = EMPTY;
     }
-
-    function showBrowse() {
-      $detail.hidden = true;
-      $detail.innerHTML = "";
-      $browse.hidden = false;
-      requestAnimationFrame(() => window.scrollTo(0, browseScroll));
-    }
-
     function showError(msg) {
       $err.hidden = false;
       $err.textContent = msg;
     }
-
+    function showBrowse() {
+      $detail.hidden = true;
+      $detail.innerHTML = "";
+      $browse.hidden = false;
+      renderFilters();
+      renderList();
+      const y = restoreY;
+      restoreY = 0;
+      requestAnimationFrame(() => window.scrollTo(0, y));
+    }
     async function openCard(id, push) {
       const token = ++openToken;
-      browseScroll = window.scrollY;
+      remember();
       try {
         const res = await fetch("./cards/" + encodeURIComponent(id) + ".json");
-        if (!res.ok) throw new Error("HTTP " + res.status);
+        if (!res.ok) throw new Error("fail");
         const card = await res.json();
         if (token !== openToken) return;
         paintDetail(card);
         $browse.hidden = true;
         $detail.hidden = false;
         window.scrollTo(0, 0);
-        if (push && location.hash !== "#" + id) history.pushState({ id }, "", "#" + id);
-      } catch (e) {
+        if (push && location.hash !== "#" + id) history.pushState({ detail: id }, "", "#" + id);
+      } catch {
         if (token !== openToken) return;
         showBrowse();
-        showError("这张卡打不开：" + e.message + "。请用 ./start.command 打开，不要直接双击 html 文件。");
+        showError(CARD_FAIL);
       }
     }
-
     function paintDetail(card) {
-      const src = card.source || {};
       const tm = card.time_minutes || {};
-      const serv = card.servings || {};
-      const pin = pinById(card.id);
-      const refs = Array.isArray(src.refs) ? src.refs : [];
-      const refHtml = refs.map((ref) => {
-        const text = escapeHtml(ref);
-        if (/^https?:\/\//i.test(String(ref))) {
-          return `<li><a href="${text}" rel="noopener noreferrer">${text}</a></li>`;
-        }
-        return `<li>${text}</li>`;
-      }).join("");
-      const fb = loadFeedback()[card.id];
+      const total = tm.total != null ? tm.total : card.time_total;
+      const pack = card.packable ? "可打包" : "不打包";
+      const packNote = card.pack_notes && !isDirty(card.pack_notes) ? " " + card.pack_notes : "";
+      const summary = card.servings && card.servings.summary && !isDirty(card.servings.summary)
+        ? card.servings.summary : "";
+      const ingredients = cleanLines(card.ingredients);
+      const steps = cleanLines(card.steps_now);
+      const chosen = loadFeedback()[card.id];
       $detail.innerHTML = `
-        <div class="detail-bar">
-          <button type="button" class="back" id="back">← 返回</button>
-        </div>
+        <div class="detail-bar"><button type="button" class="back" id="back">‹ 返回</button></div>
         <div class="sheet">
-          ${pin ? `<span class="badge">${escapeHtml(pin.label || "本周待试")}</span>` : ""}
           <h2>${escapeHtml(card.name)}</h2>
-          <div class="meta">${escapeHtml(card.form)} · ${escapeHtml(card.status || "")}</div>
-          <div class="props">
-            <div><span>份量</span>${escapeHtml(serv.summary || "见食材")}</div>
-            <div><span>时间</span>动手 ${tm.active ?? "?"} 分钟 · 一共约 ${tm.total ?? "?"} 分钟</div>
-            <div><span>打包</span>${card.packable ? "适合打包" : "不适合打包"}${card.pack_notes ? "。" + escapeHtml(card.pack_notes) : ""}</div>
-            <div class="src"><span>来源</span>${escapeHtml(src.kind ? src.kind + "。" : "")}${escapeHtml(src.label || "")}
-              ${refHtml ? `<ul>${refHtml}</ul>` : ""}
-            </div>
-          </div>
-          ${Array.isArray(card.ingredients) && card.ingredients.length ? `
-            <h3>食材</h3>
-            <ul>${card.ingredients.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : ""}
-          <h3>现在动手</h3>
-          <ol>${(card.steps_now || []).map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ol>
-          ${Array.isArray(card.prep_optional) && card.prep_optional.length ? `
-            <details>
-              <summary>可以提前准备</summary>
-              <ul>${card.prep_optional.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
-            </details>` : ""}
-          ${card.notes ? `<h3>备注</h3><p>${escapeHtml(card.notes)}</p>` : ""}
-          <h3>这顿吃完了</h3>
-          <p class="fb-status" id="fb-status"></p>
-          <div class="fb">
-            <button type="button" class="ok" data-result="吃光">吃光</button>
-            <button type="button" class="no" data-result="剩了">剩了</button>
-          </div>
+          <p class="meta">${escapeHtml(card.form)} · ${escapeHtml(total)} 分钟 · ${pack}${escapeHtml(packNote)}</p>
+          ${summary ? `<p class="portion">${escapeHtml(summary)}</p>` : ""}
+          ${ingredients.length ? `<h3>食材</h3><div class="box">${ingredients.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}</div>` : ""}
+          ${steps.length ? `<h3>现在动手</h3><div class="box" id="steps">${steps.map((line, i) => `<div class="step"><span class="num">${i + 1}</span><span>${escapeHtml(line)}</span></div>`).join("")}</div>` : ""}
         </div>
-      `;
-      const status = document.getElementById("fb-status");
-      function paintFb() {
+        <div class="actions">
+          <button type="button" class="btn-eat" data-result="吃光">吃光</button>
+          <button type="button" class="btn-left" data-result="剩了">剩了</button>
+        </div>`;
+      function paintChosen() {
         const row = loadFeedback()[card.id];
         $detail.querySelectorAll("[data-result]").forEach((btn) => {
-          btn.classList.toggle("on", !!(row && row.result === btn.dataset.result));
+          btn.classList.toggle("chosen", !!(row && row.result === btn.dataset.result));
+          btn.setAttribute("aria-pressed", row && row.result === btn.dataset.result ? "true" : "false");
         });
-        status.textContent = row
-          ? `已记在这台手机：${row.result} · ${row.at}。再点一次可取消。`
-          : "只记在这台手机里，不上传。";
       }
-      paintFb();
+      paintChosen();
       document.getElementById("back").addEventListener("click", () => {
-        if (location.hash) history.replaceState({}, "", location.pathname + location.search);
-        showBrowse();
+        const snap = JSON.parse(sessionStorage.getItem(UI_KEY) || "{}");
+        query = snap.q || "";
+        activeForm = snap.form || "全部";
+        othersOpen = !!snap.othersOpen;
+        restoreY = Number(snap.y) || 0;
+        $q.value = query;
+        if (location.hash) history.back();
+        else showBrowse();
       });
       $detail.querySelectorAll("[data-result]").forEach((btn) => {
         btn.addEventListener("click", () => {
           const map = loadFeedback();
           if (map[card.id] && map[card.id].result === btn.dataset.result) delete map[card.id];
-          else map[card.id] = { result: btn.dataset.result, at: stamp() };
+          else map[card.id] = { result: btn.dataset.result, day: today() };
           saveFeedback(map);
-          paintFb();
+          paintChosen();
           renderList();
         });
       });
     }
-
-    function closeFromHash() {
-      const id = decodeURIComponent(location.hash.replace(/^#/, ""));
-      if (id) openCard(id, false);
-      else showBrowse();
-    }
-
-    async function boot() {
-      renderFilters();
-      try {
-        const res = await fetch("./index.json");
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        const data = await res.json();
-        cards = data.cards || [];
-        if (Array.isArray(data.weekly_pins) && data.weekly_pins.length) {
-          pinMeta = data.weekly_pins.map((pin) => typeof pin === "string" ? { id: pin, label: "本周待试" } : pin);
-        }
-        $lead.textContent = `${cards.length} 道可执行卡，可以搜、可以翻。本周要试的放在最上面。`;
-        renderFilters();
-        renderList();
-        const hash = decodeURIComponent(location.hash.replace(/^#/, ""));
-        if (hash) openCard(hash, false);
-      } catch (e) {
-        showError("菜谱库没加载：" + e.message + "。在仓库根目录运行 ./start.command，或在 recipe-library 里运行 ./serve.command。");
-      }
-    }
-
+    $more.addEventListener("click", () => {
+      othersOpen = !othersOpen;
+      renderList();
+      remember();
+    });
     $q.addEventListener("input", () => {
       query = $q.value;
+      renderFilters();
       renderList();
+      remember();
     });
-    window.addEventListener("popstate", closeFromHash);
+    window.addEventListener("popstate", () => {
+      const id = decodeURIComponent(location.hash.replace(/^#/, ""));
+      if (id) openCard(id, false);
+      else {
+        const snap = JSON.parse(sessionStorage.getItem(UI_KEY) || "{}");
+        query = snap.q || query;
+        activeForm = snap.form || activeForm;
+        othersOpen = snap.othersOpen != null ? !!snap.othersOpen : othersOpen;
+        restoreY = Number(snap.y) || 0;
+        $q.value = query;
+        showBrowse();
+      }
+    });
+    async function boot() {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(UI_KEY) || "{}");
+        if (saved && typeof saved === "object") {
+          query = saved.q || "";
+          activeForm = saved.form || "全部";
+          othersOpen = !!saved.othersOpen;
+          restoreY = Number(saved.y) || 0;
+          $q.value = query;
+        }
+      } catch { /* 没有上次位置 */ }
+      try {
+        const res = await fetch("./index.json");
+        if (!res.ok) throw new Error("fail");
+        const data = await res.json();
+        cards = data.cards || [];
+        pinMeta = Array.isArray(data.weekly_pins) ? data.weekly_pins : [];
+        renderFilters();
+        renderList();
+        if (restoreY) {
+          const y = restoreY;
+          restoreY = 0;
+          requestAnimationFrame(() => window.scrollTo(0, y));
+        }
+        const hash = decodeURIComponent(location.hash.replace(/^#/, ""));
+        if (hash) openCard(hash, false);
+      } catch {
+        showError(LIBRARY_FAIL);
+      }
+    }
     boot();
   </script>
 </body>
