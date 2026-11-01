@@ -14,24 +14,23 @@ function executable(file, body) {
   fs.chmodSync(file, 0o700);
 }
 
-function startFixture({ bridge = true, buildExit = 0, planExit = 0 } = {}) {
+function startFixture({ library = true } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'yiguochu-start-'));
   const bin = path.join(dir, 'bin');
   fs.mkdirSync(bin);
   fs.copyFileSync(path.join(ROOT, 'start.command'), path.join(dir, 'start.command'));
-  fs.writeFileSync(path.join(dir, 'ai_proxy.py'), '# fixture\n');
-  if (bridge) {
-    fs.mkdirSync(path.join(dir, 'tools'), { recursive: true });
-    fs.writeFileSync(path.join(dir, 'tools', 'planner-v2-local-bridge.mjs'), '// fixture\n');
+  if (library) {
+    const lib = path.join(dir, 'recipe-library');
+    fs.mkdirSync(lib);
+    fs.writeFileSync(path.join(lib, 'browse.html'), '<!doctype html><title>browse</title>\n');
+    fs.writeFileSync(path.join(lib, 'index.json'), '{"cards":[]}\n');
   }
   const log = path.join(dir, 'commands.log');
-  const node = path.join(bin, 'node');
-  executable(node, `echo "node $*" >> "$LOG_FILE"\ncase "$*" in *build-dist.mjs*) exit ${buildExit};; esac\nexit 0`);
-  executable(path.join(bin, 'python3'), `echo "python3 $*" >> "$LOG_FILE"\ncase " $* " in *" --plan-meal "*) exit ${planExit};; esac\nexit 0`);
+  executable(path.join(bin, 'python3'), `echo "python3 $*" >> "$LOG_FILE"\nexit 0`);
   for (const name of ['lsof', 'xargs', 'nohup', 'curl', 'sleep', 'open']) {
     executable(path.join(bin, name), `echo "${name} $*" >> "$LOG_FILE"\nexit 0`);
   }
-  return { dir, bin, log, node, script: path.join(dir, 'start.command') };
+  return { dir, bin, log, script: path.join(dir, 'start.command') };
 }
 
 function runStart(fixture, extraEnv = {}) {
@@ -42,7 +41,6 @@ function runStart(fixture, extraEnv = {}) {
     env: {
       PATH: `${fixture.bin}:/usr/bin:/bin`,
       LOG_FILE: fixture.log,
-      PLANNER_NODE_EXECUTABLE: fixture.node,
       ...extraEnv,
     },
   });
@@ -61,59 +59,56 @@ test('product principles keep personalization honest and architecture focused', 
   ]) assert.match(text, new RegExp(principle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 });
 
-test('start.command starts both local services and opens the localhost page', () => {
+test('start.command serves the recipe library browse on the LAN and skips the rice-meal UI', () => {
   const script = read('start.command');
-  assert.match(script, /build-dist\.mjs[\s\S]*--product-focus[\s\S]*rice-meal-v1/);
-  assert.match(script, /YIGUOCHU_PRODUCT_FOCUS=["']?rice-meal-v1/);
-  assert.match(script, /python3\s+ai_proxy\.py/);
-  assert.match(script, /python3\s+-m\s+http\.server\s+8081[\s\S]*--directory\s+dist/);
-  assert.match(script, /open\s+["']http:\/\/localhost:8081[\/]?["']/);
+  assert.match(script, /python3\s+-m\s+http\.server/);
+  assert.match(script, /--bind\s+0\.0\.0\.0/);
+  assert.match(script, /--directory\s+"\$LIB"/);
+  assert.match(script, /recipe-library\/browse\.html/);
+  assert.doesNotMatch(script, /build-dist\.mjs|rice-meal-v1|ai_proxy\.py|planner-v2-local-bridge|--plan-meal|generate-plan/);
+  assert.doesNotMatch(script, /--directory\s+dist/);
   assert.doesNotMatch(script, /open\s+["']index\.html["']/);
 });
 
-test('start.command launches the source-backed rotation without requiring the legacy planner bridge', () => {
-  const script = read('start.command');
-  assert.match(script, /PLANNER_NODE_EXECUTABLE/);
-  assert.doesNotMatch(script, /planner-v2-local-bridge\.mjs/);
-  assert.doesNotMatch(script, /--plan-meal/);
-});
-
-test('start.command fails closed before kill/open when Node or the rice rotation build is unavailable', async t => {
-  const cases = [
-    ['missing Node', { buildExit: 0 }, { PLANNER_NODE_EXECUTABLE: '/missing/node' }],
-    ['rice-meal build failure', { buildExit: 4 }, {}],
-  ];
-  for (const [name, options, env] of cases) {
-    await t.test(name, () => {
-      const fixture = startFixture(options);
-      try {
-        const result = runStart(fixture, env);
-        assert.notEqual(result.status, 0);
-        assert.match(`${result.stdout}${result.stderr}`, /本地规划组件未就绪|本地菜饭页面构建失败|需要\s*Node\.js/);
-        const commands = fs.existsSync(fixture.log) ? fs.readFileSync(fixture.log, 'utf8') : '';
-        assert.doesNotMatch(commands, /lsof|nohup|open/);
-      } finally {
-        fs.rmSync(fixture.dir, { recursive: true, force: true });
-      }
-    });
+test('start.command fails closed before serving when the recipe library page is missing', () => {
+  const fixture = startFixture({ library: false });
+  try {
+    const result = runStart(fixture);
+    assert.notEqual(result.status, 0);
+    assert.match(`${result.stdout}${result.stderr}`, /找不到菜谱库/);
+    const commands = fs.existsSync(fixture.log) ? fs.readFileSync(fixture.log, 'utf8') : '';
+    assert.doesNotMatch(commands, /lsof|nohup|open/);
+  } finally {
+    fs.rmSync(fixture.dir, { recursive: true, force: true });
   }
 });
 
-test('start.command keeps the normal launch path without a planner preflight', () => {
+test('start.command opens browse.html without plan-meal or the legacy proxy', () => {
   const fixture = startFixture();
   try {
     const result = runStart(fixture);
     assert.equal(result.status, 0, result.stderr || result.stdout);
     const commands = fs.readFileSync(fixture.log, 'utf8');
-    assert.match(commands, /node .*build-dist\.mjs .*--product-focus rice-meal-v1/);
-    assert.doesNotMatch(commands, /--plan-meal/);
-    assert.match(commands, /lsof -ti :8765/);
-    assert.match(commands, /nohup python3 ai_proxy\.py/);
-    assert.match(commands, /nohup python3 -m http\.server 8081 .*--directory dist/);
-    assert.match(commands, /open http:\/\/localhost:8081/);
+    assert.match(commands, /nohup python3 -m http\.server 8081 --bind 0\.0\.0\.0 --directory .*recipe-library/);
+    assert.match(commands, /open http:\/\/127\.0\.0\.1:8081\/browse\.html/);
+    assert.doesNotMatch(commands, /ai_proxy|build-dist|plan-meal|generate-plan|rice-meal/);
   } finally {
     fs.rmSync(fixture.dir, { recursive: true, force: true });
   }
+});
+
+test('phone browse pins this week and does not call the planner', () => {
+  const html = read('recipe-library/browse.html');
+  assert.match(html, /本周待试/);
+  assert.match(html, /ingredients/);
+  assert.match(html, /steps_now/);
+  assert.match(html, /yiguochu-recipe-library-feedback-v1/);
+  assert.doesNotMatch(html, /plan-meal|generate-plan|ai_proxy/);
+  const index = JSON.parse(read('recipe-library/index.json'));
+  assert.deepEqual(index.weekly_pins.map((pin) => pin.id), ['baicai-doufu-menfan', 'roumi-qingcai-fan']);
+  assert.equal(index.weekly_pins.every((pin) => pin.label === '本周待试'), true);
+  assert.equal(index.cards.length, 106);
+  assert.equal(index.cards.every((card) => card.keywords), true);
 });
 
 test('deployment documentation uses the canonical build script without manual copy steps', () => {

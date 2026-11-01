@@ -19,9 +19,10 @@ recipe-library/
   schema.json        ← 卡片字段约定（JSON Schema）
   index.json         ← 库目录（列表用）
   cards/*.json       ← 每道一卡
-  browse.html        ← 简单浏览页（人用）
-  cli.py             ← 列出 / 打开 / 新建卡
-  serve.command      ← 局域网静态打开浏览页
+  browse.html        ← 手机浏览/详情（搜索、形态筛选、本周待试置顶）
+  index.html         ← 转到 browse.html，方便用目录根地址打开
+  cli.py             ← 列出 / 打开 / 新建卡 / 重建带关键词的 index
+  serve.command      ← 备用端口 8092；家庭默认用仓库根目录 start.command
 ```
 
 ## 卡片字段（最小）
@@ -82,15 +83,25 @@ python3 cli.py list
 python3 cli.py show qingcai-doufu-tangpaofan
 ```
 
-### 浏览页
+### 浏览页（手机默认入口）
+
+仓库根目录：
 
 ```bash
-cd "/Users/liuyuxin/Documents/一锅出/recipe-library"
+./start.command
+```
+
+Mac 打开 `http://127.0.0.1:8081/browse.html`。同一 Wi-Fi 的 iPhone 用终端打印的 `http://<局域网IP>:8081/browse.html`。详见 `docs/mobile-pwa.md`。
+
+页面会列出全部卡，可按菜名 / 形态 / 食材搜索，可按 form 筛选。`index.json` 的 `weekly_pins` 置顶并标「本周待试」（当前为白菜豆腐焖饭、肉糜青菜饭）。点开看食材、`steps_now`、时间、打包和来源。吃光 / 剩了只写在这台手机的 localStorage。
+
+备用端口：在本目录双击 `serve.command`，或：
+
+```bash
 python3 -m http.server 8092 --bind 0.0.0.0
 ```
 
-浏览器打开 `http://127.0.0.1:8092/browse.html`（手机用本机局域网 IP:`8092`）。  
-或双击 `serve.command`。
+然后打开 `http://127.0.0.1:8092/browse.html`。
 
 ## 当前库规模（均为待试，除非另标）
 
@@ -113,5 +124,5 @@ python3 -m http.server 8092 --bind 0.0.0.0
 
 ## 与 S1 / 旧仓关系
 
-- `family-surface/`：晨间三卡原型，**参考**；本库是可扩展原料，不替换为贴 plan-meal。
+- `family-surface/`：晨间三卡原型，**参考**，不是手机默认首页。手机主路径是本目录 `browse.html`。
 - 旧 `tools/data/recipe-library.json` 等：历史匹配器用数据；**本目录不 import、不调用**。

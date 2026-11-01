@@ -4,6 +4,8 @@
 **分支：** `family-restart`  
 **日期：** 2026-11-01 Asia/Taipei  
 
+手机默认入口已改到 `recipe-library/browse.html`（仓库根目录 `./start.command`，局域网 8081）。本目录仍是三卡原型，不是默认首页。  
+
 ## 三道菜
 
 1. **白菜豆腐焖饭**（待试）— catalog `home-cabbage-tofu-rice`

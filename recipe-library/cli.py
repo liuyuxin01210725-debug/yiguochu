@@ -47,8 +47,28 @@ def save_card(card: dict) -> Path:
     return path
 
 
+def search_keywords(card: dict) -> str:
+    """列表搜索用：食材、步骤、打包说明、来源。不含营养数字，不含备注里的对照菜名。"""
+    parts: list[str] = []
+    # 备注常拿别的菜名作对照（例如「与白菜豆腐焖饭不是同一道」），不放进搜索串，避免搜到不是这道菜的词。
+    pack_notes = card.get("pack_notes")
+    if isinstance(pack_notes, str) and pack_notes.strip():
+        parts.append(pack_notes.strip())
+    src = card.get("source") if isinstance(card.get("source"), dict) else {}
+    for key in ("kind", "label"):
+        val = src.get(key)
+        if isinstance(val, str) and val.strip():
+            parts.append(val.strip())
+    for key in ("ingredients", "prep_optional", "steps_now"):
+        seq = card.get(key) or []
+        if isinstance(seq, list):
+            parts.extend(str(item).strip() for item in seq if str(item).strip())
+    text = re.sub(r"\s+", " ", " ".join(parts)).strip()
+    return text[:1200]
+
+
 def summary_row(card: dict) -> dict:
-    return {
+    row = {
         "id": card["id"],
         "name": card["name"],
         "form": card["form"],
@@ -57,6 +77,10 @@ def summary_row(card: dict) -> dict:
         "time_total": card.get("time_minutes", {}).get("total"),
         "file": f"cards/{card['id']}.json",
     }
+    keywords = search_keywords(card)
+    if keywords:
+        row["keywords"] = keywords
+    return row
 
 
 def cmd_list(_: argparse.Namespace) -> None:
@@ -149,6 +173,14 @@ def cmd_validate(_: argparse.Namespace) -> None:
         errs.append(f"index.json 缺少 {missing}")
     for extra in sorted(index_ids - file_ids):
         errs.append(f"index.json 有幽灵条目 {extra}")
+    pins = idx.get("weekly_pins") or []
+    if pins and not isinstance(pins, list):
+        errs.append("weekly_pins 须为数组")
+    elif isinstance(pins, list):
+        for pin in pins:
+            pid = pin.get("id") if isinstance(pin, dict) else pin
+            if not isinstance(pid, str) or pid not in file_ids:
+                errs.append(f"weekly_pins 指向不存在的卡 {pid}")
     if errs:
         print("校验失败：")
         for e in errs:
