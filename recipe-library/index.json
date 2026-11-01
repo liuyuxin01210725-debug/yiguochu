@@ -4,6 +4,51 @@
   "branch_note": "独立于 plan-meal / 旧 matcher；family-restart P0",
   "cards": [
     {
+      "id": "afuhan-putaogan-shouzhafan",
+      "name": "阿富汗葡萄干手抓饭",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 155,
+      "file": "cards/afuhan-putaogan-shouzhafan.json"
+    },
+    {
+      "id": "aierlan-yangrou-dun",
+      "name": "爱尔兰羊肉炖锅",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 170,
+      "file": "cards/aierlan-yangrou-dun.json"
+    },
+    {
+      "id": "aiji-mifan-biandou-yiguo",
+      "name": "埃及米饭扁豆一锅（Koshari 简化）",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 90,
+      "file": "cards/aiji-mifan-biandou-yiguo.json"
+    },
+    {
+      "id": "alabo-xiangliao-shouzhafan",
+      "name": "阿拉伯香料手抓饭（Kabsa）",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 105,
+      "file": "cards/alabo-xiangliao-shouzhafan.json"
+    },
+    {
+      "id": "asaibaijiang-shouzhafan",
+      "name": "阿塞拜疆手抓饭（Shah Plov 简化）",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 115,
+      "file": "cards/asaibaijiang-shouzhafan.json"
+    },
+    {
       "id": "baicai-doufu-menfan",
       "name": "白菜豆腐焖饭",
       "form": "焖饭",
@@ -13,22 +58,148 @@
       "file": "cards/baicai-doufu-menfan.json"
     },
     {
-      "id": "roumi-qingcai-fan",
-      "name": "肉糜青菜饭",
+      "id": "baxi-heidou-dun",
+      "name": "巴西黑豆炖肉（配饭）",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 220,
+      "file": "cards/baxi-heidou-dun.json"
+    },
+    {
+      "id": "benachin-wikibooks",
+      "name": "冈比亚一锅肉菜饭（Benachin）",
       "form": "菜饭",
       "status": "待试",
       "packable": true,
-      "time_total": 50,
-      "file": "cards/roumi-qingcai-fan.json"
+      "time_total": 55,
+      "file": "cards/benachin-wikibooks.json"
     },
     {
-      "id": "qingcai-doufu-tangpaofan",
-      "name": "青菜豆腐汤泡饭",
+      "id": "biandou-fan-yiguo",
+      "name": "扁豆饭一锅（Dal Bhat 简化）",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 65,
+      "file": "cards/biandou-fan-yiguo.json"
+    },
+    {
+      "id": "fanqie-jidan-gaifan",
+      "name": "番茄鸡蛋盖饭",
       "form": "汤泡饭",
       "status": "待试",
       "packable": true,
       "time_total": 20,
-      "file": "cards/qingcai-doufu-tangpaofan.json"
+      "file": "cards/fanqie-jidan-gaifan.json"
+    },
+    {
+      "id": "fanqie-niunan-menfan",
+      "name": "番茄牛腩焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 90,
+      "file": "cards/fanqie-niunan-menfan.json"
+    },
+    {
+      "id": "fanzhuan-gaifan",
+      "name": "翻转盖饭（Maqluba 家常）",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 135,
+      "file": "cards/fanzhuan-gaifan.json"
+    },
+    {
+      "id": "feilvbin-cu-jiangyou-menji",
+      "name": "菲律宾醋酱油焖鸡（Adobo）配饭",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 60,
+      "file": "cards/feilvbin-cu-jiangyou-menji.json"
+    },
+    {
+      "id": "galidou-tudou-niurou",
+      "name": "咖喱土豆牛肉一锅",
+      "form": "咖喱一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 70,
+      "file": "cards/galidou-tudou-niurou.json"
+    },
+    {
+      "id": "gelunbiya-zaza-tangfan",
+      "name": "哥伦比亚杂菜炖汤配饭",
+      "form": "汤泡饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 140,
+      "file": "cards/gelunbiya-zaza-tangfan.json"
+    },
+    {
+      "id": "guba-jifan-caifan",
+      "name": "古巴鸡肉菜饭",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 90,
+      "file": "cards/guba-jifan-caifan.json"
+    },
+    {
+      "id": "hainan-jifan-jiacchang",
+      "name": "海南鸡饭（家常一锅简化）",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 90,
+      "file": "cards/hainan-jifan-jiacchang.json"
+    },
+    {
+      "id": "haiwan-xiangliao-menfan",
+      "name": "海湾香料焖饭（Machboos）",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 75,
+      "file": "cards/haiwan-xiangliao-menfan.json"
+    },
+    {
+      "id": "hongdou-mifan",
+      "name": "红豆米饭（Gallo Pinto）",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 35,
+      "file": "cards/hongdou-mifan.json"
+    },
+    {
+      "id": "huifan-jichu-wikibooks",
+      "name": "基础意式烩饭（Risotto）",
+      "form": "其他一锅",
+      "status": "待试",
+      "packable": false,
+      "time_total": 40,
+      "file": "cards/huifan-jichu-wikibooks.json"
+    },
+    {
+      "id": "jambalaya-wikibooks",
+      "name": "路易斯安那什锦饭（Jambalaya）",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 60,
+      "file": "cards/jambalaya-wikibooks.json"
+    },
+    {
+      "id": "jiandan-biryani-wikibooks",
+      "name": "简易鸡肉香饭（Simple Biryani）",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/jiandan-biryani-wikibooks.json"
     },
     {
       "id": "jirou-galidou-yiguo",
@@ -47,6 +218,303 @@
       "packable": true,
       "time_total": 60,
       "file": "cards/jirou-shouzhafan.json"
+    },
+    {
+      "id": "jirou-xiangfan-jiacchang",
+      "name": "鸡肉香饭（家常 Biryani 简化）",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 105,
+      "file": "cards/jirou-xiangfan-jiacchang.json"
+    },
+    {
+      "id": "jollof-tchari-wikibooks",
+      "name": "西非 Jollof 番茄焖饭（Tchari）",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 55,
+      "file": "cards/jollof-tchari-wikibooks.json"
+    },
+    {
+      "id": "kediwowa-menji-fan",
+      "name": "科特迪瓦密封焖鸡配饭",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 100,
+      "file": "cards/kediwowa-menji-fan.json"
+    },
+    {
+      "id": "lachang-qingdou-menfan",
+      "name": "腊肠青豆焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/lachang-qingdou-menfan.json"
+    },
+    {
+      "id": "lajiao-nailao-peifan",
+      "name": "辣椒奶酪一锅配饭（Ema Datshi）",
+      "form": "其他一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 35,
+      "file": "cards/lajiao-nailao-peifan.json"
+    },
+    {
+      "id": "luroufan",
+      "name": "台式卤肉饭（一锅浇饭）",
+      "form": "汤泡饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 125,
+      "file": "cards/luroufan.json"
+    },
+    {
+      "id": "mashaman-galidou-yiguo",
+      "name": "马沙曼咖喱一锅",
+      "form": "咖喱一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 115,
+      "file": "cards/mashaman-galidou-yiguo.json"
+    },
+    {
+      "id": "mengjiala-xiangchao-zafan",
+      "name": "孟加拉香炒杂粮饭（Khichuri）",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 65,
+      "file": "cards/mengjiala-xiangchao-zafan.json"
+    },
+    {
+      "id": "milan-huifan",
+      "name": "米兰藏红花烩饭",
+      "form": "其他一锅",
+      "status": "待试",
+      "packable": false,
+      "time_total": 35,
+      "file": "cards/milan-huifan.json"
+    },
+    {
+      "id": "moji-huifan",
+      "name": "墨汁海鲜烩饭",
+      "form": "其他一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 75,
+      "file": "cards/moji-huifan.json"
+    },
+    {
+      "id": "nigerian-jollof-wikibooks",
+      "name": "尼日利亚 Jollof 焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 80,
+      "file": "cards/nigerian-jollof-wikibooks.json"
+    },
+    {
+      "id": "ningmeng-ji-taji",
+      "name": "柠檬鸡塔吉锅（一锅炖）",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 95,
+      "file": "cards/ningmeng-ji-taji.json"
+    },
+    {
+      "id": "niudon-gaifan",
+      "name": "日式牛丼盖饭",
+      "form": "汤泡饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 25,
+      "file": "cards/niudon-gaifan.json"
+    },
+    {
+      "id": "paigu-yumi-menfan",
+      "name": "排骨玉米焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 55,
+      "file": "cards/paigu-yumi-menfan.json"
+    },
+    {
+      "id": "paocai-tang-paofan",
+      "name": "泡菜豆腐汤泡饭",
+      "form": "汤泡饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 40,
+      "file": "cards/paocai-tang-paofan.json"
+    },
+    {
+      "id": "pidan-shourou-zhou",
+      "name": "皮蛋瘦肉粥",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 50,
+      "file": "cards/pidan-shourou-zhou.json"
+    },
+    {
+      "id": "qiezi-roumo-menfan",
+      "name": "茄子肉末焖饭",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/qiezi-roumo-menfan.json"
+    },
+    {
+      "id": "qingcai-doufu-tangpaofan",
+      "name": "青菜豆腐汤泡饭",
+      "form": "汤泡饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 20,
+      "file": "cards/qingcai-doufu-tangpaofan.json"
+    },
+    {
+      "id": "roumi-qingcai-fan",
+      "name": "肉糜青菜饭",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 50,
+      "file": "cards/roumi-qingcai-fan.json"
+    },
+    {
+      "id": "sililanka-yu-galidou",
+      "name": "斯里兰卡鱼咖喱一锅",
+      "form": "咖喱一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 65,
+      "file": "cards/sililanka-yu-galidou.json"
+    },
+    {
+      "id": "wuzibieke-shouzhafan",
+      "name": "乌兹别克手抓饭",
+      "form": "手抓饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 130,
+      "file": "cards/wuzibieke-shouzhafan.json"
+    },
+    {
+      "id": "xiangchang-tudou-menfan",
+      "name": "香肠土豆焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/xiangchang-tudou-menfan.json"
+    },
+    {
+      "id": "xiaren-xiancai-menfan",
+      "name": "虾仁鲜蔬焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/xiaren-xiancai-menfan.json"
+    },
+    {
+      "id": "xibanya-paella-jianhua",
+      "name": "西班牙肉菜饭（Paella 家常）",
+      "form": "菜饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 70,
+      "file": "cards/xibanya-paella-jianhua.json"
+    },
+    {
+      "id": "xifei-fanqie-menfan",
+      "name": "西非番茄焖饭（Jollof）",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 80,
+      "file": "cards/xifei-fanqie-menfan.json"
+    },
+    {
+      "id": "xiongyali-dunrou",
+      "name": "匈牙利炖牛肉（配饭/面）",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 170,
+      "file": "cards/xiongyali-dunrou.json"
+    },
+    {
+      "id": "yamaijia-yeixiang-hongdoufan",
+      "name": "牙买加椰香红豆饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 110,
+      "file": "cards/yamaijia-yeixiang-hongdoufan.json"
+    },
+    {
+      "id": "yangcong-ningmeng-ji-fan",
+      "name": "洋葱柠檬鸡一锅饭（Yassa 简化）",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 100,
+      "file": "cards/yangcong-ningmeng-ji-fan.json"
+    },
+    {
+      "id": "yexiang-mifan",
+      "name": "椰香米饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 60,
+      "file": "cards/yexiang-mifan.json"
+    },
+    {
+      "id": "yinian-doufu-menfan",
+      "name": "香菇豆腐焖饭",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/yinian-doufu-menfan.json"
+    },
+    {
+      "id": "yishi-mifan-pilaf-wikibooks",
+      "name": "意式香草红酒饭（Italian Rice Pilaf）",
+      "form": "焖饭",
+      "status": "待试",
+      "packable": true,
+      "time_total": 45,
+      "file": "cards/yishi-mifan-pilaf-wikibooks.json"
+    },
+    {
+      "id": "zhou-congee-wikibooks",
+      "name": "中式白粥（Congee）",
+      "form": "煲类一锅",
+      "status": "待试",
+      "packable": true,
+      "time_total": 120,
+      "file": "cards/zhou-congee-wikibooks.json"
+    },
+    {
+      "id": "zhupaigaifan",
+      "name": "猪排盖饭（家常简化）",
+      "form": "汤泡饭",
+      "status": "待试",
+      "packable": false,
+      "time_total": 40,
+      "file": "cards/zhupaigaifan.json"
     }
   ]
 }

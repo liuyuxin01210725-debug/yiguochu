@@ -1,0 +1,52 @@
+{
+  "id": "luroufan",
+  "name": "台式卤肉饭（一锅浇饭）",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "猪肉 belly 700g（{'ru': 'мелким кубиком', 'en': 'finely diced'}）",
+    "Shallots 6piece",
+    "酱油 100ml",
+    "酱油（Dark soy sauce） 1tbsp",
+    "酒（Shaoxing wine） 80ml",
+    "糖（Rock sugar） 30g",
+    "Five-spice powder 1tsp",
+    "Star anise 2piece",
+    "蒜 5clove",
+    "鸡蛋s 4piece（{'ru': 'варёные, к подаче', 'en': 'boiled, to serve'}）",
+    "大米 400g",
+    "Bok choy 300g",
+    "植物油 40ml",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。",
+    "碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。",
+    "需要打包时：汤与饭分盒，食用前合热。",
+    "要点对照来源：Dice the belly into one-centimetre cubes, keeping the fat with the meat.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 125
+  },
+  "packable": true,
+  "pack_notes": "卤肉耐放，米饭另装浇汁。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Lu rou fan」（lu-rou-fan）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:lu-rou-fan"
+    ]
+  },
+  "status": "待试",
+  "notes": "酱肉浇饭形态。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Minced pork belly braised in soy sauce with spices, spooned over white rice."
+}

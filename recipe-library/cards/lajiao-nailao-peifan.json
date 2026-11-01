@@ -1,0 +1,46 @@
+{
+  "id": "lajiao-nailao-peifan",
+  "name": "辣椒奶酪一锅配饭（Ema Datshi）",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "Green chillies 400g（{'ru': 'крупный, не жгучий сорт', 'en': 'large, milder variety'}）",
+    "奶酪（Datshi or feta cheese） 300g",
+    "洋葱 1piece",
+    "蒜 5clove",
+    "番茄 1piece",
+    "黄油 30g",
+    "大米（Red rice） 350g（{'ru': 'к подаче', 'en': 'to serve'}）",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。",
+    "最后搅入黄油/芝士或海鲜等；立即装盘。",
+    "烩饭类宜现做；带饭则略做硬一点并少装汤。",
+    "要点对照来源：Quarter the chillies lengthways. The seeds stay in; in Bhutan they are not removed.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 35
+  },
+  "packable": true,
+  "pack_notes": "奶酪酱粘，单独盒装米饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Ema datshi」（ema-datshi）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:ema-datshi"
+    ]
+  },
+  "status": "待试",
+  "notes": "不辣可换青椒；配白饭成一餐。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Green chillies stewed in cheese. Bhutan's national dish, where chilli is a vegetable rather than a seasoning."
+}

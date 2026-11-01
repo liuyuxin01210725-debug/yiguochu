@@ -1,0 +1,53 @@
+{
+  "id": "mengjiala-xiangchao-zafan",
+  "name": "孟加拉香炒杂粮饭（Khichuri）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "原数据集基准 5 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 5 人份（可缩放）"
+  },
+  "ingredients": [
+    "大米（Short-grain rice） 400g",
+    "Moong dal 250g",
+    "洋葱s 2piece",
+    "姜 40g",
+    "Green chillies 5piece",
+    "姜黄 2tsp",
+    "孜然（Ground cumin） 2tsp",
+    "Bay leaves 3piece",
+    "肉桂 stick 1piece",
+    "豆蔻 pods 5piece",
+    "Ghee 80g",
+    "土豆es 3piece",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Dry-roast the moong dal for five minutes, to a nutty smell, and rinse it.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [
+    "扁豆可提前浸泡。"
+  ],
+  "time_minutes": {
+    "active": 20,
+    "total": 65
+  },
+  "packable": true,
+  "pack_notes": "偏软烂，饭盒加少许水复热。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Bhuna khichuri」（bhuna-khichuri）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:bhuna-khichuri"
+    ]
+  },
+  "status": "待试",
+  "notes": "米豆同煮的一锅主食。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Rice and lentils fried before the water goes in. Bengali food for a rainy day."
+}

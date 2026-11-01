@@ -1,0 +1,50 @@
+{
+  "id": "hainan-jifan-jiacchang",
+  "name": "海南鸡饭（家常一锅简化）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "鸡肉（Whole chicken） 1.6kg",
+    "大米（Jasmine rice） 400g",
+    "姜 80g",
+    "蒜 8clove",
+    "洋葱（Spring onions） 6piece",
+    "Sesame oil 3tbsp",
+    "酱油 4tbsp",
+    "Red chillies 6piece",
+    "青柠 2piece",
+    "Cucumber 1piece",
+    "Pandan leaf 2piece（{'ru': 'по желанию', 'en': 'optional'}）",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Rub the chicken with salt inside and out and stuff the cavity with half the ginger and the spring onions.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 30,
+    "total": 90
+  },
+  "packable": true,
+  "pack_notes": "鸡与饭分装；鸡汤可另盒。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Hainanese chicken rice」（hainanese-chicken-rice）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:hainanese-chicken-rice"
+    ]
+  },
+  "status": "待试",
+  "notes": "简化：鸡油香米饭+白切鸡同餐。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：A whole chicken poached below boiling and rice cooked in its broth, with three sauces."
+}

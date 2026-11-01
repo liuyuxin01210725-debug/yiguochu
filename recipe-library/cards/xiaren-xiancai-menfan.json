@@ -1,0 +1,35 @@
+{
+  "id": "xiaren-xiancai-menfan",
+  "name": "虾仁鲜蔬焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "生米 1.5 杯 + 虾仁约 150g",
+    "rice": "生米 1.5 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "大米 1.5 杯",
+    "虾仁约 150g",
+    "青豆/玉米粒、胡萝卜丁",
+    "姜丝、料酒、盐、香油"
+  ],
+  "steps_now": [
+    "虾仁料酒姜丝略腌。",
+    "米加水入胆；铺蔬菜与虾仁，轻盐滴香油。",
+    "煮饭；好后翻拌即食。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 12,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "海鲜当天吃完更好。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "虾仁焖饭常见家常改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": ""
+}

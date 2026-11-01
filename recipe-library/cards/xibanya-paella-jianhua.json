@@ -1,0 +1,50 @@
+{
+  "id": "xibanya-paella-jianhua",
+  "name": "西班牙肉菜饭（Paella 家常）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "大米（Bomba rice, or another short grain） 320g",
+    "鸡肉, in pieces 400g",
+    "Rabbit, in pieces 300g（{'ru': 'можно заменить курицей', 'en': 'chicken will do instead'}）",
+    "豆（Flat green beans） 200g",
+    "豆（Large white beans） 100g（{'ru': 'варёная', 'en': 'cooked'}）",
+    "番茄 1piece（{'ru': 'натереть на тёрке', 'en': 'grated'}）",
+    "橄榄油 60ml",
+    "Sweet paprika 1tsp",
+    "藏红花 1pinch",
+    "Rosemary 1sprig",
+    "鸡肉 stock or water 900ml",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Heat the oil in a wide pan and brown the chicken and rabbit on every side. This is not a five-minute job: it takes a goo…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 70
+  },
+  "packable": true,
+  "pack_notes": "当餐最佳；隔夜米饭偏硬可加汤复热。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Paella valenciana」（paella-valenciana）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:paella-valenciana"
+    ]
+  },
+  "status": "待试",
+  "notes": "宽锅焖米，中途少搅。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Rice in a wide pan with chicken, rabbit and beans. It is never stirred once, and the crust on the bottom depends on that."
+}

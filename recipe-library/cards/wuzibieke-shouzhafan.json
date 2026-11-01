@@ -1,0 +1,49 @@
+{
+  "id": "wuzibieke-shouzhafan",
+  "name": "乌兹别克手抓饭",
+  "form": "手抓饭",
+  "servings": {
+    "summary": "原数据集基准 6 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 6 人份（可缩放）"
+  },
+  "ingredients": [
+    "羊肉 on the bone 800g",
+    "羊肉 tail fat 100g（{'ru': 'или растительное масло', 'en': 'or vegetable oil'}）",
+    "大米（Devzira or another firm rice） 700g",
+    "胡萝卜（Yellow and red carrot） 700g（{'ru': 'брусочками', 'en': 'in batons'}）",
+    "洋葱s 3piece",
+    "蒜 bulbs 2piece",
+    "孜然 seeds 1tbsp",
+    "Barberries 2tbsp",
+    "鹰嘴豆 100g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}）",
+    "Whole chilli 1piece",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Rinse the rice until the water runs clear and cover it with warm salted water for as long as the zirvak takes.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 30,
+    "total": 130
+  },
+  "packable": true,
+  "pack_notes": "经典带饭；复热略洒水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Uzbek plov」（plov-uzbekskiy）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:plov-uzbekskiy"
+    ]
+  },
+  "status": "待试",
+  "notes": "胡萝卜羊肉/鸡肉香料焖米。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Rice steamed over a zirvak of lamb, carrot and onion. It is never stirred once it goes in."
+}

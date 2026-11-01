@@ -1,0 +1,44 @@
+{
+  "id": "jollof-tchari-wikibooks",
+  "name": "西非 Jollof 番茄焖饭（Tchari）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米约 2 杯；约 4 人",
+    "rice": "长粒米 2 杯",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "植物油 2 大勺",
+    "洋葱 1 大个",
+    "蒜 3 瓣、姜 1 小勺",
+    "番茄 3–4 个打碎、红绿甜椒、辣椒适量",
+    "百里香、咖喱粉、红椒粉、肉豆蔻、香叶",
+    "长粒米 2 杯",
+    "鸡汤或水 2–3 杯",
+    "冻混合蔬菜 1 杯；盐胡椒；可选黄油"
+  ],
+  "steps_now": [
+    "油炒洋葱至透明，加蒜姜 1 分钟；下番茄甜椒辣椒糊，煮 10–15 分钟至出油。",
+    "加香料拌匀；米淘净入锅裹酱。",
+    "倒汤至高过米约 2–3cm，调味；煮开后小火盖紧 20–25 分钟至米熟。",
+    "拌入冻菜与可选黄油，焖几分钟；松散装盘。"
+  ],
+  "prep_optional": [
+    "米淘至水清。"
+  ],
+  "time_minutes": {
+    "active": 25,
+    "total": 55
+  },
+  "packable": true,
+  "pack_notes": "番茄焖饭适合带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Tchari (Jollof Rice)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Tchari_(Jollof_Rice)"
+    ]
+  },
+  "notes": "与 UniTools Jollof 条目可对照；许可均为 CC。",
+  "status": "待试"
+}

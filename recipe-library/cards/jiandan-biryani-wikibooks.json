@@ -1,0 +1,45 @@
+{
+  "id": "jiandan-biryani-wikibooks",
+  "name": "简易鸡肉香饭（Simple Biryani）",
+  "form": "手抓饭",
+  "servings": {
+    "summary": "约 4 人；米 300g + 鸡 600g",
+    "rice": "印度香米 300g",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "印度香米 300g（温水泡 30 分钟）",
+    "鸡肉 600g，块",
+    "洋葱 1 大个",
+    "黄油 30g",
+    "香叶 1、豆蔻 3、肉桂棒 1",
+    "姜黄 1 小勺、咖喱酱 4 大勺",
+    "葡萄干 100g",
+    "鸡汤约 850ml",
+    "香菜末"
+  ],
+  "steps_now": [
+    "米洗净；黄油炒洋葱与香料约 10 分钟。",
+    "下鸡块、姜黄、咖喱酱再炒约 5 分钟。",
+    "下米与葡萄干，倒入鸡汤；盖紧大火煮开后小火 5 分钟。",
+    "离火焖 10 分钟吸干汤汁；拌入一半香菜，其余撒面。"
+  ],
+  "prep_optional": [
+    "米浸泡 30 分钟。"
+  ],
+  "time_minutes": {
+    "active": 25,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "香饭耐放；复热略洒水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Simple Biryani；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Simple_Biryani"
+    ]
+  },
+  "notes": "一锅香饭；衍生须 CC BY-SA。",
+  "status": "待试"
+}

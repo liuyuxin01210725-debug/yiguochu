@@ -92,7 +92,13 @@ python3 -m http.server 8092 --bind 0.0.0.0
 浏览器打开 `http://127.0.0.1:8092/browse.html`（手机用本机局域网 IP:`8092`）。  
 或双击 `serve.command`。
 
-## 当前样例（均为待试）
+## 当前库规模（均为待试，除非另标）
+
+截至 2026-11-01 Asia/Shanghai：`python3 cli.py validate` → **57 张卡**。
+
+本批大量条目改编自开源数据集（UniTools CC BY-SA 4.0、Wikibooks Cookbook CC BY-SA 3.0）及家常网络常见做法改写；`source.refs` 含 URL/slug。详见 box：`/home/box/shared/yiguochu/recipe-sources-2026-11-01.md`。
+
+### 最初骨架样例
 
 | id | 名称 | 形态 | 来源摘要 |
 |---|---|---|---|
@@ -101,6 +107,8 @@ python3 -m http.server 8092 --bind 0.0.0.0
 | `qingcai-doufu-tangpaofan` | 青菜豆腐汤泡饭 | 汤泡饭 | 家庭口述整理 |
 | `jirou-galidou-yiguo` | 鸡肉咖喱一锅饭 | 咖喱一锅 | 网络常见做法改写 · 非中式样例 |
 | `jirou-shouzhafan` | 鸡肉手抓饭（家常一锅简化） | 手抓饭 | 网络常见做法改写 · 非中式样例 |
+
+完整列表：`python3 cli.py list` 或打开 `browse.html`。
 
 ## 与 S1 / 旧仓关系
 

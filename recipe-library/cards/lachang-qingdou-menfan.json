@@ -1,0 +1,35 @@
+{
+  "id": "lachang-qingdou-menfan",
+  "name": "腊肠青豆焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "生米 1.5 杯 + 腊肠 1 根",
+    "rice": "生米 1.5 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "大米 1.5 杯",
+    "腊肠斜切",
+    "青豆、胡萝卜丁",
+    "生抽少许、油"
+  ],
+  "steps_now": [
+    "米淘洗入胆加水略减。",
+    "铺腊肠与蔬菜，淋几滴生抽。",
+    "煮饭；翻拌分装。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 8,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "偏咸，少盐。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "腊肠焖饭常见电饭煲改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": ""
+}

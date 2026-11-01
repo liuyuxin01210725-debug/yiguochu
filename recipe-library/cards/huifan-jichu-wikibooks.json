@@ -1,0 +1,42 @@
+{
+  "id": "huifan-jichu-wikibooks",
+  "name": "基础意式烩饭（Risotto）",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "约 4 人；米约 400g",
+    "rice": "烩饭米 400g",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "烩饭米（Arborio 等）约 400g",
+    "洋葱 1 个，末",
+    "干白葡萄酒 1 杯",
+    "黄油约 25g",
+    "热高汤约 1L（多备）",
+    "盐、黑胡椒；帕玛森芝士适量"
+  ],
+  "steps_now": [
+    "中火黄油/橄榄油慢炒洋葱至软不焦。",
+    "下米炒至半透明，加盐胡椒；倒入白葡萄酒，蒸出酒精并收浓。",
+    "分次加入热高汤，边煮边搅，米勿完全淹没；约 15–20 分钟至米芯略有咬劲。",
+    "离火静置约 1 分钟，分次搅入黄油与芝士；立即装盘。"
+  ],
+  "prep_optional": [
+    "高汤保持微沸备用。"
+  ],
+  "time_minutes": {
+    "active": 35,
+    "total": 40
+  },
+  "packable": false,
+  "pack_notes": "烩饭宜现做；带饭可略煮硬并少汤。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Risotto (Basic)；CC BY-SA 3.0；家常中文改写",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Risotto_(Basic)"
+    ]
+  },
+  "notes": "Wikibooks 贡献者内容；衍生须署名并相同许可。",
+  "status": "待试"
+}

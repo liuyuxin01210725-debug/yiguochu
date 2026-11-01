@@ -1,0 +1,46 @@
+{
+  "id": "aierlan-yangrou-dun",
+  "name": "爱尔兰羊肉炖锅",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "原数据集基准 6 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 6 人份（可缩放）"
+  },
+  "ingredients": [
+    "羊肉 neck or shoulder 1.2kg（{'ru': 'на кости, крупными кусками', 'en': 'on the bone, in large pieces'}）",
+    "土豆（Floury potatoes） 500g（{'ru': 'первая партия', 'en': 'first lot'}）",
+    "土豆（Waxy potatoes） 700g（{'ru': 'вторая партия', 'en': 'second lot'}）",
+    "洋葱s 3piece",
+    "胡萝卜s 3piece",
+    "高汤（Lamb or vegetable stock） 1.2l",
+    "欧芹 20g",
+    "盐 and pepper"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅：肉块焯水或煸香，下洋葱香料与液体。",
+    "小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。",
+    "配白饭或土豆同出；分装带饭。",
+    "要点对照来源：Put the meat into the pot raw, add the onion, carrot and the first lot of potatoes cut large.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 170
+  },
+  "packable": true,
+  "pack_notes": "炖菜耐放；可配土豆或饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Irish stew」（irish-stew）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:irish-stew"
+    ]
+  },
+  "status": "待试",
+  "notes": "经典一锅炖。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Lamb with potato and onion, stewed without browning. The meat is never seared, and that is the whole point."
+}

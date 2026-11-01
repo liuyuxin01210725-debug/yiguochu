@@ -1,0 +1,43 @@
+{
+  "id": "jambalaya-wikibooks",
+  "name": "路易斯安那什锦饭（Jambalaya）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "约 3 人；米约 2/3 杯",
+    "rice": "长粒米 2/3 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "香叶、香草、盐、罗勒、百里香、孜然适量",
+    "芹菜末约 1/3 杯",
+    "黄油少许",
+    "罐装番茄约 400g",
+    "长粒米 2/3 杯",
+    "鸡汤约 1.5 杯",
+    "熟鸡/火鸡肉约 2 杯；可选蘑菇片"
+  ],
+  "steps_now": [
+    "香料磨匀；番茄撕碎留汁。",
+    "宽锅黄油软化芹菜不焦。",
+    "下全部材料（肉与罗勒可稍后），煮开后盖盖焖约 20 分钟至米吸干汤。",
+    "弃香叶；装盘。"
+  ],
+  "prep_optional": [
+    "可用隔夜熟肉。"
+  ],
+  "time_minutes": {
+    "active": 20,
+    "total": 60
+  },
+  "packable": true,
+  "pack_notes": "什锦饭耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Jambalaya I；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Jambalaya_I"
+    ]
+  },
+  "notes": "",
+  "status": "待试"
+}

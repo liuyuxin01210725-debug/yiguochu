@@ -1,0 +1,39 @@
+{
+  "id": "zhou-congee-wikibooks",
+  "name": "中式白粥（Congee）",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "约 4 人；米约 220g + 水/汤 2.5L",
+    "rice": "圆粒米约 220g",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "圆粒米约 220g，洗净沥干",
+    "水或鸡汤约 2.5L",
+    "生抽、香油、白胡椒按口味",
+    "葱花、香菜、姜丝、芝麻适量作浇头"
+  ],
+  "steps_now": [
+    "米入锅加水/汤，大火煮开。",
+    "转小火煮约 1 小时 45 分–2 小时至米开花成粥（急用可先少水后补）。",
+    "加生抽香油白胡椒调味；分碗加葱姜香菜等浇头。"
+  ],
+  "prep_optional": [
+    "可加鸡架/筒骨同煮增鲜（先焯洗）。"
+  ],
+  "time_minutes": {
+    "active": 10,
+    "total": 120
+  },
+  "packable": true,
+  "pack_notes": "粥耐放；复热加水打散。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Chinese Rice Porridge (Congee)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Chinese_Rice_Porridge_(Congee)"
+    ]
+  },
+  "notes": "可作女儿早餐底粥。",
+  "status": "待试"
+}

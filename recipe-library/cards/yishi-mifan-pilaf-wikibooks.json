@@ -1,0 +1,42 @@
+{
+  "id": "yishi-mifan-pilaf-wikibooks",
+  "name": "意式香草红酒饭（Italian Rice Pilaf）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "生米 2 杯",
+    "rice": "白米 2 杯",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "白米 2 杯",
+    "黄油 2 大勺",
+    "盐、黑胡椒各 1/2 小勺",
+    "低钠鸡汤 2.5 杯",
+    "红酒约 1 杯",
+    "香叶 3、蒜 7 瓣拍碎",
+    "新鲜百里香、迷迭香若干",
+    "洋葱 1 大个，末"
+  ],
+  "steps_now": [
+    "黄油中火炒米与洋葱至米金黄。",
+    "另器混合其余液体与香料；米炒香后倒入煮开。",
+    "下米煮约 30 分钟至软硬合适，偶尔轻搅。",
+    "热食；可配简单蔬菜。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "焖饭可复热。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Italian Rice Pilaf；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Italian_Rice_Pilaf"
+    ]
+  },
+  "notes": "",
+  "status": "待试"
+}

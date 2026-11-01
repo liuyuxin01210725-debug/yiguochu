@@ -1,0 +1,37 @@
+{
+  "id": "xiangchang-tudou-menfan",
+  "name": "香肠土豆焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "生米 1.5 杯 + 香肠 1–2 根 + 小土豆 1 个",
+    "rice": "生米 1.5 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "大米 1.5 杯",
+    "火腿肠/香肠切片",
+    "土豆丁、胡萝卜丁、豌豆适量",
+    "油、盐、黑胡椒"
+  ],
+  "steps_now": [
+    "米入胆加水略减。",
+    "铺香肠与蔬菜丁，轻盐胡椒。",
+    "电饭煲煮饭；好后翻拌分装。"
+  ],
+  "prep_optional": [
+    "蔬菜可前夜切丁。"
+  ],
+  "time_minutes": {
+    "active": 10,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "耐放。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "电饭煲香肠土豆焖饭常见家常改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": ""
+}

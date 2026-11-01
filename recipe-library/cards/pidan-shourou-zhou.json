@@ -1,0 +1,36 @@
+{
+  "id": "pidan-shourou-zhou",
+  "name": "皮蛋瘦肉粥",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "米约 100–120g；瘦肉丝 + 皮蛋 1–2 个",
+    "rice": "大米约半杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "大米半杯",
+    "瘦肉丝、皮蛋切块",
+    "姜丝、盐、胡椒、香油、葱花"
+  ],
+  "steps_now": [
+    "米加水大火煮开转小火。",
+    "下肉丝姜丝煮至米开花；下皮蛋再煮 5–10 分钟。",
+    "调味淋香油撒葱花。"
+  ],
+  "prep_optional": [
+    "米可浸泡。"
+  ],
+  "time_minutes": {
+    "active": 15,
+    "total": 50
+  },
+  "packable": true,
+  "pack_notes": "粥复热加水。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "皮蛋瘦肉粥常见家常改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": "早餐友好。"
+}

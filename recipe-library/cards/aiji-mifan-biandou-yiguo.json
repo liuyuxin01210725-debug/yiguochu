@@ -1,0 +1,50 @@
+{
+  "id": "aiji-mifan-biandou-yiguo",
+  "name": "埃及米饭扁豆一锅（Koshari 简化）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "原数据集基准 6 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 6 人份（可缩放）"
+  },
+  "ingredients": [
+    "大米（Short-grain rice） 300g",
+    "扁豆（Brown lentils） 200g",
+    "Small pasta 200g",
+    "鹰嘴豆 200g（{'ru': 'варёный', 'en': 'cooked'}）",
+    "洋葱s 4piece（{'ru': 'тонкими кольцами', 'en': 'in thin rings'}）",
+    "番茄（Tinned tomatoes） 800g",
+    "蒜 6clove",
+    "醋（White vinegar） 4tbsp",
+    "孜然（Ground cumin） 2tsp",
+    "Chilli flakes 1tsp",
+    "Neutral oil 200ml",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Fry the onion in the oil over medium heat for twenty-five minutes to a deep brown, stirring. Drain it on paper; it crisp…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 30,
+    "total": 90
+  },
+  "packable": true,
+  "pack_notes": "碳水足，饭盒分层放酱。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Koshari」（koshari）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:koshari"
+    ]
+  },
+  "status": "待试",
+  "notes": "米豆意面简化为一锅主食+番茄酱。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Rice, lentils and pasta in one bowl under a vinegary tomato sauce and fried onion."
+}

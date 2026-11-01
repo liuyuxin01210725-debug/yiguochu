@@ -1,0 +1,49 @@
+{
+  "id": "moji-huifan",
+  "name": "墨汁海鲜烩饭",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "鱼（Cuttlefish） 700g（{'ru': 'кольцами', 'en': 'in rings'}）",
+    "鱼（Cuttlefish ink） 3tbsp",
+    "意式烩饭米 320g",
+    "洋葱 1piece",
+    "蒜 4clove",
+    "酒（Dry white wine） 150ml",
+    "高汤（Fish stock） 1l",
+    "番茄酱 1tbsp",
+    "欧芹 20g",
+    "橄榄油 60ml",
+    "盐 and pepper"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "按来源步骤：先炒米/浇酒，再分次加温热高汤并搅拌至米芯略有咬劲。",
+    "最后搅入黄油/芝士或海鲜等；立即装盘。",
+    "烩饭类宜现做；带饭则略做硬一点并少装汤。",
+    "要点对照来源：Fry the onion and garlic in olive oil until soft, add the cuttlefish and cook five minutes; it releases water.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 75
+  },
+  "packable": true,
+  "pack_notes": "海鲜易腥，当餐最好；隔夜慎复热。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Black risotto」（crni-rizot）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:crni-rizot"
+    ]
+  },
+  "status": "待试",
+  "notes": "需边加汤边搅，近烩饭。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Risotto with cuttlefish and its own ink. The ink goes in at the end, or it turns bitter."
+}

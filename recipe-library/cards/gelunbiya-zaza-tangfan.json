@@ -1,0 +1,52 @@
+{
+  "id": "gelunbiya-zaza-tangfan",
+  "name": "哥伦比亚杂菜炖汤配饭",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "原数据集基准 8 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 8 人份（可缩放）"
+  },
+  "ingredients": [
+    "鸡肉 2kg（{'ru': 'домашняя, кусками', 'en': 'free-range, in pieces'}）",
+    "Cassava 600g",
+    "Green plantains 2piece",
+    "Corn cobs 3piece",
+    "土豆es 600g",
+    "洋葱s 2piece",
+    "洋葱（Spring onions） 5piece",
+    "番茄es 4piece",
+    "香菜 50g",
+    "蒜 6clove",
+    "孜然（Ground cumin） 1tsp",
+    "Achiote 1tsp",
+    "大米 400g（{'ru': 'к подаче', 'en': 'to serve'}）",
+    "Avocado 2piece（{'ru': 'к подаче', 'en': 'to serve'}）"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。",
+    "碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。",
+    "需要打包时：汤与饭分盒，食用前合热。",
+    "要点对照来源：Fry the finely chopped onion, spring onion, tomato and garlic with the cumin and achiote down to a paste.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 30,
+    "total": 140
+  },
+  "packable": true,
+  "pack_notes": "汤耐放；米饭另装浇汤。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Colombian sancocho」（sancocho-colombiano）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:sancocho-colombiano"
+    ]
+  },
+  "status": "待试",
+  "notes": "根茎杂炖。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：A chicken soup with cassava, plantain and corn, cooked over an open fire."
+}

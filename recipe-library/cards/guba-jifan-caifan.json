@@ -1,0 +1,54 @@
+{
+  "id": "guba-jifan-caifan",
+  "name": "古巴鸡肉菜饭",
+  "form": "菜饭",
+  "servings": {
+    "summary": "原数据集基准 6 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 6 人份（可缩放）"
+  },
+  "ingredients": [
+    "鸡肉 1.5kg（{'ru': 'кусками', 'en': 'in pieces'}）",
+    "大米（Medium-grain rice） 500g",
+    "啤酒（Pale beer） 350ml",
+    "鸡汤 700ml",
+    "洋葱s 2piece",
+    "甜椒s 2piece",
+    "蒜 6clove",
+    "番茄 sauce 200ml",
+    "藏红花 1pinch",
+    "孜然（Ground cumin） 1tsp",
+    "Oregano 1tsp",
+    "豌豆 200g",
+    "Olives 80g",
+    "青柠s 2piece"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Rub the chicken with salt, pepper, cumin, oregano, garlic and lime juice and leave it half an hour.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [
+    "米可提前淘洗沥干。"
+  ],
+  "time_minutes": {
+    "active": 30,
+    "total": 90
+  },
+  "packable": true,
+  "pack_notes": "密封饭盒；鸡块去骨更易复热。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Arroz con pollo」（arroz-con-pollo-cubano）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:arroz-con-pollo-cubano"
+    ]
+  },
+  "status": "待试",
+  "notes": "家常一锅：米菜肉同焖。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Chicken with rice cooked in beer and saffron, with peas, peppers and olives."
+}

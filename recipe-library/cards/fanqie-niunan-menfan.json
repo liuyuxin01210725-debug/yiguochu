@@ -1,0 +1,37 @@
+{
+  "id": "fanqie-niunan-menfan",
+  "name": "番茄牛腩焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "生米 1.5 杯 + 牛腩约 250g + 番茄 2 个",
+    "rice": "生米 1.5 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "大米 1.5 杯",
+    "牛腩块约 250g（可先炖软）",
+    "番茄块、洋葱、姜",
+    "生抽、盐、油"
+  ],
+  "steps_now": [
+    "牛腩焯水后先炖至近软（或压力锅）。",
+    "米入胆；铺牛腩番茄洋葱，淋生抽。",
+    "煮饭焖透；翻拌装盘。"
+  ],
+  "prep_optional": [
+    "牛腩前夜炖好冷藏。"
+  ],
+  "time_minutes": {
+    "active": 20,
+    "total": 90
+  },
+  "packable": true,
+  "pack_notes": "耐放。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "番茄牛腩饭常见家常改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": ""
+}

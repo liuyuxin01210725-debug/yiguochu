@@ -1,0 +1,44 @@
+{
+  "id": "yexiang-mifan",
+  "name": "椰香米饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "原数据集基准 6 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 6 人份（可缩放）"
+  },
+  "ingredients": [
+    "长粒米 500g",
+    "椰奶 800ml（{'ru': 'жирное', 'en': 'full-fat'}）",
+    "水 400ml",
+    "糖 2tbsp",
+    "葡萄干 80g（{'ru': 'по желанию', 'en': 'optional'}）",
+    "盐 1.5tsp"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Pour the coconut milk into a heavy pot and cook it over medium heat, stirring.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 60
+  },
+  "packable": true,
+  "pack_notes": "椰香米饭耐放；复热略加椰奶或水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Coconut rice」（arroz-con-coco）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:arroz-con-coco"
+    ]
+  },
+  "status": "待试",
+  "notes": "可作一锅主食底，加菜同焖。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Rice cooked in coconut milk with caramelised coconut solids, dark and faintly sweet."
+}

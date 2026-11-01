@@ -1,0 +1,52 @@
+{
+  "id": "alabo-xiangliao-shouzhafan",
+  "name": "阿拉伯香料手抓饭（Kabsa）",
+  "form": "手抓饭",
+  "servings": {
+    "summary": "原数据集基准 6 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 6 人份（可缩放）"
+  },
+  "ingredients": [
+    "鸡肉 1.6kg（{'ru': 'кусками', 'en': 'in pieces'}）",
+    "印度香米 600g",
+    "洋葱s 2piece",
+    "番茄es 4piece",
+    "番茄酱 2tbsp",
+    "青柠（Dried lime） 3piece",
+    "胡萝卜s 2piece",
+    "Kabsa baharat 1tbsp",
+    "豆蔻 pods 6piece",
+    "肉桂 stick 1piece",
+    "蒜 5clove",
+    "葡萄干 60g",
+    "Almonds 60g",
+    "Ghee 80g"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Rinse the rice until the water runs clear and soak it twenty minutes.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 30,
+    "total": 105
+  },
+  "packable": true,
+  "pack_notes": "香料饭+肉分装；复热加少许汤。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Kabsa」（kabsa）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:kabsa"
+    ]
+  },
+  "status": "待试",
+  "notes": "鸡肉香料一锅。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Rice with chicken in a spiced broth with dried lime and tomato. The centrepiece of the Saudi table."
+}

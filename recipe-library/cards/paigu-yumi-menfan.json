@@ -1,0 +1,37 @@
+{
+  "id": "paigu-yumi-menfan",
+  "name": "排骨玉米焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "生米 1.5 杯 + 小排约 250g + 玉米段",
+    "rice": "生米 1.5 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "大米 1.5 杯",
+    "肋排约 250g，段",
+    "玉米段、姜片",
+    "生抽、料酒、盐、油"
+  ],
+  "steps_now": [
+    "排骨焯水；可选少油略煎。",
+    "米入胆加水；码排骨玉米姜，淋生抽料酒。",
+    "煮饭键；好后焖 5 分钟翻拌。"
+  ],
+  "prep_optional": [
+    "排骨可前夜腌。"
+  ],
+  "time_minutes": {
+    "active": 15,
+    "total": 55
+  },
+  "packable": true,
+  "pack_notes": "骨头注意分装安全。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "排骨玉米饭常见电饭煲做法改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": ""
+}

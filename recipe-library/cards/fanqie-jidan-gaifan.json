@@ -1,0 +1,35 @@
+{
+  "id": "fanqie-jidan-gaifan",
+  "name": "番茄鸡蛋盖饭",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "米饭 2 碗 + 蛋 2–3 个 + 番茄 2 个",
+    "rice": "熟饭 2 碗",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "熟米饭 2 碗",
+    "番茄 2 个，块",
+    "鸡蛋 2–3 个",
+    "葱花、盐、糖少许、油"
+  ],
+  "steps_now": [
+    "热锅少油炒蛋盛出。",
+    "余油炒番茄出汁，加少许盐糖与水煮开，倒回蛋液略收。",
+    "浇在米饭上，撒葱花。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 20
+  },
+  "packable": true,
+  "pack_notes": "酱与饭分装更佳。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "家常番茄炒蛋浇饭常见做法整理；非某一站点原文",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": "晨间快手。"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "niudon-gaifan",
+  "name": "日式牛丼盖饭",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "原数据集基准 2 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 2 人份（可缩放）"
+  },
+  "ingredients": [
+    "牛肉 300g（{'ru': 'нарезать почти прозрачно', 'en': 'sliced almost transparent'}）",
+    "洋葱 1piece（{'ru': 'тонкими полукольцами', 'en': 'thinly sliced'}）",
+    "Dashi 200ml",
+    "酱油 3tbsp",
+    "Mirin 3tbsp",
+    "Sake 2tbsp",
+    "糖 1tbsp",
+    "姜 10g",
+    "大米（Cooked rice） 400g",
+    "姜（Beni shoga pickled ginger）"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。",
+    "碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。",
+    "需要打包时：汤与饭分盒，食用前合热。",
+    "要点对照来源：Bring the dashi with the soy, mirin, sake, sugar and grated ginger to the boil in a wide pan.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 10,
+    "total": 25
+  },
+  "packable": true,
+  "pack_notes": "汤汁米饭分装，午间复热。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Gyudon」（gyudon）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:gyudon"
+    ]
+  },
+  "status": "待试",
+  "notes": "酱汁浇饭形态，近汤泡饭。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Thinly sliced beef simmered with onion in dashi, soy and mirin, over rice."
+}

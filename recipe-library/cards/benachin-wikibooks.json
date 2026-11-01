@@ -1,0 +1,42 @@
+{
+  "id": "benachin-wikibooks",
+  "name": "冈比亚一锅肉菜饭（Benachin）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 2 杯 + 肉约 500g",
+    "rice": "长粒米 2 杯",
+    "people": "约 4 人"
+  },
+  "ingredients": [
+    "油 2 大勺",
+    "洋葱 1、蒜 2",
+    "鸡/牛/鱼约 500g",
+    "番茄酱 2 大勺",
+    "红椒粉、百里香、咖喱粉各 1 小勺",
+    "红绿甜椒、胡萝卜、其他蔬菜适量",
+    "长粒米 2 杯",
+    "鸡汤约 2 杯；盐胡椒"
+  ],
+  "steps_now": [
+    "油炒洋葱蒜；下肉煸至上色。",
+    "加番茄酱与香料略炒；下甜椒胡萝卜等蔬菜。",
+    "米淘净入锅裹匀；倒汤煮开后勿猛搅，小火焖至米熟。",
+    "松饭调味装盘。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 55
+  },
+  "packable": true,
+  "pack_notes": "肉菜饭耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Benachin；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Benachin_(Gambian_Rice_with_Meat_and_Vegetables)"
+    ]
+  },
+  "notes": "名称即 one-pot。",
+  "status": "待试"
+}

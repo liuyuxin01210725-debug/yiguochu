@@ -1,0 +1,37 @@
+{
+  "id": "yinian-doufu-menfan",
+  "name": "香菇豆腐焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "生米 1.5 杯 + 北豆腐 1/2 块 + 香菇若干",
+    "rice": "生米 1.5 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "大米 1.5 杯",
+    "北豆腐块",
+    "干香菇泡发切片",
+    "生抽、香油、盐"
+  ],
+  "steps_now": [
+    "米入胆加水略减。",
+    "铺香菇豆腐，淋生抽香油。",
+    "煮饭；翻拌装盘。"
+  ],
+  "prep_optional": [
+    "香菇提前泡发。"
+  ],
+  "time_minutes": {
+    "active": 10,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "素食友好。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "香菇豆腐焖饭常见改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": ""
+}

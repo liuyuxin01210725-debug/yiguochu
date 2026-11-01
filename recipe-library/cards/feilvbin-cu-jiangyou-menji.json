@@ -1,0 +1,48 @@
+{
+  "id": "feilvbin-cu-jiangyou-menji",
+  "name": "菲律宾醋酱油焖鸡（Adobo）配饭",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "鸡腿肉 1kg",
+    "酱油 120ml",
+    "大米（Cane or rice vinegar） 120ml",
+    "蒜 10clove",
+    "Bay leaves 4piece",
+    "黑胡椒corns 1tsp",
+    "糖（Cane sugar） 1tbsp",
+    "水 200ml",
+    "Neutral oil 2tbsp",
+    "大米（Cooked rice） 400g"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅：肉块焯水或煸香，下洋葱香料与液体。",
+    "小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。",
+    "配白饭或土豆同出；分装带饭。",
+    "要点对照来源：Marinate the chicken in the soy with the crushed garlic and peppercorns for thirty minutes.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 60
+  },
+  "packable": true,
+  "pack_notes": "酱汁米饭分装；鸡块耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Chicken adobo」（adobo）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:adobo"
+    ]
+  },
+  "status": "待试",
+  "notes": "主菜一锅焖，可同锅铺米或另盛白饭浇汁。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Chicken braised in soy sauce with vinegar, garlic and bay. The vinegar is left unstirred for the first ten minutes."
+}

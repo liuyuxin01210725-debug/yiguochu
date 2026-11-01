@@ -1,0 +1,35 @@
+{
+  "id": "qiezi-roumo-menfan",
+  "name": "茄子肉末焖饭",
+  "form": "菜饭",
+  "servings": {
+    "summary": "生米 1.5 杯 + 肉末 120g + 茄子 1 根",
+    "rice": "生米 1.5 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "大米 1.5 杯",
+    "猪肉末约 120g",
+    "茄子滚刀块",
+    "蒜末、生抽、蚝油、油"
+  ],
+  "steps_now": [
+    "少油炒肉末蒜末，加生抽蚝油。",
+    "米入胆加水；铺茄子与肉末。",
+    "煮饭；翻拌（茄子软烂入味）。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 12,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "茄子易出水，水位略减。",
+  "source": {
+    "kind": "网络常见做法改写",
+    "label": "茄子肉末饭常见改写",
+    "refs": []
+  },
+  "status": "待试",
+  "notes": ""
+}

@@ -1,0 +1,49 @@
+{
+  "id": "asaibaijiang-shouzhafan",
+  "name": "阿塞拜疆手抓饭（Shah Plov 简化）",
+  "form": "手抓饭",
+  "servings": {
+    "summary": "原数据集基准 6 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 6 人份（可缩放）"
+  },
+  "ingredients": [
+    "印度香米 600g",
+    "羊肉 700g（{'ru': 'мякоть, кубиками', 'en': 'boneless, in cubes'}）",
+    "Thin lavash 3piece",
+    "洋葱 2piece",
+    "Chestnuts 200g（{'ru': 'очищенные', 'en': 'peeled'}）",
+    "Dried apricots 100g",
+    "葡萄干 80g",
+    "黄油（Clarified butter） 180g",
+    "藏红花 1pinch",
+    "姜黄 1tsp",
+    "盐 and pepper"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Soak the rice in salted water for an hour, then boil it seven minutes in plenty of water and drain.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 45,
+    "total": 115
+  },
+  "packable": true,
+  "pack_notes": "干香饭耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Shah plov」（shah-plov）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:shah-plov"
+    ]
+  },
+  "status": "待试",
+  "notes": "层叠焖制简化。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Pilaf baked in a crown of lavash. The crust holds its shape and is cut in wedges like a pie."
+}

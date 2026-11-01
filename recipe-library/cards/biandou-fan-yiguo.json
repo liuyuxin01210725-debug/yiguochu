@@ -1,0 +1,52 @@
+{
+  "id": "biandou-fan-yiguo",
+  "name": "扁豆饭一锅（Dal Bhat 简化）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "扁豆（Yellow lentils） 250g",
+    "大米 400g",
+    "姜黄 1tsp",
+    "Ghee 3tbsp",
+    "Ajwain seeds 1tsp",
+    "孜然 seeds 1tsp",
+    "Dried chillies 2piece",
+    "蒜 4clove",
+    "土豆 and cauliflower 500g",
+    "洋葱 1piece",
+    "Spinach or mustard greens 200g",
+    "盐"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅或电饭煲：少油将洋葱/香料与肉块煸至变色（若有此步）；铺入米与蔬菜，倒热水或高汤至刚没过米层约半指。",
+    "大火煮开后转小火盖盖焖至米熟（约 15–25 分钟，视米种）；中途少开盖。",
+    "关火焖 5–10 分钟；翻松装盘，女儿一份 + 大人分装带走。",
+    "要点对照来源：Rinse the lentils and boil them in a litre of water with the turmeric for thirty minutes, until they collapse completely…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [
+    "扁豆提前浸泡更好。"
+  ],
+  "time_minutes": {
+    "active": 20,
+    "total": 65
+  },
+  "packable": true,
+  "pack_notes": "扁豆饭软，适合早餐/带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Dal bhat」（dal-bhat）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:dal-bhat"
+    ]
+  },
+  "status": "待试",
+  "notes": "米豆同煮简化版。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Lentil soup with rice and a vegetable tarkari. Nepal's everyday meal, eaten twice a day for a lifetime."
+}

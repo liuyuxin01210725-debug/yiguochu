@@ -1,0 +1,52 @@
+{
+  "id": "baxi-heidou-dun",
+  "name": "巴西黑豆炖肉（配饭）",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "原数据集基准 8 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 8 人份（可缩放）"
+  },
+  "ingredients": [
+    "豆（Black beans） 700g（{'ru': 'замочить на ночь', 'en': 'soaked overnight'}）",
+    "盐ed pork 400g（{'ru': 'вымочить 12 часов', 'en': 'soaked 12 hours'}）",
+    "猪肉（Smoked pork ribs） 500g",
+    "Smoked sausage 300g",
+    "猪肉 belly 300g",
+    "洋葱s 2piece",
+    "蒜 6clove",
+    "Bay leaves 3piece",
+    "Oranges 2piece",
+    "Collard greens 300g（{'ru': 'тонкой соломкой', 'en': 'shredded fine'}）",
+    "大米（Cooked rice） 600g",
+    "Neutral oil 2tbsp"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "厚底锅：肉块焯水或煸香，下洋葱香料与液体。",
+    "小火盖盖炖至软烂（可 45–150 分钟不等）；中途补水。",
+    "配白饭或土豆同出；分装带饭。",
+    "要点对照来源：Boil the salted meat in fresh water for twenty minutes and drain: the last stage of getting the salt out.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [
+    "干豆提前浸泡。"
+  ],
+  "time_minutes": {
+    "active": 40,
+    "total": 220
+  },
+  "packable": true,
+  "pack_notes": "豆肉极耐放；米饭另装。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Feijoada」（feijoada）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:feijoada"
+    ]
+  },
+  "status": "待试",
+  "notes": "长炖一锅，配白饭。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：Black beans stewed with several cuts of smoked and salted pork, served with orange and greens."
+}

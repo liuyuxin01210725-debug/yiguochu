@@ -1,0 +1,41 @@
+{
+  "id": "nigerian-jollof-wikibooks",
+  "name": "尼日利亚 Jollof 焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米约 500g；约 5 人",
+    "rice": "生米约 500g",
+    "people": "约 5 人"
+  },
+  "ingredients": [
+    "番茄 5、甜椒 4、辣椒若干、洋葱",
+    "牛/鸡肉若干",
+    "花生油适量、番茄酱、高汤块、香叶",
+    "咖喱粉、百里香、肉桂姜蒜等",
+    "生米约 500g；盐"
+  ],
+  "steps_now": [
+    "番茄甜椒洋葱打成酱；肉先煮或炸备用。",
+    "热油炒洋葱末与番茄酱，下菜酱与香料、部分肉汤，炒约 10 分钟。",
+    "加水煮开；米淘净下锅搅匀，视情况补水，小火焖至熟。",
+    "配炸肉装盘。"
+  ],
+  "prep_optional": [
+    "肉可提前腌煮。"
+  ],
+  "time_minutes": {
+    "active": 40,
+    "total": 80
+  },
+  "packable": true,
+  "pack_notes": "适合带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Nigerian Jollof Rice；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Nigerian_Jollof_Rice"
+    ]
+  },
+  "notes": "步骤含油炸肉，家用可改煎/烤减油。",
+  "status": "待试"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "paocai-tang-paofan",
+  "name": "泡菜豆腐汤泡饭",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "原数据集基准 4 人份；家用可按电饭煲 1.5–2 杯米等比缩放",
+    "rice": "见食材中的米/主食量；可按家庭口味加减",
+    "people": "约 4 人份（可缩放）"
+  },
+  "ingredients": [
+    "泡菜（Over-fermented kimchi） 400g（{'ru': 'с соком', 'en': 'with its liquid'}）",
+    "猪肉 belly 300g（{'ru': 'ломтиками', 'en': 'sliced'}）",
+    "豆腐 300g（{'ru': 'толстыми ломтями', 'en': 'in thick slabs'}）",
+    "洋葱 1piece",
+    "Gochugaru flakes 1tbsp",
+    "Gochujang 1tbsp",
+    "蒜 3clove",
+    "水 or anchovy stock 700ml",
+    "洋葱（Spring onion） 3piece",
+    "Sesame oil 1tbsp"
+  ],
+  "steps_now": [
+    "备齐食材：肉/豆类切好，米淘洗沥干（如需浸泡见「可折叠准备」）。",
+    "锅中做汤/酱汁（按来源：肉片、泡菜或卤汁等）煮开调味。",
+    "碗中放热米饭（或隔夜饭），浇上热汤/酱与配料。",
+    "需要打包时：汤与饭分盒，食用前合热。",
+    "要点对照来源：Fry the pork in the sesame oil over medium heat until the fat has rendered and the meat has colour, about five minutes.…（完整英文步骤见 UniTools 原条目）"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 10,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "汤与饭分装；午间合热。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 UniTools World Recipes「Kimchi jjigae」（kimchi-jjigae）；CC BY-SA 4.0，署名 UniTools — theunitools.com；本卡为家常中文可执行改写，非逐字译文",
+    "refs": [
+      "https://theunitools.com/en/data",
+      "https://theunitools.com/data/unitools-recipes-v1.json",
+      "https://github.com/farcrak/unitools-recipes",
+      "slug:kimchi-jjigae"
+    ]
+  },
+  "status": "待试",
+  "notes": "辣汤浇饭。 · 衍生内容须保持 CC BY-SA 署名与相同许可声明。 原摘要：A stew of over-fermented kimchi with pork and tofu. The older the kimchi, the better it works."
+}
