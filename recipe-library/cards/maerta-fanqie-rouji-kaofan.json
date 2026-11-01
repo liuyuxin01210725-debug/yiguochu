@@ -1,0 +1,43 @@
+{
+  "id": "maerta-fanqie-rouji-kaofan",
+  "name": "马耳他番茄肉酱焗饭（Ross il-Forn）",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "米 1.5 杯 + 肉末 200g；约 3 人",
+    "rice": "长粒米 300g",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "洋葱 1/2、油少许、培根或腊肉 40g",
+    "蒜 1 瓣、番茄膏 1 大勺",
+    "牛肉末 200g",
+    "去皮番茄罐头 1 罐",
+    "米 300g",
+    "水约 500ml",
+    "蛋 2 个",
+    "硬奶酪碎约 60g",
+    "盐、胡椒"
+  ],
+  "steps_now": [
+    "烤箱 180°C。油炒洋葱、培根和蒜，下番茄膏和肉末炒散，倒番茄煮到酱汁不生。",
+    "烤盘抹油，放入米、大约一半酱、1 个打散的蛋、大半奶酪和水，轻轻拌匀。",
+    "烤约 30 分钟，取出翻一下；若太干补几勺水。",
+    "剩下的蛋和奶酪铺面，再烤 25–35 分钟至表面上色、米熟。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 90
+  },
+  "packable": true,
+  "pack_notes": "原文写明放凉切块也好吃，适合野餐盒。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Rice Cooked in Tomato Meat Sauce (Ross il-Forn)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Rice_Cooked_in_Tomato_Meat_Sauce_(Ross_il-Forn)"
+    ]
+  },
+  "status": "待试",
+  "notes": "酱和饭在同一烤盘完成；酱先在锅里收浓再并入盘。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

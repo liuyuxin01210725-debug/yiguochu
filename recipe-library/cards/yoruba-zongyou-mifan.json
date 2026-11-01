@@ -1,0 +1,43 @@
+{
+  "id": "yoruba-zongyou-mifan",
+  "name": "约鲁巴棕榈油米饭（Iresi Eyin）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 2 杯；约 3–4 人",
+    "rice": "米 2 杯",
+    "people": "约 3–4 人"
+  },
+  "ingredients": [
+    "米 2 杯",
+    "棕榈油 2 大勺（无则先不做，不要用普通油假装）",
+    "洋葱 1/2",
+    "番茄膏 1 大勺",
+    "辣椒粉",
+    "虾皮 1 大勺",
+    "熏鱼或鱼干一小块泡软撕碎",
+    "胡萝卜丁、豌豆少许",
+    "盐、水"
+  ],
+  "steps_now": [
+    "米煮 8 分钟后沥干。",
+    "同锅烧热棕榈油至颜色变深。",
+    "下洋葱、番茄膏、辣椒粉、虾皮和少许水，炒香约 5 分钟。",
+    "倒回米、鱼、胡萝卜和豌豆，加水刚没过，中小火盖 20–25 分钟至水干。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 50
+  },
+  "packable": true,
+  "pack_notes": "棕榈油味重，密封。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Iresi Eyin (Yoruba Palm Oil Native Rice)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Iresi_Eyin_(Yoruba_Palm_Oil_Native_Rice)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原页步骤在回锅米处写得不完整。本卡按同页食材补成：米先煮 8 分钟，再与棕榈油酱同锅焖。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

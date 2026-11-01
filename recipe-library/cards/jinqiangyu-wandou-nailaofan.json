@@ -1,0 +1,40 @@
+{
+  "id": "jinqiangyu-wandou-nailaofan",
+  "name": "金枪鱼豌豆奶酪饭",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1 杯 + 金枪鱼 1 罐；约 2 人",
+    "rice": "米 1 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "米 1 杯",
+    "水 1.5 杯",
+    "豌豆一小把",
+    "金枪鱼罐头 1 罐，沥油",
+    "盐少许",
+    "切达碎或奶酪浓汤 3 大勺",
+    "洋葱碎 1 小勺（可省）"
+  ],
+  "steps_now": [
+    "米、水、豌豆、金枪鱼和少许盐下锅，盖焖约 15–18 分钟。",
+    "关火拌入奶酪至化开。",
+    "分装。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 10,
+    "total": 30
+  },
+  "packable": true,
+  "pack_notes": "奶酪冷却会结，复热加一勺水。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Tuna Rice Casserole；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Tuna_Rice_Casserole"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文用熟饭拌奶酪汤再烤 20 分钟。本卡生米与鱼同锅焖，再拌奶酪。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

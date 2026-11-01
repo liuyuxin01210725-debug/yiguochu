@@ -1,0 +1,43 @@
+{
+  "id": "jirou-tudou-mifan-tang",
+  "name": "鸡肉土豆汤泡饭",
+  "form": "汤泡饭",
+  "servings": {
+    "summary": "米 3/4 杯 + 鸡腿 2 只 + 土豆 2 个；约 3 人",
+    "rice": "米 3/4 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "鸡腿 2 只或鸡块约 400g",
+    "米 3/4 杯",
+    "洋葱 1/2 切碎",
+    "白萝卜或芜菁 1 小段切丁（没有就多放土豆）",
+    "土豆 2 个切块",
+    "水约 1.2 升",
+    "马郁兰或牛至一小撮、盐、胡椒",
+    "欧芹",
+    "辣椒按口味"
+  ],
+  "steps_now": [
+    "鸡块、米、洋葱、萝卜、香草、盐胡椒和水下锅，煮开后小火约 25 分钟。",
+    "下土豆再煮约 20 分钟，至鸡熟、米开花、土豆软。",
+    "加欧芹，试咸淡。",
+    "舀汤带米装碗或饭盒。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 55
+  },
+  "packable": true,
+  "pack_notes": "汤多，盒要防漏。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Chicken Soup with Rice and Potatoes；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Chicken_Soup_with_Rice_and_Potatoes"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文食材列有约 150g 糖，咸汤里不像家用量，本卡不加糖。原文一次煮 100+40 分钟，家用缩短并看熟。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

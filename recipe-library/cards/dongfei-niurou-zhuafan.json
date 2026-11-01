@@ -1,0 +1,45 @@
+{
+  "id": "dongfei-niurou-zhuafan",
+  "name": "东非牛肉抓饭",
+  "form": "手抓饭",
+  "servings": {
+    "summary": "米约 300g + 牛腿肉约 250g；约 3 人",
+    "rice": "米约 300g",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "牛腿肉 250g 切块",
+    "姜蒜泥 1 大勺、盐",
+    "番茄 1 个、洋葱 1 个擦丝或切碎",
+    "油",
+    "孜然、小豆蔻、黑胡椒、肉桂一小段、丁香 2 粒",
+    "姜黄、香菜籽粉各 1/2 小勺",
+    "米 300g 浸泡 10 分钟",
+    "香菜碎"
+  ],
+  "steps_now": [
+    "牛肉加没过的水、姜蒜泥、盐、擦碎的番茄和洋葱，煮至肉软，捞出肉，汤留下。",
+    "同锅放油，爆孜然、豆蔻、胡椒、肉桂、丁香。",
+    "下洋葱炒软，加姜黄和香菜籽粉，再下蒜泥和肉翻 2 分钟。",
+    "倒回肉汤，试盐后下米，中火约 3 分钟再盖严，小火至汤被吸干。",
+    "最小火再蒸 5 分钟。拨散。"
+  ],
+  "prep_optional": [
+    "米浸泡 10 分钟。"
+  ],
+  "time_minutes": {
+    "active": 25,
+    "total": 80
+  },
+  "packable": true,
+  "pack_notes": "抓饭耐放；肉块要先煮软再下米。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:East African Beef Pilaf；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:East_African_Beef_Pilaf"
+    ]
+  },
+  "status": "待试",
+  "notes": "衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

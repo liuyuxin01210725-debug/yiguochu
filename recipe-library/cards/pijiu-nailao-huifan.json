@@ -1,0 +1,41 @@
+{
+  "id": "pijiu-nailao-huifan",
+  "name": "啤酒奶酪烩饭",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "意大利米 1 杯；约 2 人",
+    "rice": "意大利米 1 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "洋葱 1/2 切丁",
+    "橄榄油 1 大勺",
+    "意大利米 1 杯",
+    "淡啤酒半杯",
+    "热蔬菜汤约 350ml",
+    "帕玛森 2 大勺、切达碎 2 大勺",
+    "盐"
+  ],
+  "steps_now": [
+    "洋葱用油炒至透明，下米炒到每粒裹油。",
+    "倒啤酒，搅到基本吸干。",
+    "分次加热汤，大约 20 分钟，米软、汤变稠。",
+    "关火拌两种奶酪至化。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 25,
+    "total": 35
+  },
+  "packable": false,
+  "pack_notes": "奶酪烩饭放凉会结，不适合带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Beer Cheese Risotto；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Beer_Cheese_Risotto"
+    ]
+  },
+  "status": "待试",
+  "notes": "衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

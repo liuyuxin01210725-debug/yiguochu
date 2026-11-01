@@ -1,0 +1,40 @@
+{
+  "id": "kaoxiang-doucai-jufan",
+  "name": "烤箱蔬菜豆焗饭",
+  "form": "煲类一锅",
+  "servings": {
+    "summary": "米 1 杯 + 豆 1 罐；约 3 人",
+    "rice": "印度香米 1 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "橄榄油 2 大勺",
+    "洋葱 1 个、番茄 2 个、胡萝卜 1 根、西葫芦或青椒少许，切块",
+    "鹰嘴豆或黑豆罐头 1 罐",
+    "蒜 3 瓣",
+    "咖喱粉 1 小勺、孜然、红椒粉",
+    "米 1 杯",
+    "水或淡红酒加起来没过食材"
+  ],
+  "steps_now": [
+    "烤箱 160°C。少油把咖喱粉和米炒约 3 分钟。",
+    "所有蔬菜、豆、蒜、香料和米放进有盖烤盘，倒液体至刚没过。",
+    "盖上烤约 70 分钟，中途看米是否软，太干加热水。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 90
+  },
+  "packable": true,
+  "pack_notes": "焗饭适合分装，汁少一点再盖盒。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Bean and Rice Bake；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Bean_and_Rice_Bake"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文约 120°C 烤数小时。本卡升到 160°C、大约 70 分钟，仍要看米是否吸干。红酒可全换成水。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

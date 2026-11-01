@@ -1,0 +1,43 @@
+{
+  "id": "mogu-huifan",
+  "name": "蘑菇烩饭",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "意大利米约 200g + 鲜蘑 150g；约 2 人",
+    "rice": "意大利米 200g",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "意大利米 200g",
+    "黄油一小块",
+    "洋葱 1/2、蒜 1 瓣",
+    "鸡汤或蔬菜汤约 500ml",
+    "鲜蘑菇 150g 或干蘑 15g 泡软",
+    "干白葡萄酒小半杯（可省）",
+    "欧芹、帕玛森约 30g"
+  ],
+  "steps_now": [
+    "干蘑先泡 20 分钟，泡水留着、沉渣不要。鲜蘑切片。",
+    "黄油炒洋葱蒜至透明，下米炒半分钟。",
+    "有酒就倒入烧干；分次加热汤和蘑汁，常搅，约 15–18 分钟。",
+    "中途下蘑菇。米还有一点芯时关火，拌奶酪和欧芹。"
+  ],
+  "prep_optional": [
+    "干蘑菇可提前泡。"
+  ],
+  "time_minutes": {
+    "active": 25,
+    "total": 40
+  },
+  "packable": false,
+  "pack_notes": "出锅就吃；放凉结块。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Risotto ai Funghi；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Risotto_ai_Funghi"
+    ]
+  },
+  "status": "待试",
+  "notes": "衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

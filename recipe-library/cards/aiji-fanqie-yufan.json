@@ -1,0 +1,44 @@
+{
+  "id": "aiji-fanqie-yufan",
+  "name": "埃及番茄鱼焖饭（Sayadeya）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 鱼柳约 300g；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "白鱼柳约 300g，切块",
+    "米 1.5 杯",
+    "橄榄油 2 大勺",
+    "洋葱 1 个、蒜 2 瓣",
+    "番茄酱 150ml 或番茄罐头半罐",
+    "孜然 1 小勺、红椒粉 1/2 小勺、香菜籽粉少许",
+    "盐、黑胡椒、香菜碎、柠檬角"
+  ],
+  "steps_now": [
+    "米浸泡约 15 分钟后沥干。",
+    "油炒洋葱蒜至透明，下米拌匀裹油。",
+    "倒番茄酱和香料、盐胡椒，再加热水至高过米约 1cm。",
+    "鱼块铺在面上，盖严小火 20–25 分钟至米熟鱼透。",
+    "撒香菜，挤柠檬。"
+  ],
+  "prep_optional": [
+    "米可提前浸泡。"
+  ],
+  "time_minutes": {
+    "active": 20,
+    "total": 50
+  },
+  "packable": true,
+  "pack_notes": "鱼饭当天分装，复热不要煮到散。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Sayadeya (Egyptian Fish with Rice)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Sayadeya_(Egyptian_Fish_with_Rice)"
+    ]
+  },
+  "status": "待试",
+  "notes": "衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

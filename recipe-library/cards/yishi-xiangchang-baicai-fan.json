@@ -1,0 +1,42 @@
+{
+  "id": "yishi-xiangchang-baicai-fan",
+  "name": "意式香肠卷心菜饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 香肠 2 根；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "米 1.5 杯",
+    "卷心菜 1/4 棵切丝",
+    "香肠 2 根剥皮切小段",
+    "黄油或油 1 小块",
+    "鸡汤或水约 3 杯",
+    "盐、胡椒",
+    "硬奶酪碎 2 大勺"
+  ],
+  "steps_now": [
+    "油炒卷心菜至变软，下香肠煎出油。",
+    "下米拌匀，倒汤。",
+    "小火盖焖至米熟汤收。",
+    "关火拌奶酪。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "干饭好带。与家常腊肠青豆饭不同：用卷心菜和奶酪收尾。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Risi e Luganighe》（Artusi，1891）",
+    "refs": [
+      "https://www.gutenberg.org/ebooks/59047",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文先焯菜再入汤。本卡菜与香肠、米同锅。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

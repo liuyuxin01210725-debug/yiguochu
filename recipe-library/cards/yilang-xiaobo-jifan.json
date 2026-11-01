@@ -1,0 +1,41 @@
+{
+  "id": "yilang-xiaobo-jifan",
+  "name": "伊朗小檗鸡肉饭（Zereshk）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "香米 1.5 杯 + 鸡丁 150g；约 3 人",
+    "rice": "印度香米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "小檗干或红醋栗干 2 大勺",
+    "洋葱 1/2、油",
+    "糖一小撮",
+    "香米 1.5 杯",
+    "熟鸡丁或生鸡丁 150g",
+    "藏红花几丝用 1 勺温水泡开",
+    "盐"
+  ],
+  "steps_now": [
+    "小檗泡 20 分钟，拣掉杂质。",
+    "油炒洋葱，下小檗和糖略炒，盛出。",
+    "同锅放米和水（电饭煲普通水位）、盐；鸡丁铺在上面，淋藏红花水。煮饭或小火盖焖至熟。",
+    "拌入小檗洋葱，拨散。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "干饭好带。没有小檗就不要用大量葡萄干冒充，可先不做这张。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Zereshk Palau (Iranian Rice with Barberries) I；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Zereshk_Palau_(Iranian_Rice_with_Barberries)_I"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文电饭煲煮饭、小檗另小锅。本卡小檗先炒再拌回同一锅饭。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

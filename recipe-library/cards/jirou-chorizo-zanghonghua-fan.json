@@ -1,0 +1,40 @@
+{
+  "id": "jirou-chorizo-zanghonghua-fan",
+  "name": "鸡肉香肠藏红花焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米约 200g + 鸡腿 2 只 + 香肠 150g；约 3 人",
+    "rice": "米 1 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "鸡腿 2 只",
+    "水或高汤",
+    "米 1 杯",
+    "香肠 150g 切段",
+    "白胡椒、盐、藏红花一小撮"
+  ],
+  "steps_now": [
+    "鸡腿加水煮开，撇沫，约 10 分钟。",
+    "下米、香肠、胡椒、盐和藏红花。",
+    "小火盖煮至米熟、汤几乎收干，饭要湿润但不是清汤。",
+    "尝鸡是否全熟。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 50
+  },
+  "packable": true,
+  "pack_notes": "湿饭带汁，盒盖紧。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Fowls Stewed with Rice and Chorisa》",
+    "refs": [
+      "https://archive.org/details/b22021371",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文香肠写作 chorisa。家用任何熟香肠即可。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

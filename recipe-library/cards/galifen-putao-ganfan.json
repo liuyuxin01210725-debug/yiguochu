@@ -1,0 +1,40 @@
+{
+  "id": "galifen-putao-ganfan",
+  "name": "咖喱葡萄干焖饭",
+  "form": "咖喱一锅",
+  "servings": {
+    "summary": "米 1 杯；约 2 人",
+    "rice": "米 1 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "黄油 1 大勺",
+    "洋葱 1/2",
+    "咖喱粉 1 小勺",
+    "米 1 杯",
+    "葡萄干 2 大勺",
+    "水 2 杯",
+    "高汤块 1 小块或盐"
+  ],
+  "steps_now": [
+    "黄油炒洋葱至微黄，下咖喱粉炒 1 分钟。",
+    "下米、葡萄干、水和汤块。",
+    "盖严，小火约 15 分钟至水干。拨散。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 10,
+    "total": 30
+  },
+  "packable": true,
+  "pack_notes": "干饭好带；葡萄干孩子一般接受。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Curried Rice；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Curried_Rice"
+    ]
+  },
+  "status": "待试",
+  "notes": "素咖喱饭，早晨步骤少。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

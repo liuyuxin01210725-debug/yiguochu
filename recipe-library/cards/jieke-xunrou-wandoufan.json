@@ -1,0 +1,41 @@
+{
+  "id": "jieke-xunrou-wandoufan",
+  "name": "捷克熏肉豌豆饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯 + 熏肉约 80g + 豌豆 1 杯；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "熏肉或培根 80g 切丁",
+    "黄油一小块",
+    "米 1.5 杯",
+    "牛肉汤或水约 2.5 杯",
+    "豌豆 1 杯",
+    "盐、糖一小撮"
+  ],
+  "steps_now": [
+    "熏肉用黄油煎出香。",
+    "下米略拌，倒汤。",
+    "煮开后下豌豆，盖小火至米熟。",
+    "试盐。糖只放一点点。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 10,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "熏肉饭耐放。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Mladý hrášek s rýží a uzeninou》（Česká kuchařka）",
+    "refs": [
+      "https://archive.org/details/ceska_kucharka-dumkova",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文豌豆和米分两盘再混合。本卡同锅。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

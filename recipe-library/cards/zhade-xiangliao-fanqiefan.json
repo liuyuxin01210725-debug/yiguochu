@@ -1,0 +1,43 @@
+{
+  "id": "zhade-xiangliao-fanqiefan",
+  "name": "乍得香料番茄饭（Diri Na Njar）",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1.5 杯；约 3 人",
+    "rice": "长粒米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "长粒米 1.5 杯，淘至水清",
+    "油 2 大勺",
+    "洋葱 1 个、蒜 2 瓣",
+    "番茄 2 个、番茄膏 1 小勺",
+    "红椒粉、姜粉、孜然、香菜籽粉各 1/2 小勺",
+    "盐、黑胡椒",
+    "水或鸡汤约 3 杯",
+    "香菜或欧芹碎"
+  ],
+  "steps_now": [
+    "油炒洋葱至微黄，下蒜 1 分钟。",
+    "下番茄和番茄膏，炒至出汁。",
+    "加香料和盐，下米拌匀裹上。",
+    "倒汤，高出米约 1cm；煮开后小火盖 15–20 分钟，不要揭盖。",
+    "离火再焖 5 分钟，用叉拨散，撒香菜。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "素饭耐放。可加鸡蛋或剩鸡。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Diri Na Njar (Chadian Spiced Rice with Vegetables)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Diri_Na_Njar_(Chadian_Spiced_Rice_with_Vegetables)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文蔬菜主要是番茄洋葱；本卡不另加配菜锅。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

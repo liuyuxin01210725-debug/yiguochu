@@ -1,0 +1,42 @@
+{
+  "id": "yindu-huangyou-biandoufan",
+  "name": "印度黄油洋葱扁豆饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1 杯 + 扁豆 1/2 杯；约 3 人",
+    "rice": "米 1 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "洋葱 2 个切细丝",
+    "黄油或酥油 2 大勺",
+    "米 1 杯、红扁豆或绿豆 1/2 杯，洗净沥干",
+    "姜 3 片、胡椒粒、盐",
+    "丁香 2 粒、小豆蔻 2 个、香叶 1 片、肉桂一小段",
+    "水刚没过"
+  ],
+  "steps_now": [
+    "黄油把洋葱丝炸到深褐，盛出。",
+    "同锅下米和扁豆，炒到吸干油脂。",
+    "加姜、香料和盐，拌匀。",
+    "加水刚没过，盖严小火，偶尔晃锅，至水干、扁豆和米都熟。",
+    "撒回炸洋葱。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 45
+  },
+  "packable": true,
+  "pack_notes": "扁豆饭耐放。与已有孟加拉杂粮饭不同：这张先炸洋葱、米豆一起吸黄油。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《Bhoonee Kitcheeree》（Indian Cookery Book）",
+    "refs": [
+      "https://archive.org/details/indiancookeryboo00unse",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

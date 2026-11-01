@@ -1,0 +1,42 @@
+{
+  "id": "luzhuan-neizang-mifan",
+  "name": "路易斯安那内脏焖饭（Dirty Rice）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1 杯 + 肉末与鸡肝约 160g；约 2–3 人",
+    "rice": "米 1 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "猪油或油 1 大勺",
+    "猪肉末 80g",
+    "鸡肝 80g 切碎（不吃内脏可改成全部肉末）",
+    "洋葱 1/2、芹菜 1 根、青椒 1/2、蒜 1 瓣",
+    "红椒粉、芥末粉、孜然、百里香、牛至各一小撮",
+    "月桂 1 片、辣酱几滴、盐",
+    "米 1 杯",
+    "高汤 1.5 杯"
+  ],
+  "steps_now": [
+    "油炒肉末和肝至变色。",
+    "下洋葱、芹菜、青椒、蒜和香料，炒约 5 分钟。",
+    "下米和高汤，盖焖约 18 分钟。",
+    "拣掉月桂，拨散。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "肝要新鲜，当天吃完。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Dirty Rice；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Dirty_Rice"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文最后拌熟饭。本卡生米与高汤同锅焖熟。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "xinaoerliang-xiaren-menfan",
+  "name": "新奥尔良虾仁洋葱焖饭",
+  "form": "焖饭",
+  "servings": {
+    "summary": "米 1 杯 + 虾约 200g；约 2 人",
+    "rice": "米 1 杯",
+    "people": "约 2 人"
+  },
+  "ingredients": [
+    "虾 200g",
+    "洋葱 1 个切碎",
+    "猪油或油 1 大勺",
+    "米 1 杯，洗净",
+    "百里香、香叶、欧芹、胡椒、盐",
+    "水"
+  ],
+  "steps_now": [
+    "虾煮至刚变色，剥壳；虾汤留下。",
+    "同锅油炒洋葱，下米不停翻到微黄。",
+    "加香草和盐胡椒，倒虾汤加热水，总量大约没过米 1cm。",
+    "煮到米熟，拌入虾。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 20,
+    "total": 40
+  },
+  "packable": true,
+  "pack_notes": "虾不要反复煮老。与已有什锦饭不同：没有香肠和鸡。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自公有领域《New Orleans Jambalaya》（虾仁版，菲律宾厨房藏书转录）",
+    "refs": [
+      "https://archive.org/details/cu31924059639215",
+      "https://github.com/AdamBouhmad/open-recipe-archive"
+    ]
+  },
+  "status": "待试",
+  "notes": "这是只有虾和米的短方子，不是已入库的什锦 Jambalaya。 公有领域历史食谱的家用改写（AdamBouhmad/open-recipe-archive，Unlicense/PD）。未整段照抄，未在本家厨房验证。"
+}

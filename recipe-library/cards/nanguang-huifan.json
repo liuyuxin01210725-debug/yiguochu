@@ -1,0 +1,42 @@
+{
+  "id": "nanguang-huifan",
+  "name": "南瓜烩饭",
+  "form": "其他一锅",
+  "servings": {
+    "summary": "意大利米 1 杯 + 南瓜约 300g；约 2–3 人",
+    "rice": "意大利米 1 杯",
+    "people": "约 2–3 人"
+  },
+  "ingredients": [
+    "南瓜或冬瓜约 300g 去籽切块",
+    "橄榄油、盐、胡椒、蒜 1 瓣",
+    "意大利米 1 杯",
+    "洋葱 1/2",
+    "鸡汤或蔬菜汤约 700ml，热着",
+    "黄油 1 小块",
+    "帕玛森或硬奶酪 40g",
+    "白酒 2 大勺（可省）"
+  ],
+  "steps_now": [
+    "南瓜可先蒸软或与饭同锅后下。洋葱用油炒软，下米炒到透亮。",
+    "有酒就倒入收干；然后一勺勺加热汤，中火搅拌到米还有一点嚼劲。",
+    "下南瓜块（蒸过的直接拌，生的要更早下并多给几分钟）和黄油、奶酪。",
+    "立刻吃。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 30,
+    "total": 45
+  },
+  "packable": false,
+  "pack_notes": "烩饭静置会变糊，不适合久放带饭。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Pumpkin Risotto；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Pumpkin_Risotto"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文南瓜另盘烤箱烤 45 分钟。家用可蒸软再拌进同一口烩饭锅，少开第二道烤盘。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "yindu-luowangzi-fan",
+  "name": "南印罗望子饭（Puliyodarai）",
+  "form": "菜饭",
+  "servings": {
+    "summary": "米 1.5 杯；约 3 人",
+    "rice": "米 1.5 杯",
+    "people": "约 3 人"
+  },
+  "ingredients": [
+    "米 1.5 杯",
+    "罗望子膏 1 大勺化在水里，总液体约 2 杯",
+    "姜黄 1/4 小勺、盐",
+    "芝麻油或植物油 2 大勺",
+    "芥末籽 1 小勺、干辣椒 2 个、咖喱叶少许",
+    "花生 1 大勺",
+    "阿魏粉一小撮（可省）"
+  ],
+  "steps_now": [
+    "米、罗望子水、姜黄和盐下锅，盖焖至水干米熟。",
+    "同锅或在饭拨到一边后，热油炸花生、芥末籽和干辣椒，出香后拌进饭里。",
+    "试酸咸。可配酸奶。"
+  ],
+  "prep_optional": [],
+  "time_minutes": {
+    "active": 15,
+    "total": 35
+  },
+  "packable": true,
+  "pack_notes": "酸饭耐放，不要久留室温。",
+  "source": {
+    "kind": "书/可靠食谱改写",
+    "label": "改编自 Wikibooks Cookbook:Puliyodarai (South Indian Tamarind Rice)；CC BY-SA 3.0",
+    "refs": [
+      "https://en.wikibooks.org/wiki/Cookbook:Puliyodarai_(South_Indian_Tamarind_Rice)"
+    ]
+  },
+  "status": "待试",
+  "notes": "原文是熟饭拌罗望子酱。本卡让米直接吸罗望子水，仍是一锅。 衍生文本依 CC BY-SA 3.0：转载须保留 Wikibooks Cookbook 署名，并以相同许可分享。未在本家厨房验证。"
+}
