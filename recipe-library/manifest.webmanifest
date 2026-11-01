@@ -3,7 +3,7 @@
   "short_name": "一锅出",
   "start_url": "./browse.html",
   "display": "standalone",
-  "background_color": "#f6f1e8",
-  "theme_color": "#f6f1e8",
+  "background_color": "#f4efe6",
+  "theme_color": "#f4efe6",
   "lang": "zh-Hans"
 }

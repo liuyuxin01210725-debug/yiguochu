@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="zh-Hans" translate="no">
 <head>
   <meta charset="utf-8" />
+  <meta name="google" content="notranslate" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="light" />
-  <meta name="theme-color" content="#f6f1e8" />
+  <meta name="theme-color" content="#f4efe6" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="一锅出" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -12,188 +13,258 @@
   <title>一锅出</title>
   <style>
     :root {
-      --bg: #f6f1e8;
-      --card: #fffcf8;
-      --ink: #1c1917;
-      --muted: #8a8178;
-      --line: #e7e0d5;
-      --orange: #c4551a;
-      --orange-line: #e08a4f;
-      --peach: #f8e6d6;
-      --chip: #f3efe8;
-      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+      --paper: #f4efe6;
+      --card: #fffaf4;
+      --ink: #1b1612;
+      --ink-2: #4e453d;
+      --line: rgba(27, 22, 18, 0.1);
+      --clay: #c24b1a;
+      --clay-deep: #8a3112;
+      --wash: #f0c4a4;
+      --display: "Songti SC", "STSong", "Noto Serif SC", "Source Han Serif SC", "Songti TC", serif;
+      --sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Source Han Sans SC", system-ui, sans-serif;
+      font-family: var(--sans);
     }
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
-    html, body { margin: 0; background: var(--bg); color: var(--ink); }
-    body { line-height: 1.4; }
+    html, body { margin: 0; background: var(--paper); color: var(--ink); }
+    body {
+      line-height: 1.45;
+      -webkit-tap-highlight-color: transparent;
+      background-image:
+        radial-gradient(120% 60% at 0% -10%, rgba(255, 250, 244, 0.9), transparent 50%),
+        radial-gradient(80% 40% at 100% 0%, rgba(194, 75, 26, 0.06), transparent 46%);
+    }
     button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--clay); outline-offset: 2px; }
     .sr {
       position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
       overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
     }
     #browse, #detail { max-width: 480px; margin: 0 auto; }
     .top {
-      padding: calc(8px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 4px max(16px, env(safe-area-inset-left));
+      padding: calc(18px + env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) 0 max(20px, env(safe-area-inset-left));
     }
-    h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.15; font-weight: 760; letter-spacing: -0.02em; }
-    .search {
-      position: sticky; top: env(safe-area-inset-top); z-index: 6;
-      display: block; background: rgba(246, 241, 232, 0.96);
-      padding: 4px 0 8px;
+    .brand {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      line-height: 1.2;
     }
-    .search input {
-      width: 100%; min-height: 48px; font-size: 16px;
-      border: 0; border-radius: 14px; padding: 0 48px 0 14px;
-      background: #fff; outline: none;
-      box-shadow: 0 1px 0 rgba(28, 25, 23, 0.04);
+    .week { margin: 6px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.4; }
+    #pin-section {
+      padding: 22px max(20px, env(safe-area-inset-right)) 0 max(20px, env(safe-area-inset-left));
     }
-    .search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
-    #clear {
-      position: absolute; right: 2px; top: 6px;
-      width: 44px; height: 44px; border: 0; border-radius: 12px;
-      background: transparent; color: #44403c; font-size: 22px; line-height: 1;
-      cursor: pointer;
+    .pin-label {
+      margin: 0 0 12px;
+      color: var(--clay-deep);
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: 0.18em;
+    }
+    #pins { display: grid; gap: 4px; }
+    .find {
+      position: sticky;
+      top: env(safe-area-inset-top);
+      z-index: 5;
+      margin-top: 18px;
+      padding: 12px max(20px, env(safe-area-inset-right)) 8px max(20px, env(safe-area-inset-left));
+      background: rgba(244, 239, 230, 0.94);
     }
     .filters {
       display: flex; flex-wrap: wrap; align-content: flex-start;
       gap: 8px; width: 100%; overflow: visible;
-      padding: 8px 0 2px;
     }
     .filters button {
       flex: 0 0 auto; white-space: nowrap;
-      min-height: 44px; border: 0; background: var(--chip);
-      border-radius: 999px; padding: 0 14px; font-size: 15px; cursor: pointer;
+      min-height: 44px; border: 1px solid transparent; background: rgba(27, 22, 18, 0.05);
+      border-radius: 999px; padding: 0 14px; font-size: 15px;
     }
-    .filters button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-    main { padding: 8px max(16px, env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
-    #pin-section {
-      margin: 10px 0 0;
-      padding-bottom: 14px;
-      border-bottom: 1px solid #d9cfc3;
+    .filters button[aria-pressed="true"] { background: var(--ink); color: var(--card); border-color: var(--ink); }
+    .search { position: relative; display: block; margin-top: 10px; }
+    .search input {
+      width: 100%; min-height: 48px; font-size: 16px;
+      border: 0; border-radius: 16px; padding: 0 48px 0 16px;
+      background: var(--card); outline: none;
+      box-shadow: inset 0 0 0 1px var(--line);
     }
-    #pin-section + .list { margin-top: 14px; }
-    .pin-label { margin: 4px 0 8px; font-size: 15px; font-weight: 650; }
-    .list { display: grid; gap: 10px; }
-    .card-row, .more {
+    .search input::placeholder { color: #6f655c; }
+    .search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+    #clear {
+      position: absolute; right: 2px; top: 2px;
+      width: 44px; height: 44px; border: 0; border-radius: 12px;
+      background: transparent; color: var(--ink); font-size: 22px; line-height: 1;
+    }
+    main {
+      padding: 4px max(20px, env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    }
+    #list, #folded { display: grid; }
+    .card-row {
       display: block; width: 100%; text-align: left;
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: 16px; padding: 14px 14px 12px; cursor: pointer;
+      background: transparent; border: 0; border-radius: 0;
+      padding: 14px 2px 13px; min-height: 52px;
+      box-shadow: inset 0 -1px 0 var(--line);
     }
-    .card-row { min-height: 44px; }
+    .card-row:active { opacity: 0.64; }
     .card-row.primary {
-      border: 2px solid var(--orange-line);
-      background: var(--peach);
+      background: var(--wash);
+      border-radius: 30px;
+      min-height: 168px;
+      padding: 26px 22px 22px;
+      box-shadow: 0 18px 40px rgba(156, 64, 24, 0.14);
+    }
+    .card-row.secondary {
+      background: transparent;
+      border-radius: 0;
+      min-height: 64px;
+      padding: 14px 6px 12px 8px;
+      box-shadow: none;
     }
     .title-row { display: flex; align-items: baseline; gap: 10px; }
-    .card-row h3 { margin: 0; flex: 1; min-width: 0; font-size: 18px; line-height: 1.3; font-weight: 720; }
-    .card-row.primary h3 { font-size: 22px; }
+    .card-row h3 {
+      margin: 0; flex: 1; min-width: 0;
+      font-size: 18px; line-height: 1.35; font-weight: 650;
+    }
+    .card-row.primary h3 {
+      font-family: var(--display);
+      font-size: 34px; line-height: 1.16; font-weight: 700; letter-spacing: -0.03em;
+    }
+    .card-row.secondary .title-row { justify-content: flex-start; }
+    .card-row.secondary h3 { flex: 0 1 auto; font-size: 18px; font-weight: 650; }
     .also {
-      flex: none; font-size: 13px; font-weight: 500; line-height: 1.2;
-      color: #57534e; background: #f3efe8; border-radius: 999px; padding: 3px 8px;
+      flex: none; font-size: 14px; font-weight: 650; line-height: 1;
+      color: var(--clay); letter-spacing: 0.08em; background: none; padding: 0;
     }
-    .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
-    .why { margin: 2px 0 0; color: var(--orange); font-size: 14px; }
+    .meta { margin: 3px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.4; }
+    .card-row.primary .meta { margin-top: 10px; color: #3d2c24; font-size: 15px; }
+    .why {
+      margin: 16px 0 0; color: var(--clay-deep);
+      font-size: 17px; line-height: 1.45; font-weight: 650;
+    }
     .mark {
-      flex: none; margin-top: 2px; border-radius: 999px;
-      padding: 2px 8px; font-size: 13px; font-weight: 700; line-height: 1.4;
+      flex: none; margin: 0; padding: 0; background: none;
+      color: var(--ink); font-size: 13px; font-weight: 700; line-height: 1.2;
     }
-    .mark.ate { background: #dcfce7; color: #166534; }
-    .mark.left { background: #ffedd5; color: #9a3412; }
     .more {
-      min-height: 52px; display: flex; align-items: center; justify-content: space-between;
-      font-size: 16px; font-weight: 650; padding: 0 16px;
+      min-height: 52px; width: 100%; margin-top: 4px;
+      display: flex; align-items: center; justify-content: space-between;
+      border: 0; background: transparent; padding: 0 2px;
+      font-size: 16px; font-weight: 650; text-align: left;
     }
-    .more .chev {
-      width: 10px; height: 10px; margin-top: -4px;
-      border-right: 2px solid #44403c; border-bottom: 2px solid #44403c;
+    .chev {
+      width: 8px; height: 8px; margin-top: -4px; flex: none;
+      border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
       transform: rotate(45deg);
     }
-    .more[aria-expanded="true"] .chev { transform: rotate(-135deg); margin-top: 6px; }
-    .empty, .err {
-      margin: 12px 0 0; padding: 16px; border-radius: 16px;
-      background: var(--card); color: var(--ink); font-size: 16px;
-    }
+    .more[aria-expanded="true"] .chev,
+    .who-toggle[aria-expanded="true"] .chev { transform: rotate(-135deg); margin-top: 4px; }
+    .empty, .err { margin: 22px 0 0; font-size: 17px; line-height: 1.45; }
     .detail-bar {
       position: sticky; top: 0; z-index: 4;
-      padding: calc(4px + env(safe-area-inset-top)) 8px 0;
-      background: var(--bg);
+      padding: calc(2px + env(safe-area-inset-top)) 8px 0;
+      background: linear-gradient(var(--paper) 70%, rgba(244, 239, 230, 0));
     }
     .back {
-      min-height: 44px; border: 0; background: transparent;
-      padding: 0 8px; font-size: 16px; cursor: pointer;
+      min-height: 44px; min-width: 44px; border: 0; background: transparent;
+      padding: 0 12px; font-size: 16px; font-weight: 650;
     }
-    .sheet { padding: 0 max(16px, env(safe-area-inset-right)) calc(148px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
-    .sheet h2 { margin: 0 0 2px; font-size: 30px; line-height: 1.2; font-weight: 760; }
-    .sheet .meta { margin: 0; font-size: 15px; }
+    .sheet {
+      padding: 2px max(20px, env(safe-area-inset-right)) calc(148px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    }
+    .sheet h2 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 40px; line-height: 1.14; font-weight: 700; letter-spacing: -0.03em;
+    }
+    .sheet .meta { margin: 8px 0 0; color: var(--ink); font-size: 16px; }
     .pack {
-      margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35;
+      margin: 4px 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.4;
       display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .portion { margin: 4px 0 0; font-size: 15px; }
-    .sheet h3 { margin: 12px 0 6px; font-size: 16px; font-weight: 720; }
-    .box {
-      background: #fff; border-radius: 16px; padding: 4px 14px;
+    .portion { margin: 8px 0 0; font-size: 16px; line-height: 1.45; }
+    .kicker {
+      margin: 20px 0 6px;
+      font-size: 13px; font-weight: 650; letter-spacing: 0.16em; color: var(--ink-2);
     }
-    .box p, .step { margin: 0; padding: 4px 0; font-size: 16px; }
-    .step { display: flex; gap: 10px; align-items: flex-start; }
+    .ings { list-style: none; margin: 0; padding: 0; }
+    .ings li { margin: 0; padding: 3px 0; font-size: 16px; line-height: 1.45; }
+    #steps { margin-top: 2px; }
+    .step { display: grid; grid-template-columns: 32px 1fr; gap: 10px; padding: 12px 0 14px; }
     .num {
-      flex: none; width: 22px; height: 22px; margin-top: 1px;
-      border-radius: 999px; background: #f3d2bc; color: var(--orange);
-      font-size: 13px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
+      font-family: var(--display);
+      font-size: 28px; line-height: 1; font-weight: 700; color: var(--clay); padding-top: 1px;
     }
-    .week { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
-    .log { margin-top: 16px; }
-    .log-label { margin: 0 0 4px; color: var(--muted); font-size: 14px; font-weight: 650; }
+    .step .text { font-size: 19px; line-height: 1.6; }
+    .who-toggle {
+      width: 100%; min-height: 48px; margin-top: 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      border: 0; background: transparent; padding: 0 2px;
+      font-size: 16px; font-weight: 650; text-align: left;
+    }
+    .who-side { display: flex; align-items: center; gap: 10px; }
+    #who-now:not(:empty) { color: var(--clay-deep); font-weight: 650; }
+    .who { display: flex; gap: 8px; padding: 4px 0 8px; }
+    .who button {
+      flex: 1; min-height: 44px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--card);
+      font-size: 15px; font-weight: 650;
+    }
+    .who button[aria-pressed="true"] { background: var(--ink); color: var(--card); border-color: var(--ink); }
+    .log { margin-top: 8px; }
+    .log-label { margin: 0 0 2px; color: var(--ink-2); font-size: 13px; font-weight: 650; letter-spacing: 0.12em; }
     .log ul { list-style: none; margin: 0; padding: 0; }
-    .log li { padding: 8px 0; border-top: 1px solid var(--line); font-size: 15px; }
+    .log li { padding: 9px 0; font-size: 15px; line-height: 1.4; }
     .actions {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
-      display: flex; flex-direction: column; gap: 8px;
-      max-width: 480px; margin-left: auto; margin-right: auto;
-      padding: 8px max(16px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
-      background: rgba(246, 241, 232, 0.96);
+      display: flex; gap: 10px;
+      max-width: 480px; margin: 0 auto;
+      padding: 14px max(16px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      background: var(--paper);
     }
-    .who, .result-row { display: flex; gap: 8px; }
-    .who button {
-      flex: 1; min-height: 44px; border-radius: 12px;
-      border: 1px solid var(--line); background: #fff;
-      font-size: 15px; font-weight: 650; cursor: pointer;
+    .actions::before {
+      content: "";
+      position: absolute; left: 0; right: 0; top: -22px; height: 22px;
+      background: linear-gradient(to bottom, rgba(244, 239, 230, 0), var(--paper));
+      pointer-events: none;
     }
-    .who button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
-    .result-row button {
-      flex: 1; min-height: 52px; border-radius: 14px;
-      font-size: 17px; font-weight: 720; cursor: pointer;
+    .actions button {
+      flex: 1; min-height: 56px; border-radius: 18px;
+      font-size: 18px; font-weight: 700;
     }
-    .btn-eat { background: var(--orange); color: #fff; border: 1.5px solid var(--orange); }
-    .btn-left { background: #fff; color: var(--orange); border: 1.5px solid var(--orange); }
-    .actions.picked .btn-eat:not(.chosen) { background: #fff; color: var(--orange); }
-    .btn-eat.chosen { background: #9a3412; }
-    .btn-left.chosen { background: var(--orange); color: #fff; }
-    .actions button.chosen::before { content: "✓\00a0"; }
+    .btn-eat { background: var(--clay); color: #fffaf4; border: 0; }
+    .btn-left { background: transparent; color: var(--ink); border: 1.5px solid rgba(27, 22, 18, 0.28); }
+    .btn-eat:active, .btn-left:active { opacity: 0.78; }
+    .btn-eat.chosen { background: var(--clay-deep); }
+    .btn-left.chosen { background: var(--ink); color: #fffaf4; border-color: var(--ink); }
+    .actions.picked .btn-eat:not(.chosen) {
+      background: transparent; color: var(--clay); border: 1.5px solid var(--clay);
+    }
   </style>
 </head>
 <body>
   <div id="browse">
     <header class="top">
-      <h1>一锅出</h1>
+      <p class="brand">一锅出</p>
+      <p id="week" class="week" hidden></p>
+    </header>
+    <section id="pin-section" hidden>
+      <h2 class="pin-label">本周待试</h2>
+      <div id="pins"></div>
+    </section>
+    <div class="find">
+      <div class="filters" id="filters" role="toolbar" aria-label="形态"></div>
       <label class="search">
         <span class="sr">搜索</span>
-        <input id="q" type="search" enterkeyhint="search" placeholder="搜菜名、形态、食材" autocomplete="off" autocapitalize="off" />
+        <input id="q" type="search" enterkeyhint="search" placeholder="菜名、食材" autocomplete="off" autocapitalize="off" />
         <button type="button" id="clear" hidden aria-label="清空">×</button>
       </label>
-      <div class="filters" id="filters" role="toolbar" aria-label="形态"></div>
-    </header>
+    </div>
     <main>
-      <p id="week" class="week" hidden></p>
-      <section id="pin-section" hidden>
-        <h2 class="pin-label">本周待试</h2>
-        <div class="list" id="pins"></div>
-      </section>
-      <div class="list" id="list"></div>
+      <div id="list"></div>
       <button type="button" class="more" id="more" hidden></button>
-      <div class="list" id="folded" hidden></div>
+      <div id="folded" hidden></div>
       <p id="empty" class="empty" hidden>没有这道菜。</p>
       <p id="err" class="err" hidden></p>
     </main>
@@ -390,7 +461,7 @@
     function cardButton(card, role) {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "card-row" + (role === "primary" ? " primary" : "");
+      btn.className = "card-row " + (role === "primary" ? "primary" : role === "secondary" ? "secondary" : "shelf");
       btn.dataset.id = card.id;
       const info = pinInfo(card.id);
       const also = role === "secondary" ? `<span class="also">也可</span>` : "";
@@ -518,33 +589,36 @@
     function paintDetail(card) {
       const tm = card.time_minutes || {};
       const total = tm.total != null ? tm.total : card.time_total;
-          const pack = card.packable ? "可打包" : "不打包";
-          const rawPack = card.pack_notes && !isDirty(card.pack_notes) ? String(card.pack_notes).trim() : "";
-          const packNote = rawPack ? rawPack.split(/[。！？]/)[0].trim() : "";
-          const summary = card.servings && card.servings.summary && !isDirty(card.servings.summary)
-            ? card.servings.summary : "";
+      const pack = card.packable ? "可打包" : "不打包";
+      const rawPack = card.pack_notes && !isDirty(card.pack_notes) ? String(card.pack_notes).trim() : "";
+      const packNote = rawPack ? rawPack.split(/[。！？]/)[0].trim() : "";
+      const summary = card.servings && card.servings.summary && !isDirty(card.servings.summary)
+        ? card.servings.summary : "";
       const ingredients = cleanLines(card.ingredients);
       const steps = cleanLines(card.steps_now);
-      const chosen = loadFeedback()[card.id];
       $detail.innerHTML = `
-        <div class="detail-bar"><button type="button" class="back" id="back">‹ 返回</button></div>
+        <div class="detail-bar"><button type="button" class="back" id="back">返回</button></div>
         <div class="sheet">
           <h2>${escapeHtml(card.name)}</h2>
           <p class="meta">${escapeHtml(card.form)} · ${escapeHtml(total)} 分钟 · ${pack}</p>
           ${packNote ? `<p class="pack">${escapeHtml(packNote)}</p>` : ""}
           ${summary ? `<p class="portion">${escapeHtml(summary)}</p>` : ""}
-          ${ingredients.length ? `<h3>食材</h3><div class="box">${ingredients.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}</div>` : ""}
-          ${steps.length ? `<h3>现在动手</h3><div class="box" id="steps">${steps.map((line, i) => `<div class="step"><span class="num">${i + 1}</span><span>${escapeHtml(line)}</span></div>`).join("")}</div>` : ""}
-          <div id="dish-log"></div>
+          ${ingredients.length ? `<h3 class="kicker">食材</h3><ul class="ings">${ingredients.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>` : ""}
+          ${steps.length ? `<h3 class="kicker">现在动手</h3><div id="steps">${steps.map((line, i) => `<div class="step"${i === 0 ? ' id="step-1"' : ""}><span class="num">${i + 1}</span><span class="text">${escapeHtml(line)}</span></div>`).join("")}</div>` : ""}
+          <button type="button" class="who-toggle" id="who-toggle" aria-expanded="false" aria-controls="who-panel">
+            <span>谁吃了</span>
+            <span class="who-side"><span id="who-now"></span><span class="chev" aria-hidden="true"></span></span>
+          </button>
+          <div id="who-panel" hidden>
+            <div class="who" role="group" aria-label="谁吃">
+              ${WHO.map((who) => `<button type="button" data-who="${who}">${who}</button>`).join("")}
+            </div>
+            <div id="dish-log"></div>
+          </div>
         </div>
         <div class="actions">
-          <div class="who" role="group" aria-label="谁吃">
-            ${WHO.map((who) => `<button type="button" data-who="${who}">${who}</button>`).join("")}
-          </div>
-          <div class="result-row">
-            <button type="button" class="btn-eat" data-result="吃光">吃光</button>
-            <button type="button" class="btn-left" data-result="剩了">剩了</button>
-          </div>
+          <button type="button" class="btn-eat" data-result="吃光">吃光</button>
+          <button type="button" class="btn-left" data-result="剩了">剩了</button>
         </div>`;
       let draftWho = "";
       function savedToday() {
@@ -567,6 +641,8 @@
         $detail.querySelectorAll("[data-who]").forEach((btn) => {
           btn.setAttribute("aria-pressed", btn.dataset.who === who ? "true" : "false");
         });
+        const now = document.getElementById("who-now");
+        if (now) now.textContent = who || "";
       }
       function paintDishLog() {
         const lines = ensureLog()
@@ -594,6 +670,12 @@
         $q.value = query;
         if (location.hash) history.back();
         else showBrowse();
+      });
+      document.getElementById("who-toggle").addEventListener("click", () => {
+        const panel = document.getElementById("who-panel");
+        const open = panel.hidden;
+        panel.hidden = !open;
+        document.getElementById("who-toggle").setAttribute("aria-expanded", open ? "true" : "false");
       });
       $detail.querySelectorAll("[data-who]").forEach((btn) => {
         btn.addEventListener("click", () => {
